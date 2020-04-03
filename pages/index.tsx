@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "../styles/index.scss";
-import { Page, Button } from "../components";
 import { State } from "../reducers";
+import { Page, Button } from "../components";
+import { mainPageStopAnimation } from "../actions";
 
 const Main = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const noAnimation = !useSelector<State>(state => state.page.main.animation);
   const buttonGroupClassName = noAnimation ? "no-animation" : "";
+
+  const mainPageAnimation = useSelector<State>(state => state.page.main.animation);
+
+  useEffect(() => () => {
+    if (mainPageAnimation) {
+      dispatch(mainPageStopAnimation());
+    }
+  }, [mainPageAnimation]);
 
   return (
     <Page id="main" title="relati">

@@ -7,24 +7,24 @@ import { State } from '../reducers';
 import { makeStore } from '../containers/store';
 
 class RelatiApp extends App<ReduxWrapperAppProps<State>> {
-    public static async getInitialProps({ Component, ctx }: AppContext) {
-        return {
-            pageProps: {
-                ...(await Component.getInitialProps?.(ctx) || {}),
-                pathname: ctx.pathname,
-            }
-        };
-    }
+  public static async getInitialProps({ Component, ctx }: AppContext) {
+    return {
+      pageProps: {
+        ...(await Component.getInitialProps?.(ctx) || {}),
+        pathname: ctx.pathname,
+      }
+    };
+  }
 
-    public render() {
-        const { Component, pageProps, store } = this.props;
+  public render() {
+    const { Component, pageProps, store } = this.props;
 
-        return (
-            <Provider store={store}>
-                <Component {...pageProps} />
-            </Provider>
-        );
-    }
+    return (
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
+    );
+  }
 }
 
 export default withRedux(makeStore, { debug: true })(RelatiApp);
