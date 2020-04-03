@@ -21,8 +21,7 @@ const HowToPlay = () => {
 
     return (
         <Page id="how-to-play" title="How to play">
-            <Board width={9} height={9}>
-            </Board>
+            <Board width={9} height={9} />
             <Button.Group>
                 <Button style={{
                     backgroundColor: "#888",

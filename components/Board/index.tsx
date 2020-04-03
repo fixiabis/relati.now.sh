@@ -5,7 +5,7 @@ export type Props = {
     [otherProp: string]: any,
     width: number,
     height: number,
-    children: ReactNode,
+    children?: ReactNode,
     className?: string,
     onBoardClick?: (e: React.MouseEvent) => void;
     onGridClick?: ({ x, y }: { x: number, y: number }) => void,
