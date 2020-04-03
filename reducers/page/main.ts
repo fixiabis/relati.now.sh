@@ -1,11 +1,11 @@
 import { AnyAction } from "redux";
 import { SET_MAIN_PAGE_ANIMATION } from "../../constants/page";
 
-export interface mainPageState {
+export interface MainPageState {
     animation: boolean;
 }
 
-const INITIAL_STATE: mainPageState = {
+const INITIAL_STATE: MainPageState = {
     animation: true,
 };
 

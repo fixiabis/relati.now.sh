@@ -1,4 +1,4 @@
-import { SET_MAIN_PAGE_ANIMATION } from "../constants/page";
+import { SET_MAIN_PAGE_ANIMATION } from "../constants";
 
 export function mainPageStopAnimation() {
     return {

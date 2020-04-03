@@ -1,10 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import Page from "../components/Page";
-import Button from "../components/Button";
+import { useSelector } from "react-redux";
+
 import "../styles/index.scss";
-import { State } from "../reducers/rootReducer";
+import { Page, Button } from "../components";
+import { State } from "../reducers";
 
 const Main = () => {
   const router = useRouter();

@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import Page from "../components/Page";
-import { State } from "../reducers/rootReducer";
-import { useSelector, useDispatch } from "react-redux";
-import { mainPageStopAnimation } from "../actions/page";
-import Board from "../components/Board";
-import "../styles/how-to-play.scss";
-import Button from "../components/Button";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+
+import "../styles/how-to-play.scss";
+import { State } from "../reducers";
+import { mainPageStopAnimation } from "../actions";
+import { Page, Board, Button } from "../components";
 
 const HowToPlay = () => {
     const mainPageAnimation = useSelector<State>(state => state.page.main.animation);

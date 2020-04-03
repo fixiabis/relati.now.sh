@@ -1,6 +1,7 @@
 import React from "react";
-import ButtonGroup from "./Group";
+
 import "./index.scss";
+import ButtonGroup from "./Group";
 
 export type Props = {
     [otherProp: string]: any,

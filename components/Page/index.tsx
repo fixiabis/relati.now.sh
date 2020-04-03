@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
+
 import "./index.scss";
 
 export type Props = {
