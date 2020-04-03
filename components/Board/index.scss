@@ -1,0 +1,11 @@
+.board-container {
+    & {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .board {
+        position: relative;
+    }
+}

@@ -1,0 +1,32 @@
+@import "./effects";
+
+#main {
+    .logo {
+        width: 250px;
+        height: 90px;
+
+        background: {
+            size: cover;
+            image: url(/logo.svg);
+            image: url(/logo.svg#splash);
+        }
+    }
+
+    .button-group {
+        width: 200px;
+    }
+
+    .button-group {
+        animation-name: physical-top-slide-in;
+        animation-duration: 1s;
+        animation-delay: 1.25s;
+        animation-fill-mode: backwards;
+    }
+
+    @keyframes physical-top-slide-in {
+        from {
+            opacity: 0;
+            margin-top: -70px;
+        }
+    }
+}

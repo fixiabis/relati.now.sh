@@ -1,0 +1,17 @@
+@import "../../styles/effects";
+
+.page {
+    width: 100vw;
+    height: 100vh;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.page {
+    animation: fade-in 0.5s;
+}

@@ -1,0 +1,135 @@
+<svg id="debug" width="125" height="45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="splash"></path>
+    <path id="loading"></path>
+    <path d="
+        M   5,  15
+        v  25
+        h   5
+        v -20
+        h  10
+        v  -5
+        z
+
+        M  25,  15
+        v  25
+        h  15
+        v  -5
+        h -10
+        v  -5
+        h  10
+        v -15
+        z
+
+        m   5,   5
+        h   5
+        v   5
+        h  -5
+        z
+
+        M  50,  10
+        v  30
+        h  10
+        v  -5
+        h  -5
+        v -30
+        h -10
+        v   5
+        z
+
+        M  65,  15
+        v   5
+        h  10
+        v   5
+        h -10
+        v  15
+        h  15
+        v -25
+        z
+
+        m   5,  15
+        h   5
+        v   5
+        h  -5
+        z
+
+        M  85,  15
+        v   5
+        h   5
+        v  20
+        h  10
+        v  -5
+        h  -5
+        v -15
+        h   5
+        v  -5
+        h  -5
+        v  -5
+        h  -5
+        v   5
+        z
+
+        M 105,  15
+        v   5
+        h   5
+        v  20
+        h  10
+        v  -5
+        h  -5
+        v -20
+        z
+
+        m   5, -10
+        v   5
+        h   5
+        v  -5
+        z
+    "></path>
+
+    <style>
+        svg:target {
+            background-color: #f2f2f2;
+        }
+
+        path {
+            fill: #888;
+            stroke: transparent;
+            stroke-width: 1px;
+        }
+
+        #splash:target+*+path[d] {
+            stroke-dasharray: 100;
+            animation: splash 1s;
+        }
+
+        #loading:target~path[d] {
+            fill: transparent;
+            stroke: #888;
+            stroke-dasharray: 50;
+            animation: loading 1s linear infinite;
+        }
+
+        @keyframes splash {
+            0% {
+                fill: transparent;
+                stroke: #888;
+                stroke-dashoffset: 100;
+            }
+
+            80% {
+                fill: transparent;
+                stroke: #888;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes loading {
+            0% {
+                stroke-dashoffset: 100;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</svg>

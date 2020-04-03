@@ -1,0 +1,15 @@
+@keyframes zoom-in {
+    from {
+        transform: scale(0);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+.no-animation {
+    animation: unset !important;
+}

@@ -1,0 +1,15 @@
+<svg id="debug" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+    <path d="
+        M 42.5  25
+        h  -25
+        m   10  10
+        l  -10 -10
+        l   10 -10
+
+        M   25  10
+        h  -15
+        v   30
+        h   15
+    " stroke-width="5" stroke="#f2f2f2" fill="none"></path>
+    <style>svg:target { background-color: #888; }</style>
+</svg>
