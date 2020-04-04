@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "../styles/index.scss";
 import { State } from "../reducers";
 import { Page, Button } from "../components";
-import { mainPageStopAnimation } from "../actions";
+import { mainPageAnimationDisable } from "../actions";
 
 const Main = () => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const Main = () => {
 
   useEffect(() => () => {
     if (mainPageAnimation) {
-      dispatch(mainPageStopAnimation());
+      dispatch(mainPageAnimationDisable());
     }
   }, [mainPageAnimation]);
 
