@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
 
 import "../styles/how-to-play.scss";
 import { Page, Board, Button } from "../components";
