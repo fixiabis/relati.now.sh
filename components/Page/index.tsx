@@ -12,7 +12,7 @@ export type Props = {
 
 const Page = ({ title, children, className = "", ...props }: Props) => {
   return (
-    <div {...props} className={`page ${className}`}>
+    <div {...props} className={`page${className && ` ${className}`}`}>
       <Head>
         <title>{title}</title>
       </Head>

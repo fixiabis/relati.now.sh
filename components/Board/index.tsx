@@ -47,12 +47,12 @@ const Board = ({ width, height, children, className = "", onGridClick, ref, ...p
 
   for (let x = 1; x < height; x++) {
     const d = `M 0 ${x * 5} H ${viewWidth}`;
-    gridLines.push(<path key={x} d={d} />);
+    gridLines.push(<path key={`x-${x}`} d={d} />);
   }
 
   for (let y = 1; y < width; y++) {
     const d = `M ${y * 5} 0 V ${viewHeight}`;
-    gridLines.push(<path key={y} d={d} />);
+    gridLines.push(<path key={`y-${y}`} d={d} />);
   }
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const Board = ({ width, height, children, className = "", onGridClick, ref, ...p
   });
 
   return (
-    <div {...props} className={`board-container ${className}`} ref={boardContainer}>
+    <div {...props} ref={boardContainer} className={`board-container${className && ` ${className}`}`}>
       <div className="board" style={boardStyle} onClick={onBoardClick}>
         <svg width={viewWidth} height={viewHeight}>
           {children}

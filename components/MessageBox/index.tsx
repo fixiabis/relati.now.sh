@@ -10,7 +10,7 @@ export type Props = {
 const MessageBox = ({ className = "", ...props }: Props) => {
   return (
     <div className="message-box-container">
-      <div {...props} className={`message-box ${className}`} />
+      <div {...props} className={`message-box${className && ` ${className}`}`} />
     </div>
   );
 };

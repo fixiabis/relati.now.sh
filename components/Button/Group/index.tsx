@@ -9,7 +9,7 @@ export type Props = {
 
 const ButtonGroup = ({ className = "", ...props }: Props) => {
 	return (
-		<div {...props} className={`button-group ${className}`} />
+		<div {...props} className={`button-group${className && ` ${className}`}`} />
 	);
 };
 

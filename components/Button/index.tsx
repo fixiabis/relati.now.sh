@@ -10,7 +10,7 @@ export type Props = {
 
 const Button = ({ className = "", ...props }: Props) => {
   return (
-    <div {...props} className={`button ${className}`} />
+    <div {...props} className={`button${className && ` ${className}`}`} />
   );
 };
 
