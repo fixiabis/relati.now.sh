@@ -10,7 +10,7 @@ import { mainPageAnimationDisable } from "../actions";
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const mainPageAnimation = useSelector<State>(state => state.page.main.animation);
+  const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
 
   useEffect(() => () => {

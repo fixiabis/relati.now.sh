@@ -4,7 +4,7 @@ import Head from "next/head";
 import "./index.scss";
 
 export type Props = {
-    [otherProp: string]: any,
+    [otherPropName: string]: any,
     title: string,
     children: ReactNode,
     className?: string,
