@@ -3,62 +3,33 @@ import React, { createRef, useState, useEffect, ReactNode, RefObject } from "rea
 import "./index.scss";
 
 export type Props = {
-  [otherPropName: string]: any,
   width: number,
   height: number,
-  children?: ReactNode,
   className?: string,
+  children?: ReactNode,
+  ref?: RefObject<HTMLDivElement>,
   onBoardClick?: (e: React.MouseEvent) => void;
   onGridClick?: ({ x, y }: { x: number, y: number }) => void,
-  ref?: RefObject<HTMLDivElement>,
+  [otherPropName: string]: any,
 };
 
-const Board = ({ width, height, children, className, onGridClick, ref, ...props }: Props) => {
-  const horizonLines = [];
-  const verticalLines = [];
+const Board = ({ width, height, children, className = "", onGridClick, ref, ...props }: Props) => {
+  const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
-  const [scale, setScale] = useState(1);
-  const classNames = className ? className.split(" ") : [];
+  const [scale, setScale] = useState(0);
   const boardContainer = ref || createRef<HTMLDivElement>();
 
-  const boardStyle = {
-    width: viewWidth,
-    height: viewHeight,
-    transform: `scale(${scale})`
-  };
-
-  classNames.push("board-container");
-
-  for (let x = 1; x < height; x++) {
-    horizonLines.push(
-      <path key={x} d={`M 0 ${x * 5} H ${viewWidth}`} />
-    );
-  }
-
-  for (let y = 1; y < width; y++) {
-    verticalLines.push(
-      <path key={y} d={`M ${y * 5} 0 V ${viewHeight}`} />
-    );
-  }
-
-  function setScaleByMeasurement() {
-    const containerWidth = boardContainer.current.offsetWidth;
-    const containerHeight = boardContainer.current.offsetHeight;
+  const setScaleByMeasurement = () => {
+    const { offsetWidth, offsetHeight } = boardContainer.current;
 
     const scale = Math.min(
-      containerWidth / viewWidth,
-      containerHeight / viewHeight
+      offsetWidth / viewWidth,
+      offsetHeight / viewHeight
     ) * 0.95;
 
     setScale(scale);
-  }
-
-  useEffect(() => {
-    setScaleByMeasurement();
-    window.addEventListener("resize", setScaleByMeasurement);
-    return () => window.removeEventListener("resize", setScaleByMeasurement);
-  });
+  };
 
   const onBoardClick = (e: React.MouseEvent) => {
     const { offsetX, offsetY } = e.nativeEvent;
@@ -68,14 +39,35 @@ const Board = ({ width, height, children, className, onGridClick, ref, ...props 
     if (onGridClick) onGridClick({ x, y });
   };
 
+  const boardStyle = {
+    width: viewWidth,
+    height: viewHeight,
+    transform: `scale(${scale})`
+  };
+
+  for (let x = 1; x < height; x++) {
+    const d = `M 0 ${x * 5} H ${viewWidth}`;
+    gridLines.push(<path key={x} d={d} />);
+  }
+
+  for (let y = 1; y < width; y++) {
+    const d = `M ${y * 5} 0 V ${viewHeight}`;
+    gridLines.push(<path key={y} d={d} />);
+  }
+
+  useEffect(() => {
+    setScaleByMeasurement();
+    window.addEventListener("resize", setScaleByMeasurement);
+    return () => window.removeEventListener("resize", setScaleByMeasurement);
+  });
+
   return (
-    <div {...props} className={classNames.join(" ")} ref={boardContainer}>
+    <div {...props} className={`board-container ${className}`} ref={boardContainer}>
       <div className="board" style={boardStyle} onClick={onBoardClick}>
         <svg width={viewWidth} height={viewHeight}>
           {children}
           <g className="grid-lines" stroke="#888" strokeWidth="0.4">
-            {horizonLines}
-            {verticalLines}
+            {gridLines}
           </g>
         </svg>
       </div>

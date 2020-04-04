@@ -3,16 +3,13 @@ import React from "react";
 import "./index.scss";
 
 export type Props = {
-	[otherPropName: string]: any,
 	className?: string,
+	[otherPropName: string]: any,
 };
 
-const ButtonGroup = ({ className, ...props }: Props) => {
-	const classNames = className ? className.split(" ") : [];
-	classNames.push("button-group");
-
+const ButtonGroup = ({ className = "", ...props }: Props) => {
 	return (
-		<div {...props} className={classNames.join(" ")} />
+		<div {...props} className={`button-group ${className}`} />
 	);
 };
 

@@ -4,24 +4,21 @@ import Head from "next/head";
 import "./index.scss";
 
 export type Props = {
-    [otherPropName: string]: any,
-    title: string,
-    children: ReactNode,
-    className?: string,
+  title: string,
+  className?: string,
+  children: ReactNode,
+  [otherPropName: string]: any,
 };
 
-const Page = ({ title, children, className, ...props }: Props) => {
-    const classNames = className ? className.split(" ") : [];
-    classNames.push("page");
-
-    return (
-        <div {...props} className={classNames.join(" ")}>
-            <Head>
-                <title>{title}</title>
-            </Head>
-            {children}
-        </div>
-    );
+const Page = ({ title, children, className = "", ...props }: Props) => {
+  return (
+    <div {...props} className={`page ${className}`}>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      {children}
+    </div>
+  );
 };
 
 export default Page;

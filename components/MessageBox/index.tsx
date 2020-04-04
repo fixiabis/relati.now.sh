@@ -3,17 +3,14 @@ import React from "react";
 import "./index.scss";
 
 export type Props = {
-  [otherPropName: string]: any,
   className?: string,
+  [otherPropName: string]: any,
 };
 
-const MessageBox = ({ className, ...props }: Props) => {
-  const classNames = className ? className.split(" ") : [];
-  classNames.push("message-box");
-
+const MessageBox = ({ className = "", ...props }: Props) => {
   return (
     <div className="message-box-container">
-      <div {...props} className={classNames.join(" ")} />
+      <div {...props} className={`message-box ${className}`} />
     </div>
   );
 };

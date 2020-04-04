@@ -4,16 +4,13 @@ import "./index.scss";
 import ButtonGroup from "./Group";
 
 export type Props = {
-  [otherPropName: string]: any,
   className?: string,
+  [otherPropName: string]: any,
 };
 
-const Button = ({ className, ...props }: Props) => {
-  const classNames = className ? className.split(" ") : [];
-  classNames.push("button");
-
+const Button = ({ className = "", ...props }: Props) => {
   return (
-    <div {...props} className={classNames.join(" ")} />
+    <div {...props} className={`button ${className}`} />
   );
 };
 
