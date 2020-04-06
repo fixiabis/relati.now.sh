@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import "../styles/index.scss";
 import { State } from "../reducers";
-import { Page, Button } from "../components";
+import { Page, Button, IconButton } from "../components";
 import { mainPageAnimationDisable } from "../actions";
 
 const Main = () => {
@@ -23,15 +23,8 @@ const Main = () => {
     <Page id="main" title="relati">
       <div className="logo" />
       <Button.Group className={buttonGroupClassName}>
-        <Button style={{
-          backgroundColor: "crimson",
-          backgroundImage: "url(/icons/play.svg)"
-        }} />
-
-        <Button style={{
-          backgroundColor: "royalblue",
-          backgroundImage: "url(/icons/help.svg)"
-        }} onClick={() => router.push("/how-to-play")} />
+        <IconButton type="play" color="crimson" onClick={() => router.push("/play")} />
+        <IconButton type="help" color="royalblue" onClick={() => router.push("/how-to-play")} />
       </Button.Group>
     </Page>
   );

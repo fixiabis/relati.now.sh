@@ -23,19 +23,20 @@ const Board = ({ width, height, children, className = "", onGridClick, ref, ...p
   const setScaleByMeasurement = () => {
     const { offsetWidth, offsetHeight } = boardContainer.current;
 
-    const scale = Math.min(
+    const fittedScale = Math.min(
       offsetWidth / viewWidth,
       offsetHeight / viewHeight
     ) * 0.95;
 
-    setScale(scale);
+    if (fittedScale != scale) {
+      setScale(fittedScale);
+    }
   };
 
   const onBoardClick = (e: React.MouseEvent) => {
     const { offsetX, offsetY } = e.nativeEvent;
     const x = Math.floor(offsetX / 5);
     const y = Math.floor(offsetY / 5);
-    if (props.onBoardClick) onBoardClick(e);
     if (onGridClick) onGridClick({ x, y });
   };
 

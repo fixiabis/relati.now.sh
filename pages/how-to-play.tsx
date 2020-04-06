@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 import "../styles/how-to-play.scss";
-import { Page, Board, Button } from "../components";
+import { Page, Board, Button, IconButton } from "../components";
 
 const HowToPlay = () => {
   const router = useRouter();
@@ -11,10 +11,7 @@ const HowToPlay = () => {
     <Page id="how-to-play" title="How to play">
       <Board width={9} height={9} />
       <Button.Group>
-        <Button style={{
-          backgroundColor: "#888",
-          backgroundImage: "url(/icons/leave.svg)"
-        }} onClick={() => router.push("/")} />
+        <IconButton type="leave" color="#888" onClick={() => router.push("/")} />
       </Button.Group>
     </Page>
   );
