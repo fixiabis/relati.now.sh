@@ -1,3 +1,6 @@
+import * as Piece from "./Piece";
+
+export { Piece };
 export { default as Page } from "./Page";
 export { default as Board } from "./Board";
 export { default as Button } from "./Button";
