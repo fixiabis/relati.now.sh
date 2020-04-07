@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
 
-import "./index.scss";
+import "./page.scss";
 
 export type Props = {
   title: string,

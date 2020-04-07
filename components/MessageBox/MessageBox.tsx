@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./index.scss";
+import "./message-box.scss";
 
 export type Props = {
   className?: string,

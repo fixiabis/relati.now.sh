@@ -1,8 +1,8 @@
-.point-highlight {
-    animation: point-highlight 1s infinite;
+.piece-emphasis {
+    animation: piece-emphasis 1s infinite;
 }
 
-@keyframes point-highlight {
+@keyframes piece-emphasis {
     0% {
         transform: scale(0.8);
         transform-origin: center;

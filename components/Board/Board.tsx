@@ -1,6 +1,6 @@
-import React, { createRef, useState, useEffect, ReactNode, RefObject } from "react";
+import React, { createRef, useEffect, ReactNode, RefObject } from "react";
 
-import "./index.scss";
+import "./board.scss";
 
 export type Props = {
   width: number,
@@ -13,24 +13,22 @@ export type Props = {
   [otherPropName: string]: any,
 };
 
-const Board = ({ width, height, children, className = "", onGridClick, ref, ...props }: Props) => {
+const Board = ({ width, height, children, className = "", onGridClick, ...props }: Props) => {
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
-  const [scale, setScale] = useState(0);
-  const boardContainer = ref || createRef<HTMLDivElement>();
+  const board = createRef<HTMLDivElement>();
+  const boardContainer = createRef<HTMLDivElement>();
 
-  const setScaleByMeasurement = () => {
+  const scaleBoardByMeasurement = () => {
     const { offsetWidth, offsetHeight } = boardContainer.current;
 
-    const fittedScale = Math.min(
+    const scale = Math.min(
       offsetWidth / viewWidth,
       offsetHeight / viewHeight
     ) * 0.95;
 
-    if (fittedScale != scale) {
-      setScale(fittedScale);
-    }
+    board.current.style.transform = `scale(${scale})`;
   };
 
   const onBoardClick = (e: React.MouseEvent) => {
@@ -42,8 +40,7 @@ const Board = ({ width, height, children, className = "", onGridClick, ref, ...p
 
   const boardStyle = {
     width: viewWidth,
-    height: viewHeight,
-    transform: `scale(${scale})`
+    height: viewHeight
   };
 
   for (let x = 1; x < height; x++) {
@@ -57,14 +54,14 @@ const Board = ({ width, height, children, className = "", onGridClick, ref, ...p
   }
 
   useEffect(() => {
-    setScaleByMeasurement();
-    window.addEventListener("resize", setScaleByMeasurement);
-    return () => window.removeEventListener("resize", setScaleByMeasurement);
+    scaleBoardByMeasurement();
+    window.addEventListener("resize", scaleBoardByMeasurement);
+    return () => window.removeEventListener("resize", scaleBoardByMeasurement);
   });
 
   return (
     <div {...props} ref={boardContainer} className={`board-container${className && ` ${className}`}`}>
-      <div className="board" style={boardStyle} onClick={onBoardClick}>
+      <div ref={board} className="board" style={boardStyle} onClick={onBoardClick}>
         <svg width={viewWidth} height={viewHeight}>
           {children}
           <g className="grid-lines" stroke="#888" strokeWidth="0.4">

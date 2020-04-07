@@ -1,7 +1,7 @@
 import React from "react";
 
-import "./index.scss";
-import ButtonGroup from "./Group";
+import "./button.scss";
+import ButtonGroup from "./ButtonGroup";
 
 export type Props = {
   className?: string,
