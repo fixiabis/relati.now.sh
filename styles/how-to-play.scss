@@ -1,6 +1,10 @@
 #how-to-play {
+    .description {
+        height: 70px;
+    }
+
     .board-container {
         width: 100vw;
-        height: calc(100vh - 70px);
-    }    
+        height: calc(100vh - 140px);
+    }
 }

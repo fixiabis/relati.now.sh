@@ -8,7 +8,6 @@ export type Props = {
   className?: string,
   children?: ReactNode,
   ref?: RefObject<HTMLDivElement>,
-  onBoardClick?: (e: React.MouseEvent) => void;
   onGridClick?: ({ x, y }: { x: number, y: number }) => void,
   [otherPropName: string]: any,
 };
