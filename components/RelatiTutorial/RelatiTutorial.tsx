@@ -27,9 +27,7 @@ const RelatiTutorial = () => {
                 placePiece(Piece.SymbolO)({ x: 4, y: 4, primary: true });
             }
         },
-        () => setTimeout(() => {
-            placePiece(Piece.SymbolX)({ x: 5, y: 4, primary: true });
-        }, 1000)
+        () => setTimeout(() => placePiece(Piece.SymbolX)({ x: 5, y: 4, primary: true }), 1000)
     ];
 
     return (
