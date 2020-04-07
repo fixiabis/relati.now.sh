@@ -1,0 +1,27 @@
+.draw-line {
+    --line-length: 1;
+    opacity: 0.3;
+    stroke-dasharray: calc(5px * var(--line-length));
+    stroke-dashoffset: calc(5px * var(--line-length));
+    animation: draw-line 0.25s forwards;
+}
+
+@for $i from 0 to 9 {
+    .draw-line.length-#{$i} {
+        --line-length: #{$i};
+    }
+}
+
+.draw-line.length-1\.4142135623730951 {
+    --line-length: 1.4142135623730951;
+}
+
+.draw-line.length-2\.8284271247461903 {
+    --line-length: 2.8284271247461903;
+}
+
+@keyframes draw-line {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
