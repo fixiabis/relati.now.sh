@@ -8,4 +8,8 @@
     .board {
         position: relative;
     }
+
+    .board * {
+        pointer-events: none;
+    }
 }
