@@ -24,7 +24,7 @@ const RelatiTutorial = () => {
                 <div className="versus"></div>
                 <div className="player-x"></div>
             </div>
-            <Board id="relati-tutorial" width={9} height={9}>
+            <Board id="relati-game" width={9} height={9}>
                 {board.effectLines}
                 {board.pieces}
                 {board.hints}
