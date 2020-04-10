@@ -30,8 +30,6 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
     placePiece(Piece.SymbolX)({ x: 7, y: 4, primary: true })
   }, 1000);
 
-  let key = 0;
-
   let groupedCoordinatesList = [
     [
       [[4, 3]],
@@ -117,7 +115,7 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
       pieces,
       hints,
       effectLines: groupedCoordinates.map((coordinates, j) =>
-        <DrawLine key={key = i * 4 + j} path={[{ x: 4, y: 4 }, ...coordinates.map(([x, y]) => ({ x, y }))]} color="crimson" />
+        <DrawLine key={i * 4 + j} path={[{ x: 4, y: 4 }, ...coordinates.map(([x, y]) => ({ x, y }))]} color="crimson" />
       ),
       description
     });
@@ -201,18 +199,64 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
     pieces,
     hints,
     effectLines: [
-      <DrawLine key={++key} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="crimson" />
+      <DrawLine key={1} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="crimson" />
     ],
     description: "成功連線了，中間必須要是空格才能這樣放呢"
   });
 
   yield () => void setTimeout(() => {
-    effectLines = [
-      <DrawLine key={key} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="#888" />
-    ];
     description = "啊，中間的空格沒了";
     placePiece(Piece.SymbolX)({ x: 5, y: 5 })
-  }, 2000);
+  }, 1000);
+
+  yield () => void setTimeout(() => setScene({
+    step: step + 1,
+    pieces,
+    hints,
+    effectLines: [
+      <DrawLine key={1} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="crimson" />,
+      <DrawLine key={2} path={[{ x: 7, y: 4 }, { x: 6, y: 4 }, { x: 5, y: 4 }, { x: 5, y: 5 }]} color="royalblue" />
+    ],
+    description: "是擴張範圍的連線(外勾側四方)"
+  }), 1000);
+
+  yield () => void setTimeout(() => setScene({
+    step: step + 1,
+    pieces,
+    hints,
+    effectLines: [
+      <DrawLine key={1} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="crimson" />,
+      <DrawLine key={2} path={[{ x: 7, y: 4 }, { x: 6, y: 4 }, { x: 5, y: 4 }, { x: 5, y: 5 }]} color="royalblue" />,
+      <DrawLine key={3} path={[{ x: 7, y: 4 }, { x: 7, y: 5 }, { x: 6, y: 5 }, { x: 5, y: 5 }]} color="royalblue" />
+    ],
+    description: "是擴張範圍的連線(內勾側四方)"
+  }), 1000);
+
+  yield () => void setTimeout(() => setScene({
+    step: step + 1,
+    pieces,
+    hints,
+    effectLines: [
+      <DrawLine key={1} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="crimson" />,
+      <DrawLine key={2} path={[{ x: 7, y: 4 }, { x: 6, y: 4 }, { x: 5, y: 4 }, { x: 5, y: 5 }]} color="royalblue" />,
+      <DrawLine key={3} path={[{ x: 7, y: 4 }, { x: 7, y: 5 }, { x: 6, y: 5 }, { x: 5, y: 5 }]} color="royalblue" />,
+      <DrawLine key={4} path={[{ x: 7, y: 4 }, { x: 6, y: 4 }, { x: 6, y: 5 }, { x: 5, y: 5 }]} color="royalblue" />
+    ],
+    description: "是擴張範圍的連線(蛇行側四方)"
+  }), 1000);
+
+  yield () => void setTimeout(() => setScene({
+    step: step + 1,
+    pieces,
+    hints,
+    effectLines: [
+      <DrawLine key={1} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="#888" />,
+      <DrawLine key={2} path={[{ x: 7, y: 4 }, { x: 6, y: 4 }, { x: 5, y: 4 }, { x: 5, y: 5 }]} color="royalblue" />,
+      <DrawLine key={3} path={[{ x: 7, y: 4 }, { x: 7, y: 5 }, { x: 6, y: 5 }, { x: 5, y: 5 }]} color="royalblue" />,
+      <DrawLine key={4} path={[{ x: 7, y: 4 }, { x: 6, y: 4 }, { x: 6, y: 5 }, { x: 5, y: 5 }]} color="royalblue" />
+    ],
+    description: "連線斷掉了啊"
+  }), 1000);
 
   yield () => void setTimeout(() => {
     hints = groupedCoordinatesList.reduce((hints, groupedCoordinates) => {
@@ -234,6 +278,19 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
     description = "連線斷掉了啊，得想想辦法接回來才行";
     placePiece(Piece.SymbolO)({ x: 6, y: 6, disabled: true });
   }, 2000);
+
+  yield () => ({ x, y }) => {
+    const i = y * 9 + x;
+    if (![41, 42, 51, 49, 58, 59].includes(i)) {
+      setScene({
+        step: step + 1,
+        pieces,
+        hints,
+        effectLines,
+        description: "我想這裡現在是連不回去?"
+      })
+    }
+  };
 }
 
 export default generateSceneSteps;
