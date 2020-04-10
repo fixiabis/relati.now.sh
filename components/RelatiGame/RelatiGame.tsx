@@ -38,6 +38,7 @@ const RelatiGameView = () => {
 
   const onGridClick = ({ x, y }) => {
     game.placeSymbolToCoordinate(x, y);
+
     const symbol = game.getNowPlayerSymbol();
     const color = symbolToColor[symbol];
 
