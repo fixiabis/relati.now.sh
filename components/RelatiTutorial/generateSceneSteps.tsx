@@ -22,13 +22,15 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
 
   yield () => ({ x, y }) => {
     if (x === 4 && y === 4) {
-      placePiece(Piece.SymbolO)({ x: 4, y: 4, primary: true });
+      placePiece(Piece.SymbolO)({ x, y, primary: true });
     }
   };
 
   yield () => void setTimeout(() => {
     placePiece(Piece.SymbolX)({ x: 7, y: 4, primary: true })
   }, 1000);
+
+  let key = 0;
 
   let groupedCoordinatesList = [
     [
@@ -115,7 +117,7 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
       pieces,
       hints,
       effectLines: groupedCoordinates.map((coordinates, j) =>
-        <DrawLine key={i * 4 + j} path={[{ x: 4, y: 4 }, ...coordinates.map(([x, y]) => ({ x, y }))]} color="crimson" />
+        <DrawLine key={key = i * 4 + j} path={[{ x: 4, y: 4 }, ...coordinates.map(([x, y]) => ({ x, y }))]} color="crimson" />
       ),
       description
     });
@@ -166,16 +168,72 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
       for (let coordinates of groupedCoordinates) {
         const [x, y] = coordinates[coordinates.length - 1];
         const i = y * 9 + x;
-        hints[i] = <Piece.Hint key={i} x={x} y={y} color="crimson" opacity={i == 60 ? 1 : 0.2} />;
+        hints[i] = <Piece.Hint key={i} x={x} y={y} color="crimson" />;
       }
 
       return hints;
     }, [] as JSX.Element[]),
     effectLines: [],
-    description
-  }), 250);
+    description: "這些是一個符號可以放置的範圍"
+  }), 500);
 
-  yield () => placePiece(Piece.Focus)({ x: 6, y: 6, color: "crimson" });
+  yield () => ({ x, y }) => {
+    if (x !== 6 || y !== 6) {
+      description = "放在這邊試試看吧?";
+      placePiece(Piece.Focus)({ x: 6, y: 6, color: "crimson" });
+    }
+    else {
+      step++;
+      hints = [];
+      placePiece(Piece.SymbolO)({ x, y });
+    }
+  };
+
+  yield () => ({ x, y }) => {
+    if (x === 6 && y === 6) {
+      hints = [];
+      placePiece(Piece.SymbolO)({ x, y });
+    }
+  };
+
+  yield () => setScene({
+    step: step + 1,
+    pieces,
+    hints,
+    effectLines: [
+      <DrawLine key={++key} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="crimson" />
+    ],
+    description: "成功連線了，中間必須要是空格才能這樣放呢"
+  });
+
+  yield () => void setTimeout(() => {
+    effectLines = [
+      <DrawLine key={key} path={[{ x: 4, y: 4 }, { x: 5, y: 5 }, { x: 6, y: 6 }]} color="#888" />
+    ];
+    description = "啊，中間的空格沒了";
+    placePiece(Piece.SymbolX)({ x: 5, y: 5 })
+  }, 2000);
+
+  yield () => void setTimeout(() => {
+    hints = groupedCoordinatesList.reduce((hints, groupedCoordinates) => {
+      for (let coordinates of groupedCoordinates) {
+        const [x, y] = coordinates[coordinates.length - 1];
+        const i = y * 9 + x;
+
+        if (i === 50 || i == 60) {
+          continue;
+        }
+
+        hints[i] = <Piece.Hint key={i} x={x} y={y} color="crimson" />;
+      }
+
+      return hints;
+    }, [] as JSX.Element[]);
+
+    effectLines = [];
+    description = "連線斷掉了啊，得想想辦法接回來才行";
+    placePiece(Piece.SymbolO)({ x: 6, y: 6, disabled: true });
+  }, 2000);
 }
 
 export default generateSceneSteps;

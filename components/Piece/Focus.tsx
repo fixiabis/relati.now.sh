@@ -22,6 +22,7 @@ const Focus = ({ x, y, color, emphasis = true }: Props) => (
     fill="none"
     stroke={color}
     strokeWidth="0.4px"
+    style={{ transformOrigin: `${x * 5}px ${y * 5}px` }}
     className={emphasis ? "piece-emphasis" : undefined} />
 );
 
