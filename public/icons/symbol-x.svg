@@ -1,0 +1,6 @@
+<svg id="debug" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+    <path d="M 10 10 m -6 -6 l 13 13 m 0 -13 l -13 13" stroke="#f2f2f2" stroke-width="8"></path>
+    <path d="M 10 10 m -6 -6 l 12 12 m 0 -12 l -12 12" stroke="royalblue" stroke-width="4.8"></path>
+    <path d="M 10 10 m -6 -6 l 12 12 m 0 -12 l -12 12" stroke="#f2f2f2" stroke-width="2.4"></path>
+    <style>svg:target { background-color: #f2f2f2; }</style>
+</svg>
