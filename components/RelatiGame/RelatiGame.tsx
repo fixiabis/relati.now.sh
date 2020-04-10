@@ -24,7 +24,14 @@ const RelatiGameView = () => {
     game: new RelatiGame(2),
     pieces: [] as JSX.Element[],
     hints: [] as JSX.Element[],
-    effectLines: [] as JSX.Element[]
+    effectLines: [] as JSX.Element[],
+  });
+
+  const restartGame = () => setState({
+    game: new RelatiGame(2),
+    pieces: [],
+    hints: [],
+    effectLines: [],
   });
 
   let { game, pieces, hints, effectLines } = state;
@@ -67,7 +74,7 @@ const RelatiGameView = () => {
         {state.pieces}
         {state.hints}
       </Board>
-      <MessageBox show={game.symbolOfWinner !== null} onClick={e => setState({ game: new RelatiGame(2), pieces: [], hints: [], effectLines: [] })}>
+      <MessageBox show={game.symbolOfWinner !== null} onClick={restartGame}>
         {
           game.symbolOfWinner
             ? game.symbolOfWinner + " win"
