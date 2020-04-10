@@ -3,18 +3,13 @@
 }
 
 @keyframes piece-emphasis {
-    0% {
+    0%, 100% {
         transform: scale(0.8);
         transform-origin: center;
     }
 
     50% {
         transform: scale(1.2);
-        transform-origin: center;
-    }
-
-    100% {
-        transform: scale(0.8);
         transform-origin: center;
     }
 }

@@ -8,6 +8,7 @@ export type Scene = {
   pieces: JSX.Element[],
   hints: JSX.Element[],
   effectLines: JSX.Element[],
+  description: string,
 }
 
 const RelatiTutorial = () => {
@@ -15,27 +16,24 @@ const RelatiTutorial = () => {
     step: -1,
     pieces: [] as JSX.Element[],
     hints: [] as JSX.Element[],
-    effectLines: [] as JSX.Element[]
+    effectLines: [] as JSX.Element[],
+    description: "點擊中央的框框"
   });
 
-  let step = scene.step;
-  let pieces = [...scene.pieces];
-  let hints = scene.hints;
-  let effectLines = scene.effectLines;
+  let { step, pieces, hints, effectLines, description } = scene;
+  hints = [...scene.hints];
+  pieces = [...scene.pieces];
 
-  const scenes: SceneStep[] = Array.from(
-    generateSceneSteps({
-      step,
-      pieces,
-      hints: hints,
-      effectLines,
-    }, setScene)
+  const sceneSteps: SceneStep[] = Array.from(
+    generateSceneSteps({ step, pieces, hints, effectLines, description }, setScene)
   );
+
+  const nextScene = sceneSteps[scene.step + 1]?.();
 
   return (
     <>
-      <div className="description"></div>
-      <Board id="relati-tutorial" width={9} height={9} onGridClick={scenes[scene.step + 1]?.()}>
+      <div className="description">{description}</div>
+      <Board id="relati-tutorial" width={9} height={9} onGridClick={nextScene}>
         {scene.effectLines}
         {scene.pieces}
         {scene.hints}
