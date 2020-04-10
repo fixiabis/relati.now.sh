@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import "../styles/play.scss";
 import { Page, Button, IconButton, RelatiGame } from "../components";
 
-const HowToPlay = () => {
+const Play = () => {
   const router = useRouter();
 
   return (
@@ -17,4 +17,4 @@ const HowToPlay = () => {
   );
 };
 
-export default HowToPlay;
+export default Play;
