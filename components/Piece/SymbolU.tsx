@@ -22,7 +22,7 @@ const SymbolU = ({ x, y, primary, disabled }: Props) => (
         <path
           d={`M ${x * 5} ${y * 5} ${SYMBOL_PATH}`}
           fill="none"
-          stroke={disabled ? "#888" : "orange"}
+          stroke={disabled ? "#888" : "darkorange"}
           strokeWidth="1" />
         <path
           d={`M ${x * 5} ${y * 5} ${SYMBOL_PATH}`}
@@ -35,7 +35,7 @@ const SymbolU = ({ x, y, primary, disabled }: Props) => (
       <path
         d={`M ${x * 5} ${y * 5} ${SYMBOL_PATH}`}
         fill="none"
-        stroke={disabled ? "#888" : "orange"}
+        stroke={disabled ? "#888" : "darkorange"}
         strokeWidth="0.6" />
     )
 );
