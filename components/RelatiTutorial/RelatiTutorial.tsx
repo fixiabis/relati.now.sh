@@ -35,8 +35,8 @@ const RelatiTutorial = () => {
       <div className="description">{description}</div>
       <Board id="relati-tutorial" width={9} height={9} onGridClick={nextScene}>
         {scene.effectLines}
-        {scene.pieces}
         {scene.hints}
+        {scene.pieces}
       </Board>
     </>
   );

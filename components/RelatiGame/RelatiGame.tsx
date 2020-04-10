@@ -71,8 +71,8 @@ const RelatiGameView = () => {
       </div>
       <Board id="relati-game" width={9} height={9} onGridClick={onGridClick}>
         {state.effectLines}
-        {state.pieces}
         {state.hints}
+        {state.pieces}
       </Board>
       <MessageBox show={game.symbolOfWinner !== null} onClick={restartGame}>
         {
