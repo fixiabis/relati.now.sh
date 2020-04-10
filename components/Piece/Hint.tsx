@@ -6,11 +6,11 @@ export type Props = {
   color: string,
 };
 
-const SYMBOL_PATH = `
-  m 2.5 2
-  a 0.5 0.5 0 0 1 0 1
-  a 0.5 0.5 0 0 1 0 -1
-`;
+const SYMBOL_PATH = [
+  "m 2.5 2",
+  "a 0.5 0.5 0 0 1 0 1",
+  "a 0.5 0.5 0 0 1 0 -1",
+].join(" ");
 
 const Hint = ({ x, y, color }: Props) => (
   <path

@@ -7,12 +7,12 @@ export type Props = {
   disabled?: boolean,
 };
 
-const SYMBOL_PATH = `
-  m 1 1
-  l 3 3
-  m 0 -3
-  l -3 3
-`;
+const SYMBOL_PATH = [
+  "m  1  1",
+  "l  3  3",
+  "m  0 -3",
+  "l -3  3",
+].join(" ");
 
 const SymbolX = ({ x, y, primary, disabled }: Props) => (
   primary

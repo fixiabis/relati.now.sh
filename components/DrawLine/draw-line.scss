@@ -3,7 +3,9 @@
     opacity: 0.3;
     stroke-dasharray: calc(5px * var(--line-length));
     stroke-dashoffset: calc(5px * var(--line-length));
-    animation: draw-line 0.25s forwards;
+    animation-name: draw-line;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
 }
 
 @for $i from 0 to 9 {

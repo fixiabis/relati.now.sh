@@ -1,17 +1,20 @@
 import React from "react";
 
-import "./Path.scss";
+import "./draw-line.scss";
 
 export type Props = {
   path: { x: number, y: number }[],
   color: string,
+  className?: string,
+  [otherPropName: string]: any,
 };
 
-const Path = ({ path, color }: Props) => {
+const DrawLine = ({ path, color, className = "", ...props }: Props) => {
   let delta = 0;
 
   return (
     <path
+      {...props}
       d={path.map(({ x, y }, i) => {
         if (i !== 0) {
           if (Math.abs(path[i - 1].x - x) && Math.abs(path[i - 1].y - y)) {
@@ -24,11 +27,11 @@ const Path = ({ path, color }: Props) => {
 
         return `${i === 0 ? "M" : "L"} ${x * 5 + 2.5} ${y * 5 + 2.5}`;
       }).join(" ")}
-      className={`draw-line length-${delta}`}
+      className={`draw-line length-${delta}${className && ` ${className}`}`}
       fill="none"
       stroke={color}
       strokeWidth="0.6" />
   );
 };
 
-export default Path;
+export default DrawLine;

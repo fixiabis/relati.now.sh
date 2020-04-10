@@ -8,19 +8,20 @@ export type Props = {
 };
 
 const SYMBOL_PATH = [
-  "m 2.5 1",
-  "a 1.5 1.5 0 0 1 0 3",
-  "a 1.5 1.5 0 0 1 0 -3",
+  "m 2.5 1.5",
+  "l 1.5 2.5",
+  "l  -3 0",
+  "z",
 ].join(" ");
 
-const SymbolO = ({ x, y, primary, disabled }: Props) => (
+const SymbolD = ({ x, y, primary, disabled }: Props) => (
   primary
     ? (
       <>
         <path
           d={`M ${x * 5} ${y * 5} ${SYMBOL_PATH}`}
           fill="none"
-          stroke={disabled ? "#888" : "crimson"}
+          stroke={disabled ? "#888" : "seagreen"}
           strokeWidth="1" />
         <path
           d={`M ${x * 5} ${y * 5} ${SYMBOL_PATH}`}
@@ -33,9 +34,9 @@ const SymbolO = ({ x, y, primary, disabled }: Props) => (
       <path
         d={`M ${x * 5} ${y * 5} ${SYMBOL_PATH}`}
         fill="none"
-        stroke={disabled ? "#888" : "crimson"}
+        stroke={disabled ? "#888" : "seagreen"}
         strokeWidth="0.6" />
     )
 );
 
-export default SymbolO;
+export default SymbolD;
