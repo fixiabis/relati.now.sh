@@ -1,30 +1,34 @@
 import { GridBoard, Grid } from "gridboard";
-import { Piece } from "./types";
+import { RelatiPiece } from "./types";
 import { isGridPlaceable, disableAllPiecesWithoutPrimarySymbol, activePiecesBySourceGrid } from "./utils";
 
-const SYMBOLS = "OXDUA".split("") as Piece["symbol"][];
+const SYMBOLS = "OXDUA".split("") as RelatiPiece["symbol"][];
 
 class RelatiGame {
     public turn: number;
 
     public symbolToSourceGrid: {
-        [symbol: string]: Grid<Piece>
+        [symbol: string]: Grid<RelatiPiece>
     };
 
-    public symbolOfWinner: Piece["symbol"] | null;
+    public symbolOfWinner: RelatiPiece["symbol"] | "N" | null;
     public playersCount: number;
-    public board: GridBoard<Piece>;
+    public board: GridBoard<RelatiPiece>;
 
     constructor(playersCount: number) {
         this.turn = 0;
         this.symbolOfWinner = null;
         this.symbolToSourceGrid = {};
         this.playersCount = playersCount;
-        this.board = new GridBoard<Piece>(9, 9);
+        this.board = new GridBoard<RelatiPiece>(9, 9);
     }
 
     public getNowPlayerSymbol() {
         return SYMBOLS[this.turn % this.playersCount];
+    }
+
+    public getPlayerSymbolByTurn(turn: number) {
+        return SYMBOLS[turn % this.playersCount];
     }
 
     public placeSymbolToCoordinate(x: number, y: number, symbol = this.getNowPlayerSymbol()) {
@@ -64,7 +68,7 @@ class RelatiGame {
 
             for (let i = 0; i < this.playersCount; i++) {
                 let symbol = this.getNowPlayerSymbol();
-                let hasPlaceableGrid =  this.board.grids.some(grid => isGridPlaceable(grid, symbol));
+                let hasPlaceableGrid = this.board.grids.some(grid => isGridPlaceable(grid, symbol));
 
                 if (hasPlaceableGrid) {
                     playerPlaceable = true;
@@ -72,7 +76,7 @@ class RelatiGame {
                 } else this.turn++;
             }
 
-            if (!playerPlaceable) this.symbolOfWinner = "";
+            if (!playerPlaceable) this.symbolOfWinner = "N";
             else if (this.getNowPlayerSymbol() === symbol) this.symbolOfWinner = symbol;
         }
     }

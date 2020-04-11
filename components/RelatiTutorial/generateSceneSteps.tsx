@@ -2,6 +2,7 @@ import * as Piece from "../Piece";
 import DrawLine from "../DrawLine";
 import { AnyProps } from "../../types";
 import { Scene } from "./RelatiTutorial";
+import RelatiSymbol from "../RelatiPiece";
 
 export type SceneStep = () => (((coordinate?: { x: number, y: number }) => void) | any);
 type SetScene = React.Dispatch<React.SetStateAction<Scene>>;
@@ -22,12 +23,12 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
 
   yield () => ({ x, y }) => {
     if (x === 4 && y === 4) {
-      placePiece(Piece.SymbolO)({ x, y, primary: true });
+      placePiece(RelatiSymbol)({ x, y, symbol: "O", primary: true });
     }
   };
 
   yield () => void setTimeout(() => {
-    placePiece(Piece.SymbolX)({ x: 7, y: 4, primary: true })
+    placePiece(RelatiSymbol)({ x: 7, y: 4, symbol: "X", primary: true });
   }, 1000);
 
   let groupedCoordinatesList = [
@@ -183,14 +184,14 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
     else {
       step++;
       hints = [];
-      placePiece(Piece.SymbolO)({ x, y });
+      placePiece(RelatiSymbol)({ x, y, symbol: "O" });
     }
   };
 
   yield () => ({ x, y }) => {
     if (x === 6 && y === 6) {
       hints = [];
-      placePiece(Piece.SymbolO)({ x, y });
+      placePiece(RelatiSymbol)({ x, y, symbol: "O" });
     }
   };
 
@@ -206,7 +207,7 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
 
   yield () => void setTimeout(() => {
     description = "啊，中間的空格沒了";
-    placePiece(Piece.SymbolX)({ x: 5, y: 5 })
+    placePiece(RelatiSymbol)({ x: 5, y: 5, symbol: "X" })
   }, 1000);
 
   yield () => void setTimeout(() => setScene({
@@ -276,7 +277,7 @@ function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerat
 
     effectLines = [];
     description = "連線斷掉了啊，得想想辦法接回來才行";
-    placePiece(Piece.SymbolO)({ x: 6, y: 6, disabled: true });
+    placePiece(RelatiSymbol)({ x: 6, y: 6, symbol: "O", disabled: true });
   }, 2000);
 
   yield () => ({ x, y }) => {

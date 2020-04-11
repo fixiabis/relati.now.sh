@@ -1,8 +1,8 @@
 import RelatiRoutes from "./RelatiRoutes";
 import { Grid, GridBoard } from "gridboard";
-import { Piece } from "./types";
+import { RelatiPiece } from "./types";
 
-export function isGridPlaceable(grid: Grid<Piece>, symbol: Piece["symbol"]) {
+export function isGridPlaceable(grid: Grid<RelatiPiece>, symbol: RelatiPiece["symbol"]) {
     if (grid.piece) {
         return false;
     }
@@ -24,15 +24,15 @@ export function isGridPlaceable(grid: Grid<Piece>, symbol: Piece["symbol"]) {
     return false;
 }
 
-export function disableAllPiecesWithoutPrimarySymbol(board: GridBoard<Piece>) {
+export function disableAllPiecesWithoutPrimarySymbol(board: GridBoard<RelatiPiece>, symbol?: RelatiPiece["symbol"]) {
     for (let grid of board.grids) {
-        if (grid.piece && !grid.piece.primary) {
+        if (grid.piece && !grid.piece.primary && (symbol ? grid.piece.symbol === symbol : true)) {
             grid.piece.disabled = true;
         }
     }
 }
 
-export function activePiecesBySourceGrid(grid: Grid<Piece>) {
+export function activePiecesBySourceGrid(grid: Grid<RelatiPiece>) {
     for (let routes of RelatiRoutes) {
         const [targetCoordinate, ...middleCoordinates] = routes;
         const targetGrid = grid.getGridTo(targetCoordinate);
