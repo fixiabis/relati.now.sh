@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, ReactNode, RefObject } from "react";
+import React, { useRef, useEffect, ReactNode, RefObject } from "react";
 
 import "./board.scss";
 
@@ -16,8 +16,8 @@ const Board = ({ width, height, children, className = "", onGridClick, ...props 
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
-  const board = createRef<HTMLDivElement>();
-  const boardContainer = createRef<HTMLDivElement>();
+  const board = useRef<HTMLDivElement>();
+  const boardContainer = useRef<HTMLDivElement>();
 
   const scaleBoardByMeasurement = () => {
     const { offsetWidth, offsetHeight } = boardContainer.current;
