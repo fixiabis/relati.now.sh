@@ -29,7 +29,7 @@ const RelatiGame = () => {
         <div className="player-x" />
       </div>
       <RelatiBoard game={game} onGridClick={onGridClick} />
-      <MessageBox show={game.symbolOfWinner !== null} onClick={restartGame}>
+      <MessageBox show={game.symbolOfWinner !== "?"} onClick={restartGame}>
         {
           game.symbolOfWinner !== "N"
             ? game.symbolOfWinner + " win"

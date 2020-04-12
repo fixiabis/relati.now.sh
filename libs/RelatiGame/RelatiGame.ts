@@ -11,13 +11,13 @@ class RelatiGame {
         [symbol: string]: Grid<RelatiPiece>
     };
 
-    public symbolOfWinner: RelatiPiece["symbol"] | "N" | null;
+    public symbolOfWinner: RelatiPiece["symbol"] | "N" | "?";
     public playersCount: number;
     public board: GridBoard<RelatiPiece>;
 
     constructor(playersCount: number) {
         this.turn = 0;
-        this.symbolOfWinner = null;
+        this.symbolOfWinner = "?";
         this.symbolToSourceGrid = {};
         this.playersCount = playersCount;
         this.board = new GridBoard<RelatiPiece>(9, 9);
