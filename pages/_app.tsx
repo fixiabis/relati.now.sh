@@ -31,4 +31,4 @@ class RelatiApp extends App<ReduxWrapperAppProps<State>> {
   }
 }
 
-export default withRedux(makeStore, { debug: true })(RelatiApp);
+export default withRedux(makeStore)(RelatiApp);
