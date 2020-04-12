@@ -1,9 +1,10 @@
 import React from "react";
 
 import "./draw-line.scss";
+import { Coordinate } from "gridboard";
 
 export type Props = {
-  linePath: { x: number, y: number }[],
+  linePath: Coordinate[],
   color: string,
   className?: string,
   [otherPropName: string]: any,
@@ -14,9 +15,12 @@ const DrawLine = ({ linePath, color, className: pathClassName = "", ...props }: 
 
   let lineLength = 0;
 
-  const pathDefinition = linePath.map(({ x, y }, i) => {
+  const pathDefinition = linePath.map(([x, y], i) => {
     if (i !== 0) {
-      if (Math.abs(linePath[i - 1].x - x) && Math.abs(linePath[i - 1].y - y)) {
+      const previousLinePath = linePath[i - 1];
+      const [pX, pY] = previousLinePath;
+
+      if (Math.abs(pX - x) && Math.abs(pY - y)) {
         lineLength = parseFloat((lineLength + 1.41421).toFixed(5));
       }
       else {
@@ -26,8 +30,6 @@ const DrawLine = ({ linePath, color, className: pathClassName = "", ...props }: 
 
     return `${i === 0 ? "M" : "L"} ${x * 5 + 2.5} ${y * 5 + 2.5}`;
   }).join(" ");
-
-  console.log(`length-${lineLength}`);
 
   return (
     <path

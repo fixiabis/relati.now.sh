@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Board from "../Board";
-import generateSceneSteps, { SceneStep } from "./generateSceneSteps";
+import { generateSceneSteps, SceneStep } from "./utils";
 
 export type Scene = {
   step: number,

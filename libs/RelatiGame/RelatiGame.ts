@@ -1,6 +1,6 @@
 import { GridBoard, Grid } from "gridboard";
 import { RelatiPiece } from "./types";
-import { isGridPlaceable, disableAllPiecesWithoutPrimarySymbol, activePiecesBySourceGrid } from "./utils";
+import { isGridPlaceable, disableAllPieces, activePiecesBySourceGrid } from "./utils";
 
 const SYMBOLS = "OXDUA".split("") as RelatiPiece["symbol"][];
 
@@ -54,7 +54,7 @@ class RelatiGame {
             return;
         }
 
-        disableAllPiecesWithoutPrimarySymbol(this.board);
+        disableAllPieces(this.board);
 
         for (let symbol in this.symbolToSourceGrid) {
             let sourceGrid = this.symbolToSourceGrid[symbol];

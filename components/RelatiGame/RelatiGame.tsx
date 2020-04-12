@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Game from "../../libs/RelatiGame";
 import MessageBox from "../MessageBox";
 import RelatiBoard from "../RelatiBoard";
-import { useForceUpdate } from "../../libs/hook";
+import { useForceUpdate } from "../../utils/hook";
 
 export type Scene = {
   game: Game,
@@ -28,7 +28,7 @@ const RelatiGame = () => {
         <div className="versus" />
         <div className="player-x" />
       </div>
-      <RelatiBoard game={game} onGridClick={onGridClick} />
+      <RelatiBoard visualEffect game={game} onGridClick={onGridClick} />
       <MessageBox show={game.symbolOfWinner !== "?"} onClick={restartGame}>
         {
           game.symbolOfWinner !== "N"
