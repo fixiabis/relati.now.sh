@@ -4,6 +4,8 @@
     & {
         width: 100vw;
         height: 100vh;
+        max-width: -webkit-fill-available;
+        max-height: -webkit-fill-available;
     }
 
     & {

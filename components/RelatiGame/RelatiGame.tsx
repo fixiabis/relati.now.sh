@@ -24,9 +24,9 @@ const RelatiGame = () => {
   return (
     <>
       <div className="versus-header">
-        <div className="player-o"></div>
-        <div className="versus"></div>
-        <div className="player-x"></div>
+        <div className="player-o" />
+        <div className="versus" />
+        <div className="player-x" />
       </div>
       <RelatiBoard game={game} onGridClick={onGridClick} />
       <MessageBox show={game.symbolOfWinner !== null} onClick={restartGame}>

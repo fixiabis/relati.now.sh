@@ -1,5 +1,4 @@
 import React from "react";
-
 import "./button-group.scss";
 
 export type Props = {
@@ -7,10 +6,9 @@ export type Props = {
 	[otherPropName: string]: any,
 };
 
-const ButtonGroup = ({ className = "", ...props }: Props) => {
-	return (
-		<div {...props} className={`button-group${className && ` ${className}`}`} />
-	);
+const ButtonGroup = ({ className: buttonGroupClassName = "", ...props }: Props) => {
+	buttonGroupClassName = buttonGroupClassName && ` ${buttonGroupClassName}`;
+	return <div {...props} className={`button-group${buttonGroupClassName}`} />;
 };
 
 export default ButtonGroup;

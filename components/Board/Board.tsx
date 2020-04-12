@@ -1,5 +1,4 @@
-import React, { useRef, useEffect, ReactNode, RefObject } from "react";
-
+import React, { useRef, useEffect, ReactNode } from "react";
 import "./board.scss";
 
 export type Props = {
@@ -7,12 +6,13 @@ export type Props = {
   height: number,
   className?: string,
   children?: ReactNode,
-  ref?: RefObject<HTMLDivElement>,
   onGridClick?: ({ x, y }: { x: number, y: number }) => void,
   [otherPropName: string]: any,
 };
 
-const Board = ({ width, height, children, className = "", onGridClick, ...props }: Props) => {
+const Board = ({ width, height, className: boardClassName = "", children, onGridClick, ...props }: Props) => {
+  boardClassName = boardClassName && ` ${boardClassName}`;
+
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
@@ -59,8 +59,8 @@ const Board = ({ width, height, children, className = "", onGridClick, ...props 
   });
 
   return (
-    <div {...props} ref={boardContainer} className={`board-container${className && ` ${className}`}`}>
-      <div ref={board} className="board" style={boardStyle} onClick={onBoardClick}>
+    <div ref={boardContainer} className="board-container">
+      <div {...props} ref={board} className={`board${boardClassName}`} style={boardStyle} onClick={onBoardClick}>
         <svg width={viewWidth} height={viewHeight}>
           {children}
           <g className="grid-lines" stroke="#888" strokeWidth="0.4">

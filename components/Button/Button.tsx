@@ -1,17 +1,15 @@
 import React from "react";
-
-import "./button.scss";
 import ButtonGroup from "./ButtonGroup";
+import "./button.scss";
 
 export type Props = {
   className?: string,
   [otherPropName: string]: any,
 };
 
-const Button = ({ className = "", ...props }: Props) => {
-  return (
-    <div {...props} className={`button${className && ` ${className}`}`} />
-  );
+const Button = ({ className: buttonClassName = "", ...props }: Props) => {
+  buttonClassName = buttonClassName && ` ${buttonClassName}`;
+  return <div {...props} className={`button${buttonClassName}`} />;
 };
 
 Button.Group = ButtonGroup;
