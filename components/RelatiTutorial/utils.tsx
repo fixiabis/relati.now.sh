@@ -31,7 +31,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     placePiece(RelatiSymbol)({ x: 7, y: 4, symbol: "X", primary: true });
   }, 1000);
 
-  let groupedCoordinatesList = [
+  const groupedCoordinatesList = [
     [
       [[4, 3]],
       [[4, 5]],
@@ -160,10 +160,8 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     };
   }
 
-  yield () => void setTimeout(() => setScene({
-    step: step + 1,
-    pieces,
-    hints: groupedCoordinatesList.reduce((hints, groupedCoordinates) => {
+  yield () => void setTimeout(() => {
+    hints = groupedCoordinatesList.reduce((hints, groupedCoordinates) => {
       for (let coordinates of groupedCoordinates) {
         const [x, y] = coordinates[coordinates.length - 1];
         const i = y * 9 + x;
@@ -171,22 +169,11 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
       }
 
       return hints;
-    }, [] as JSX.Element[]),
-    effectLines: [],
-    description: "這些是一個符號可以放置的範圍"
-  }), 500);
-
-  yield () => ({ x, y }) => {
-    if (x !== 6 || y !== 6) {
-      description = "放在這邊試試看吧?";
-      placePiece(Piece.Focus)({ x: 6, y: 6, color: "crimson" });
-    }
-    else {
-      step++;
-      hints = [];
-      placePiece(RelatiSymbol)({ x, y, symbol: "O" });
-    }
-  };
+    }, [] as JSX.Element[]);
+    effectLines = [];
+    description = "這些是一個符號可以放置的範圍，放在這邊試試看吧?";
+    placePiece(Piece.Focus)({ x: 6, y: 6, color: "crimson" });
+  }, 500);
 
   yield () => ({ x, y }) => {
     if (x === 6 && y === 6) {
@@ -202,10 +189,8 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     effectLines: [
       <DrawLine key={1} linePath={[[4, 4], [5, 5], [6, 6]]} color="crimson" />
     ],
-    description: "成功連線了，中間必須要是空格才能這樣放呢"
+    description: "成功連線了，路徑中間要是空格才能這樣放呢"
   });
-
-  return;
 
   yield () => void setTimeout(() => {
     description = "啊，中間的空格沒了";
@@ -229,7 +214,6 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     hints,
     effectLines: [
       <DrawLine key={1} linePath={[[4, 4], [5, 5], [6, 6]]} color="crimson" />,
-      <DrawLine key={2} linePath={[[7, 4], [6, 4], [5, 4], [5, 5]]} color="royalblue" />,
       <DrawLine key={3} linePath={[[7, 4], [7, 5], [6, 5], [5, 5]]} color="royalblue" />
     ],
     description: "是擴張範圍的連線(內勾側四方)"
@@ -241,8 +225,6 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     hints,
     effectLines: [
       <DrawLine key={1} linePath={[[4, 4], [5, 5], [6, 6]]} color="crimson" />,
-      <DrawLine key={2} linePath={[[7, 4], [6, 4], [5, 4], [5, 5]]} color="royalblue" />,
-      <DrawLine key={3} linePath={[[7, 4], [7, 5], [6, 5], [5, 5]]} color="royalblue" />,
       <DrawLine key={4} linePath={[[7, 4], [6, 4], [6, 5], [5, 5]]} color="royalblue" />
     ],
     description: "是擴張範圍的連線(蛇行側四方)"
@@ -253,10 +235,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     pieces,
     hints,
     effectLines: [
-      <DrawLine key={1} linePath={[[4, 4], [5, 5], [6, 6]]} color="#888" />,
-      <DrawLine key={2} linePath={[[7, 4], [6, 4], [5, 4], [5, 5]]} color="royalblue" />,
-      <DrawLine key={3} linePath={[[7, 4], [7, 5], [6, 5], [5, 5]]} color="royalblue" />,
-      <DrawLine key={4} linePath={[[7, 4], [6, 4], [6, 5], [5, 5]]} color="royalblue" />
+      <DrawLine key={1} linePath={[[4, 4], [5, 5], [6, 6]]} color="#888" />
     ],
     description: "連線斷掉了啊"
   }), 1000);
