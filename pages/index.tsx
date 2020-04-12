@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 
-import "../styles/index.scss";
 import { State } from "../reducers";
 import { Page, Button, IconButton } from "../components";
 import { mainPageAnimationDisable } from "../actions";
