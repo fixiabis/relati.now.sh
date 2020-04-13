@@ -8,8 +8,8 @@ export type Props = {
 };
 
 const Button = ({ className: buttonClassName = "", ...props }: Props) => {
-  buttonClassName = buttonClassName && ` ${buttonClassName}`;
-  return <div {...props} className={`button${buttonClassName}`} />;
+  buttonClassName = `button${buttonClassName && ` ${buttonClassName}`}`;
+  return <div {...props} className={buttonClassName} />;
 };
 
 Button.Group = ButtonGroup;

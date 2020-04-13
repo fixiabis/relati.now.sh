@@ -18,9 +18,7 @@ const RelatiBoard = ({ game, visually = false, children, ...props }: Props) => {
   const symbol = game.getNowPlayerSymbol();
   const color = SymbolColor[symbol];
 
-  const pieces = board.grids.map(({ x, y, piece }, i) => (
-    piece && <RelatiPiece key={i} x={x} y={y} {...piece} />
-  ));
+  let pieces: JSX.Element | (JSX.Element | undefined)[];
 
   const hints = board.grids.map((grid, i) => {
     const { x, y } = grid;
@@ -30,10 +28,19 @@ const RelatiBoard = ({ game, visually = false, children, ...props }: Props) => {
     }
   });
 
+  if (visually) {
+    pieces = <RelatiVisualEffect game={game} />;
+  }
+  else {
+    pieces = board.grids.map(({ x, y, piece }, i) => (
+      piece && <RelatiPiece key={i} x={x} y={y} {...piece} />
+    ));
+  }
+
   return (
     <Board {...props} width={board.width} height={board.height}>
       {hints}
-      {visually ? <RelatiVisualEffect game={game} /> : pieces}
+      {pieces}
     </Board>
   );
 };

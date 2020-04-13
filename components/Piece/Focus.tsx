@@ -10,14 +10,21 @@ export type Props = {
   emphasis?: boolean,
 };
 
-const Focus = ({ x, y, color, emphasis = true }: Props) => (
-  <path
-    d={`M ${x * 5} ${y * 5} ${PiecePath.Focus}`}
-    fill="none"
-    stroke={color}
-    strokeWidth="0.4px"
-    style={{ transformOrigin: `${x * 5}px ${y * 5}px` }}
-    className={emphasis ? "piece-emphasis" : undefined} />
-);
+const Focus = ({ x, y, color: pathColor, emphasis = true }: Props) => {
+  const pathDefinition = `M ${x * 5} ${y * 5} ${PiecePath.Focus}`;
+  const pathPosition = `${x * 5}px ${y * 5}px`;
+  const pathStyle = { transformOrigin: pathPosition };
+  const pathClassName = emphasis ? "piece-emphasis" : undefined;
+
+  return (
+    <path
+      d={pathDefinition}
+      fill="none"
+      stroke={pathColor}
+      strokeWidth="0.4px"
+      className={pathClassName}
+      style={pathStyle} />
+  );
+};
 
 export default Focus;

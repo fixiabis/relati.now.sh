@@ -8,11 +8,9 @@ export type Props = {
   opacity?: number,
 };
 
-const Hint = ({ x, y, color, opacity = 1 }: Props) => (
-  <path
-    d={`M ${x * 5} ${y * 5} ${PiecePath.Hint}`}
-    opacity={opacity}
-    fill={color} />
-);
+const Hint = ({ x, y, color, opacity: pathOpacity = 1 }: Props) => {
+  const pathDefinition = `M ${x * 5} ${y * 5} ${PiecePath.Hint}`;
+  return <path d={pathDefinition} opacity={pathOpacity} fill={color} />;
+};
 
 export default Hint;

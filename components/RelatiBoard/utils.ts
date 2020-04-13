@@ -6,8 +6,9 @@ export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
 
     for (let route of RelatiRoutes) {
         const [targetGrid, ...middleGrids] = route.map(direction => grid.getGridTo(direction));
+        const isSomeMiddleGridsHasPiece = middleGrids.some(grid => grid?.piece);
 
-        if (!targetGrid?.piece?.disabled || middleGrids.some(grid => grid?.piece)) {
+        if (!targetGrid?.piece?.disabled || isSomeMiddleGridsHasPiece) {
             continue;
         }
 

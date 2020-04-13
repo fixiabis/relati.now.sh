@@ -11,31 +11,36 @@ export type Props = {
 };
 
 const DrawLine = ({ linePath, color, className: pathClassName = "", ...props }: Props) => {
-  pathClassName = pathClassName && ` ${pathClassName}`;
-
-  let lineLength = 0;
-
-  const pathDefinition = linePath.map(([x, y], i) => {
+  const [lineLength, pathDefinition] = linePath.reduce(([lineLength, pathDefinition], [x, y], i) => {
     if (i !== 0) {
-      const previousLinePath = linePath[i - 1];
-      const [pX, pY] = previousLinePath;
+      const [previousLinePathX, previousLinePathY] = linePath[i - 1];
+      const deltaX = Math.abs(previousLinePathX - x);
+      const deltaY = Math.abs(previousLinePathY - y);
+      const isSlashLine = deltaX > 0 && deltaY > 0;
 
-      if (Math.abs(pX - x) && Math.abs(pY - y)) {
+      if (isSlashLine) {
         lineLength = parseFloat((lineLength + 1.41421).toFixed(5));
       }
       else {
         lineLength++;
       }
+
+      pathDefinition += `L ${x * 5 + 2.5} ${y * 5 + 2.5}`;
+    }
+    else {
+      pathDefinition += `M ${x * 5 + 2.5} ${y * 5 + 2.5}`;
     }
 
-    return `${i === 0 ? "M" : "L"} ${x * 5 + 2.5} ${y * 5 + 2.5}`;
-  }).join(" ");
+    return [lineLength, pathDefinition];
+  }, [0, ""]);
+
+  pathClassName = `draw-line length-${lineLength}${pathClassName && ` ${pathClassName}`}`;
 
   return (
     <path
       {...props}
       d={pathDefinition}
-      className={`draw-line length-${lineLength}${pathClassName}`}
+      className={pathClassName}
       fill="none"
       stroke={color}
       strokeWidth="0.6" />

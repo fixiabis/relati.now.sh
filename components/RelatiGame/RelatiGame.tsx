@@ -8,7 +8,7 @@ import IconButton from "../IconButton";
 import "./relati-game.scss";
 
 export type Props = {
-  onClose?: () => void,
+  onOver?: () => void,
 };
 
 export type Scene = {
@@ -18,7 +18,7 @@ export type Scene = {
   effectLines: JSX.Element[],
 };
 
-const RelatiGame = ({ onClose }: Props) => {
+const RelatiGame = ({ onOver }: Props) => {
   const forceUpdate = useForceUpdate();
   const [game, setGame] = useState<Game>(new Game(2));
   const restartGame = () => setGame(new Game(2));
@@ -30,11 +30,6 @@ const RelatiGame = ({ onClose }: Props) => {
 
   return (
     <div id="relati-game">
-      <div className="versus-header">
-        <div className="player-o" />
-        <div className="versus" />
-        <div className="player-x" />
-      </div>
       <RelatiBoard visually game={game} onGridClick={onGridClick} />
       <MessageBox show={game.symbolOfWinner !== "?"}>
         <div style={{ textAlign: "center" }}>
@@ -46,7 +41,7 @@ const RelatiGame = ({ onClose }: Props) => {
         </div>
         <Button.Group>
           <IconButton type="retry" color="crimson" onClick={restartGame} />
-          <IconButton type="reject" color="royalblue" onClick={onClose} />
+          <IconButton type="reject" color="royalblue" onClick={onOver} />
         </Button.Group>
       </MessageBox>
     </div>

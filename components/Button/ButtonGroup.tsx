@@ -7,8 +7,8 @@ export type Props = {
 };
 
 const ButtonGroup = ({ className: buttonGroupClassName = "", ...props }: Props) => {
-	buttonGroupClassName = buttonGroupClassName && ` ${buttonGroupClassName}`;
-	return <div {...props} className={`button-group${buttonGroupClassName}`} />;
+	buttonGroupClassName = `button-group${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
+	return <div {...props} className={buttonGroupClassName} />;
 };
 
 export default ButtonGroup;

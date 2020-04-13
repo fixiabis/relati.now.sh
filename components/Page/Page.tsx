@@ -11,10 +11,10 @@ export type Props = {
 };
 
 const Page = ({ title, children, className: pageClassName = "", ...props }: Props) => {
-  pageClassName = pageClassName && ` ${pageClassName}`;
+  pageClassName = `page${pageClassName && ` ${pageClassName}`}`;
 
   return (
-    <div {...props} className={`page${pageClassName}`}>
+    <div {...props} className={pageClassName}>
       <Head>
         <title>{title}</title>
       </Head>

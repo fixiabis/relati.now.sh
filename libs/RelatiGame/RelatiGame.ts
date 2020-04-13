@@ -1,6 +1,6 @@
 import { GridBoard, Grid } from "gridboard";
 import { RelatiPiece } from "./types";
-import { isGridPlaceable, disableAllPieces, activePiecesBySourceGrid } from "./utils";
+import { isGridPlaceableBySymbol, disableAllPieces, activePiecesBySourceGrid } from "./utils";
 
 const SYMBOLS = "OXDUA".split("") as RelatiPiece["symbol"][];
 
@@ -47,7 +47,7 @@ class RelatiGame {
 
             this.symbolToSourceGrid[symbol] = grid;
         }
-        else if (isGridPlaceable(grid, symbol)) {
+        else if (isGridPlaceableBySymbol(grid, symbol)) {
             grid.piece = {
                 symbol,
                 primary: false,
@@ -72,7 +72,7 @@ class RelatiGame {
 
             for (let i = 0; i < this.playersCount; i++) {
                 let symbol = this.getNowPlayerSymbol();
-                let hasPlaceableGrid = this.board.grids.some(grid => isGridPlaceable(grid, symbol));
+                let hasPlaceableGrid = this.board.grids.some(grid => isGridPlaceableBySymbol(grid, symbol));
 
                 if (hasPlaceableGrid) {
                     playerPlaceable = true;

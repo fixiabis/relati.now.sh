@@ -2,7 +2,7 @@ import RelatiRoutes from "./RelatiRoutes";
 import { Grid, GridBoard } from "gridboard";
 import { RelatiPiece } from "./types";
 
-export function isGridPlaceable(grid: Grid<RelatiPiece>, symbol: RelatiPiece["symbol"]) {
+export function isGridPlaceableBySymbol(grid: Grid<RelatiPiece>, symbol: RelatiPiece["symbol"]) {
     if (grid.piece) {
         return false;
     }

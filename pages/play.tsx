@@ -8,7 +8,12 @@ const Play = () => {
 
   return (
     <Page id="play" title="Play">
-      <RelatiGame onClose={() => router.push("/")} />
+      <div className="versus-header">
+        <div className="player-o" />
+        <div className="versus" />
+        <div className="player-x" />
+      </div>
+      <RelatiGame onOver={() => router.push("/")} />
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={() => router.push("/")} />
       </Button.Group>

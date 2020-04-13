@@ -8,13 +8,14 @@ export type Props = {
   [otherPropName: string]: any,
 };
 
-const MessageBox = ({ className: messageBoxClassName = "", show = true, ...props }: Props) => {
-  messageBoxClassName = messageBoxClassName && ` ${messageBoxClassName}`;
-  const messageBoxContainerStyle = { display: show ? "block" : "none" };
+const MessageBox = ({ className: messageBoxClassName = "", show: isMessageBoxShow = true, ...props }: Props) => {
+  messageBoxClassName = `message-box${messageBoxClassName && ` ${messageBoxClassName}`}`;
+  const messageBoxContainerDisplay = isMessageBoxShow ? "block" : "none";
+  const messageBoxContainerStyle = { display: messageBoxContainerDisplay };
 
   return (
     <div className="message-box-container" style={messageBoxContainerStyle}>
-      <div {...props} className={`message-box${messageBoxClassName}`} />
+      <div {...props} className={messageBoxClassName} />
     </div>
   );
 };

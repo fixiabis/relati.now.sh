@@ -24,12 +24,9 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
     }
 
     const { offsetWidth, offsetHeight } = boardContainer.current;
-
-    const scale = Math.min(
-      offsetWidth / viewWidth,
-      offsetHeight / viewHeight
-    ) * 0.95;
-
+    const widthRatio = offsetWidth / viewWidth;
+    const heightRatio = offsetHeight / viewHeight;
+    const scale = Math.min(widthRatio, heightRatio) * 0.95;
     board.current.style.transform = `scale(${scale})`;
   };
 
@@ -37,7 +34,10 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
     const { offsetX, offsetY } = e.nativeEvent;
     const x = Math.floor(offsetX / 5);
     const y = Math.floor(offsetY / 5);
-    if (onGridClick) onGridClick({ x, y });
+
+    if (onGridClick) {
+      onGridClick({ x, y });
+    }
   };
 
   const boardStyle = {
@@ -46,13 +46,15 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
   };
 
   for (let x = 1; x < height; x++) {
+    const key = `x-${x}`;
     const d = `M 0 ${x * 5} H ${viewWidth}`;
-    gridLines.push(<path key={`x-${x}`} d={d} />);
+    gridLines.push(<path key={key} d={d} />);
   }
 
   for (let y = 1; y < width; y++) {
+    const key = `y-${y}`;
     const d = `M ${y * 5} 0 V ${viewHeight}`;
-    gridLines.push(<path key={`y-${y}`} d={d} />);
+    gridLines.push(<path key={key} d={d} />);
   }
 
   useEffect(() => {
