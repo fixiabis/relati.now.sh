@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import Board from "../Board";
-import RelatiGame, { isGridPlaceable } from "../../libs/RelatiGame";
+import RelatiGame, { isGridPlaceableBySymbol } from "../../libs/RelatiGame";
 import RelatiPiece, { SymbolColor } from "../RelatiPiece";
 import * as Piece from "../Piece";
 import "./utils";
@@ -23,7 +23,7 @@ const RelatiBoard = ({ game, visually = false, children, ...props }: Props) => {
   const hints = board.grids.map((grid, i) => {
     const { x, y } = grid;
 
-    if (!grid.piece && isGridPlaceable(grid, symbol)) {
+    if (!grid.piece && isGridPlaceableBySymbol(grid, symbol)) {
       return <Piece.Hint key={i} x={x} y={y} color={color} />
     }
   });
