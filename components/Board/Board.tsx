@@ -16,7 +16,11 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
   const viewHeight = height * 5;
   const board = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
   const boardContainer = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
-  boardClassName = `board${boardClassName && ` ${boardClassName}`}`;
+
+  const boardStyle = {
+    width: viewWidth,
+    height: viewHeight
+  };
 
   const scaleBoardByMeasurement = () => {
     if (!board.current || !boardContainer.current) {
@@ -40,10 +44,7 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
     }
   };
 
-  const boardStyle = {
-    width: viewWidth,
-    height: viewHeight
-  };
+  boardClassName = `board${boardClassName && ` ${boardClassName}`}`;
 
   for (let x = 1; x < height; x++) {
     const key = `x-${x}`;
@@ -68,9 +69,7 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
       <div {...props} ref={board} className={boardClassName} style={boardStyle} onClick={onBoardClick}>
         <svg width={viewWidth} height={viewHeight}>
           {children}
-          <g className="grid-lines" stroke="#888" strokeWidth="0.4">
-            {gridLines}
-          </g>
+          <g className="grid-lines" stroke="#888" strokeWidth="0.4">{gridLines}</g>
         </svg>
       </div>
     </div>

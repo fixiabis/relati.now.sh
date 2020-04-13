@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./index.scss";
-import { PiecePath } from "./utils";
+import { PieceRoute } from "./utils";
 
 export type Props = {
   x: number,
@@ -11,7 +11,7 @@ export type Props = {
 };
 
 const Focus = ({ x, y, color: pathColor, emphasis = true }: Props) => {
-  const pathDefinition = `M ${x * 5} ${y * 5} ${PiecePath.Focus}`;
+  const pathDefinition = `M ${x * 5} ${y * 5} ${PieceRoute.Focus}`;
   const pathPosition = `${x * 5}px ${y * 5}px`;
   const pathStyle = { transformOrigin: pathPosition };
   const pathClassName = emphasis ? "piece-emphasis" : undefined;
