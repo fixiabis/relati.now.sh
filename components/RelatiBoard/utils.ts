@@ -1,10 +1,10 @@
 import { Grid, Coordinate } from "gridboard";
-import { RelatiPiece, RelatiRoutes } from "../../libs/RelatiGame";
+import { RelatiPiece, RELATI_ROUTES } from "../../libs/RelatiGame";
 
 export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
     const sourcePaths = [];
 
-    for (let route of RelatiRoutes) {
+    for (let route of RELATI_ROUTES) {
         const [targetGrid, ...middleGrids] = route.map(direction => grid.getGridTo(direction));
         const isSomeMiddleGridsHasPiece = middleGrids.some(grid => grid?.piece);
 
