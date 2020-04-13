@@ -11,15 +11,18 @@ export type Props = {
 };
 
 const Board = ({ width, height, className: boardClassName = "", children, onGridClick, ...props }: Props) => {
-  boardClassName = boardClassName && ` ${boardClassName}`;
-
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
-  const board = useRef<HTMLDivElement>();
-  const boardContainer = useRef<HTMLDivElement>();
+  const board = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
+  const boardContainer = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
+  boardClassName = `board${boardClassName && ` ${boardClassName}`}`;
 
   const scaleBoardByMeasurement = () => {
+    if (!board.current || !boardContainer.current) {
+      return;
+    }
+
     const { offsetWidth, offsetHeight } = boardContainer.current;
 
     const scale = Math.min(
@@ -60,7 +63,7 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
 
   return (
     <div ref={boardContainer} className="board-container">
-      <div {...props} ref={board} className={`board${boardClassName}`} style={boardStyle} onClick={onBoardClick}>
+      <div {...props} ref={board} className={boardClassName} style={boardStyle} onClick={onBoardClick}>
         <svg width={viewWidth} height={viewHeight}>
           {children}
           <g className="grid-lines" stroke="#888" strokeWidth="0.4">

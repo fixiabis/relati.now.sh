@@ -1,6 +1,6 @@
 import * as Piece from "../Piece";
 import DrawLine from "../DrawLine";
-import { AnyProps } from "../../types";
+import { AnyProps, CoordinateObject } from "../../types";
 import { Scene } from "./RelatiTutorial";
 import RelatiSymbol from "../RelatiPiece";
 
@@ -11,7 +11,7 @@ type SceneStepGenerator = Generator<SceneStep>;
 export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStepGenerator {
   let { step, pieces, hints, effectLines, description } = scene;
 
-  const placePiece = (Component: (props: AnyProps) => JSX.Element) => (props: AnyProps) => {
+  const placePiece = <Props extends AnyProps>(Component: (props: Props) => JSX.Element) => (props: Props) => {
     const i = props.y * 9 + props.x;
     const piece = <Component key={i} {...props} />;
     step++;
@@ -21,7 +21,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
 
   yield () => placePiece(Piece.Focus)({ x: 4, y: 4, color: "crimson" });
 
-  yield () => ({ x, y }) => {
+  yield () => ({ x, y }: CoordinateObject) => {
     if (x === 4 && y === 4) {
       placePiece(RelatiSymbol)({ x, y, symbol: "O", primary: true });
     }
@@ -145,7 +145,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
       description: description + ", 隨便點一個點確定你有看懂吧"
     });
 
-    yield () => ({ x, y }) => {
+    yield () => ({ x, y }: CoordinateObject) => {
       const i = y * 9 + x;
 
       if (hints[i]) {
@@ -175,7 +175,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     placePiece(Piece.Focus)({ x: 6, y: 6, color: "crimson" });
   }, 500);
 
-  yield () => ({ x, y }) => {
+  yield () => ({ x, y }: CoordinateObject) => {
     if (x === 6 && y === 6) {
       hints = [];
       placePiece(RelatiSymbol)({ x, y, symbol: "O" });
@@ -261,7 +261,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     placePiece(RelatiSymbol)({ x: 6, y: 6, symbol: "O", disabled: true });
   }, 2000);
 
-  yield () => ({ x, y }) => {
+  yield () => ({ x, y }: CoordinateObject) => {
     const i = y * 9 + x;
     if (![41, 42, 51, 49, 58, 59].includes(i)) {
       setScene({

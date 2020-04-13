@@ -34,6 +34,10 @@ class RelatiGame {
     public placeSymbolToCoordinate(x: number, y: number, symbol = this.getNowPlayerSymbol()) {
         const grid = this.board.getGridAt(x, y);
 
+        if (!grid) {
+            return;
+        }
+
         if (this.turn < this.playersCount && !grid.piece) {
             grid.piece = {
                 symbol,

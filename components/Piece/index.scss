@@ -1,5 +1,5 @@
 .piece-emphasis {
-    animation: piece-emphasis 1s infinite;
+    animation: piece-emphasis 1s infinite linear;
 }
 
 @keyframes piece-emphasis {

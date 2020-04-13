@@ -35,7 +35,7 @@ const RelatiVisualEffect = ({ game }: Props) => {
 
     disableAllPieces(clonedBoard, symbol);
 
-    if (sourceGrid) {
+    if (sourceGrid?.piece) {
       sourceGrid.piece.disabled = false;
     }
 
@@ -45,7 +45,7 @@ const RelatiVisualEffect = ({ game }: Props) => {
   }
 
   useEffect(() => {
-    let linePaths = [];
+    let linePaths = [] as Coordinate[][];
 
     const sourceGrids = clonedBoard.grids.filter(({ piece }) =>
       piece && piece.symbol === symbol && !piece.disabled
@@ -77,7 +77,7 @@ const RelatiVisualEffect = ({ game }: Props) => {
     effectLinePaths.forEach(effectLinePath => {
       const grid = clonedBoard.getGridAt(effectLinePath[effectLinePath.length - 1]);
 
-      if (grid.piece.disabled) {
+      if (grid?.piece?.disabled) {
         grid.piece.disabled = false;
         hasSourceGrid = true;
       }

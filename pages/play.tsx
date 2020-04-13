@@ -8,7 +8,7 @@ const Play = () => {
 
   return (
     <Page id="play" title="Play">
-      <RelatiGame />
+      <RelatiGame onClose={() => router.push("/")} />
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={() => router.push("/")} />
       </Button.Group>

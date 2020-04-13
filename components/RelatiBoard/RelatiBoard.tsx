@@ -8,12 +8,12 @@ import RelatiVisualEffect from "./RelatiVisualEffect";
 
 export type Props = {
   game: RelatiGame,
-  visualEffect?: boolean,
+  visually?: boolean,
   children?: ReactNode,
   [otherPropName: string]: any,
 };
 
-const RelatiBoard = ({ game, visualEffect: visualEffect, children, ...props }: Props) => {
+const RelatiBoard = ({ game, visually = false, children, ...props }: Props) => {
   const { board } = game;
   const symbol = game.getNowPlayerSymbol();
   const color = SymbolColor[symbol];
@@ -33,7 +33,7 @@ const RelatiBoard = ({ game, visualEffect: visualEffect, children, ...props }: P
   return (
     <Board {...props} width={board.width} height={board.height}>
       {hints}
-      {visualEffect ? <RelatiVisualEffect game={game} /> : pieces}
+      {visually ? <RelatiVisualEffect game={game} /> : pieces}
     </Board>
   );
 };

@@ -10,7 +10,7 @@ export function isGridPlaceable(grid: Grid<RelatiPiece>, symbol: RelatiPiece["sy
     for (let route of RelatiRoutes) {
         const [sourceGrid, ...middleGrids] = route.map(direction => grid.getGridTo(direction));
 
-        if (!sourceGrid?.piece || sourceGrid.piece.disabled || middleGrids.some(grid => grid.piece)) {
+        if (!sourceGrid?.piece || sourceGrid.piece.disabled || middleGrids.some(grid => grid?.piece)) {
             continue;
         }
 
@@ -40,7 +40,7 @@ export function activePiecesBySourceGrid(grid: Grid<RelatiPiece>) {
     for (let route of RelatiRoutes) {
         const [targetGrid, ...middleGrids] = route.map(direction => grid.getGridTo(direction));
 
-        if (!targetGrid?.piece?.disabled || middleGrids.some(grid => grid.piece)) {
+        if (!targetGrid?.piece?.disabled || middleGrids.some(grid => grid?.piece)) {
             continue;
         }
 

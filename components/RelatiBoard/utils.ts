@@ -7,7 +7,7 @@ export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
     for (let route of RelatiRoutes) {
         const [targetGrid, ...middleGrids] = route.map(direction => grid.getGridTo(direction));
 
-        if (!targetGrid?.piece?.disabled || middleGrids.some(grid => grid.piece)) {
+        if (!targetGrid?.piece?.disabled || middleGrids.some(grid => grid?.piece)) {
             continue;
         }
 
@@ -16,7 +16,7 @@ export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
             ...route.map<Coordinate>(([x, y]) => [grid.x + x, grid.y + y]).reverse()
         ] as Coordinate[];
 
-        if (targetGrid.piece.symbol === grid.piece.symbol) {
+        if (targetGrid.piece.symbol === grid?.piece?.symbol) {
             sourcePaths.push(sourcePath);
         }
     }
