@@ -35,7 +35,7 @@ const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, chil
 
   const onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (externalOnClick?.(event) === false) {
-      return;
+      return event.preventDefault();
     }
 
     const { offsetX, offsetY } = event.nativeEvent;

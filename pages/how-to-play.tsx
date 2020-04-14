@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-
 import { Page, Button, IconButton, RelatiTutorial } from "../components";
 
 const HowToPlay = () => {

@@ -2,19 +2,19 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import App, { AppContext } from 'next/app';
 import withRedux, { ReduxWrapperAppProps } from 'next-redux-wrapper';
-
 import { State } from '../reducers';
 import { makeStore } from '../containers/store';
-
 import "../styles/index.scss";
 import "../styles/play.scss";
 import "../styles/how-to-play.scss";
 
 class RelatiApp extends App<ReduxWrapperAppProps<State>> {
   public static async getInitialProps({ Component, ctx }: AppContext) {
+    const initialProps = await Component.getInitialProps?.(ctx) || {};
+
     return {
       pageProps: {
-        ...(await Component.getInitialProps?.(ctx) || {}),
+        ...initialProps,
         pathname: ctx.pathname,
       }
     };
