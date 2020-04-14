@@ -1,16 +1,13 @@
-import React, { useRef, useEffect, ReactNode } from "react";
+import React, { useRef, useEffect } from "react";
 import "./board.scss";
 
-export type Props = {
-  width: number,
-  height: number,
-  className?: string,
-  children?: ReactNode,
-  ref?: React.MutableRefObject<HTMLDivElement>,
-  onGridClick?: ({ x, y }: { x: number, y: number }) => void,
-  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean,
-  [otherPropName: string]: any,
-};
+export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  width: number;
+  height: number;
+  ref?: React.MutableRefObject<HTMLDivElement>;
+  onGridClick?: ({ x, y }: { x: number, y: number }) => void;
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean;
+}
 
 const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, children, className = "", onGridClick, ...props }: Props) => {
   const gridLines = [];
@@ -36,12 +33,12 @@ const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, chil
     ref.current.style.transform = `scale(${scale})`;
   };
 
-  const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (externalOnClick?.(e) === false) {
+  const onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (externalOnClick?.(event) === false) {
       return;
     }
 
-    const { offsetX, offsetY } = e.nativeEvent;
+    const { offsetX, offsetY } = event.nativeEvent;
     const x = Math.floor(offsetX / 5);
     const y = Math.floor(offsetY / 5);
 

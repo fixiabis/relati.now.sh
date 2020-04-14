@@ -1,14 +1,10 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import Head from "next/head";
-
 import "./page.scss";
 
-export type Props = {
-  title: string,
-  className?: string,
-  children: ReactNode,
-  [otherPropName: string]: any,
-};
+export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  title: string;
+}
 
 const Page = ({ title, children, className = "", ...props }: Props) => {
   className = `page${className && ` ${className}`}`;

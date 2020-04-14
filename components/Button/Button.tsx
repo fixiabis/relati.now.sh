@@ -2,10 +2,8 @@ import React from "react";
 import ButtonGroup from "./ButtonGroup";
 import "./button.scss";
 
-export type Props = {
-  className?: string,
-  [otherPropName: string]: any,
-};
+export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+}
 
 const Button = ({ className = "", ...props }: Props) => {
   className = `button${className && ` ${className}`}`;

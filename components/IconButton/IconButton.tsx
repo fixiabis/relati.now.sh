@@ -1,12 +1,10 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import Button from "../Button";
 
-export type Props = {
-    type: string,
-    color: string,
-    style?: CSSProperties,
-    [otherPropName: string]: any,
-};
+export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    type: string;
+    color: string;
+}
 
 const IconButton = ({ type, color, style, ...props }: Props) => {
     const imageUrl = `/icons/${type}.svg`;

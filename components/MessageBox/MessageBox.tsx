@@ -2,11 +2,9 @@ import React from "react";
 
 import "./message-box.scss";
 
-export type Props = {
-  className?: string,
+export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   show?: boolean;
-  [otherPropName: string]: any,
-};
+}
 
 const MessageBox = ({ className = "", show = true, ...props }: Props) => {
   const containerDisplay = show ? "block" : "none";

@@ -1,16 +1,13 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import { PieceRoute } from "./utils";
 import "./index.scss";
 
-export type Props = {
-  x: number,
-  y: number,
-  color: string,
-  style?: CSSProperties,
-  className?: string,
-  emphasized?: boolean,
-  [otherPropName: string]: any,
-};
+export interface Props extends React.SVGProps<SVGPathElement> {
+  x: number;
+  y: number;
+  color: string;
+  emphasized?: boolean;
+}
 
 const Focus = ({ x, y, color, className, emphasized = true, style, ...props }: Props) => {
   const definition = `M ${x * 5} ${y * 5} ${PieceRoute.Focus}`;
