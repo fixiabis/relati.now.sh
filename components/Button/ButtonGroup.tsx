@@ -6,9 +6,9 @@ export type Props = {
 	[otherPropName: string]: any,
 };
 
-const ButtonGroup = ({ className: buttonGroupClassName = "", ...props }: Props) => {
-	buttonGroupClassName = `button-group${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
-	return <div {...props} className={buttonGroupClassName} />;
+const ButtonGroup = ({ className = "", ...props }: Props) => {
+	className = `button-group${className && ` ${className}`}`;
+	return <div className={className} {...props} />;
 };
 
 export default ButtonGroup;

@@ -6,35 +6,41 @@ export type Props = {
   height: number,
   className?: string,
   children?: ReactNode,
+  ref?: React.MutableRefObject<HTMLDivElement>,
   onGridClick?: ({ x, y }: { x: number, y: number }) => void,
+  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean,
   [otherPropName: string]: any,
 };
 
-const Board = ({ width, height, className: boardClassName = "", children, onGridClick, ...props }: Props) => {
+const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, children, className = "", onGridClick, ...props }: Props) => {
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
-  const board = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
-  const boardContainer = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
+  const ref = externalRef || useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
+  const containerRef = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
 
-  const boardStyle = {
+  const style = {
     width: viewWidth,
     height: viewHeight
   };
 
-  const scaleBoardByMeasurement = () => {
-    if (!board.current || !boardContainer.current) {
+  const scaleByMeasurement = () => {
+    if (!ref.current || !containerRef.current) {
       return;
     }
 
-    const { offsetWidth, offsetHeight } = boardContainer.current;
+    const { offsetWidth, offsetHeight } = containerRef.current;
     const widthRatio = offsetWidth / viewWidth;
     const heightRatio = offsetHeight / viewHeight;
     const scale = Math.min(widthRatio, heightRatio) * 0.95;
-    board.current.style.transform = `scale(${scale})`;
+    ref.current.style.transform = `scale(${scale})`;
   };
 
-  const onBoardClick = (e: React.MouseEvent) => {
+  const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (externalOnClick?.(e) === false) {
+      return;
+    }
+
     const { offsetX, offsetY } = e.nativeEvent;
     const x = Math.floor(offsetX / 5);
     const y = Math.floor(offsetY / 5);
@@ -44,7 +50,7 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
     }
   };
 
-  boardClassName = `board${boardClassName && ` ${boardClassName}`}`;
+  className = `board${className && ` ${className}`}`;
 
   for (let x = 1; x < height; x++) {
     const key = `x-${x}`;
@@ -59,14 +65,14 @@ const Board = ({ width, height, className: boardClassName = "", children, onGrid
   }
 
   useEffect(() => {
-    scaleBoardByMeasurement();
-    window.addEventListener("resize", scaleBoardByMeasurement);
-    return () => window.removeEventListener("resize", scaleBoardByMeasurement);
+    scaleByMeasurement();
+    window.addEventListener("resize", scaleByMeasurement);
+    return () => window.removeEventListener("resize", scaleByMeasurement);
   });
 
   return (
-    <div ref={boardContainer} className="board-container">
-      <div {...props} ref={board} className={boardClassName} style={boardStyle} onClick={onBoardClick}>
+    <div ref={containerRef} className="board-container">
+      <div ref={ref} className={className} style={style} onClick={onClick} {...props}>
         <svg width={viewWidth} height={viewHeight}>
           {children}
           <g className="grid-lines" stroke="#888" strokeWidth="0.4">{gridLines}</g>
