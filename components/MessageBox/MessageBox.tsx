@@ -1,5 +1,4 @@
 import React from "react";
-
 import "./message-box.scss";
 
 export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
