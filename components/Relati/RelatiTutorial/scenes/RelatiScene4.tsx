@@ -52,7 +52,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
         <g>{drawLines}</g>
         <g>{hints}</g>
         <RelatiPiece x={4} y={4} symbol="O" primary />
-        <RelatiPiece x={7} y={4} symbol="X" primary />
+        <RelatiPiece x={7} y={3} symbol="X" primary />
       </Board>
     </>
   );

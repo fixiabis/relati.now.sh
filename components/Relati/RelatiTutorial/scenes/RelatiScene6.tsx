@@ -27,14 +27,19 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
         setDescription("這裡好像不行?");
       }
       else {
-        setDescription("成功了, 恭喜你!");
+        if (x === 6 && y === 4) {
+          setDescription("成功了, 厲害!甚至切斷別人的連線!")
+        }
+        else {
+          setDescription("成功了, 恭喜你!");
+        }
       }
     }
   };
 
   if (game.turn === 0) {
     game.placeSymbolByCoordinate(4, 4);
-    game.placeSymbolByCoordinate(7, 4);
+    game.placeSymbolByCoordinate(7, 3);
     game.placeSymbolByCoordinate(6, 6);
   }
 
