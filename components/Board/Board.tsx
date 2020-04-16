@@ -18,7 +18,7 @@ const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, chil
 
   const style = {
     width: viewWidth,
-    height: viewHeight
+    height: viewHeight,
   };
 
   const scaleByMeasurement = () => {

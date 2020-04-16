@@ -1,2 +1,3 @@
 export * from "./utils";
-export * from "./RelatiPiece";
+export { default } from "./RelatiPiece";
+export type { Props as RelatiPieceProps } from "./RelatiPiece";
