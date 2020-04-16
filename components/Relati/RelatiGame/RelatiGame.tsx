@@ -5,7 +5,6 @@ import { RelatiBoard } from "..";
 import { useForceUpdate } from "../../../utils/hook";
 import Button from "../../Button";
 import IconButton from "../../IconButton";
-import "./relati-game.scss";
 
 export type Props = {
   onLeave?: () => void,
