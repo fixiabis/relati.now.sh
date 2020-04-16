@@ -30,7 +30,7 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
   };
 
   return (
-    <div id="relati-game">
+    <>
       <RelatiBoard
         hasTransition
         board={game.board}
@@ -51,7 +51,7 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
           <IconButton type="reject" color="royalblue" onClick={onLeave} />
         </Button.Group>
       </MessageBox>
-    </div>
+    </>
   );
 };
 
