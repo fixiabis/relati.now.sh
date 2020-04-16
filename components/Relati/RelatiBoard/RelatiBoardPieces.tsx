@@ -1,7 +1,7 @@
 import { RelatiBoard, RelatiSymbol, disableAllPiecesByBoard, RelatiPiece as RelatiPieceType } from "../../../libs/Relati";
 import RelatiPiece, { SymbolColor } from "../RelatiPiece";
 import { useState } from "react";
-import { Coordinate } from "gridboard";
+import { Coordinate, GridBoard } from "gridboard";
 import DrawLine from "../../DrawLine";
 import { getTargetPathsBySourceGrid, cloneBoard } from "./utils";
 
@@ -22,7 +22,7 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, symbol }: Prop
     return <>{pieces}</>;
   }
 
-  const [board, setBoard] = useState(cloneBoard(externalBoard));
+  const [board, setBoard] = useState(new GridBoard<RelatiPieceType>(externalBoard.width, externalBoard.height));
   const [drawLinePaths, setDrawLinePaths] = useState([] as Coordinate[][]);
 
   const isBoardPiecesCountNotEqual = externalBoard.grids.some(

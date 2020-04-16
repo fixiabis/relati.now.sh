@@ -7,4 +7,4 @@ export { default as Button } from "./Button";
 export { default as IconButton } from "./IconButton";
 export { default as MessageBox } from "./MessageBox";
 export * from "./Relati";
-export { default as RelatiTutorial } from "./RelatiTutorial";
+// export { default as RelatiTutorial } from "./RelatiTutorial";
