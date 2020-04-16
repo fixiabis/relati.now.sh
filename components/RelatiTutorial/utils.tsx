@@ -1,8 +1,8 @@
-import * as Piece from "../Piece";
+import { Hint, Focus } from "../Piece";
 import DrawLine from "../DrawLine";
 import { AnyProps, CoordinateObject } from "../../types";
 import { Scene } from "./RelatiTutorial";
-import RelatiSymbol from "../RelatiPiece";
+import { RelatiPiece } from "../Relati";
 
 export type SceneStep = () => (((coordinate?: { x: number, y: number }) => void) | any);
 type SetScene = React.Dispatch<React.SetStateAction<Scene>>;
@@ -19,16 +19,16 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
     setScene({ pieces: pieces, step, effectLines, hints, description });
   };
 
-  yield () => placePiece(Piece.Focus)({ x: 4, y: 4, color: "crimson" });
+  yield () => placePiece(Focus)({ x: 4, y: 4, color: "crimson" });
 
   yield () => ({ x, y }: CoordinateObject) => {
     if (x === 4 && y === 4) {
-      placePiece(RelatiSymbol)({ x, y, symbol: "O", primary: true });
+      placePiece(RelatiPiece)({ x, y, symbol: "O", primary: true });
     }
   };
 
   yield () => void setTimeout(() => {
-    placePiece(RelatiSymbol)({ x: 7, y: 4, symbol: "X", primary: true });
+    placePiece(RelatiPiece)({ x: 7, y: 4, symbol: "X", primary: true });
   }, 1000);
 
   const groupedCoordinatesList = [
@@ -125,7 +125,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
       for (let coordinates of groupedCoordinates) {
         const [x, y] = coordinates[coordinates.length - 1];
         const i = y * 9 + x;
-        hints[i] = <Piece.Hint key={i} x={x} y={y} color="crimson" />;
+        hints[i] = <Hint key={i} x={x} y={y} color="crimson" />;
       }
 
       setScene({
@@ -165,20 +165,20 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
       for (let coordinates of groupedCoordinates) {
         const [x, y] = coordinates[coordinates.length - 1];
         const i = y * 9 + x;
-        hints[i] = <Piece.Hint key={i} x={x} y={y} color="crimson" />;
+        hints[i] = <Hint key={i} x={x} y={y} color="crimson" />;
       }
 
       return hints;
     }, [] as JSX.Element[]);
     effectLines = [];
     description = "這些是一個符號可以放置的範圍，放在這邊試試看吧?";
-    placePiece(Piece.Focus)({ x: 6, y: 6, color: "crimson" });
+    placePiece(Focus)({ x: 6, y: 6, color: "crimson" });
   }, 500);
 
   yield () => ({ x, y }: CoordinateObject) => {
     if (x === 6 && y === 6) {
       hints = [];
-      placePiece(RelatiSymbol)({ x, y, symbol: "O" });
+      placePiece(RelatiPiece)({ x, y, symbol: "O" });
     }
   };
 
@@ -194,7 +194,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
 
   yield () => void setTimeout(() => {
     description = "啊，中間的空格沒了";
-    placePiece(RelatiSymbol)({ x: 5, y: 5, symbol: "X" })
+    placePiece(RelatiPiece)({ x: 5, y: 5, symbol: "X" })
   }, 1000);
 
   yield () => void setTimeout(() => setScene({
@@ -250,7 +250,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
           continue;
         }
 
-        hints[i] = <Piece.Hint key={i} x={x} y={y} color="crimson" />;
+        hints[i] = <Hint key={i} x={x} y={y} color="crimson" />;
       }
 
       return hints;
@@ -258,7 +258,7 @@ export function* generateSceneSteps(scene: Scene, setScene: SetScene): SceneStep
 
     effectLines = [];
     description = "連線斷掉了啊，得想想辦法接回來才行";
-    placePiece(RelatiSymbol)({ x: 6, y: 6, symbol: "O", disabled: true });
+    placePiece(RelatiPiece)({ x: 6, y: 6, symbol: "O", disabled: true });
   }, 2000);
 
   yield () => ({ x, y }: CoordinateObject) => {

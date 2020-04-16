@@ -1,38 +1,37 @@
 import React, { useState } from "react";
-import Game from "../../libs/RelatiGame";
-import MessageBox from "../MessageBox";
-import * as Relati from "../Relati";
-import { useForceUpdate } from "../../utils/hook";
-import Button from "../Button";
-import IconButton from "../IconButton";
+import Game, { RelatiSymbol } from "../../../libs/Relati";
+import MessageBox from "../../MessageBox";
+import { RelatiBoard } from "..";
+import { useForceUpdate } from "../../../utils/hook";
+import Button from "../../Button";
+import IconButton from "../../IconButton";
 import "./relati-game.scss";
 
 export type Props = {
-  onOver?: () => void,
+  onLeave?: () => void,
+  onOver?: (symbol: RelatiSymbol | "N") => void,
 };
 
-export type Scene = {
-  game: Game,
-  pieces: JSX.Element[],
-  hints: JSX.Element[],
-  effectLines: JSX.Element[],
-};
-
-const RelatiGame = ({ onOver }: Props) => {
+const RelatiGame = ({ onLeave, onOver }: Props) => {
   const forceUpdate = useForceUpdate();
   const [game, setGame] = useState<Game>(new Game(2));
-  const restartGame = () => setGame(new Game(2));
+
+  const restartGame = () => {
+    onOver?.(game.symbolOfWinner as RelatiSymbol | "N");
+    setGame(new Game(2));
+  };
+
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
   const onGridClick = ({ x, y }: { x: number, y: number }) => {
-    game.placeSymbolToCoordinate(x, y);
+    game.placeSymbolByCoordinate(x, y);
     forceUpdate();
   };
 
   return (
     <div id="relati-game">
-      <Relati.Board
+      <RelatiBoard
         hasTransition
         board={game.board}
         onGridClick={onGridClick}
@@ -49,7 +48,7 @@ const RelatiGame = ({ onOver }: Props) => {
         </div>
         <Button.Group>
           <IconButton type="retry" color="crimson" onClick={restartGame} />
-          <IconButton type="reject" color="royalblue" onClick={onOver} />
+          <IconButton type="reject" color="royalblue" onClick={onLeave} />
         </Button.Group>
       </MessageBox>
     </div>

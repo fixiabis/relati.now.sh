@@ -1,6 +1,6 @@
 import React from "react";
 import { SymbolColor, SymbolRoute } from "./utils";
-import { RelatiPiece as Piece } from "../../../libs/RelatiGame";
+import { RelatiPiece as Piece } from "../../../libs/Relati";
 
 export interface Props extends React.SVGProps<SVGPathElement> {
   x: number;

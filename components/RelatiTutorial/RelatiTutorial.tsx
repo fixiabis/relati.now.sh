@@ -17,7 +17,7 @@ const RelatiTutorial = () => {
     pieces: [] as JSX.Element[],
     hints: [] as JSX.Element[],
     effectLines: [] as JSX.Element[],
-    description: "點擊中央的框框"
+    description: "點擊中央的框框",
   });
 
   let { step, pieces, hints, effectLines, description } = scene;

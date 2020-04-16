@@ -1,5 +1,5 @@
 import { RelatiBoard, RelatiSymbol, disableAllPiecesByBoard, RelatiPiece as RelatiPieceType } from "../../../libs/Relati";
-import RelatiPiece, { SymbolColor } from "../../RelatiPiece";
+import RelatiPiece, { SymbolColor } from "../RelatiPiece";
 import { useState } from "react";
 import { Coordinate } from "gridboard";
 import DrawLine from "../../DrawLine";

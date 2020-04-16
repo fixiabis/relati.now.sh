@@ -1,7 +1,6 @@
 import { GridBoard } from "gridboard";
 import { RelatiPiece, RelatiSymbol, RelatiGrid } from "./types";
-import { RELATI_SYMBOLS, isGridHasAvailableRelatiRouteBySymbol, activePiecesByGrid } from "./utils";
-import { disableAllPieces } from "../RelatiGame";
+import { RELATI_SYMBOLS, isGridHasAvailableRelatiRouteBySymbol, activePiecesByGrid, disableAllPiecesByBoard } from "./utils";
 
 class RelatiGame {
     public turn: number;
@@ -10,11 +9,11 @@ class RelatiGame {
     public symbolOfWinner: "?" | "N" | RelatiSymbol;
     public symbolToSourceGrid: Record<RelatiSymbol, RelatiGrid | undefined>;
 
-    constructor(playersCount: number) {
+    constructor(playersCount: number, boardWidth: number = 9, boardHeight: number = 9) {
         this.turn = 0;
         this.symbolOfWinner = "?";
         this.playersCount = playersCount;
-        this.board = new GridBoard<RelatiPiece>(9, 9);
+        this.board = new GridBoard<RelatiPiece>(boardWidth, boardHeight);
         this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
     }
 
@@ -53,7 +52,7 @@ class RelatiGame {
             return;
         }
 
-        disableAllPieces(this.board);
+        disableAllPiecesByBoard(this.board);
 
         for (let symbol of RELATI_SYMBOLS) {
             const sourceGrid = this.symbolToSourceGrid[symbol];
