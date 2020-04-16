@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
 import RelatiGame from "../../../../libs/Relati";
-import { useForceUpdate } from "../../../../utils/hook";
 
-const RelatiScene6 = ({ nextStep }: Props) => {
-  const forceUpdate = useForceUpdate();
+const RelatiScene6 = ({ nextStep, ...props }: Props) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了!");
   const [game] = useState(new RelatiGame(2));
   const blockedGrid = game.board.getGridAt(6, 6);
@@ -62,7 +60,8 @@ const RelatiScene6 = ({ nextStep }: Props) => {
         board={game.board}
         onGridClick={onGridClick}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
-        symbolOfPreviousPlayer={symbolOfPreviousPlayer} />
+        symbolOfPreviousPlayer={symbolOfPreviousPlayer}
+        {...props} />
     </>
   );
 };

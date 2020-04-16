@@ -6,7 +6,7 @@ import DrawLine from "../../../DrawLine";
 import RelatiPiece from "../../RelatiPiece";
 import { SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 
-const RelatiScene4 = ({ nextStep }: Props) => {
+const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   const [placeStep, setPlaceStep] = useState(0);
   const nextPlaceStep = () => setPlaceStep(placeStep + 1);
   let drawLines: JSX.Element[] = [];
@@ -42,13 +42,13 @@ const RelatiScene4 = ({ nextStep }: Props) => {
       <DrawLine key={placeStep * 4 + i} linePath={[[4, 4], ...coordinates as [number, number][]]} color="crimson" />
     );
 
-    setTimeout(nextPlaceStep, 1000);
+    setTimeout(nextPlaceStep, 500);
   }
 
   return (
     <>
       <div className="description">這是會用到的連線方式, 隨便點一個點吧!</div>
-      <Board width={9} height={9} onGridClick={onGridClick}>
+      <Board id="relati-tutorial" width={9} height={9} onGridClick={onGridClick} {...props}>
         <g>{drawLines}</g>
         <g>{hints}</g>
         <RelatiPiece x={4} y={4} symbol="O" primary />

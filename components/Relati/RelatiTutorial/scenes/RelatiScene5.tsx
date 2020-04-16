@@ -4,7 +4,7 @@ import Board from "../../../Board";
 import { Hint, Focus } from "../../../Piece";
 import RelatiPiece from "../../RelatiPiece";
 
-const RelatiScene5 = ({ nextStep }: Props) => {
+const RelatiScene5 = ({ nextStep, ...props }: Props) => {
   const [focused, setFocused] = useState<JSX.Element>();
   const hints: JSX.Element[] = [];
 
@@ -31,7 +31,7 @@ const RelatiScene5 = ({ nextStep }: Props) => {
   return (
     <>
       <div className="description">{description}</div>
-      <Board width={9} height={9} onGridClick={onGridClick}>
+      <Board width={9} height={9} onGridClick={onGridClick} {...props}>
         <g>{hints}</g>
         {focused}
         <RelatiPiece x={4} y={4} symbol="O" primary />
