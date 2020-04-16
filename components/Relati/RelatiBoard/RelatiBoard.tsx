@@ -28,7 +28,7 @@ const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, has
     <RelatiBoardPieces
       board={board}
       hasTransition={hasTransition}
-      symbolOfPreviousPlayer={symbolOfPreviousPlayer} />
+      symbol={symbolOfPreviousPlayer} />
   );
 
   return (

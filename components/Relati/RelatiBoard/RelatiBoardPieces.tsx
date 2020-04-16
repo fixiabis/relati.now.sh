@@ -1,117 +1,127 @@
-import { RelatiBoard, RelatiSymbol, RelatiPiece as RelatiPieceType, disableAllPiecesByBoard } from "../../../libs/Relati";
+import { RelatiBoard, RelatiSymbol, disableAllPiecesByBoard, RelatiPiece as RelatiPieceType } from "../../../libs/Relati";
 import RelatiPiece, { SymbolColor } from "../../RelatiPiece";
-import { useState, useEffect } from "react";
-import { useForceUpdate } from "../../../utils/hook";
-import { Coordinate, GridBoard } from "gridboard";
+import { useState } from "react";
+import { Coordinate } from "gridboard";
 import DrawLine from "../../DrawLine";
-import { getTargetPathsBySourceGrid } from "./utils";
+import { getTargetPathsBySourceGrid, cloneBoard } from "./utils";
 
 export interface Props {
   board: RelatiBoard;
   hasTransition?: boolean;
-  symbolOfPreviousPlayer?: RelatiSymbol;
+  symbol: RelatiSymbol;
 }
 
-const RelatiBoardPieces = ({ board, hasTransition, symbolOfPreviousPlayer }: Props) => {
-  console.log("render");
-  const forceUpdate = useForceUpdate();
-  const [symbol, setSymbol] = useState<RelatiSymbol | "?">("?");
-  const [effectLinePaths, setEffectLinePaths] = useState([] as Coordinate[][]);
-  const [[clonedBoard]] = useState([new GridBoard<RelatiPieceType>(board.width, board.height)]);
-  const color = symbol === "?" ? "#888" : SymbolColor[symbol];
+const RelatiBoardPieces = ({ board: externalBoard, hasTransition, symbol }: Props) => {
+  hasTransition = hasTransition && externalBoard.grids.filter(({ piece }) => piece).length > 1;
 
-  if (!symbolOfPreviousPlayer || !hasTransition) {
-    const pieces = board.grids.map(({ x, y, piece }, i) =>
+  if (!hasTransition) {
+    const pieces = externalBoard.grids.map(({ x, y, piece }, i) =>
       piece && <RelatiPiece key={i} x={x} y={y} {...piece} />
     );
 
-    return (
-      <>{pieces}</>
-    );
+    return <>{pieces}</>;
   }
 
-  if (symbol !== symbolOfPreviousPlayer) {
-    const sourceGrid = clonedBoard.grids.find(grid =>
-      grid.piece?.primary && grid.piece?.symbol === symbolOfPreviousPlayer
+  const [board, setBoard] = useState(cloneBoard(externalBoard));
+  const [drawLinePaths, setDrawLinePaths] = useState([] as Coordinate[][]);
+
+  const isBoardPiecesCountNotEqual = externalBoard.grids.some(
+    (grid, i) => typeof grid.piece !== typeof board.grids[i].piece
+  );
+
+  if (isBoardPiecesCountNotEqual) {
+    const clonedBoard = cloneBoard(externalBoard);
+    disableAllPiecesByBoard(clonedBoard, symbol);
+    setBoard(clonedBoard);
+    return <></>;
+  }
+
+  let linePaths = [] as Coordinate[][];
+
+  drawLinePaths.forEach(drawLinePath => {
+    const grid = board.getGridAt(drawLinePath[drawLinePath.length - 1]);
+
+    if (grid?.piece?.disabled) {
+      grid.piece.disabled = false;
+    }
+  });
+
+  const sourceGrids = board.grids.filter(({ piece }) =>
+    piece && piece.symbol === symbol && !piece.disabled
+  );
+
+  if (sourceGrids.length === 0) {
+    const sourceGrid = board.grids.find(grid =>
+      grid.piece?.primary && grid.piece?.symbol === symbol
     );
-
-    clonedBoard.grids.forEach((grid, i) => {
-      const { piece } = board.grids[i];
-
-      if (piece) {
-        grid.piece = { ...piece };
-      }
-      else {
-        delete grid.piece;
-      }
-    });
-
-    disableAllPiecesByBoard(clonedBoard, symbolOfPreviousPlayer);
 
     if (sourceGrid?.piece) {
       sourceGrid.piece.disabled = false;
     }
 
-    effectLinePaths.splice(0, effectLinePaths.length);
-    setSymbol(symbolOfPreviousPlayer);
-    return <></>;
-  }
-
-  useEffect(() => {
-    let linePaths = [] as Coordinate[][];
-
-    const sourceGrids = clonedBoard.grids.filter(({ piece }) =>
-      piece && piece.symbol === symbol && !piece.disabled
-    );
-
-    sourceGrids.forEach(sourceGrid =>
-      linePaths = [...linePaths, ...getTargetPathsBySourceGrid(sourceGrid)]
-    );
-
-    linePaths = linePaths.filter((path, i) => !effectLinePaths.find(effectLinePath => {
-      const [pathX, pathY] = path[path.length - 1];
-      const [effectPathX, effectPathY] = effectLinePath[effectLinePath.length - 1];
-      return pathX === effectPathX && pathY === effectPathY;
-    }) && !linePaths.find((linePaths, j) => {
-      const [pathX, pathY] = path[path.length - 1];
-      const [otherPathX, otherPathY] = linePaths[linePaths.length - 1];
-      return pathX === otherPathX && pathY === otherPathY && j < i;
-    }));
-
-    setTimeout(() => symbol === symbolOfPreviousPlayer && linePaths.length && setEffectLinePaths([
-      ...effectLinePaths,
-      ...linePaths,
-    ]), 100);
-  });
-
-  useEffect(() => {
-    let hasSourceGrid = false;
-
-    effectLinePaths.forEach(effectLinePath => {
-      const grid = clonedBoard.getGridAt(effectLinePath[effectLinePath.length - 1]);
-
-      if (grid?.piece?.disabled) {
-        grid.piece.disabled = false;
-        hasSourceGrid = true;
+    board.grids.forEach((grid, i) => {
+      if (grid.piece && grid.piece.symbol !== symbol) {
+        if (externalBoard.grids[i].piece) {
+          grid.piece.disabled = (externalBoard.grids[i].piece as RelatiPieceType).disabled;
+        }
       }
     });
 
-    if (hasSourceGrid) {
-      setTimeout(forceUpdate, 100);
-    }
+    setDrawLinePaths(linePaths);
+    return <></>;
+  }
+
+  sourceGrids.forEach(sourceGrid => linePaths = [
+    ...linePaths,
+    ...getTargetPathsBySourceGrid(sourceGrid)
+  ]);
+
+  linePaths = linePaths.filter((path, i) => {
+    const [x, y] = path[path.length - 1];
+
+    return (
+      !drawLinePaths.find(drawLinePath => {
+        const [drawPathX, drawPathY] = drawLinePath[drawLinePath.length - 1];
+        return x === drawPathX && y === drawPathY;
+      }) &&
+      !linePaths.find((linePaths, j) => {
+        const [otherPathX, otherPathY] = linePaths[linePaths.length - 1];
+        return x === otherPathX && y === otherPathY && j < i;
+      })
+    );
   });
 
-  const pieces = clonedBoard.grids.map(({ x, y, piece }, i) => (
+  const hasNewSourceGrid = linePaths.some(linePath => {
+    const grid = board.getGridAt(linePath[linePath.length - 1]);
+    return grid?.piece?.disabled;
+  });
+
+  setTimeout(() => {
+    const isBoardPiecesCountEqual = externalBoard.grids.every(
+      (grid, i) => typeof grid.piece === typeof board.grids[i].piece
+    );
+
+    if (hasNewSourceGrid && isBoardPiecesCountEqual) {
+      setDrawLinePaths([
+        ...drawLinePaths,
+        ...linePaths,
+      ]);
+    }
+  }, 100);
+
+  const color = SymbolColor[symbol];
+
+  const pieces = board.grids.map(({ x, y, piece }, i) => (
     piece && <RelatiPiece key={i} x={x} y={y} {...piece} />
   ));
 
-  const effectLines = effectLinePaths.map((linePath, i) => (
+  const drawLines = drawLinePaths.map((linePath, i) => (
     <DrawLine key={i} linePath={linePath} color={color} />
   ));
 
   return (
     <>
-      {effectLines}
+      {drawLines}
       {pieces}
     </>
   );

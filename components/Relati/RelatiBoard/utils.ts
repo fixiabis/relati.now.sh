@@ -1,5 +1,5 @@
-import { Grid, Coordinate } from "gridboard";
-import { RelatiPiece, RELATI_ROUTES } from "../../../libs/Relati";
+import { Grid, Coordinate, GridBoard } from "gridboard";
+import { RelatiPiece, RELATI_ROUTES, RelatiBoard } from "../../../libs/Relati";
 
 export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
     const sourcePaths = [];
@@ -24,3 +24,15 @@ export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
 
     return sourcePaths;
 }
+
+export const cloneBoard = (board: RelatiBoard) => {
+    const clonedBoard = new GridBoard<RelatiPiece>(board.width, board.height);
+
+    board.grids.forEach((grid, i) => {
+        if (grid.piece) {
+            clonedBoard.grids[i].piece = { ...grid.piece };
+        }
+    });
+
+    return clonedBoard;
+};

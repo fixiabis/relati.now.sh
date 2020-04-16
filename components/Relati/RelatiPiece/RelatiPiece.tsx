@@ -23,9 +23,7 @@ const RelatiPiece = ({ x, y, symbol, primary, disabled, ...props }: Props) => {
     );
   }
   else {
-    return (
-      <path d={definition} fill="none" stroke={color} strokeWidth="0.6" {...props} />
-    );
+    return <path d={definition} fill="none" stroke={color} strokeWidth="0.6" {...props} />;
   }
 };
 

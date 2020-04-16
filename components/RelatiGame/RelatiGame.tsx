@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Game from "../../libs/RelatiGame";
 import MessageBox from "../MessageBox";
 import * as Relati from "../Relati";
-import RelatiBoard from "../RelatiBoard";
 import { useForceUpdate } from "../../utils/hook";
 import Button from "../Button";
 import IconButton from "../IconButton";
@@ -33,14 +32,12 @@ const RelatiGame = ({ onOver }: Props) => {
 
   return (
     <div id="relati-game">
-      {<RelatiBoard visually game={game} onGridClick={onGridClick} />}
-
-      {/* <Relati.Board
+      <Relati.Board
         hasTransition
         board={game.board}
         onGridClick={onGridClick}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
-        symbolOfPreviousPlayer={symbolOfPreviousPlayer} /> */}
+        symbolOfPreviousPlayer={symbolOfPreviousPlayer} />
 
       <MessageBox show={game.symbolOfWinner !== "?"}>
         <div style={{ textAlign: "center" }}>
