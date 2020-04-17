@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import RELATI_SCENES from "./scenes";
-import "./relati-tutorial.scss";
 
 const RelatiTutorial = () => {
   const [step, setStep] = useState(0);

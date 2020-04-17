@@ -8,16 +8,20 @@
     animation-fill-mode: forwards;
 }
 
+.draw-line-slowly {
+    animation-duration: 0.5s;
+}
+
 @for $line-length from 1 to 9 {
     $slash-line-length: $line-length * 1.41421;
     $slash-line-length-escaped-query: str-replace($slash-line-length, ".", "\\.");
 
-    .draw-line.length-#{$line-length} {
+    .draw-line.draw-line-length-#{$line-length} {
         stroke-dasharray: #{5 * $line-length};
         stroke-dashoffset: #{5 * $line-length};
     }
 
-    .draw-line.length-#{$slash-line-length-escaped-query} {
+    .draw-line.draw-line-length-#{$slash-line-length-escaped-query} {
         stroke-dasharray: #{5 * $slash-line-length};
         stroke-dashoffset: #{5 * $slash-line-length};
     }
@@ -25,7 +29,8 @@
 
 // IE not support draw-line effect
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .draw-line {
+    .draw-line,
+    .draw-line-slowly {
         stroke-dasharray: 0 !important;
         stroke-dashoffset: 0 !important;
     }

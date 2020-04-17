@@ -6,11 +6,12 @@ import { Coordinate } from "gridboard";
 const RIGHT_TRIANGLE_HYPOTENUSE_LENGTH = 1.41421;
 
 export interface Props extends React.SVGProps<SVGPathElement> {
+  slowly?: boolean;
   linePath: Coordinate[];
   color: string;
 }
 
-const DrawLine = ({ linePath, color, className = "", ...props }: Props) => {
+const DrawLine = ({ slowly, linePath, color, className = "", ...props }: Props) => {
   const [lineLength, pathDefinition] = linePath.reduce(([lineLength, pathDefinition], [x, y], i) => {
     if (i !== 0) {
       const [iX, iY] = linePath[i - 1];
@@ -50,7 +51,7 @@ const DrawLine = ({ linePath, color, className = "", ...props }: Props) => {
     return [lineLength, pathDefinition];
   }, [0, ""]);
 
-  className = `draw-line length-${lineLength}${className && ` ${className}`}`;
+  className = `draw-line${slowly ? " draw-line-slowly" : ""} draw-line-length-${lineLength}${className && ` ${className}`}`;
 
   return (
     <path

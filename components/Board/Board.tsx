@@ -5,7 +5,6 @@ import { CoordinateObject } from "../../types";
 export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   width: number;
   height: number;
-  ref?: React.MutableRefObject<HTMLDivElement>;
   onGridClick?: ({ x, y }: CoordinateObject) => void;
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean;
 }
@@ -14,8 +13,11 @@ const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, chil
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
-  const ref = externalRef || useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
   const containerRef = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
+
+  const ref = typeof externalRef !== "object"
+    ? useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>
+    : externalRef;
 
   const style = {
     width: viewWidth,
@@ -23,7 +25,7 @@ const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, chil
   };
 
   const scaleByMeasurement = () => {
-    if (!ref.current || !containerRef.current) {
+    if (!ref || !ref.current || !containerRef.current) {
       return;
     }
 
@@ -32,6 +34,10 @@ const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, chil
     const heightRatio = offsetHeight / viewHeight;
     const scale = Math.min(widthRatio, heightRatio) * 0.95;
     ref.current.style.transform = `scale(${scale})`;
+
+    if (typeof externalRef === "function") {
+      externalRef(ref.current);
+    }
   };
 
   const onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

@@ -40,7 +40,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   }
   else {
     drawLines = SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) =>
-      <DrawLine key={placeStep * 4 + i} linePath={[[4, 4], ...coordinates as [number, number][]]} color="crimson" />
+      <DrawLine key={placeStep * 4 + i} linePath={[[4, 4], ...coordinates as [number, number][]]} color="crimson" slowly />
     );
 
     setTimeout(nextPlaceStep, 500);
@@ -49,7 +49,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   return (
     <>
       <div className="description">這是會用到的連線方式, 隨便點一個點吧!</div>
-      <Board id="relati-tutorial" width={9} height={9} onGridClick={onGridClick} {...props}>
+      <Board width={9} height={9} onGridClick={onGridClick} {...props}>
         <g>{drawLines}</g>
         <g>{hints}</g>
         <RelatiPiece x={4} y={4} symbol="O" primary />
