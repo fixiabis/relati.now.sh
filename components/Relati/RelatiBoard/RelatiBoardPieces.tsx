@@ -4,20 +4,22 @@ import { useState } from "react";
 import { Coordinate, GridBoard } from "gridboard";
 import DrawLine from "../../DrawLine";
 import { getTargetPathsBySourceGrid, cloneBoard } from "./utils";
+import { CoordinateObject } from "../../../types";
 
 export interface Props {
   board: RelatiBoard;
   hasTransition?: boolean;
+  lastPieceCoordinate?: CoordinateObject;
   symbol: RelatiSymbol;
 }
 
-const RelatiBoardPieces = ({ board: externalBoard, hasTransition, symbol }: Props) => {
+const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoordinate, symbol }: Props) => {
   hasTransition = hasTransition && externalBoard.grids.filter(({ piece }) => piece).length > 1;
 
   if (!hasTransition) {
-    const pieces = externalBoard.grids.map(({ x, y, piece }, i) =>
+    const pieces = externalBoard.grids.map(({ x, y, piece }, i) => (
       piece && <RelatiPiece key={i} x={x} y={y} {...piece} />
-    );
+    ));
 
     return <>{pieces}</>;
   }
@@ -112,7 +114,13 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, symbol }: Prop
   const color = SymbolColor[symbol];
 
   const pieces = board.grids.map(({ x, y, piece }, i) => (
-    piece && <RelatiPiece key={i} x={x} y={y} {...piece} />
+    piece &&
+    <RelatiPiece
+      key={i}
+      x={x}
+      y={y}
+      emphasized={lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y}
+      {...piece} />
   ));
 
   const drawLines = drawLinePaths.map((linePath, i) => (

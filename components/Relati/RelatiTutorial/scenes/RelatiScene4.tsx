@@ -5,6 +5,7 @@ import { Hint } from "../../../Piece";
 import DrawLine from "../../../DrawLine";
 import RelatiPiece from "../../RelatiPiece";
 import { SAMPLE_RELATI_ROUTES_LIST } from "./utils";
+import { CoordinateObject } from "../../../../types";
 
 const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   const [placeStep, setPlaceStep] = useState(0);
@@ -12,7 +13,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   let drawLines: JSX.Element[] = [];
   let hints: JSX.Element[] = [];
 
-  const onGridClick = (coordinate: { x: number, y: number }) => {
+  const onGridClick = (coordinate: CoordinateObject) => {
     if (placeStep % 2 === 0) {
       return;
     }

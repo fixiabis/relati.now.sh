@@ -1,11 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import "./board.scss";
+import { CoordinateObject } from "../../types";
 
 export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   width: number;
   height: number;
   ref?: React.MutableRefObject<HTMLDivElement>;
-  onGridClick?: ({ x, y }: { x: number, y: number }) => void;
+  onGridClick?: ({ x, y }: CoordinateObject) => void;
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean;
 }
 

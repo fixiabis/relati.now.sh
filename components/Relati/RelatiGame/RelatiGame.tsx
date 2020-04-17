@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Game, { RelatiSymbol } from "../../../libs/Relati";
 import MessageBox from "../../MessageBox";
 import { RelatiBoard } from "..";
-import { useForceUpdate } from "../../../utils/hook";
 import Button from "../../Button";
 import IconButton from "../../IconButton";
+import { CoordinateObject } from "../../../types";
 
 export type Props = {
   onLeave?: () => void,
@@ -12,7 +12,7 @@ export type Props = {
 };
 
 const RelatiGame = ({ onLeave, onOver }: Props) => {
-  const forceUpdate = useForceUpdate();
+  const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const [game, setGame] = useState<Game>(new Game(2));
 
   const restartGame = () => {
@@ -23,9 +23,13 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
-  const onGridClick = ({ x, y }: { x: number, y: number }) => {
+  const onGridClick = ({ x, y }: CoordinateObject) => {
+    const grid = game.board.getGridAt(x, y);
     game.placeSymbolByCoordinate(x, y);
-    forceUpdate();
+
+    if (grid?.piece) {
+      setLastPieceCoordinate({ x, y });
+    }
   };
 
   return (
@@ -34,6 +38,7 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
         hasTransition
         board={game.board}
         onGridClick={onGridClick}
+        lastPieceCoordinate={lastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer} />
 

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
 import RelatiGame from "../../../../libs/Relati";
+import { CoordinateObject } from "../../../../types";
 
 const RelatiScene6 = ({ nextStep, ...props }: Props) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了!");
   const [game] = useState(new RelatiGame(2));
   const blockedGrid = game.board.getGridAt(6, 6);
 
-  const onGridClick = ({ x, y }: { x: number, y: number }) => {
+  const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() === "O") {
       const grid = game.board.getGridAt(x, y);
 

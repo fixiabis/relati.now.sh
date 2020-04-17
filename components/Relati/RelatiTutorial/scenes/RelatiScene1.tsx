@@ -2,9 +2,10 @@ import React from "react";
 import { Props } from "./types";
 import Board from "../../../Board";
 import { Focus } from "../../../Piece";
+import { CoordinateObject } from "../../../../types";
 
 const RelatiScene1 = ({ nextStep, ...props }: Props) => {
-  const onGridClick = ({ x, y }: { x: number, y: number }) => {
+  const onGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 4 && y === 4) {
       nextStep();
     }

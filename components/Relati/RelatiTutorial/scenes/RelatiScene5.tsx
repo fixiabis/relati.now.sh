@@ -3,6 +3,7 @@ import { Props } from "./types";
 import Board from "../../../Board";
 import { Hint, Focus } from "../../../Piece";
 import RelatiPiece from "../../RelatiPiece";
+import { CoordinateObject } from "../../../../types";
 
 const RelatiScene5 = ({ nextStep, ...props }: Props) => {
   const [focused, setFocused] = useState<JSX.Element>();
@@ -17,7 +18,7 @@ const RelatiScene5 = ({ nextStep, ...props }: Props) => {
     }
   }
 
-  const onGridClick = ({ x, y }: { x: number, y: number }) => {
+  const onGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 6 && y === 6) {
       nextStep();
     }
