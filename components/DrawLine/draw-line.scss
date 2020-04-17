@@ -8,10 +8,6 @@
     animation-fill-mode: forwards;
 }
 
-.draw-line-slowly {
-    animation-duration: 0.5s;
-}
-
 @for $line-length from 1 to 9 {
     $slash-line-length: $line-length * 1.41421;
     $slash-line-length-escaped-query: str-replace($slash-line-length, ".", "\\.");

@@ -6,6 +6,7 @@ import DrawLine from "../../../DrawLine";
 import RelatiPiece from "../../RelatiPiece";
 import { SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 import { CoordinateObject } from "../../../../types";
+import { Coordinate } from "gridboard";
 
 const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   const [placeStep, setPlaceStep] = useState(0);
@@ -39,11 +40,16 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
     });
   }
   else {
-    drawLines = SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) =>
-      <DrawLine key={placeStep * 4 + i} linePath={[[4, 4], ...coordinates as [number, number][]]} color="crimson" slowly />
-    );
+    const ms = 750;
+    const style = { animationDuration: `${ms}ms` };
 
-    setTimeout(nextPlaceStep, 500);
+    drawLines = SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) => {
+      const key = placeStep * 4 + i;
+      const linePath: Coordinate[] = [[4, 4], ...coordinates as [number, number][]];
+      return <DrawLine key={key} linePath={linePath} color="crimson" style={style} />
+    });
+
+    setTimeout(nextPlaceStep, ms);
   }
 
   return (
