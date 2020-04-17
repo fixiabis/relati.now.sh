@@ -11,6 +11,7 @@ class RelatiDocument extends Document {
       <Html>
         <Head>
           <link rel="stylesheet" href="/styles/common.css" />
+          <script src="/scripts/polyfill.js"></script>
         </Head>
         <body>
           <Main />
