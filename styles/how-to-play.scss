@@ -1,12 +1,20 @@
 #how-to-play {
     .description {
-        color: #888;
+        color: #222;
         height: 60px;
         line-height: 60px;
+        font-size: 26px;
+        font-weight: bold;
     }
 
     .board-container {
         width: 100vw;
         height: calc(100% - 120px);
+    }
+
+    @media screen and (max-width: 600px) {
+        .description {
+            font-size: 18px;
+        }
     }
 }

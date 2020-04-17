@@ -98,6 +98,8 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoord
     return grid?.piece?.disabled;
   });
 
+  const ms = 180;
+
   setTimeout(() => {
     const isBoardPiecesCountEqual = externalBoard.grids.every(
       (grid, i) => typeof grid.piece === typeof board.grids[i].piece
@@ -109,7 +111,7 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoord
         ...linePaths,
       ]);
     }
-  }, 100);
+  }, ms);
 
   const color = SymbolColor[symbol];
 
@@ -124,7 +126,7 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoord
   ));
 
   const drawLines = drawLinePaths.map((linePath, i) => (
-    <DrawLine key={i} linePath={linePath} color={color} />
+    <DrawLine key={i} linePath={linePath} color={color} style={{ animationDuration: `${ms}ms` }} />
   ));
 
   return (

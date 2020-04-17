@@ -11,6 +11,8 @@ export type Props = {
   onOver?: (symbol: RelatiSymbol | "N") => void,
 };
 
+// var boardContent = "_____________________________________________________________________xOo________X";
+
 const RelatiGame = ({ onLeave, onOver }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const [game, setGame] = useState<Game>(new Game(2));
@@ -19,6 +21,27 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
     onOver?.(game.symbolOfWinner as RelatiSymbol | "N");
     setGame(new Game(2));
   };
+
+  // game.board.grids.forEach((grid, i) => {
+  //   switch (boardContent[i]) {
+  //     case "_":
+  //       return;
+  //     case "O":
+  //       grid.piece = { symbol: "O", primary: true, disabled: false };
+  //       break;
+  //     case "X":
+  //       grid.piece = { symbol: "X", primary: true, disabled: false };
+  //       break;
+  //     case "o":
+  //       grid.piece = { symbol: "O", primary: false, disabled: false };
+  //       break;
+  //     case "x":
+  //       grid.piece = { symbol: "X", primary: false, disabled: false };
+  //       break;
+  //   }
+
+  //   game.turn++;
+  // });
 
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);

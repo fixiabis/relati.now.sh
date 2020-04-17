@@ -49,6 +49,13 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
       return <DrawLine key={key} linePath={linePath} color="crimson" style={style} />
     });
 
+    if (placeStep >= 8) {
+      hints = SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) => {
+        const [x, y] = coordinates[coordinates.length - 1];
+        return <Hint key={i} x={x} y={y} color="crimson" />;
+      });
+    }
+
     setTimeout(nextPlaceStep, ms);
   }
 
