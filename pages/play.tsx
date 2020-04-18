@@ -6,6 +6,7 @@ import { State } from "../reducers";
 
 const Play = () => {
   const router = useRouter();
+  const gamePlacementEffect = true;
   const gameDrawLineDuration = useSelector<State, number>(state => state.setting.drawLineDuration);
 
   return (
@@ -15,7 +16,7 @@ const Play = () => {
         <div className="versus" />
         <div className="player-x" />
       </div>
-      <RelatiGame drawLineDuration={gameDrawLineDuration} onLeave={() => router.replace("/")} />
+      <RelatiGame drawLineDuration={gameDrawLineDuration} placementEffect={gamePlacementEffect} onLeave={() => router.replace("/")} />
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={() => router.replace("/")} />
       </Button.Group>

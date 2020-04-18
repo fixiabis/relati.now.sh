@@ -1,9 +1,30 @@
 .relati-piece-emphasis {
-    animation: relati-piece-emphasis 1s 2;
+    animation-name: relati-piece-emphasis;
+    animation-duration: 1s;
+    animation-iteration-count: 2;
+}
+
+.relati-piece-placement {
+    animation-name: relati-piece-placement;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+}
+
+.relati-piece-emphasis.relati-piece-placement {
+    animation-name: relati-piece-placement, relati-piece-emphasis;
+    animation-duration: 1s, 1s;
+    animation-delay: 0s, 1s;
+    animation-iteration-count: 1, 2;
 }
 
 @keyframes relati-piece-emphasis {
     from {
         opacity: 0;
+    }
+}
+
+@keyframes relati-piece-placement {
+    from {
+        transform: translate(-2px, -2px) scale(2);
     }
 }

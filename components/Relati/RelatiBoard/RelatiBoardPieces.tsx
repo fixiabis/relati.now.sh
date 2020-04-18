@@ -8,17 +8,24 @@ import { CoordinateObject } from "../../../types";
 
 export interface Props {
   board: RelatiBoard;
+  placementEffect?: boolean;
   drawLineDuration?: number;
   lastPieceCoordinate?: CoordinateObject;
   symbol: RelatiSymbol;
 }
 
-const RelatiBoardPieces = ({ board: externalBoard, drawLineDuration, lastPieceCoordinate, symbol }: Props) => {
+const RelatiBoardPieces = ({ board: externalBoard, placementEffect, drawLineDuration, lastPieceCoordinate, symbol }: Props) => {
   const hasTransition = drawLineDuration && externalBoard.grids.filter(({ piece }) => piece).length > 1;
 
   if (!hasTransition) {
     const pieces = externalBoard.grids.map(({ x, y, piece }, i) => (
-      piece && <RelatiPiece key={i} x={x} y={y} {...piece} />
+      piece &&
+      <RelatiPiece
+        key={i}
+        x={x}
+        y={y}
+        placement={placementEffect && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y}
+        {...piece} />
     ));
 
     return <>{pieces}</>;
@@ -119,6 +126,7 @@ const RelatiBoardPieces = ({ board: externalBoard, drawLineDuration, lastPieceCo
       key={i}
       x={x}
       y={y}
+      placement={placementEffect && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y}
       emphasized={lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y}
       {...piece} />
   ));

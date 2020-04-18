@@ -10,12 +10,20 @@ export interface Props extends React.SVGProps<SVGPathElement> {
   symbol: keyof typeof SymbolRoute;
   primary?: boolean;
   disabled?: boolean;
+  placement?: boolean;
   emphasized?: boolean;
 }
 
-const RelatiPiece = ({ x, y, symbol, color, primary, disabled, emphasized, className, ...props }: Props) => {
+const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphasized, className, style, ...props }: Props) => {
   const definition = `M ${x * 5} ${y * 5} ${SymbolRoute[symbol]}`;
+  const position = `${x * 5}px ${y * 5}px`;
   color = disabled ? "#888" : color || SymbolColor[symbol];
+  className = placement ? `${className} relati-piece-placement` : undefined;
+
+  style = {
+    ...style,
+    transformOrigin: position
+  };
 
   if (primary) {
     return (
@@ -26,6 +34,7 @@ const RelatiPiece = ({ x, y, symbol, color, primary, disabled, emphasized, class
           stroke={color}
           strokeWidth="1"
           className={className}
+          style={style}
           {...props} />
 
         <path
@@ -34,6 +43,7 @@ const RelatiPiece = ({ x, y, symbol, color, primary, disabled, emphasized, class
           stroke="#f2f2f2"
           strokeWidth="0.5"
           className={className}
+          style={style}
           {...props} />
       </>
     );
@@ -50,6 +60,7 @@ const RelatiPiece = ({ x, y, symbol, color, primary, disabled, emphasized, class
           strokeWidth="1"
           opacity="0.4"
           className={className}
+          style={style}
           {...props} />
       )
       : undefined;
@@ -63,6 +74,7 @@ const RelatiPiece = ({ x, y, symbol, color, primary, disabled, emphasized, class
           stroke={color}
           strokeWidth="0.6"
           className={className}
+          style={style}
           {...props} />
       </>
     );
