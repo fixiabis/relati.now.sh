@@ -27,6 +27,26 @@ class RelatiGame {
         return RELATI_SYMBOLS[turn % this.playersCount];
     }
 
+    public undo() {
+        const [x, y] = this.placementRecords.pop();
+        const grid = this.board.getGridAt(x, y);
+
+        if (grid?.piece) {
+            delete grid.piece;
+        }
+
+        this.turn--;
+        disableAllPiecesByBoard(this.board);
+
+        for (let symbol of RELATI_SYMBOLS) {
+            const sourceGrid = this.symbolToSourceGrid[symbol];
+
+            if (sourceGrid) {
+                activePiecesByGrid(sourceGrid);
+            }
+        }
+    }
+
     public placeSymbolByCoordinate(x: number, y: number, symbol: RelatiSymbol = this.getNowPlayerSymbol()) {
         const grid = this.board.getGridAt(x, y);
 
