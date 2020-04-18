@@ -61,7 +61,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
     });
   }
   else {
-    const ms = 750;
+    const ms = 1000;
     const style = { animationDuration: `${ms}ms` };
 
     drawLines = SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) => {

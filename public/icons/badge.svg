@@ -1,0 +1,24 @@
+<svg id="debug" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="none">
+    <path d="
+        M 25 25
+        m 0 -14
+        a 10 10 0 0 1 0 20
+        a 10 10 0 0 1 0 -20
+    " stroke="#f2f2f2" stroke-width="6" fill="#f2f2f2"></path>
+    <path d="
+        M 19 27
+        l -6 12
+        M 22 30
+        l -6 12
+        M 25 33
+        l -6 12
+
+        M 31 27
+        l 6 12
+        M 28 30
+        l 6 12
+        M 25 33
+        l 6 12
+    " stroke="#f2f2f2" stroke-width="3" fill="none"></path>
+    <style>svg:target { background-color: #888; }</style>
+</svg>
