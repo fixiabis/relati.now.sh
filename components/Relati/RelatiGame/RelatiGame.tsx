@@ -8,41 +8,53 @@ import { CoordinateObject } from "../../../types";
 import RelatiPiece from "../RelatiPiece";
 
 export type Props = {
+  game?: Game;
   onLeave?: () => void,
   onOver?: (symbol: RelatiSymbol | "N") => void,
 };
 
 // var boardContent = "OXoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox";
 
-const RelatiGame = ({ onLeave, onOver }: Props) => {
+// game.board.grids.forEach((grid, i) => {
+//   switch (boardContent[i]) {
+//     case "_":
+//       return;
+//     case "O":
+//       grid.piece = { symbol: "O", primary: true, disabled: false };
+//       break;
+//     case "X":
+//       grid.piece = { symbol: "X", primary: true, disabled: false };
+//       break;
+//     case "o":
+//       grid.piece = { symbol: "O", primary: false, disabled: false };
+//       break;
+//     case "x":
+//       grid.piece = { symbol: "X", primary: false, disabled: false };
+//       break;
+//   }
+
+//   game.turn++;
+// });
+
+const RelatiGame = ({ game: externalGame, onLeave, onOver }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
-  const [game, setGame] = useState<Game>(new Game(2));
+  const [game, setGame] = useState<Game>(externalGame || new Game(2));
 
   const restartGame = () => {
     onOver?.(game.symbolOfWinner as RelatiSymbol | "N");
     setGame(new Game(2));
   };
 
-  // game.board.grids.forEach((grid, i) => {
-  //   switch (boardContent[i]) {
-  //     case "_":
-  //       return;
-  //     case "O":
-  //       grid.piece = { symbol: "O", primary: true, disabled: false };
-  //       break;
-  //     case "X":
-  //       grid.piece = { symbol: "X", primary: true, disabled: false };
-  //       break;
-  //     case "o":
-  //       grid.piece = { symbol: "O", primary: false, disabled: false };
-  //       break;
-  //     case "x":
-  //       grid.piece = { symbol: "X", primary: false, disabled: false };
-  //       break;
-  //   }
-
-  //   game.turn++;
-  // });
+  const saveGame = () => {
+    const file = new Blob([JSON.stringify(game.placementRecords)], { type: "text/json" });
+    const fileUrl = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = "relati-record.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
@@ -104,6 +116,7 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
         </div>
         <Button.Group>
           <IconButton type="retry" color="crimson" onClick={restartGame} />
+          <IconButton type="download" color="#888" onClick={saveGame} />
           <IconButton type="reject" color="royalblue" onClick={onLeave} />
         </Button.Group>
       </MessageBox>

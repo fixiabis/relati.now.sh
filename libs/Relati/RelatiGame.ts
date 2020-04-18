@@ -1,9 +1,10 @@
-import { GridBoard } from "gridboard";
+import { GridBoard, Coordinate } from "gridboard";
 import { RelatiPiece, RelatiSymbol, RelatiGrid } from "./types";
 import { RELATI_SYMBOLS, isGridHasAvailableRelatiRouteBySymbol, activePiecesByGrid, disableAllPiecesByBoard } from "./utils";
 
 class RelatiGame {
     public turn: number;
+    public placementRecords: Coordinate[];
     public playersCount: number;
     public board: GridBoard<RelatiPiece>;
     public symbolOfWinner: "?" | "N" | RelatiSymbol;
@@ -12,6 +13,7 @@ class RelatiGame {
     constructor(playersCount: number, boardWidth: number = 9, boardHeight: number = 9) {
         this.turn = 0;
         this.symbolOfWinner = "?";
+        this.placementRecords = [];
         this.playersCount = playersCount;
         this.board = new GridBoard<RelatiPiece>(boardWidth, boardHeight);
         this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
@@ -52,6 +54,7 @@ class RelatiGame {
             return;
         }
 
+        this.placementRecords.push([x, y]);
         disableAllPiecesByBoard(this.board);
 
         for (let symbol of RELATI_SYMBOLS) {
