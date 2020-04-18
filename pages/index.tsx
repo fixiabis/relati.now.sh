@@ -21,8 +21,8 @@ const Main = () => {
     <Page id="main" title="relati">
       <div className="logo" />
       <Button.Group className={buttonGroupClassName}>
-        <IconButton type="play" color="crimson" onClick={() => router.push("/play")} />
-        <IconButton type="help" color="royalblue" onClick={() => router.push("/how-to-play")} />
+        <IconButton type="play" color="crimson" onClick={() => router.replace("/play")} />
+        <IconButton type="help" color="royalblue" onClick={() => router.replace("/how-to-play")} />
       </Button.Group>
     </Page>
   );

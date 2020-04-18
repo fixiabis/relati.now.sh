@@ -5,13 +5,14 @@ import { RelatiBoard } from "..";
 import Button from "../../Button";
 import IconButton from "../../IconButton";
 import { CoordinateObject } from "../../../types";
+import RelatiPiece from "../RelatiPiece";
 
 export type Props = {
   onLeave?: () => void,
   onOver?: (symbol: RelatiSymbol | "N") => void,
 };
 
-// var boardContent = "_____________________________________________________________________xOo________X";
+// var boardContent = "OXoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox";
 
 const RelatiGame = ({ onLeave, onOver }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
@@ -48,12 +49,43 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     const grid = game.board.getGridAt(x, y);
+
+    if (grid?.piece) {
+      return;
+    }
+
     game.placeSymbolByCoordinate(x, y);
 
     if (grid?.piece) {
       setLastPieceCoordinate({ x, y });
     }
   };
+
+  const messageContainerStyle = { textAlign: "center" as "center" };
+  const messageIconStyle = { transform: "scale(10)" };
+
+  const messageIconContainerStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50
+  };
+
+  const messageIcon = game.symbolOfWinner !== "?"
+    ? (
+      <div style={messageIconContainerStyle}>
+        <svg width="5" height="5" style={messageIconStyle}>
+          <RelatiPiece x={0} y={0} symbol={game.symbolOfWinner} primary />
+        </svg>
+      </div>
+    )
+    : undefined;
+
+  const messageText = game.symbolOfWinner !== "?"
+    ? game.symbolOfWinner !== "N"
+      ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝`
+      : "平手"
+    : "";
 
   return (
     <>
@@ -66,12 +98,9 @@ const RelatiGame = ({ onLeave, onOver }: Props) => {
         symbolOfPreviousPlayer={symbolOfPreviousPlayer} />
 
       <MessageBox show={game.symbolOfWinner !== "?"}>
-        <div style={{ textAlign: "center" }}>
-          {
-            game.symbolOfWinner !== "N"
-              ? game.symbolOfWinner + " win"
-              : "draw"
-          }
+        <div style={messageContainerStyle}>
+          {messageIcon}
+          {messageText}
         </div>
         <Button.Group>
           <IconButton type="retry" color="crimson" onClick={restartGame} />

@@ -9,7 +9,7 @@ const HowToPlay = () => {
     <Page id="how-to-play" title="How to play">
       <RelatiTutorial />
       <Button.Group>
-        <IconButton type="leave" color="#888" onClick={() => router.push("/")} />
+        <IconButton type="leave" color="#888" onClick={() => router.replace("/")} />
       </Button.Group>
     </Page>
   );

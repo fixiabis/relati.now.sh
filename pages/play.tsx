@@ -12,9 +12,9 @@ const Play = () => {
         <div className="versus" />
         <div className="player-x" />
       </div>
-      <RelatiGame onLeave={() => router.push("/")} />
+      <RelatiGame onLeave={() => router.replace("/")} />
       <Button.Group>
-        <IconButton type="leave" color="#888" onClick={() => router.push("/")} />
+        <IconButton type="leave" color="#888" onClick={() => router.replace("/")} />
       </Button.Group>
     </Page>
   );

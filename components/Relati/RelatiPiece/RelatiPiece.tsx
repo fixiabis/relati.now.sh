@@ -6,15 +6,16 @@ import "./relati-piece.scss";
 export interface Props extends React.SVGProps<SVGPathElement> {
   x: number;
   y: number;
-  symbol: Piece["symbol"];
+  color?: string;
+  symbol: keyof typeof SymbolRoute;
   primary?: boolean;
   disabled?: boolean;
   emphasized?: boolean;
 }
 
-const RelatiPiece = ({ x, y, symbol, primary, disabled, emphasized, className, ...props }: Props) => {
+const RelatiPiece = ({ x, y, symbol, color, primary, disabled, emphasized, className, ...props }: Props) => {
   const definition = `M ${x * 5} ${y * 5} ${SymbolRoute[symbol]}`;
-  const color = disabled ? "#888" : SymbolColor[symbol];
+  color = disabled ? "#888" : color || SymbolColor[symbol];
 
   if (primary) {
     return (
