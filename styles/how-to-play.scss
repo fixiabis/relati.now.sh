@@ -1,18 +1,23 @@
 #how-to-play {
+    .relati-tutorial {
+        width: 100vw;
+        height: calc(100% - 60px);
+    }
+
+    .board-container {
+        height: calc(100% - 60px);
+    }
+
     .description {
         user-select: none;
         color: #222;
         height: 60px;
+        text-align: center;
         line-height: 60px;
         font-size: 26px;
         font-weight: bold;
         white-space: nowrap;
         animation: show-description 0.18s;
-    }
-
-    .board-container {
-        width: 100vw;
-        height: calc(100% - 120px);
     }
 
     @media screen and (max-width: 600px) {

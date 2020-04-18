@@ -1,7 +1,16 @@
 @import "./effects";
 
 #main {
+    .main-control {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: calc(100% - 60px);
+    }
+
     .logo {
+        margin-top: 90px;
         width: 250px;
         height: 90px;
 
@@ -14,20 +23,50 @@
 
     .button-group {
         width: 100%;
-        max-width: 400px;
+        max-width: 200px;
     }
 
     .button-group {
-        animation-name: physical-top-slide-in;
+        animation-name: fade-in-by-physical-top-slide;
         animation-duration: 1s;
         animation-delay: 1.25s;
         animation-fill-mode: backwards;
     }
 
-    @keyframes physical-top-slide-in {
+    .button-group.to-bottom {
+        animation: none;
+        max-width: 300px;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+    }
+
+    @for $i from 1 through 3 {
+        $slide-duration: 0.25s;
+
+        .button-group.to-bottom .button:nth-child(#{$i}) {
+            animation-name: fade-in-by-right-slide;
+            animation-duration: $slide-duration;
+            animation-delay: #{1.25 + $i * $slide-duration};
+            animation-fill-mode: backwards;
+        }
+    }
+
+    .button-group.to-bottom.no-animation .button {
+        animation: none;
+    }
+
+    @keyframes fade-in-by-physical-top-slide {
         from {
             opacity: 0;
             margin-top: -70px;
+        }
+    }
+
+    @keyframes fade-in-by-right-slide {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
         }
     }
 }

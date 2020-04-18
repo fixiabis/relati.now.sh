@@ -10,6 +10,7 @@ const Main = () => {
   const dispatch = useDispatch();
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
+  const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
 
   useEffect(() => () => {
     if (mainPageAnimation) {
@@ -19,12 +20,16 @@ const Main = () => {
 
   return (
     <Page id="main" title="relati">
-      <div className="logo" />
-      <Button.Group className={buttonGroupClassName}>
+      <div className="main-control">
+        <div className="logo" />
+        <Button.Group className={buttonGroupClassName}>
+          <IconButton type="play" color="crimson" onClick={() => router.replace("/play")} />
+          <IconButton type="help" color="royalblue" onClick={() => router.replace("/how-to-play")} />
+        </Button.Group>
+      </div>
+      <Button.Group className={bottomButtonGroupClassName}>
+        <IconButton type="about" color="seagreen" />
         <IconButton type="badge" color="darkorange" />
-        <IconButton type="about" color="seagreen" style={{ marginTop: 20 }} />
-        <IconButton type="play" color="crimson" onClick={() => router.replace("/play")} style={{ marginTop: 40 }} />
-        <IconButton type="help" color="royalblue" onClick={() => router.replace("/how-to-play")} style={{ marginTop: 20 }} />
         <IconButton type="gear" color="#888" />
       </Button.Group>
     </Page>

@@ -18,16 +18,16 @@ const CAPTIONS = [
   "這是斜四方遠程連線！不穩但擴張效果最佳！",
   "這是斜四方遠程連線！不穩但擴張效果最佳！",
   "這是側八方遠程連線！擁有三種連線的方式！",
-  "這是側八方遠程連線！比其他遠程連線穩定！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
   "這是側八方遠程連線！擁有三種連線的方式！",
   "這是側八方遠程連線！比其他遠程連線穩定！",
-  "這是側八方遠程連線！擁有三種連線的方式！",
   "這是側八方遠程連線！比其他遠程連線穩定！",
-  "這是側八方遠程連線！擁有三種連線的方式！",
   "這是側八方遠程連線！比其他遠程連線穩定！",
-  "這是側八方遠程連線！擁有三種連線的方式！",
   "這是側八方遠程連線！比其他遠程連線穩定！",
-  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！比其他遠程連線穩定！",
   "這是側八方遠程連線！比其他遠程連線穩定！",
 ];
 
@@ -38,9 +38,11 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   let hints: JSX.Element[] = [];
 
   const onGridClick = (coordinate: CoordinateObject) => {
-    const i = (placeStep - (placeStep % 2)) / 2;
+    if (placeStep % 2 === 0) {
+      return;
+    }
 
-    for (let coordinates of SAMPLE_RELATI_ROUTES_LIST[i]) {
+    for (let coordinates of SAMPLE_RELATI_ROUTES_LIST[(placeStep - 1) / 2]) {
       const [x, y] = coordinates[coordinates.length - 1];
 
       if (coordinate.x === x && coordinate.y === y) {

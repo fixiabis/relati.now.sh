@@ -10,7 +10,12 @@ const RelatiTutorial = () => {
   const heightRatio = (innerHeight - 120) / 45;
   const scale = Math.min(widthRatio, heightRatio) * 0.95;
   const style = { transform: `scale(${scale})` };
-  return <Scene nextStep={nextStep} style={style} />;
+
+  return (
+    <div className="relati-tutorial">
+      <Scene nextStep={nextStep} style={style} />
+    </div>
+  );
 };
 
 export default RelatiTutorial;
