@@ -8,7 +8,7 @@ const RelatiScene3 = ({ nextStep, ...props }: Props) => {
 
   return (
     <>
-      <div className="description">輪到對方了!</div>
+      <div className="description">輪到對方了！</div>
       <Board width={9} height={9} {...props}>
         <RelatiPiece x={4} y={4} symbol="O" primary />
         <RelatiPiece x={7} y={3} symbol="X" primary />

@@ -8,6 +8,29 @@ import { SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 import { CoordinateObject } from "../../../../types";
 import { Coordinate } from "gridboard";
 
+const CAPTIONS = [
+  "這是正四方近程連線！穩定但擴張速度較慢！",
+  "這是正四方近程連線！穩定但擴張速度較慢！",
+  "這是斜四方近程連線！穩定但是會產生破口！",
+  "這是斜四方近程連線！穩定但是會產生破口！",
+  "這是正四方遠程連線！不穩但擴張效果不錯！",
+  "這是正四方遠程連線！不穩但擴張效果不錯！",
+  "這是斜四方遠程連線！不穩但擴張效果最佳！",
+  "這是斜四方遠程連線！不穩但擴張效果最佳！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！比其他遠程連線穩定！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！比其他遠程連線穩定！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！比其他遠程連線穩定！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！比其他遠程連線穩定！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！比其他遠程連線穩定！",
+  "這是側八方遠程連線！擁有三種連線的方式！",
+  "這是側八方遠程連線！比其他遠程連線穩定！",
+];
+
 const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   const [placeStep, setPlaceStep] = useState(0);
   const nextPlaceStep = () => setPlaceStep(placeStep + 1);
@@ -15,11 +38,9 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   let hints: JSX.Element[] = [];
 
   const onGridClick = (coordinate: CoordinateObject) => {
-    if (placeStep % 2 === 0) {
-      return;
-    }
+    const i = (placeStep - (placeStep % 2)) / 2;
 
-    for (let coordinates of SAMPLE_RELATI_ROUTES_LIST[(placeStep - 1) / 2]) {
+    for (let coordinates of SAMPLE_RELATI_ROUTES_LIST[i]) {
       const [x, y] = coordinates[coordinates.length - 1];
 
       if (coordinate.x === x && coordinate.y === y) {
@@ -61,7 +82,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
 
   return (
     <>
-      <div className="description">這是會用到的連線方式, 隨便點一個點吧!</div>
+      <div className="description">{CAPTIONS[placeStep]}</div>
       <Board width={9} height={9} onGridClick={onGridClick} {...props}>
         <g>{drawLines}</g>
         <g>{hints}</g>

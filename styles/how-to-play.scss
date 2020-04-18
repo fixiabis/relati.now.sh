@@ -1,10 +1,12 @@
 #how-to-play {
     .description {
+        user-select: none;
         color: #222;
         height: 60px;
         line-height: 60px;
         font-size: 26px;
         font-weight: bold;
+        white-space: nowrap;
     }
 
     .board-container {
@@ -15,6 +17,12 @@
     @media screen and (max-width: 600px) {
         .description {
             font-size: 18px;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .description {
+            font-size: 14px;
         }
     }
 }

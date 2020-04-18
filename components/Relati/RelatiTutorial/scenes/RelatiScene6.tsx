@@ -5,7 +5,7 @@ import RelatiGame from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
 
 const RelatiScene6 = ({ nextStep, ...props }: Props) => {
-  const [description, setDescription] = useState("中間有空格就可以放在那裡了!");
+  const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
   const [game] = useState(new RelatiGame(2));
   const blockedGrid = game.board.getGridAt(6, 6);
 
@@ -25,14 +25,14 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
           delete grid.piece;
         }
 
-        setDescription("這裡好像不行?");
+        setDescription("這裡好像不行？");
       }
       else {
         if (x === 6 && y === 4) {
-          setDescription("成功了, 厲害!甚至切斷別人的連線!")
+          setDescription("成功了，厲害！甚至切斷別人的連線！");
         }
         else {
-          setDescription("成功了, 恭喜你!");
+          setDescription("成功了，恭喜你！");
         }
       }
     }
@@ -51,7 +51,7 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
     const placementTimer = setTimeout(() => {
       if (game.turn === 3) {
         game.placeSymbolByCoordinate(5, 5);
-        setDescription("中間沒空格, 被打斷了, 得想辦法接回去才行!");
+        setDescription("中間沒空格，被打斷了，如何接回去呢？");
       }
     }, 2000);
 

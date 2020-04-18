@@ -27,7 +27,7 @@ const RelatiScene5 = ({ nextStep, ...props }: Props) => {
     }
   };
 
-  const description = focused ? "點這裡如何?" : "這些就是可以點的範圍了!";
+  const description = focused ? "點這裡如何？" : "這些就是可以點的範圍了！";
 
   return (
     <>
