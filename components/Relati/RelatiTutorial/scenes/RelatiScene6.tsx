@@ -62,7 +62,7 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
     <>
       <div className="description">{description}</div>
       <RelatiBoard
-        drawLineDuration={1000}
+        drawLineDuration={180}
         board={game.board}
         onGridClick={onGridClick}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
