@@ -8,13 +8,13 @@ import { CoordinateObject } from "../../../types";
 
 export interface Props extends Omit<BoardProps, "width" | "height"> {
   board: GridBoard<RelatiPiece>;
-  hasTransition?: boolean;
+  drawLineDuration?: number;
   lastPieceCoordinate?: CoordinateObject;
   symbolOfPreviousPlayer: RelatiSymbol;
   symbolOfCurrentPlayer: RelatiSymbol;
 }
 
-const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, hasTransition, lastPieceCoordinate, ...props }: Props) => {
+const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, drawLineDuration, lastPieceCoordinate, ...props }: Props) => {
   const { width, height } = board;
   const colorOfCurrentPlayer = SymbolColor[symbolOfCurrentPlayer];
 
@@ -29,7 +29,7 @@ const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, has
   const pieces = (
     <RelatiBoardPieces
       board={board}
-      hasTransition={hasTransition}
+      drawLineDuration={drawLineDuration}
       lastPieceCoordinate={lastPieceCoordinate}
       symbol={symbolOfPreviousPlayer} />
   );

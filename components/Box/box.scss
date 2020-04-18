@@ -1,0 +1,61 @@
+@import "../../styles/effects";
+
+.box-container {
+    & {
+        width: 100vw;
+        height: 100vh;
+        max-width: -webkit-fill-available;
+        max-height: -webkit-fill-available;
+    }
+
+    & {
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    & {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    & {
+        animation: fade-in 0.25s;
+    }
+
+    .box {
+        box-sizing: border-box;
+        width: 80%;
+        height: 200px;
+        overflow: auto;
+        border-width: 2px;
+        border-color: #888;
+        border-style: solid;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .box {
+        position: fixed;
+        top: calc(50% - 100px);
+        left: calc(50% - 150px);
+    }
+
+    .box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .box {
+        color: #888;
+    }
+
+    .box {
+        background-color: #f2f2f2;
+    }
+
+    .box {
+        animation: zoom-in 0.25s;
+    }
+}

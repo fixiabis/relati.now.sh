@@ -9,6 +9,7 @@ import RelatiPiece from "../RelatiPiece";
 
 export type Props = {
   game?: Game;
+  drawLineDuration?: number;
   onLeave?: () => void,
   onOver?: (symbol: RelatiSymbol | "N") => void,
 };
@@ -36,7 +37,7 @@ export type Props = {
 //   game.turn++;
 // });
 
-const RelatiGame = ({ game: externalGame, onLeave, onOver }: Props) => {
+const RelatiGame = ({ game: externalGame, drawLineDuration, onLeave, onOver }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const [game, setGame] = useState<Game>(externalGame || new Game(2));
 
@@ -102,7 +103,7 @@ const RelatiGame = ({ game: externalGame, onLeave, onOver }: Props) => {
   return (
     <>
       <RelatiBoard
-        hasTransition
+        drawLineDuration={drawLineDuration}
         board={game.board}
         onGridClick={onGridClick}
         lastPieceCoordinate={lastPieceCoordinate}

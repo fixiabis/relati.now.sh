@@ -8,13 +8,13 @@ import { CoordinateObject } from "../../../types";
 
 export interface Props {
   board: RelatiBoard;
-  hasTransition?: boolean;
+  drawLineDuration?: number;
   lastPieceCoordinate?: CoordinateObject;
   symbol: RelatiSymbol;
 }
 
-const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoordinate, symbol }: Props) => {
-  hasTransition = hasTransition && externalBoard.grids.filter(({ piece }) => piece).length > 1;
+const RelatiBoardPieces = ({ board: externalBoard, drawLineDuration, lastPieceCoordinate, symbol }: Props) => {
+  const hasTransition = drawLineDuration && externalBoard.grids.filter(({ piece }) => piece).length > 1;
 
   if (!hasTransition) {
     const pieces = externalBoard.grids.map(({ x, y, piece }, i) => (
@@ -98,8 +98,6 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoord
     return grid?.piece?.disabled;
   });
 
-  const ms = 180;
-
   setTimeout(() => {
     const isBoardPiecesCountEqual = externalBoard.grids.every(
       (grid, i) => typeof grid.piece === typeof board.grids[i].piece
@@ -111,7 +109,7 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoord
         ...linePaths,
       ]);
     }
-  }, ms);
+  }, drawLineDuration);
 
   const color = SymbolColor[symbol];
 
@@ -125,8 +123,12 @@ const RelatiBoardPieces = ({ board: externalBoard, hasTransition, lastPieceCoord
       {...piece} />
   ));
 
+  const drawLineStyle = {
+    animationDuration: `${drawLineDuration}ms`
+  };
+
   const drawLines = drawLinePaths.map((linePath, i) => (
-    <DrawLine key={i} linePath={linePath} color={color} style={{ animationDuration: `${ms}ms` }} />
+    <DrawLine key={i} linePath={linePath} color={color} style={drawLineStyle} />
   ));
 
   return (
