@@ -10,12 +10,13 @@ export interface Props extends Omit<BoardProps, "width" | "height"> {
   board: GridBoard<RelatiPiece>;
   placementEffect?: boolean;
   drawLineDuration?: number;
+  lastPieceEmphasized?: boolean;
   lastPieceCoordinate?: CoordinateObject;
   symbolOfPreviousPlayer: RelatiSymbol;
   symbolOfCurrentPlayer: RelatiSymbol;
 }
 
-const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, placementEffect, drawLineDuration, lastPieceCoordinate, ...props }: Props) => {
+const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, placementEffect, drawLineDuration, lastPieceEmphasized, lastPieceCoordinate, ...props }: Props) => {
   const { width, height } = board;
   const colorOfCurrentPlayer = SymbolColor[symbolOfCurrentPlayer];
 
@@ -32,6 +33,7 @@ const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, pla
       board={board}
       placementEffect={placementEffect}
       drawLineDuration={drawLineDuration}
+      lastPieceEmphasized={lastPieceEmphasized}
       lastPieceCoordinate={lastPieceCoordinate}
       symbol={symbolOfPreviousPlayer} />
   );

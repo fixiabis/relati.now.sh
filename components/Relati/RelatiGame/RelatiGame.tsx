@@ -11,6 +11,7 @@ export type Props = {
   game?: Game;
   placementEffect?: boolean;
   drawLineDuration?: number;
+  lastPieceEmphasized?: boolean;
   onLeave?: () => void,
   onOver?: (symbol: RelatiSymbol | "N") => void,
 };
@@ -38,7 +39,7 @@ export type Props = {
 //   game.turn++;
 // });
 
-const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, onLeave, onOver }: Props) => {
+const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, lastPieceEmphasized, onLeave, onOver }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const [game, setGame] = useState<Game>(externalGame || new Game(2));
 
@@ -104,6 +105,7 @@ const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, onL
   return (
     <>
       <RelatiBoard
+        lastPieceEmphasized={lastPieceEmphasized}
         placementEffect={placementEffect}
         drawLineDuration={drawLineDuration}
         board={game.board}

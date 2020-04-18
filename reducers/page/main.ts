@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { SET_MAIN_PAGE_ANIMATION } from "../../constants/page";
+import { SET_MAIN_PAGE_ANIMATION } from "../../constants";
 
 export interface MainPageState {
     animation: boolean;
