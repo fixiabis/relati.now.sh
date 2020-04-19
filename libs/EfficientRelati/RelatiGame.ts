@@ -1,5 +1,5 @@
 import RelatiBoard from "./RelatiBoard";
-import { RelatiStatus, RelatiSymbol, isGridHasAvailableRelatiRouteByPlayerIndex, disableAllPiecesByBoard, activePiecesByGrid } from "./util";
+import { RelatiStatus, RelatiSymbol, isGridHasAvailableRelatiRouteByPlayerIndex, disableAllPiecesByBoard, activePiecesByGrid } from "./utils";
 
 class RelatiGame {
     public turn: number;
@@ -43,11 +43,16 @@ class RelatiGame {
         }
 
         this.turn++;
-        const nextPlayerIndex = this.getPlayerIndexByTurn(this.turn);
-        const nextPlayerSourceGridIndex = this.playerIndexToSourceGridIndex[nextPlayerIndex];
-        const nextPlayerSourceGrid = this.board.grids[nextPlayerSourceGridIndex];
-        disableAllPiecesByBoard(this.board, nextPlayerIndex);
-        activePiecesByGrid(nextPlayerSourceGrid, nextPlayerIndex);
+
+        if (this.turn >= this.playersCount) {
+            disableAllPiecesByBoard(this.board);
+
+            for (let playerIndex = 0; playerIndex < this.playersCount; playerIndex++) {
+                const nextPlayerSourceGridIndex = this.playerIndexToSourceGridIndex[playerIndex];
+                const nextPlayerSourceGrid = this.board.grids[nextPlayerSourceGridIndex];
+                activePiecesByGrid(nextPlayerSourceGrid, playerIndex);
+            }
+        }
 
         if (this.turn >= this.playersCount) {
             let isPlayerPlaceable = false;

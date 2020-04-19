@@ -44,7 +44,7 @@ function isGridHasAvailableRelatiRouteBySymbol(grid: RelatiGrid, symbol: RelatiS
         }
     }
 
-    for (let dx = -1; dx < 2; dx++) {
+    for (let dx = -1; dx < 2; dx += 2) {
         sourceGrid = getGridTo(grid, dx * 2, 1);
         middleGrid1 = getGridTo(grid, dx, 0);
         middleGrid2 = getGridTo(grid, dx * 2, 0);
@@ -87,7 +87,7 @@ function isGridHasAvailableRelatiRouteBySymbol(grid: RelatiGrid, symbol: RelatiS
         }
     }
 
-    for (let dy = -1; dy < 2; dy++) {
+    for (let dy = -1; dy < 2; dy += 2) {
         sourceGrid = getGridTo(grid, 1, dy * 2);
         middleGrid1 = getGridTo(grid, 0, dy);
         middleGrid2 = getGridTo(grid, 0, dy * 2);
@@ -169,7 +169,7 @@ function activePiecesByGrid(grid: RelatiGrid) {
         }
     }
 
-    for (let dx = -1; dx < 2; dx++) {
+    for (let dx = -1; dx < 2; dx += 2) {
         targetGrid = getGridTo(grid, dx * 2, 1);
         middleGrid1 = getGridTo(grid, dx, 0);
         middleGrid2 = getGridTo(grid, dx * 2, 0);
@@ -212,7 +212,7 @@ function activePiecesByGrid(grid: RelatiGrid) {
         }
     }
 
-    for (let dy = -1; dy < 2; dy++) {
+    for (let dy = -1; dy < 2; dy += 2) {
         targetGrid = getGridTo(grid, 1, dy * 2);
         middleGrid1 = getGridTo(grid, 0, dy);
         middleGrid2 = getGridTo(grid, 0, dy * 2);

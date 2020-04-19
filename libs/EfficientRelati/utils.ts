@@ -1,14 +1,14 @@
 import RelatiGrid from "./RelatiGrid";
 import RelatiBoard from "./RelatiBoard";
 
-export const enum RelatiSymbol {
+export enum RelatiSymbol {
     Placed = 0b0010,
     Who = 0b0001,
     O = 0b0010,
     X = 0b0011,
 }
 
-export const enum RelatiStatus {
+export enum RelatiStatus {
     Primary = 0b1000,
     Actived = 0b0100,
 }
@@ -43,7 +43,7 @@ export function isGridHasAvailableRelatiRouteByPlayerIndex(grid: RelatiGrid, pla
         }
     }
 
-    for (let dx = -1; dx < 2; dx++) {
+    for (let dx = -1; dx < 2; dx += 2) {
         sourceGrid = grid.getGridTo(dx * 2, 1);
         middleGrid1 = grid.getGridTo(dx, 0);
         middleGrid2 = grid.getGridTo(dx * 2, 0);
@@ -86,7 +86,7 @@ export function isGridHasAvailableRelatiRouteByPlayerIndex(grid: RelatiGrid, pla
         }
     }
 
-    for (let dy = -1; dy < 2; dy++) {
+    for (let dy = -1; dy < 2; dy += 2) {
         sourceGrid = grid.getGridTo(1, dy * 2);
         middleGrid1 = grid.getGridTo(0, dy);
         middleGrid2 = grid.getGridTo(0, dy * 2);
@@ -132,11 +132,9 @@ export function isGridHasAvailableRelatiRouteByPlayerIndex(grid: RelatiGrid, pla
     return false;
 }
 
-export function disableAllPiecesByBoard(board: RelatiBoard, playerIndex: number) {
+export function disableAllPiecesByBoard(board: RelatiBoard) {
     for (let grid of board.grids) {
-        if ((grid.piece & RelatiSymbol.Who) === playerIndex) {
-            grid.piece &= ~RelatiStatus.Actived;
-        }
+        grid.piece &= ~RelatiStatus.Actived;
     }
 }
 
@@ -167,7 +165,7 @@ export function activePiecesByGrid(grid: RelatiGrid, playerIndex: number) {
         }
     }
 
-    for (let dx = -1; dx < 2; dx++) {
+    for (let dx = -1; dx < 2; dx += 2) {
         targetGrid = grid.getGridTo(dx * 2, 1);
         middleGrid1 = grid.getGridTo(dx, 0);
         middleGrid2 = grid.getGridTo(dx * 2, 0);
@@ -210,7 +208,7 @@ export function activePiecesByGrid(grid: RelatiGrid, playerIndex: number) {
         }
     }
 
-    for (let dy = -1; dy < 2; dy++) {
+    for (let dy = -1; dy < 2; dy += 2) {
         targetGrid = grid.getGridTo(1, dy * 2);
         middleGrid1 = grid.getGridTo(0, dy);
         middleGrid2 = grid.getGridTo(0, dy * 2);

@@ -1,7 +1,6 @@
 import { GridBoard, Coordinate } from "gridboard";
 import { RelatiPiece, RelatiSymbol, RelatiGrid } from "./types";
 import { RELATI_SYMBOLS, isGridHasAvailableRelatiRouteBySymbol, activePiecesByGrid, disableAllPiecesByBoard } from "./utils";
-import RelatiAI from "./RelatiAI";
 
 class RelatiGame {
     public turn: number;
