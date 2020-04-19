@@ -1,9 +1,11 @@
 import { GridBoard, Coordinate } from "gridboard";
 import { RelatiPiece, RelatiSymbol, RelatiGrid } from "./types";
 import { RELATI_SYMBOLS, isGridHasAvailableRelatiRouteBySymbol, activePiecesByGrid, disableAllPiecesByBoard } from "./utils";
+import RelatiAI from "./RelatiAI";
 
 class RelatiGame {
     public turn: number;
+    public static recentInstance?: RelatiGame;
     public placementRecords: Coordinate[];
     public playersCount: number;
     public createdTime: number;
@@ -19,12 +21,13 @@ class RelatiGame {
         this.createdTime = new Date().getTime();
         this.board = new GridBoard<RelatiPiece>(boardWidth, boardHeight);
         this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
+        RelatiGame.recentInstance = this;
     }
 
     public restart() {
         this.turn = 0;
         this.symbolOfWinner = "?";
-        this.placementRecords = [];        
+        this.placementRecords = [];
         this.board.grids.forEach(grid => delete grid.piece);
         this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
     }
@@ -125,5 +128,18 @@ class RelatiGame {
         }
     }
 }
+
+Object.defineProperties(global, {
+    "game": {
+        get: () => RelatiGame.recentInstance,
+        enumerable: true,
+        configurable: true,
+    },
+    "ai": {
+        value: RelatiAI,
+        enumerable: true,
+        configurable: true,
+    }
+});
 
 export default RelatiGame;
