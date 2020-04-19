@@ -26,24 +26,26 @@ const RelatiGame = ({ game: externalGame, lastPieceEmphasized, onGridClick: exte
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (externalOnGridClick?.({ x, y }) === false) {
-      const grid = game.board.getGridAt(x, y);
+      return;
+    }
 
-      if (grid?.piece || game.symbolOfWinner !== "?") {
-        return;
-      }
+    const grid = game.board.getGridAt(x, y);
 
-      game.placeSymbolByCoordinate(x, y);
+    if (grid?.piece || game.symbolOfWinner !== "?") {
+      return;
+    }
 
-      if (game.symbolOfWinner !== "?") {
-        onOver?.(game.symbolOfWinner);
-      }
+    game.placeSymbolByCoordinate(x, y);
 
-      if (lastPieceEmphasized && grid?.piece) {
-        setLastPieceCoordinate({ x, y });
-      }
-      else {
-        forceUpdate();
-      }
+    if (game.symbolOfWinner !== "?") {
+      onOver?.(game.symbolOfWinner);
+    }
+
+    if (lastPieceEmphasized && grid?.piece) {
+      setLastPieceCoordinate({ x, y });
+    }
+    else {
+      forceUpdate();
     }
   };
 
