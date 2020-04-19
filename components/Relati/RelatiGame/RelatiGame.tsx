@@ -1,106 +1,44 @@
 import React, { useState } from "react";
 import Game, { RelatiSymbol } from "../../../libs/Relati";
-import MessageBox from "../../MessageBox";
 import { RelatiBoard } from "..";
-import Button from "../../Button";
-import IconButton from "../../IconButton";
 import { CoordinateObject } from "../../../types";
-import RelatiPiece from "../RelatiPiece";
+import { useForceUpdate } from "../../../utils/hook";
 
 export type Props = {
   game?: Game;
   placementEffect?: boolean;
   drawLineDuration?: number;
   lastPieceEmphasized?: boolean;
-  onLeave?: () => void,
-  onOver?: (symbol: RelatiSymbol | "N") => void,
+  onOver?: (symbol?: RelatiSymbol | "N") => void;
 };
 
-// var boardContent = "OXoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox";
-
-// game.board.grids.forEach((grid, i) => {
-//   switch (boardContent[i]) {
-//     case "_":
-//       return;
-//     case "O":
-//       grid.piece = { symbol: "O", primary: true, disabled: false };
-//       break;
-//     case "X":
-//       grid.piece = { symbol: "X", primary: true, disabled: false };
-//       break;
-//     case "o":
-//       grid.piece = { symbol: "O", primary: false, disabled: false };
-//       break;
-//     case "x":
-//       grid.piece = { symbol: "X", primary: false, disabled: false };
-//       break;
-//   }
-
-//   game.turn++;
-// });
-
-const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, lastPieceEmphasized, onLeave, onOver }: Props) => {
+const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, lastPieceEmphasized, onOver }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
-  const [game, setGame] = useState<Game>(externalGame || new Game(2));
-
-  const restartGame = () => {
-    onOver?.(game.symbolOfWinner as RelatiSymbol | "N");
-    setGame(new Game(2));
-  };
-
-  const saveGame = () => {
-    const file = new Blob([JSON.stringify(game.placementRecords)], { type: "text/json" });
-    const fileUrl = URL.createObjectURL(file);
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    link.download = "relati-record.json";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
+  const forceUpdate = useForceUpdate();
+  const [game] = useState<Game>(externalGame || new Game(2));
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     const grid = game.board.getGridAt(x, y);
 
-    if (grid?.piece) {
+    if (grid?.piece || game.symbolOfWinner !== "?") {
       return;
     }
 
     game.placeSymbolByCoordinate(x, y);
 
-    if (grid?.piece) {
+    if (game.symbolOfWinner !== "?") {
+      onOver?.(game.symbolOfWinner);
+    }
+
+    if (lastPieceEmphasized && grid?.piece) {
       setLastPieceCoordinate({ x, y });
     }
+    else {
+      forceUpdate();
+    }
   };
-
-  const messageContainerStyle = { textAlign: "center" as "center" };
-  const messageIconStyle = { transform: "scale(10)" };
-
-  const messageIconContainerStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50
-  };
-
-  const messageIcon = game.symbolOfWinner !== "?"
-    ? (
-      <div style={messageIconContainerStyle}>
-        <svg width="5" height="5" style={messageIconStyle}>
-          <RelatiPiece x={0} y={0} symbol={game.symbolOfWinner} primary />
-        </svg>
-      </div>
-    )
-    : undefined;
-
-  const messageText = game.symbolOfWinner !== "?"
-    ? game.symbolOfWinner !== "N"
-      ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝`
-      : "平手"
-    : "";
 
   return (
     <>
@@ -113,18 +51,6 @@ const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, las
         lastPieceCoordinate={lastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer} />
-
-      <MessageBox show={game.symbolOfWinner !== "?"}>
-        <div style={messageContainerStyle}>
-          {messageIcon}
-          {messageText}
-        </div>
-        <Button.Group>
-          <IconButton type="retry" color="crimson" onClick={restartGame} />
-          <IconButton type="download" color="#888" onClick={saveGame} />
-          <IconButton type="reject" color="royalblue" onClick={onLeave} />
-        </Button.Group>
-      </MessageBox>
     </>
   );
 };

@@ -6,6 +6,7 @@ class RelatiGame {
     public turn: number;
     public placementRecords: Coordinate[];
     public playersCount: number;
+    public createdTime: number;
     public board: GridBoard<RelatiPiece>;
     public symbolOfWinner: "?" | "N" | RelatiSymbol;
     public symbolToSourceGrid: Record<RelatiSymbol, RelatiGrid | undefined>;
@@ -15,7 +16,16 @@ class RelatiGame {
         this.symbolOfWinner = "?";
         this.placementRecords = [];
         this.playersCount = playersCount;
+        this.createdTime = new Date().getTime();
         this.board = new GridBoard<RelatiPiece>(boardWidth, boardHeight);
+        this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
+    }
+
+    public restart() {
+        this.turn = 0;
+        this.symbolOfWinner = "?";
+        this.placementRecords = [];        
+        this.board.grids.forEach(grid => delete grid.piece);
         this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
     }
 

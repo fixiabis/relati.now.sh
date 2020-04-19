@@ -15,7 +15,7 @@
     }
 
     & {
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.2);
     }
 
     & {
@@ -25,19 +25,19 @@
     .box {
         box-sizing: border-box;
         width: 80%;
-        height: 200px;
+        height: 80%;
         overflow: auto;
+        padding: 10px;
         border-width: 2px;
         border-color: #888;
         border-style: solid;
         border-radius: 5px;
-        padding: 10px;
     }
 
     .box {
         position: fixed;
-        top: calc(50% - 100px);
-        left: calc(50% - 150px);
+        top: 10%;
+        left: 10%;
     }
 
     .box {
