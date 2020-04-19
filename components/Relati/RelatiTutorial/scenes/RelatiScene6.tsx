@@ -12,13 +12,17 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() === placeSymbol) {
-      const grid = game.board.getGridAt(x, y);
+      const grid = game.board.getGridAt(x, y) as RelatiGrid;
 
-      if (grid?.piece) {
+      if (grid.piece) {
         return;
       }
 
       game.placeSymbolByCoordinate(x, y);
+
+      if (!grid.piece) {
+        return;
+      }
 
       switch (game.turn) {
         case 5:

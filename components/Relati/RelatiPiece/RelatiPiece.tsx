@@ -14,11 +14,11 @@ export interface Props extends React.SVGProps<SVGPathElement> {
   emphasized?: boolean;
 }
 
-const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphasized, className, style, ...props }: Props) => {
+const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphasized, className = "" as string | undefined, style, ...props }: Props) => {
   const definition = `M ${x * 5} ${y * 5} ${SymbolRoute[symbol]}`;
   const position = `${x * 5}px ${y * 5}px`;
   color = disabled ? "#888" : color || SymbolColor[symbol];
-  className = placement ? `${className} relati-piece-placement` : undefined;
+  className = placement ? `${className && `${className} `}relati-piece-placement` : undefined;
 
   style = {
     ...style,

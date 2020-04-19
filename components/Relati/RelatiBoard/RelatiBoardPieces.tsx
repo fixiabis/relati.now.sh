@@ -143,8 +143,8 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
 
   return (
     <>
-      {drawLines}
-      {pieces}
+      <g className="relati-lines">{drawLines}</g>
+      <g className="relati-grids">{pieces}</g>
     </>
   );
 };
