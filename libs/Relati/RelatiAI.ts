@@ -1,18 +1,282 @@
-import { isGridHasAvailableRelatiRouteBySymbol, disableAllPiecesByBoard, RELATI_SYMBOLS, activePiecesByGrid } from "./utils";
 import RelatiGame from "./RelatiGame";
-import { Direction } from "gridboard";
-import { RelatiGrid, RelatiSymbol } from "./types";
+import { RelatiGrid, RelatiSymbol, RelatiBoard } from "./types";
 
-const NEARBY_DIRECTIONS = [
-    Direction`F`,
-    Direction`B`,
-    Direction`L`,
-    Direction`R`,
-    Direction`FL`,
-    Direction`FR`,
-    Direction`BL`,
-    Direction`BR`,
-];
+function getGridAt(board: RelatiBoard, x: number, y: number) {
+    if (x < 0 || x >= board.width || y < 0 || y >= board.height) {
+        return null;
+    }
+
+    const i = y * board.width + x;
+    return board.grids[i];
+}
+
+function getGridTo(grid: RelatiGrid, dx: number, dy: number) {
+    return getGridAt(grid.board, grid.x + dx, grid.y + dy);
+}
+
+function isSourceGridValid(sourceGrid: RelatiGrid | null, symbol: RelatiSymbol) {
+    return sourceGrid?.piece && sourceGrid.piece.symbol === symbol && !sourceGrid.piece.disabled;
+}
+
+function isTargetGridValid(targetGrid: RelatiGrid | null, symbol: RelatiSymbol): targetGrid is RelatiGrid {
+    return !!(targetGrid?.piece && targetGrid.piece.symbol === symbol);
+}
+
+function isGridHasAvailableRelatiRouteBySymbol(grid: RelatiGrid, symbol: RelatiSymbol) {
+    let sourceGrid, middleGrid1, middleGrid2;
+
+    for (let dx = -1; dx < 2; dx++) {
+        for (let dy = -1; dy < 2; dy++) {
+            if (dx || dy) {
+                sourceGrid = getGridTo(grid, dx, dy);
+
+                if (isSourceGridValid(sourceGrid, symbol)) {
+                    return true;
+                }
+
+                middleGrid1 = sourceGrid;
+                sourceGrid = getGridTo(grid, dx * 2, dy * 2);
+
+                if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    for (let dx = -1; dx < 2; dx++) {
+        sourceGrid = getGridTo(grid, dx * 2, 1);
+        middleGrid1 = getGridTo(grid, dx, 0);
+        middleGrid2 = getGridTo(grid, dx * 2, 0);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        sourceGrid = getGridTo(grid, dx * 2, -1);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        middleGrid2 = getGridTo(grid, dx, -1);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        sourceGrid = getGridTo(grid, dx * 2, 1);
+        middleGrid2 = getGridTo(grid, dx, 1);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        middleGrid1 = getGridTo(grid, 0, 1);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        sourceGrid = getGridTo(grid, dx * 2, -1);
+        middleGrid2 = getGridTo(grid, dx, -1);
+        middleGrid1 = getGridTo(grid, 0, -1);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+    }
+
+    for (let dy = -1; dy < 2; dy++) {
+        sourceGrid = getGridTo(grid, 1, dy * 2);
+        middleGrid1 = getGridTo(grid, 0, dy);
+        middleGrid2 = getGridTo(grid, 0, dy * 2);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        sourceGrid = getGridTo(grid, -1, dy * 2);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        middleGrid2 = getGridTo(grid, -1, dy);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        sourceGrid = getGridTo(grid, 1, dy * 2);
+        middleGrid2 = getGridTo(grid, 1, dy);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        middleGrid1 = getGridTo(grid, 1, 0);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+
+        sourceGrid = getGridTo(grid, -1, dy * 2);
+        middleGrid2 = getGridTo(grid, -1, dy);
+        middleGrid1 = getGridTo(grid, -1, 0);
+
+        if (isSourceGridValid(sourceGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function disableAllPiecesByBoard(board: RelatiBoard, symbol: RelatiSymbol) {
+    for (let { piece } of board.grids) {
+        if (piece && piece.symbol === symbol) {
+            piece.disabled = true;
+        }
+    }
+}
+
+function activePiecesByGrid(grid: RelatiGrid) {
+    if (!grid?.piece?.disabled) {
+        return;
+    }
+
+    grid.piece.disabled = false;
+    const symbol = grid.piece.symbol;
+    let targetGrid, middleGrid1, middleGrid2;
+
+    for (let dx = -1; dx < 2; dx++) {
+        for (let dy = -1; dy < 2; dy++) {
+            if (dx || dy) {
+                targetGrid = getGridTo(grid, dx, dy);
+
+                if (isTargetGridValid(targetGrid, symbol)) {
+                    activePiecesByGrid(targetGrid);
+                }
+
+                middleGrid1 = targetGrid;
+                targetGrid = getGridTo(grid, dx * 2, dy * 2);
+
+                if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece) {
+                    activePiecesByGrid(targetGrid);
+                }
+            }
+        }
+    }
+
+    for (let dx = -1; dx < 2; dx++) {
+        targetGrid = getGridTo(grid, dx * 2, 1);
+        middleGrid1 = getGridTo(grid, dx, 0);
+        middleGrid2 = getGridTo(grid, dx * 2, 0);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        targetGrid = getGridTo(grid, dx * 2, -1);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        middleGrid2 = getGridTo(grid, dx, -1);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        targetGrid = getGridTo(grid, dx * 2, 1);
+        middleGrid2 = getGridTo(grid, dx, 1);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        middleGrid1 = getGridTo(grid, 0, 1);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        targetGrid = getGridTo(grid, dx * 2, -1);
+        middleGrid2 = getGridTo(grid, dx, -1);
+        middleGrid1 = getGridTo(grid, 0, -1);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+    }
+
+    for (let dy = -1; dy < 2; dy++) {
+        targetGrid = getGridTo(grid, 1, dy * 2);
+        middleGrid1 = getGridTo(grid, 0, dy);
+        middleGrid2 = getGridTo(grid, 0, dy * 2);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        targetGrid = getGridTo(grid, -1, dy * 2);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        middleGrid2 = getGridTo(grid, -1, dy);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        targetGrid = getGridTo(grid, 1, dy * 2);
+        middleGrid2 = getGridTo(grid, 1, dy);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        middleGrid1 = getGridTo(grid, 1, 0);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+
+        targetGrid = getGridTo(grid, -1, dy * 2);
+        middleGrid2 = getGridTo(grid, -1, dy);
+        middleGrid1 = getGridTo(grid, -1, 0);
+
+        if (isTargetGridValid(targetGrid, symbol) && !middleGrid1?.piece && !middleGrid2?.piece) {
+            activePiecesByGrid(targetGrid);
+        }
+    }
+}
+
+function findGridArea(grid: RelatiGrid, lastAreaId: number, gridIdToAreaId: Int8Array) {
+    if (!grid.piece && gridIdToAreaId[grid.i] === -1) {
+        gridIdToAreaId[grid.i] = lastAreaId;
+
+        for (let dx = -1; dx < 2; dx++) {
+            for (let dy = -1; dy < 2; dy++) {
+                if (dx || dy) {
+                    const nearbyGrid = getGridTo(grid, dx, dy);
+
+                    if (nearbyGrid) {
+                        findGridArea(nearbyGrid, lastAreaId, gridIdToAreaId);
+                    }
+                }
+            }
+        }
+
+        return lastAreaId + 1;
+    }
+
+    return lastAreaId;
+}
 
 class RelatiAI {
     public static analysis({ board }: RelatiGame) {
@@ -64,16 +328,20 @@ class RelatiAI {
                     continue;
                 }
 
-                for (let direction of NEARBY_DIRECTIONS) {
-                    const nearByGrid = grid.getGridTo(direction);
+                for (let dx = -1; dx < 2; dx++) {
+                    for (let dy = -1; dy < 2; dy++) {
+                        if (dx || dy) {
+                            const nearbyGrid = getGridTo(grid, dx, dy);
 
-                    if (nearByGrid?.piece && !nearByGrid.piece.disabled) {
-                        if (areaSymbol === "?") {
-                            areaSymbol = nearByGrid.piece.symbol;
-                        }
-                        else if (areaSymbol !== nearByGrid.piece.symbol) {
-                            areaSymbol = "N";
-                            break findAreaSymbol;
+                            if (nearbyGrid?.piece && !nearbyGrid.piece.disabled) {
+                                if (areaSymbol === "?") {
+                                    areaSymbol = nearbyGrid.piece.symbol;
+                                }
+                                else if (areaSymbol !== nearbyGrid.piece.symbol) {
+                                    areaSymbol = "N";
+                                    break findAreaSymbol;
+                                }
+                            }
                         }
                     }
                 }
@@ -137,7 +405,7 @@ class RelatiAI {
                     result = { point, grid };
                 }
 
-                RelatiAI.removement(game, grid);
+                RelatiAI.removement(game, grid, playerSymbol);
                 // console.log(`${nowPlayerSymbol}提了一子在(${grid.x}, ${grid.y}), 回合: ${game.turn}, 分數: ${result.point}`);
 
                 if (alpha.point < result.point) alpha = result;
@@ -178,7 +446,7 @@ class RelatiAI {
                 }
 
                 // console.log(`${nowPlayerSymbol}提了一子在(${grid.x}, ${grid.y}), 回合: ${game.turn}, 分數: ${result.point}`);
-                RelatiAI.removement(game, grid);
+                RelatiAI.removement(game, grid, playerSymbol);
 
                 if (beta.point > result.point) beta = result;
                 if (beta.point <= alpha.point) break;
@@ -215,49 +483,24 @@ class RelatiAI {
         }
 
         game.turn++;
-        disableAllPiecesByBoard(game.board);
+        disableAllPiecesByBoard(game.board, symbol === "O" ? "X" : "O");
+        const sourceGrid = game.symbolToSourceGrid[symbol === "O" ? "X" : "O"];
 
-        for (let symbol of RELATI_SYMBOLS) {
-            const sourceGrid = game.symbolToSourceGrid[symbol];
-
-            if (sourceGrid) {
-                activePiecesByGrid(sourceGrid);
-            }
+        if (sourceGrid) {
+            activePiecesByGrid(sourceGrid);
         }
     }
 
-    public static removement(game: RelatiGame, grid: RelatiGrid) {
+    public static removement(game: RelatiGame, grid: RelatiGrid, symbol: RelatiSymbol) {
         delete grid.piece;
-
         game.turn--;
-        disableAllPiecesByBoard(game.board);
+        disableAllPiecesByBoard(game.board, symbol === "O" ? "X" : "O");
+        const sourceGrid = game.symbolToSourceGrid[symbol === "O" ? "X" : "O"];
 
-        for (let symbol of RELATI_SYMBOLS) {
-            const sourceGrid = game.symbolToSourceGrid[symbol];
-
-            if (sourceGrid) {
-                activePiecesByGrid(sourceGrid);
-            }
+        if (sourceGrid) {
+            activePiecesByGrid(sourceGrid);
         }
     }
-}
-
-function findGridArea(grid: RelatiGrid, lastAreaId: number, gridIdToAreaId: Int8Array) {
-    if (!grid.piece && gridIdToAreaId[grid.i] === -1) {
-        gridIdToAreaId[grid.i] = lastAreaId;
-
-        for (let direction of NEARBY_DIRECTIONS) {
-            const nearbyGrid = grid.getGridTo(direction);
-
-            if (nearbyGrid) {
-                findGridArea(nearbyGrid, lastAreaId, gridIdToAreaId);
-            }
-        }
-
-        return lastAreaId + 1;
-    }
-
-    return lastAreaId;
 }
 
 export default RelatiAI;

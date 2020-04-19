@@ -129,17 +129,17 @@ class RelatiGame {
     }
 }
 
-Object.defineProperties(global, {
-    "game": {
-        get: () => RelatiGame.recentInstance,
-        enumerable: true,
-        configurable: true,
-    },
-    "ai": {
-        value: RelatiAI,
-        enumerable: true,
-        configurable: true,
-    }
-});
+// Object.defineProperties(global, {
+//     "game": {
+//         get: () => RelatiGame.recentInstance,
+//         enumerable: true,
+//         configurable: true,
+//     },
+//     "ai": {
+//         value: RelatiAI,
+//         enumerable: true,
+//         configurable: true,
+//     }
+// });
 
 export default RelatiGame;
