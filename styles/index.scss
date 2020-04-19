@@ -10,9 +10,11 @@
     }
 
     .logo {
-        margin-top: 90px;
-        width: 250px;
-        height: 90px;
+        & {
+            margin-top: 90px;
+            width: 250px;
+            height: 90px;
+        }
 
         background: {
             size: cover;
