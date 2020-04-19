@@ -84,7 +84,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
 
   return (
     <>
-      <div className="description">{CAPTIONS[placeStep]}</div>
+      <div key={Math.floor(placeStep / 2)} className="description">{CAPTIONS[placeStep]}</div>
       <Board width={9} height={9} onGridClick={onGridClick} {...props}>
         <g>{drawLines}</g>
         <g>{hints}</g>

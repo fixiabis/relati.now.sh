@@ -15,22 +15,18 @@ const Play = () => {
   const [messageBoxShow, setMessageBoxShow] = useState(true);
   const messageBoxOnCancel = () => setMessageBoxShow(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);
-  const restartGame = () => game.restart();
-  const leaveGame = () => router.replace("/");
-  const messageContainerStyle = { textAlign: "center" as "center" };
-  const messageIconStyle = { transform: "scale(10)" };
 
-  const messageIconContainerStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50
+  const restartGame = () => {
+    game.restart();
+    forceUpdate();
   };
+
+  const leaveGame = () => router.replace("/");
 
   const messageIcon = game.symbolOfWinner !== "?"
     ? (
-      <div style={messageIconContainerStyle}>
-        <svg width="5" height="5" style={messageIconStyle}>
+      <div className="message-icon-container">
+        <svg width="5" height="5" className="message-icon">
           <RelatiPiece x={0} y={0} symbol={game.symbolOfWinner} primary />
         </svg>
       </div>
@@ -69,7 +65,7 @@ const Play = () => {
       </Button.Group>
 
       <MessageBox show={messageBoxShow && game.symbolOfWinner !== "?"} onCancel={messageBoxOnCancel}>
-        <div style={messageContainerStyle}>
+        <div className="message-container">
           {messageIcon}
           {messageText}
         </div>

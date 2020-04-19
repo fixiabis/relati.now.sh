@@ -13,6 +13,10 @@ const Main = () => {
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
   const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
+  const toPlay = () => router.replace("/play");
+  const toHowToPlay = () => router.replace("/how-to-play");
+  const openSetting = () => setSettingOpen(true);
+  const closeSetting = () => setSettingOpen(false);
 
   useEffect(() => () => {
     if (mainPageAnimation) {
@@ -25,16 +29,16 @@ const Main = () => {
       <div className="main-control">
         <div className="logo" />
         <Button.Group className={buttonGroupClassName}>
-          <IconButton type="play" color="crimson" onClick={() => router.replace("/play")} />
-          <IconButton type="help" color="royalblue" onClick={() => router.replace("/how-to-play")} />
+          <IconButton type="play" color="crimson" onClick={toPlay} />
+          <IconButton type="help" color="royalblue" onClick={toHowToPlay} />
         </Button.Group>
       </div>
       <Button.Group className={bottomButtonGroupClassName}>
         <IconButton type="about" color="seagreen" />
         <IconButton type="badge" color="darkorange" />
-        <IconButton type="gear" color="#888" onClick={() => setSettingOpen(true)} />
+        <IconButton type="gear" color="#888" onClick={openSetting} />
       </Button.Group>
-      <Box show={isSettingOpen} onCancel={() => setSettingOpen(false)}>
+      <Box show={isSettingOpen} onCancel={closeSetting}>
         
       </Box>
     </Page>
