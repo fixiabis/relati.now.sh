@@ -1,4 +1,4 @@
-export enum SymbolColor {
+export enum RelatiSymbolColor {
     "O" = "crimson",
     "X" = "royalblue",
     "D" = "seagreen",
@@ -7,7 +7,7 @@ export enum SymbolColor {
     "N" = "#888",
 }
 
-export enum SymbolRoute {
+export enum RelatiSymbolRoute {
     "O" = "m 2.5 1 a 1.5 1.5 0 0 1 0 3 a 1.5 1.5 0 0 1 0 -3",
     "X" = "m 1 1 l 3 3 m 0 -3 l -3 3",
     "D" = "m 2.5 1.5 l 1.5 2.5 l -3 0 z",

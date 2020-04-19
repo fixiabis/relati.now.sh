@@ -1,6 +1,6 @@
 import Board, { BoardProps } from "../../Board";
 import { RelatiSymbol, isGridHasAvailableRelatiRouteBySymbol, RelatiPiece } from "../../../libs/Relati";
-import { SymbolColor } from "../RelatiPiece";
+import { RelatiSymbolColor } from "../RelatiPiece";
 import { Hint } from "../../Piece";
 import RelatiBoardPieces from "./RelatiBoardPieces";
 import { GridBoard } from "gridboard";
@@ -18,7 +18,7 @@ export interface Props extends Omit<BoardProps, "width" | "height"> {
 
 const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, placementEffect, drawLineDuration, lastPieceEmphasized, lastPieceCoordinate, ...props }: Props) => {
   const { width, height } = board;
-  const colorOfCurrentPlayer = SymbolColor[symbolOfCurrentPlayer];
+  const colorOfCurrentPlayer = RelatiSymbolColor[symbolOfCurrentPlayer];
 
   const hints = board.grids.map((grid, i) => {
     const { x, y } = grid;

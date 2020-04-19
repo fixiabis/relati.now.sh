@@ -3,16 +3,21 @@ import Game, { RelatiSymbol } from "../../../libs/Relati";
 import { RelatiBoard } from "..";
 import { CoordinateObject } from "../../../types";
 import { useForceUpdate } from "../../../utils/hook";
+import { RelatiBoardProps } from "../RelatiBoard";
 
-export type Props = {
+type OmittedRelatiBoardPropKeys =
+  | "board"
+  | "lastPieceCoordinate"
+  | "symbolOfPreviousPlayer"
+  | "symbolOfCurrentPlayer";
+
+export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
   game?: Game;
-  placementEffect?: boolean;
-  drawLineDuration?: number;
-  lastPieceEmphasized?: boolean;
   onOver?: (symbol?: RelatiSymbol | "N") => void;
+  onGridClick?: ({ x, y }: CoordinateObject) => boolean | void;
 };
 
-const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, lastPieceEmphasized, onOver }: Props) => {
+const RelatiGame = ({ game: externalGame, lastPieceEmphasized, onGridClick: externalOnGridClick, onOver, ...props }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const forceUpdate = useForceUpdate();
   const [game] = useState<Game>(externalGame || new Game(2));
@@ -20,23 +25,25 @@ const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, las
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
-    const grid = game.board.getGridAt(x, y);
+    if (externalOnGridClick?.({ x, y }) === false) {
+      const grid = game.board.getGridAt(x, y);
 
-    if (grid?.piece || game.symbolOfWinner !== "?") {
-      return;
-    }
+      if (grid?.piece || game.symbolOfWinner !== "?") {
+        return;
+      }
 
-    game.placeSymbolByCoordinate(x, y);
+      game.placeSymbolByCoordinate(x, y);
 
-    if (game.symbolOfWinner !== "?") {
-      onOver?.(game.symbolOfWinner);
-    }
+      if (game.symbolOfWinner !== "?") {
+        onOver?.(game.symbolOfWinner);
+      }
 
-    if (lastPieceEmphasized && grid?.piece) {
-      setLastPieceCoordinate({ x, y });
-    }
-    else {
-      forceUpdate();
+      if (lastPieceEmphasized && grid?.piece) {
+        setLastPieceCoordinate({ x, y });
+      }
+      else {
+        forceUpdate();
+      }
     }
   };
 
@@ -44,8 +51,7 @@ const RelatiGame = ({ game: externalGame, placementEffect, drawLineDuration, las
     <>
       <RelatiBoard
         lastPieceEmphasized={lastPieceEmphasized}
-        placementEffect={placementEffect}
-        drawLineDuration={drawLineDuration}
+        {...props}
         board={game.board}
         onGridClick={onGridClick}
         lastPieceCoordinate={lastPieceCoordinate}

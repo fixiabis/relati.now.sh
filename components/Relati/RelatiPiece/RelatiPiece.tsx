@@ -1,13 +1,12 @@
 import React from "react";
-import { SymbolColor, SymbolRoute } from "./utils";
-import { RelatiPiece as Piece } from "../../../libs/Relati";
+import { RelatiSymbolColor, RelatiSymbolRoute } from "./utils";
 import "./relati-piece.scss";
 
 export interface Props extends React.SVGProps<SVGPathElement> {
   x: number;
   y: number;
   color?: string;
-  symbol: keyof typeof SymbolRoute;
+  symbol: keyof typeof RelatiSymbolRoute;
   primary?: boolean;
   disabled?: boolean;
   placement?: boolean;
@@ -15,9 +14,9 @@ export interface Props extends React.SVGProps<SVGPathElement> {
 }
 
 const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphasized, className = "" as string | undefined, style, ...props }: Props) => {
-  const definition = `M ${x * 5} ${y * 5} ${SymbolRoute[symbol]}`;
+  const definition = `M ${x * 5} ${y * 5} ${RelatiSymbolRoute[symbol]}`;
   const position = `${x * 5}px ${y * 5}px`;
-  color = disabled ? "#888" : color || SymbolColor[symbol];
+  color = disabled ? "#888" : color || RelatiSymbolColor[symbol];
   className = placement ? `${className && `${className} `}relati-piece-placement` : undefined;
 
   style = {

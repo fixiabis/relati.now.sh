@@ -6,8 +6,8 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
   onCancel?: () => void;
 }
 
-const Box = ({ className = "", show = true, onCancel, ...props }: Props) => {
-  const containerDisplay = show ? "block" : "none";
+const Box = ({ className = "", show: visible = true, onCancel, ...props }: Props) => {
+  const containerDisplay = visible ? "block" : "none";
   const containerRef = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
 
   const containerStyle = {

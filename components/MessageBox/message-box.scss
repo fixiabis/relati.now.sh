@@ -1,59 +1,15 @@
 @import "../../styles/effects";
 
-.message-box-container {
-    & {
-        width: 100vw;
-        height: 100vh;
-        max-width: -webkit-fill-available;
-        max-height: -webkit-fill-available;
-    }
-
-    & {
-        position: fixed;
-        top: 0;
-        left: 0;
-    }
-
-    & {
-        background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    & {
-        animation: fade-in 0.25s;
-    }
-
+.box-container {
     .message-box {
-        box-sizing: border-box;
         width: 300px;
         height: 200px;
-        border-width: 2px;
-        border-color: #888;
-        border-style: solid;
-        border-radius: 5px;
+        overflow: hidden;
     }
 
     .message-box {
         position: fixed;
         top: calc(50% - 100px);
         left: calc(50% - 150px);
-    }
-
-    .message-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .message-box {
-        color: #888;
-    }
-
-    .message-box {
-        background-color: #f2f2f2;
-    }
-
-    .message-box {
-        animation: zoom-in 0.25s;
     }
 }

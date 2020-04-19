@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
-import "./board.scss";
 import { CoordinateObject } from "../../types";
+import "./board.scss";
 
 export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   width: number;

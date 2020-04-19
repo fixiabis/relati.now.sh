@@ -1,7 +1,6 @@
 import React from "react";
-
-import "./draw-line.scss";
 import { Coordinate } from "gridboard";
+import "./draw-line.scss";
 
 const RIGHT_TRIANGLE_HYPOTENUSE_LENGTH = 1.41421;
 
@@ -11,7 +10,7 @@ export interface Props extends React.SVGProps<SVGPathElement> {
 }
 
 const DrawLine = ({ linePath, color, className = "", ...props }: Props) => {
-  const [lineLength, pathDefinition] = linePath.reduce(([lineLength, pathDefinition], [x, y], i) => {
+  const [lineLength, definition] = linePath.reduce(([lineLength, pathDefinition], [x, y], i) => {
     if (i !== 0) {
       const [iX, iY] = linePath[i - 1];
       const deltaX = Math.abs(iX - x);
@@ -54,7 +53,7 @@ const DrawLine = ({ linePath, color, className = "", ...props }: Props) => {
 
   return (
     <path
-      d={pathDefinition}
+      d={definition}
       className={className}
       fill="none"
       stroke={color}

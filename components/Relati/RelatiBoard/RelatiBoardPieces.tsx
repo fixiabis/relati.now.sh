@@ -1,5 +1,5 @@
 import { RelatiBoard, RelatiSymbol, disableAllPiecesByBoard, RelatiPiece as RelatiPieceType } from "../../../libs/Relati";
-import RelatiPiece, { SymbolColor } from "../RelatiPiece";
+import RelatiPiece, { RelatiSymbolColor } from "../RelatiPiece";
 import { useState } from "react";
 import { Coordinate, GridBoard } from "gridboard";
 import DrawLine from "../../DrawLine";
@@ -120,7 +120,7 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
     }
   }, drawLineDuration);
 
-  const color = SymbolColor[symbol];
+  const color = RelatiSymbolColor[symbol];
 
   const pieces = board.grids.map(({ x, y, piece }, i) => (
     piece &&
