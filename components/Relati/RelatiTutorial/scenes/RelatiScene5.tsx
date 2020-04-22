@@ -31,7 +31,7 @@ const RelatiScene5 = ({ nextStep, ...props }: Props) => {
 
   return (
     <>
-      <div className="description">{description}</div>
+      <div key={description} className="description">{description}</div>
       <Board width={9} height={9} onGridClick={onGridClick} {...props}>
         <g>{hints}</g>
         {focused}

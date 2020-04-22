@@ -87,7 +87,7 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
 
   return (
     <>
-      <div key={game.turn} className="description">{description}</div>
+      <div key={game.turn + description} className="description">{description}</div>
       <RelatiBoard
         drawLineDuration={180}
         board={game.board}
