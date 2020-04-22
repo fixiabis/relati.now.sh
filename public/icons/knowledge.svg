@@ -1,0 +1,27 @@
+<svg id="debug" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="none">
+    <path d="
+        M 25 10
+        L  5 18
+        L 25 26
+        L 45 18
+
+        M 15 23
+        l 10  4
+        l 10 -4
+        v 13
+        l -10 4
+        l -10 -4
+
+        M 44 19
+        v 10
+        h -1
+        v -9.5
+
+        M 44 30
+        l  0.5 4
+        h -2
+        l  0.5 -4
+    " fill="#f2f2f2"></path>
+
+    <style>svg:target { background-color: seagreen; }</style>
+</svg>

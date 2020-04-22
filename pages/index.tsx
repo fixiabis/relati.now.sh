@@ -34,7 +34,7 @@ const Main = () => {
         </Button.Group>
       </div>
       <Button.Group className={bottomButtonGroupClassName}>
-        <IconButton type="about" color="seagreen" />
+        <IconButton type="knowledge" color="seagreen" />
         <IconButton type="badge" color="darkorange" />
         <IconButton type="gear" color="#888" onClick={openSetting} />
       </Button.Group>
