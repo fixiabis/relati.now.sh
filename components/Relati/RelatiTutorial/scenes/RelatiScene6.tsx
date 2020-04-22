@@ -68,14 +68,19 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
   useEffect(() => {
-    const [description, ms, coordinate] = SCENE6_SCRIPTS[game.turn - 3];
+    const [description, ms, coordinate] = SCENE6_SCRIPTS[game.turn - 3] || [];
+
+    if (!description) {
+      return;
+    }
 
     const placementTimer = setTimeout(() => {
       if (coordinate) {
         const [x, y] = coordinate;
         game.placeSymbolByCoordinate(x, y);
-        setDescription(description);
       }
+
+      setDescription(description);
     }, ms);
 
     return () => clearTimeout(placementTimer);

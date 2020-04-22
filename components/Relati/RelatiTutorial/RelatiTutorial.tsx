@@ -16,17 +16,6 @@ const RelatiTutorial = () => {
     setScale(scale);
   }, []);
 
-  useEffect(() => {
-    const toScene6 = (event: KeyboardEvent) => {
-      if (event.key === "6") {
-        setStep(5);
-      }
-    };
-
-    window.addEventListener("keyup", toScene6);
-    return () => window.removeEventListener("keyup", toScene6);
-  }, []);
-
   return (
     <div className="relati-tutorial">
       <Scene nextStep={nextStep} style={style} />
