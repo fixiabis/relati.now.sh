@@ -9,7 +9,7 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
   const [game] = useState(new RelatiGame(2));
   const [placeSymbol, setPlaceSymbol] = useState<RelatiSymbol>("O");
-  const blockedGrid = game.board.getGridAt(6, 6) as RelatiGrid;
+  const blockedGridAtTurn3 = game.board.getGridAt(6, 6) as RelatiGrid;
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() === placeSymbol) {
@@ -27,11 +27,8 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
 
       switch (game.turn) {
         case 5:
-          if (blockedGrid.piece?.disabled) {
-            if (grid?.piece) {
-              game.undo();
-            }
-
+          if (blockedGridAtTurn3.piece?.disabled) {
+            game.undo();
             return setDescription("這裡好像不行？");
           }
           else if (x === 6 && y === 4) {
@@ -41,11 +38,8 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
             return setDescription("成功了，恭喜你！");
           }
         case 6:
-          if (!blockedGrid.piece?.disabled) {
-            if (grid?.piece) {
-              game.undo();
-            }
-
+          if (!blockedGridAtTurn3.piece?.disabled) {
+            game.undo();
             return setDescription("這裡好像不行？");
           }
           else if (game.board.grids.filter(grid => grid.piece?.symbol === "O" && !grid.piece.disabled).length === 1) {
@@ -54,6 +48,17 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
           else {
             return setDescription("成功了，恭喜你！");
           }
+        case 14:
+          if (x !== 4 || y !== 3) {
+            game.undo();
+            return setDescription("這裡好像不行？");
+          }
+          else {
+            return setDescription("成功了，恭喜你！");
+          }
+        default:
+          console.log(game.turn);
+          game.undo();
       }
     }
   };
