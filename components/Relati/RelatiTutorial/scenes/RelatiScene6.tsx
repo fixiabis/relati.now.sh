@@ -3,6 +3,7 @@ import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
 import RelatiGame, { RelatiSymbol, RelatiGrid } from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
+import { SCENE6_SCRIPTS } from "./utils";
 
 const RelatiScene6 = ({ nextStep, ...props }: Props) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
@@ -67,16 +68,15 @@ const RelatiScene6 = ({ nextStep, ...props }: Props) => {
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
   useEffect(() => {
+    const [description, ms, coordinate] = SCENE6_SCRIPTS[game.turn - 3];
+
     const placementTimer = setTimeout(() => {
-      switch (game.turn) {
-        case 3:
-        case 4:
-          game.placeSymbolByCoordinate(5, 5);
-          return setDescription("中間沒空格，被打斷了，如何接回去呢？");
-        case 5:
-          return setDescription("現在作為藍方，如何再打斷紅方呢？");
+      if (coordinate) {
+        const [x, y] = coordinate;
+        game.placeSymbolByCoordinate(x, y);
+        setDescription(description);
       }
-    }, 2000);
+    }, ms);
 
     return () => clearTimeout(placementTimer);
   });
