@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
 import RelatiGame, { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
-import { CoordinateObject } from "../../../../types";
 import { Coordinate } from "gridboard";
 
 const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
-  const [description, setDescription] = useState("對方也不是省油的燈呢！");
   const [game] = useState(new RelatiGame(2));
 
   if (game.turn === 0) {
@@ -70,7 +68,7 @@ const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
 
   return (
     <>
-      <div key={game.turn + description} className="description">{description}</div>
+      <div className="description">對方也不是省油的燈呢！</div>
       <RelatiBoard
         drawLineDuration={180}
         board={game.board}
