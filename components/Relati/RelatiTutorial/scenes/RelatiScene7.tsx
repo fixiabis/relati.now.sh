@@ -9,11 +9,8 @@ const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
   const [description, setDescription] = useState("對方也不是省油的燈呢！");
   const [game] = useState(new RelatiGame(2));
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
-  };
-
   if (game.turn === 0) {
-    game.turn = 5;
+    game.turn = 4;
     game.board = board;
 
     game.placementRecords = [
@@ -23,7 +20,10 @@ const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
       [5, 5],
     ];
 
-    game.placementRecords.push(game.board.grids.reduce((records, grid, i) => {
+    game.symbolToSourceGrid["O"] = board.getGridAt(4, 4) as RelatiGrid;
+    game.symbolToSourceGrid["X"] = board.getGridAt(7, 3) as RelatiGrid;
+
+    const gameLastPlacementRecord: Coordinate = game.board.grids.reduce((records, grid, i) => {
       if (records[0] === -1) {
         const isRecorded = game.placementRecords.some(record => record[0] === grid.x && record[1] === grid.y);
         const isGridHasPiece = grid.piece;
@@ -34,12 +34,18 @@ const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
       }
 
       return records;
-    }, [-1, -1] as Coordinate));
+    }, [-1, -1] as Coordinate);
 
-    game.symbolToSourceGrid["O"] = board.getGridAt(4, 4) as RelatiGrid;
-    game.symbolToSourceGrid["X"] = board.getGridAt(7, 3) as RelatiGrid;
+    if (gameLastPlacementRecord[0] === -1) {
+      game.placeSymbolByCoordinate(6, 4);
+    }
+    else {
+      game.placementRecords.push(gameLastPlacementRecord);
+      game.turn++;
+    }
 
     const shouldBlockedGrid = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
+
     const placeableGrids = game.board.grids.filter(
       grid => !grid.piece && isGridHasAvailableRelatiRouteBySymbol(grid, "X")
     );
@@ -68,7 +74,6 @@ const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
       <RelatiBoard
         drawLineDuration={180}
         board={game.board}
-        onGridClick={onGridClick}
         lastPieceCoordinate={boardLastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}

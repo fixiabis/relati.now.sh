@@ -25,6 +25,14 @@ export function doPlacement(board: RelatiBoard, step: number) {
             disabled: false,
         };
     }
+
+    if (step > 5) {
+        (board.getGridAt(5, 5) as RelatiGrid).piece = {
+            symbol: "X",
+            primary: false,
+            disabled: false,
+        };
+    }
 }
 
 export const SCENE4_SAMPLE_RELATI_ROUTES_LIST = [
