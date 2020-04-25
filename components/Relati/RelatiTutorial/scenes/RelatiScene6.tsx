@@ -5,7 +5,7 @@ import RelatiGame, { RelatiSymbol, RelatiGrid } from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
 import { SCENE6_SCRIPTS } from "./utils";
 
-const RelatiScene6 = ({ nextStep, ...props }: Props) => {
+const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
   const [game] = useState(new RelatiGame(2));
   const [placeSymbol, setPlaceSymbol] = useState<RelatiSymbol>("O");

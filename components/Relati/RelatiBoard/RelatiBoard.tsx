@@ -8,25 +8,28 @@ import { CoordinateObject } from "../../../types";
 
 export interface Props extends Omit<BoardProps, "width" | "height"> {
   board: GridBoard<RelatiPiece>;
+  showHints?: boolean;
   placementEffect?: boolean;
   drawLineDuration?: number;
   lastPieceEmphasized?: boolean;
   lastPieceCoordinate?: CoordinateObject;
-  symbolOfPreviousPlayer: RelatiSymbol;
+  symbolOfPreviousPlayer?: RelatiSymbol;
   symbolOfCurrentPlayer: RelatiSymbol;
 }
 
-const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, placementEffect, drawLineDuration, lastPieceEmphasized, lastPieceCoordinate, ...props }: Props) => {
+const RelatiBoard = ({ board, showHints = true, symbolOfPreviousPlayer, symbolOfCurrentPlayer, placementEffect, drawLineDuration, lastPieceEmphasized, lastPieceCoordinate, children, ...props }: Props) => {
   const { width, height } = board;
   const colorOfCurrentPlayer = RelatiSymbolColor[symbolOfCurrentPlayer];
 
-  const hints = board.grids.map((grid, i) => {
-    const { x, y } = grid;
+  const hints = showHints
+    ? board.grids.map((grid, i) => {
+      const { x, y } = grid;
 
-    if (!grid.piece && isGridHasAvailableRelatiRouteBySymbol(grid, symbolOfCurrentPlayer)) {
-      return <Hint key={i} x={x} y={y} color={colorOfCurrentPlayer} />
-    }
-  });
+      if (!grid.piece && isGridHasAvailableRelatiRouteBySymbol(grid, symbolOfCurrentPlayer)) {
+        return <Hint key={i} x={x} y={y} color={colorOfCurrentPlayer} />
+      }
+    })
+    : undefined;
 
   const pieces = (
     <RelatiBoardPieces
@@ -42,6 +45,7 @@ const RelatiBoard = ({ board, symbolOfPreviousPlayer, symbolOfCurrentPlayer, pla
     <Board width={width} height={height} {...props}>
       {pieces}
       {hints}
+      {children}
     </Board>
   );
 };

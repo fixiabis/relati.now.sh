@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { GridBoard } from "gridboard";
 import RELATI_SCENES from "./scenes";
+import { RelatiPiece } from "../../../libs/Relati";
+import { RelatiBoardProps } from "..";
 
-const RelatiTutorial = () => {
+type OmittedRelatiBoardPropKeys =
+  | "board"
+  | "lastPieceCoordinate"
+  | "symbolOfPreviousPlayer"
+  | "symbolOfCurrentPlayer";
+
+export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
+  onOver?: () => void;
+};
+
+const RelatiTutorial = ({ ...props }: Props) => {
+  const [board] = useState(new GridBoard<RelatiPiece>(9, 9));
   const [step, setStep] = useState(0);
   const [scale, setScale] = useState(0.95);
   const nextStep = () => setStep(step + 1);
@@ -16,20 +30,9 @@ const RelatiTutorial = () => {
     setScale(scale);
   }, []);
 
-  useEffect(() => {
-    const toScene6 = (event: KeyboardEvent) => {
-      if (event.key === "6") {
-        setStep(5);
-      }
-    };
-
-    window.addEventListener("keyup", toScene6);
-    return () => window.removeEventListener("keyup", toScene6);
-  }, []);
-
   return (
     <div className="relati-tutorial">
-      <Scene nextStep={nextStep} style={style} />
+      <Scene board={board} nextStep={nextStep} style={style} {...props} />
     </div>
   );
 };

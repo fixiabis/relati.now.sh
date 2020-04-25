@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Props } from "./types";
-import Board from "../../../Board";
+import RelatiBoard from "../../RelatiBoard";
 import { Hint } from "../../../Piece";
 import DrawLine from "../../../DrawLine";
-import RelatiPiece from "../../RelatiPiece";
 import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 import { CoordinateObject } from "../../../../types";
 import { Coordinate } from "gridboard";
@@ -62,12 +61,14 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
   return (
     <>
       <div key={Math.floor(placeStep / 2)} className="description">{SCENE4_CAPTIONS[placeStep]}</div>
-      <Board width={9} height={9} onGridClick={onGridClick} {...props}>
+      <RelatiBoard
+        showHints={false}
+        symbolOfPreviousPlayer="X"
+        symbolOfCurrentPlayer="O"
+        onGridClick={onGridClick} {...props}>
         <g>{drawLines}</g>
         <g>{hints}</g>
-        <RelatiPiece x={4} y={4} symbol="O" primary />
-        <RelatiPiece x={7} y={3} symbol="X" primary />
-      </Board>
+      </RelatiBoard>
     </>
   );
 };

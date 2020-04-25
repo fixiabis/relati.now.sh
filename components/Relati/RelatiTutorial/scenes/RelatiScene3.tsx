@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { Props } from "./types";
-import Board from "../../../Board";
-import RelatiPiece from "../../RelatiPiece";
+import RelatiBoard from "../../RelatiBoard";
+import { RelatiGrid } from "../../../../libs/Relati";
 
 const RelatiScene3 = ({ nextStep, ...props }: Props) => {
+  const boardLastPieceCoordinate = { x: 7, y: 3 };
   setTimeout(nextStep, 1000);
+
+  (props.board.getGridAt(7, 3) as RelatiGrid).piece = {
+    symbol: "X",
+    primary: true,
+    disabled: false,
+  };
 
   return (
     <>
       <div className="description">輪到對方了！</div>
-      <Board width={9} height={9} {...props}>
-        <RelatiPiece x={4} y={4} symbol="O" primary />
-        <RelatiPiece x={7} y={3} symbol="X" primary />
-      </Board>
+      <RelatiBoard
+        symbolOfPreviousPlayer="X"
+        symbolOfCurrentPlayer="O"
+        lastPieceCoordinate={boardLastPieceCoordinate}
+        {...props} />
     </>
   );
 };

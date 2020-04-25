@@ -12,7 +12,7 @@ export interface Props {
   drawLineDuration?: number;
   lastPieceEmphasized?: boolean;
   lastPieceCoordinate?: CoordinateObject;
-  symbol: RelatiSymbol;
+  symbol?: RelatiSymbol;
 }
 
 const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placementEffect, drawLineDuration, lastPieceCoordinate, symbol }: Props) => {
@@ -120,7 +120,7 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
     }
   }, drawLineDuration);
 
-  const color = RelatiSymbolColor[symbol];
+  const color = symbol ? RelatiSymbolColor[symbol] : "#888";
 
   const pieces = board.grids.map(({ x, y, piece }, i) => (
     piece &&

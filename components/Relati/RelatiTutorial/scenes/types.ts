@@ -1,5 +1,10 @@
-import { BoardProps } from "../../../Board";
+import { RelatiBoardProps } from "../../RelatiBoard";
 
-export interface Props extends Omit<BoardProps, "width" | "height"> {
+type OmittedRelatiBoardPropKeys =
+  | "lastPieceCoordinate"
+  | "symbolOfPreviousPlayer"
+  | "symbolOfCurrentPlayer";
+
+export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
     nextStep: () => void;
 }
