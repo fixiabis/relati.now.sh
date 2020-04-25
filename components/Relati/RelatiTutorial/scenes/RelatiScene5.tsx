@@ -3,7 +3,6 @@ import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
 import { Focus } from "../../../Piece";
 import { CoordinateObject } from "../../../../types";
-import { doPlacement } from "./utils";
 
 const RelatiScene5 = ({ nextStep, ...props }: Props) => {
   const [focused, setFocused] = useState<JSX.Element>();

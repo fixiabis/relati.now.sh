@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
-import RelatiGame, { RelatiSymbol, RelatiGrid } from "../../../../libs/Relati";
+import RelatiGame, { RelatiGrid } from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
 
 const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
