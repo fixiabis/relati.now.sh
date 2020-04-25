@@ -2,37 +2,45 @@ import { Coordinate } from "gridboard";
 import { RelatiBoard, RelatiGrid } from "../../../../libs/Relati";
 
 export function doPlacement(board: RelatiBoard, step: number) {
-    if (step > 0) {
-        (board.getGridAt(4, 4) as RelatiGrid).piece = {
-            symbol: "O",
-            primary: true,
-            disabled: false,
-        };
+    if (step <= 0) {
+        return;
     }
 
-    if (step > 1) {
-        (board.getGridAt(7, 3) as RelatiGrid).piece = {
-            symbol: "X",
-            primary: true,
-            disabled: false,
-        };
+    (board.getGridAt(4, 4) as RelatiGrid).piece = {
+        symbol: "O",
+        primary: true,
+        disabled: false,
+    };
+
+    if (step <= 1) {
+        return;
     }
 
-    if (step > 4) {
-        (board.getGridAt(6, 6) as RelatiGrid).piece = {
-            symbol: "O",
-            primary: false,
-            disabled: false,
-        };
+    (board.getGridAt(7, 3) as RelatiGrid).piece = {
+        symbol: "X",
+        primary: true,
+        disabled: false,
+    };
+
+    if (step <= 4) {
+        return;
     }
 
-    if (step > 5) {
-        (board.getGridAt(5, 5) as RelatiGrid).piece = {
-            symbol: "X",
-            primary: false,
-            disabled: false,
-        };
+    (board.getGridAt(6, 6) as RelatiGrid).piece = {
+        symbol: "O",
+        primary: false,
+        disabled: false,
+    };
+
+    if (step <= 5) {
+        return;
     }
+
+    (board.getGridAt(5, 5) as RelatiGrid).piece = {
+        symbol: "X",
+        primary: false,
+        disabled: false,
+    };
 }
 
 export const SCENE4_SAMPLE_RELATI_ROUTES_LIST = [

@@ -25,7 +25,7 @@ const HowToPlay: NextPage<Props> = ({ step }) => {
 };
 
 HowToPlay.getInitialProps = async ({ query }) => {
-  return { step: parseInt(query.step as string) };
+  return { step: parseInt(query.step as string) || 0 };
 };
 
 export default HowToPlay;
