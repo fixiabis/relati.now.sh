@@ -1,17 +1,11 @@
 import React from "react";
 import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
-import { RelatiGrid } from "../../../../libs/Relati";
+import { doPlacement } from "./utils";
 
 const RelatiScene3 = ({ nextStep, ...props }: Props) => {
   const boardLastPieceCoordinate = { x: 7, y: 3 };
   setTimeout(nextStep, 1000);
-
-  (props.board.getGridAt(7, 3) as RelatiGrid).piece = {
-    symbol: "X",
-    primary: true,
-    disabled: false,
-  };
 
   return (
     <>

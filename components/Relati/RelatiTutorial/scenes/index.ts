@@ -6,6 +6,7 @@ import RelatiScene3 from "./RelatiScene3";
 import RelatiScene4 from "./RelatiScene4";
 import RelatiScene5 from "./RelatiScene5";
 import RelatiScene6 from "./RelatiScene6";
+import RelatiScene7 from "./RelatiScene7";
 
 const RELATI_SCENES: React.FC<Props>[] = [
     RelatiScene1,
@@ -14,6 +15,7 @@ const RELATI_SCENES: React.FC<Props>[] = [
     RelatiScene4,
     RelatiScene5,
     RelatiScene6,
+    RelatiScene7,
 ];
 
 export default RELATI_SCENES;

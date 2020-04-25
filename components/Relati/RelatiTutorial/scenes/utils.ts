@@ -1,4 +1,31 @@
 import { Coordinate } from "gridboard";
+import { RelatiBoard, RelatiGrid } from "../../../../libs/Relati";
+
+export function doPlacement(board: RelatiBoard, step: number) {
+    if (step > 0) {
+        (board.getGridAt(4, 4) as RelatiGrid).piece = {
+            symbol: "O",
+            primary: true,
+            disabled: false,
+        };
+    }
+
+    if (step > 1) {
+        (board.getGridAt(7, 3) as RelatiGrid).piece = {
+            symbol: "X",
+            primary: true,
+            disabled: false,
+        };
+    }
+
+    if (step > 4) {
+        (board.getGridAt(6, 6) as RelatiGrid).piece = {
+            symbol: "O",
+            primary: false,
+            disabled: false,
+        };
+    }
+}
 
 export const SCENE4_SAMPLE_RELATI_ROUTES_LIST = [
     [
@@ -88,7 +115,7 @@ export const SCENE4_CAPTIONS = [
 
 type Scene6Script = [string, number, Coordinate] | [string, number];
 
-export const SCENE6_SCRIPTS: Scene6Script[] = [
+export const SCENEX_SCRIPTS: Scene6Script[] = [
     ["中間沒空格，被打斷了，如何接回去呢？", 2000, [5, 5]],
     ["中間沒空格，被打斷了，如何接回去呢？", 2000, [5, 5]],
     ["現在作為藍方，如何再打斷紅方呢？", 2000],
@@ -101,4 +128,6 @@ export const SCENE6_SCRIPTS: Scene6Script[] = [
     ["自動放置中(紅方)", 500, [3, 2]],
     ["得想辦法打斷他", 500],
     ["自動放置中(紅方)", 500, [5, 3]],
+    ["他在下一步就能接回去，如何打斷呢？", 500],
+    ["自動放置中(紅方)", 500, [2, 5]],
 ];

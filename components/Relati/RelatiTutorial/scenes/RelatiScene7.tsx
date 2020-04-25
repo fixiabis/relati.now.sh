@@ -1,63 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
-import RelatiGame, { RelatiSymbol, RelatiGrid } from "../../../../libs/Relati";
+import RelatiGame, { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
+import { Coordinate } from "gridboard";
 
 const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
-  const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
+  const [description, setDescription] = useState("對方也不是省油的燈呢！");
   const [game] = useState(new RelatiGame(2));
-  const blockedGridAtTurn4 = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
-    game.placeSymbolByCoordinate(x, y);
-
-    if (blockedGridAtTurn4.piece.disabled) {
-      game.undo();
-      return setDescription("這裡好像不行？");
-    }
-    else if (x === 6 && y === 4) {
-      return setDescription("成功了，厲害！甚至切斷別人的連線！");
-    }
-    else {
-      return setDescription("成功了，恭喜你！");
-    }
   };
 
   if (game.turn === 0) {
-    game.turn = 3;
+    game.turn = 5;
     game.board = board;
 
     game.placementRecords = [
       [4, 4],
       [7, 3],
       [6, 6],
+      [5, 5],
     ];
+
+    game.placementRecords.push(game.board.grids.reduce((records, grid, i) => {
+      if (records[0] === -1) {
+        const isRecorded = game.placementRecords.some(record => record[0] === grid.x && record[1] === grid.y);
+        const isGridHasPiece = grid.piece;
+
+        if (!isRecorded && isGridHasPiece) {
+          return [grid.x, grid.y];
+        }
+      }
+
+      return records;
+    }, [-1, -1] as Coordinate));
 
     game.symbolToSourceGrid["O"] = board.getGridAt(4, 4) as RelatiGrid;
     game.symbolToSourceGrid["X"] = board.getGridAt(7, 3) as RelatiGrid;
+
+    const shouldBlockedGrid = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
+    const placeableGrids = game.board.grids.filter(
+      grid => !grid.piece && isGridHasAvailableRelatiRouteBySymbol(grid, "X")
+    );
+
+    for (let grid of placeableGrids) {
+      const { x, y } = grid;
+      game.placeSymbolByCoordinate(x, y);
+
+      if (!shouldBlockedGrid.piece.disabled) {
+        game.undo();
+      }
+      else {
+        break;
+      }
+    }
   }
 
   const gameLastPlacementRecord = game.placementRecords[game.placementRecords.length - 1];
   const boardLastPieceCoordinate = { x: gameLastPlacementRecord[0], y: gameLastPlacementRecord[1] };
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
-
-  useEffect(() => {
-    const placementTimer = setTimeout(() => {
-      switch (game.turn) {
-        case 3:
-          game.placeSymbolByCoordinate(5, 5);
-          return setDescription("中間沒空格，被打斷了，如何接回去呢？");
-        case 5:
-          if (!blockedGridAtTurn4.piece.disabled) {
-            return nextStep();
-          }
-      }
-    }, 1500);
-
-    return () => clearTimeout(placementTimer);
-  });
 
   return (
     <>

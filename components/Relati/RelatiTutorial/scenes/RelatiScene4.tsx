@@ -3,7 +3,7 @@ import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
 import { Hint } from "../../../Piece";
 import DrawLine from "../../../DrawLine";
-import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
+import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST, doPlacement } from "./utils";
 import { CoordinateObject } from "../../../../types";
 import { Coordinate } from "gridboard";
 
@@ -65,7 +65,8 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
         showHints={false}
         symbolOfPreviousPlayer="X"
         symbolOfCurrentPlayer="O"
-        onGridClick={onGridClick} {...props}>
+        onGridClick={onGridClick}
+        {...props}>
         <g>{drawLines}</g>
         <g>{hints}</g>
       </RelatiBoard>
