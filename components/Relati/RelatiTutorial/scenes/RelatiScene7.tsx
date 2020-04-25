@@ -44,11 +44,11 @@ const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
 
     const shouldBlockedGrid = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
 
-    const placeableGrids = game.board.grids.filter(
-      grid => !grid.piece && isGridHasAvailableRelatiRouteBySymbol(grid, "X")
-    );
+    for (let grid of game.board.grids) {
+      if (grid.piece || !isGridHasAvailableRelatiRouteBySymbol(grid, "X")) {
+        continue;
+      }
 
-    for (let grid of placeableGrids) {
       const { x, y } = grid;
       game.placeSymbolByCoordinate(x, y);
 
