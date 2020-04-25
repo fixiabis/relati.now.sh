@@ -12,8 +12,6 @@ class RelatiApp extends App<ReduxWrapperAppProps<State>> {
   public static async getInitialProps({ Component, ctx }: AppContext) {
     const initialProps = await Component.getInitialProps?.(ctx) || {};
 
-    console.log("app:", initialProps);
-
     return {
       pageProps: {
         ...initialProps,
