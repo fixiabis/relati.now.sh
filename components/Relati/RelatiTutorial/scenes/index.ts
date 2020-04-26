@@ -7,6 +7,8 @@ import RelatiScene5 from "./RelatiScene5";
 import RelatiScene6 from "./RelatiScene6";
 import RelatiScene7 from "./RelatiScene7";
 import RelatiScene8 from "./RelatiScene8";
+import RelatiScene9 from "./RelatiScene9";
+import RelatiScene10 from "./RelatiScene10";
 
 const RELATI_SCENES: SceneComponent[] = [
     RelatiScene1,
@@ -17,6 +19,8 @@ const RELATI_SCENES: SceneComponent[] = [
     RelatiScene6,
     RelatiScene7,
     RelatiScene8,
+    RelatiScene9,
+    RelatiScene10,
 ];
 
 export default RELATI_SCENES;
