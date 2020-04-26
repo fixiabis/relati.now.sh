@@ -3,11 +3,11 @@ import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
-import RelatiScene11 from "./RelatiScene11";
+import RelatiScene14A from "./RelatiScene14A";
 
-const RelatiScene12A: SceneComponent = ({ toStep, game, ...props }) => {
+const RelatiScene15B: SceneComponent = ({ toStep, game, ...props }) => {
   const [isTurnBack, setIsTurnBack] = useState(false);
-  const [description, setDescription] = useState("他過來了!");
+  const [description, setDescription] = useState("他又接回去了?");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -26,8 +26,8 @@ const RelatiScene12A: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if (grid.i === 11) {
-      return setDescription("沒錯, 你擋下來了!");
+    if (grid.i === 28) {
+      return setDescription("幹的好!");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -37,32 +37,27 @@ const RelatiScene12A: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       if (isTurnBack) {
         switch (game.turn) {
-          case 10:
+          case 16:
             return setIsTurnBack(false);
-          case 11:
+          case 17:
             game.undo();
             return setDescription("再試一次?");
-          case 12:
+          case 18:
             game.undo();
             return setDescription("回到上一步中...");
         }
       }
       else {
         switch (game.turn) {
-          case 11:
-            if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(2, 0);
-              return setDescription("並沒有, 他入侵了!");
-            }
-            else if (!(game.board.getGridAt(2, 1) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(2, 1);
-              return setDescription("並沒有, 他入侵了!");
+          case 17:
+            if (!(game.board.getGridAt(1, 3) as RelatiGrid).piece) {
+              game.placeSymbolByCoordinate(1, 3);
+              return setDescription("失敗, 穩定的連線無法被打斷!");
             }
             else {
-              return toStep("13A");
+              return toStep("16D");
             }
-
-          case 12:
+          case 18:
             return setIsTurnBack(true);
         }
       }
@@ -90,16 +85,16 @@ const RelatiScene12A: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene12A.initial = (game) => {
-  RelatiScene11.initial(game);
+RelatiScene15B.initial = (game) => {
+  RelatiScene14A.initial(game);
 
-  if (game.turn === 8) {
-    game.placeSymbolByCoordinate(2, 0);
+  if (game.turn === 14) {
+    game.placeSymbolByCoordinate(3, 3);
   }
 
-  if (game.turn === 9) {
-    game.placeSymbolByCoordinate(3, 1);
+  if (game.turn === 15) {
+    game.placeSymbolByCoordinate(3, 2);
   }
 };
 
-export default RelatiScene12A;
+export default RelatiScene15B;

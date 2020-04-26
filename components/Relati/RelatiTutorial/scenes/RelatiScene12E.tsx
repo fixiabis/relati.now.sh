@@ -7,7 +7,7 @@ import RelatiScene11 from "./RelatiScene11";
 
 const RelatiScene12E: SceneComponent = ({ toStep, game, ...props }) => {
   const [isTurnBack, setIsTurnBack] = useState(false);
-  const [description, setDescription] = useState("很好, 直接不讓他擺!");
+  const [description, setDescription] = useState("他換了一個位置!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -29,9 +29,8 @@ const RelatiScene12E: SceneComponent = ({ toStep, game, ...props }) => {
     if (grid.i === 13) {
       return setDescription("沒錯, 你擋下來了!");
     }
-    else {
-      return setDescription("這是特殊的戰略!");
-    }
+
+    return setDescription("這是特殊的戰略!");
   };
 
   useEffect(() => {
@@ -45,14 +44,11 @@ const RelatiScene12E: SceneComponent = ({ toStep, game, ...props }) => {
             return setDescription("再試一次?");
           case 12:
             game.undo();
-            return setDescription("恢復上一步中...");
+            return setDescription("回到上一步中...");
         }
       }
       else {
         switch (game.turn) {
-          case 9:
-            game.placeSymbolByCoordinate(3, 0);
-            return setDescription("他換了一個位置!");
           case 11:
             if (!(game.board.getGridAt(3, 0) as Required<RelatiGrid>).piece.disabled) {
               if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
@@ -102,6 +98,10 @@ RelatiScene12E.initial = (game) => {
 
   if (game.turn === 8) {
     game.placeSymbolByCoordinate(3, 1);
+  }
+
+  if (game.turn === 9) {
+    game.placeSymbolByCoordinate(3, 0);
   }
 };
 

@@ -26,6 +26,14 @@ const RelatiScene13A: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
+    if (grid.i === 19) {
+      return setDescription("這是個不錯的辦法!");
+    }
+
+    if ((game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece.disabled) {
+      return setDescription("你擋下來了!");
+    }
+
     return setDescription("這是特殊的戰略!");
   };
 
@@ -33,10 +41,36 @@ const RelatiScene13A: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       if (isTurnBack) {
         switch (game.turn) {
+          case 12:
+            return setIsTurnBack(false);
+          case 13:
+            game.undo();
+            return setDescription("再試一次?");
+          case 14:
+            game.undo();
+            return setDescription("回到上一步中...");
         }
       }
       else {
         switch (game.turn) {
+          case 13:
+            if (!(game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece.disabled) {
+              if (!(game.board.getGridAt(1, 2) as RelatiGrid).piece) {
+                game.placeSymbolByCoordinate(1, 2);
+                return setDescription("並沒有, 他入侵了!");
+              }
+              else {
+                return toStep("14A");
+              }
+            }
+            else if ((game.board.getGridAt(3, 3) as RelatiGrid).piece) {
+              return toStep("14B");
+            }
+            else {
+              return toStep("14C");
+            }
+          case 14:
+            return setIsTurnBack(true);
         }
       }
     }, 1500);

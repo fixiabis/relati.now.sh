@@ -23,12 +23,13 @@ const RelatiTutorial = ({ step: externalStep = "0", ...props }: Props) => {
   const style = { transform: `scale(${scale})` };
 
   useEffect(() => {
+    DEBUG: document.title = step;
     const { innerWidth = 45, innerHeight = 185 } = globalThis;
     const widthRatio = innerWidth / 45;
     const heightRatio = (innerHeight - 140) / 45;
     const scale = Math.min(widthRatio, heightRatio) * 0.95;
     setScale(scale);
-  }, []);
+  });
 
   Scene.initial(game);
 
