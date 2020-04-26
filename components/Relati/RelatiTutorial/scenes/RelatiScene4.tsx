@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Props } from "./types";
+import { Coordinate } from "gridboard";
 import RelatiBoard from "../../RelatiBoard";
 import { Hint } from "../../../Piece";
 import DrawLine from "../../../DrawLine";
-import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 import { CoordinateObject } from "../../../../types";
-import { Coordinate } from "gridboard";
+import { Component as SceneComponent } from "./types";
+import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 
-const RelatiScene4 = ({ nextStep, game, ...props }: Props) => {
+const RelatiScene4: SceneComponent = ({ nextStep, game, ...props }) => {
   const [placeStep, setPlaceStep] = useState(0);
   const nextPlaceStep = () => setPlaceStep(placeStep + 1);
   let drawLines: JSX.Element[] = [];

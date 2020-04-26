@@ -1,12 +1,10 @@
 import React from "react";
-import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
+import { Component as SceneComponent } from "./types";
 
-const RelatiScene2 = ({ nextStep, game, ...props }: Props) => {
+const RelatiScene2: SceneComponent = ({ nextStep, game, ...props }) => {
   const boardLastPieceCoordinate = { x: 4, y: 4 };
   setTimeout(nextStep, 1000);
-
-  game.placeSymbolByCoordinate(4, 4);
 
   return (
     <>
@@ -19,6 +17,10 @@ const RelatiScene2 = ({ nextStep, game, ...props }: Props) => {
         {...props} />
     </>
   );
+};
+
+RelatiScene2.initial = (game) => {
+  game.placeSymbolByCoordinate(4, 4);
 };
 
 export default RelatiScene2;

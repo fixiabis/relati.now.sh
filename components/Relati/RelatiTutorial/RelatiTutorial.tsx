@@ -22,7 +22,11 @@ const RelatiTutorial = ({ step: externalStep = 0, ...props }: Props) => {
   const nextStep = () => setStep(step + 1);
   const Scene = RELATI_SCENES[step];
   const style = { transform: `scale(${scale})` };
-  doPlacement(game, step);
+
+  for (let i = 0; i <= step; i++) {
+    const Scene = RELATI_SCENES[i];
+    Scene.initial?.(game);
+  }
 
   useEffect(() => {
     const { innerWidth = 45, innerHeight = 185 } = globalThis;

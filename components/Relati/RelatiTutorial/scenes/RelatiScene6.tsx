@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
-import RelatiGame, { RelatiGrid } from "../../../../libs/Relati";
+import { RelatiGrid } from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
+import { Component as SceneComponent } from "./types";
 
-const RelatiScene6 = ({ nextStep, game, ...props }: Props) => {
+const RelatiScene6: SceneComponent = ({ nextStep, game, ...props }) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
   const blockedGridAtTurn4 = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
 
@@ -67,6 +67,10 @@ const RelatiScene6 = ({ nextStep, game, ...props }: Props) => {
         {...props} />
     </>
   );
+};
+
+RelatiScene6.initial = (game) => {
+  game.placeSymbolByCoordinate(6, 6);
 };
 
 export default RelatiScene6;

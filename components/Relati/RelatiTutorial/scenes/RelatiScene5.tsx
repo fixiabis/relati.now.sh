@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
 import { Focus } from "../../../Piece";
 import { CoordinateObject } from "../../../../types";
+import { Component as SceneComponent } from "./types";
 
-const RelatiScene5 = ({ nextStep, game, ...props }: Props) => {
+const RelatiScene5: SceneComponent = ({ nextStep, game, ...props }) => {
   const [focused, setFocused] = useState<JSX.Element>();
   const description = focused ? "點這裡如何？" : "這些就是可以點的範圍了！";
 

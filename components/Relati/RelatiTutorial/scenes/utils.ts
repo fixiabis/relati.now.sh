@@ -26,10 +26,6 @@ export function doPlacement(game: RelatiGame, step: number) {
 
     game.placeSymbolByCoordinate(5, 5);
 
-    if (step <= 5) {
-        return;
-    }
-
     if (game.turn === 4) {
         game.placeSymbolByCoordinate(6, 4);
     }
@@ -141,21 +137,3 @@ export const SCENE4_CAPTIONS = [
     "這是側八方遠程連線！比其他遠程連線穩定！",
 ];
 
-type SceneXScript = [string, number, Coordinate] | [string, number];
-
-export const SCENEX_SCRIPTS: SceneXScript[] = [
-    ["中間沒空格，被打斷了，如何接回去呢？", 2000, [5, 5]],
-    ["中間沒空格，被打斷了，如何接回去呢？", 2000, [5, 5]],
-    ["現在作為藍方，如何再打斷紅方呢？", 2000],
-    ["自動放置中(紅方)", 2000, [2, 2]],
-    ["自動放置中(藍方)", 500, [5, 2]],
-    ["自動放置中(紅方)", 500, [2, 1]],
-    ["自動放置中(藍方)", 500, [3, 3]],
-    ["自動放置中(紅方)", 500, [2, 3]],
-    ["自動放置中(藍方)", 500, [3, 4]],
-    ["自動放置中(紅方)", 500, [3, 2]],
-    ["得想辦法打斷他", 500],
-    ["自動放置中(紅方)", 500, [5, 3]],
-    ["他在下一步就能接回去，如何打斷呢？", 500],
-    ["自動放置中(紅方)", 500, [2, 5]],
-];
