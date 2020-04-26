@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
-import { Component as SceneComponent } from "./types";
+import { Component as SceneComponent } from "../scenes/types";
 import RelatiScene11 from "./RelatiScene11";
 import { CoordinateObject } from "../../../../types";
 import { RelatiGrid } from "../../../../libs/Relati";
@@ -60,7 +60,7 @@ const RelatiScene12: SceneComponent = ({ toStep, game, ...props }) => {
             return setIsTurnBack(false);
           case 13:
             game.undo();
-            return setDescription("在試一次?");
+            return setDescription("再試一次?");
           case 14:
             game.undo();
             return setDescription("恢復上一步中...");
