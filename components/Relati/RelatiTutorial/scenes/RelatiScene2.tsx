@@ -9,7 +9,7 @@ const RelatiScene2: SceneComponent = ({ toStep, game, ...props }) => {
 
   return (
     <>
-      <div className="description">沒錯，你放下了根源符號，它能幫助你提供連線！</div>
+      <div className="description">沒錯, 你放下了根源符號, 它能幫助你提供連線!</div>
       <RelatiBoard
         board={game.board}
         symbolOfPreviousPlayer="O"

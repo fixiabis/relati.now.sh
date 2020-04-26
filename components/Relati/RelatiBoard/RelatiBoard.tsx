@@ -44,7 +44,7 @@ const RelatiBoard = ({ board, showHints = true, symbolOfPreviousPlayer, symbolOf
   return (
     <Board width={width} height={height} {...props}>
       {pieces}
-      {hints}
+      <g className="relati-hints">{hints}</g>
       {children}
     </Board>
   );

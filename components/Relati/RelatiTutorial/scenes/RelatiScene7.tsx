@@ -13,7 +13,7 @@ const RelatiScene7: SceneComponent = ({ toStep, game, ...props }) => {
 
   return (
     <>
-      <div className="description">對方也不是省油的燈呢！</div>
+      <div className="description">對方也不是省油的燈呢!</div>
       <RelatiBoard
         drawLineDuration={180}
         board={game.board}

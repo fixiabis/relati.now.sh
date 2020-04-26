@@ -7,17 +7,19 @@ export interface Props extends React.SVGProps<SVGPathElement> {
   y: number;
   color?: string;
   symbol: keyof typeof RelatiSymbolRoute;
+  flicker?: boolean;
   primary?: boolean;
   disabled?: boolean;
   placement?: boolean;
   emphasized?: boolean;
 }
 
-const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphasized, className = "" as string | undefined, style, ...props }: Props) => {
+const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphasized, flicker, className = "" as string | undefined, style, ...props }: Props) => {
   const definition = `M ${x * 5} ${y * 5} ${RelatiSymbolRoute[symbol]}`;
   const position = `${x * 5}px ${y * 5}px`;
   color = disabled ? "#888" : color || RelatiSymbolColor[symbol];
-  className = placement ? `${className && `${className} `}relati-piece-placement` : undefined;
+  className = placement ? `${className && `${className} `}relati-piece-placement` : className;
+  className = flicker ? `${className && `${className} `}relati-piece-flicker` : className;
 
   style = {
     ...style,
@@ -25,6 +27,8 @@ const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphas
   };
 
   if (primary) {
+    className = className || undefined;
+
     return (
       <>
         <path
@@ -48,7 +52,8 @@ const RelatiPiece = ({ x, y, symbol, color, primary, disabled, placement, emphas
     );
   }
   else {
-    className = emphasized ? `${className} relati-piece-emphasis` : undefined;
+    className = emphasized ? `${className && `${className} `}relati-piece-emphasized` : className;
+    className = className || undefined;
 
     const highlight = emphasized
       ? (

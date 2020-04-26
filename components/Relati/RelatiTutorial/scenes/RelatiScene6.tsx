@@ -6,7 +6,7 @@ import { Component as SceneComponent } from "./types";
 import RelatiScene5 from "./RelatiScene5";
 
 const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
+  const [description, setDescription] = useState("中間有空格就可以放在那裡了!");
   const blockedGridAtTurn4 = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
@@ -16,6 +16,10 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
 
     const grid = game.board.getGridAt(x, y);
 
+    if (grid?.piece) {
+      return;
+    }
+
     game.placeSymbolByCoordinate(x, y);
 
     if (!grid?.piece) {
@@ -24,13 +28,13 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
 
     if (blockedGridAtTurn4.piece.disabled) {
       game.undo();
-      return setDescription("這裡好像不行？");
+      return setDescription("這裡好像不行?");
     }
     else if (x === 6 && y === 4) {
-      return setDescription("成功了，厲害！甚至切斷別人的連線！");
+      return setDescription("成功了, 厲害!甚至切斷別人的連線!");
     }
     else {
-      return setDescription("成功了，恭喜你！");
+      return setDescription("成功了, 恭喜你!");
     }
   };
 
@@ -39,7 +43,7 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
       switch (game.turn) {
         case 3:
           game.placeSymbolByCoordinate(5, 5);
-          return setDescription("中間沒空格，被打斷了，如何接回去呢？");
+          return setDescription("中間沒空格, 被打斷了, 如何接回去呢?");
         case 5:
           if (!blockedGridAtTurn4.piece.disabled) {
             return toStep("7");

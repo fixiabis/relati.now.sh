@@ -30,7 +30,7 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
         {...piece} />
     ));
 
-    return <>{pieces}</>;
+    return <g className="relati-grids">{pieces}</g>;
   }
 
   const [board, setBoard] = useState(new GridBoard<RelatiPieceType>(externalBoard.width, externalBoard.height));
