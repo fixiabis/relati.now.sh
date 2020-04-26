@@ -1,10 +1,13 @@
 import { RelatiBoardProps } from "../../RelatiBoard";
+import RelatiGame from "../../../../libs/Relati";
 
 type OmittedRelatiBoardPropKeys =
-  | "lastPieceCoordinate"
-  | "symbolOfPreviousPlayer"
-  | "symbolOfCurrentPlayer";
+    | "board"
+    | "lastPieceCoordinate"
+    | "symbolOfPreviousPlayer"
+    | "symbolOfCurrentPlayer";
 
 export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
+    game: RelatiGame;
     nextStep: () => void;
 }

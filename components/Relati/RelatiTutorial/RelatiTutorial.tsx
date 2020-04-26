@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GridBoard } from "gridboard";
 import RELATI_SCENES from "./scenes";
-import { RelatiPiece } from "../../../libs/Relati";
+import RelatiGame from "../../../libs/Relati";
 import { RelatiBoardProps } from "../RelatiBoard";
 import { doPlacement } from "./scenes/utils";
 
@@ -17,13 +16,13 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
 };
 
 const RelatiTutorial = ({ step: externalStep = 0, ...props }: Props) => {
-  const [board] = useState(new GridBoard<RelatiPiece>(9, 9));
+  const [game] = useState(new RelatiGame(2));
   const [step, setStep] = useState(externalStep);
   const [scale, setScale] = useState(0.95);
   const nextStep = () => setStep(step + 1);
   const Scene = RELATI_SCENES[step];
   const style = { transform: `scale(${scale})` };
-  doPlacement(board, step);
+  doPlacement(game, step);
 
   useEffect(() => {
     const { innerWidth = 45, innerHeight = 185 } = globalThis;
@@ -35,7 +34,7 @@ const RelatiTutorial = ({ step: externalStep = 0, ...props }: Props) => {
 
   return (
     <div className="relati-tutorial">
-      <Scene board={board} nextStep={nextStep} style={style} {...props} />
+      <Scene game={game} nextStep={nextStep} style={style} {...props} />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 import { CoordinateObject } from "../../../../types";
 import { Coordinate } from "gridboard";
 
-const RelatiScene4 = ({ nextStep, ...props }: Props) => {
+const RelatiScene4 = ({ nextStep, game, ...props }: Props) => {
   const [placeStep, setPlaceStep] = useState(0);
   const nextPlaceStep = () => setPlaceStep(placeStep + 1);
   let drawLines: JSX.Element[] = [];
@@ -62,6 +62,7 @@ const RelatiScene4 = ({ nextStep, ...props }: Props) => {
     <>
       <div key={Math.floor(placeStep / 2)} className="description">{SCENE4_CAPTIONS[placeStep]}</div>
       <RelatiBoard
+        board={game.board}
         showHints={false}
         symbolOfPreviousPlayer="X"
         symbolOfCurrentPlayer="O"

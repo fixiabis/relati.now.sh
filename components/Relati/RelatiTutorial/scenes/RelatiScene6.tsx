@@ -4,9 +4,8 @@ import RelatiBoard from "../../RelatiBoard";
 import RelatiGame, { RelatiGrid } from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
 
-const RelatiScene6 = ({ nextStep, board: externalBoard, ...props }: Props) => {
+const RelatiScene6 = ({ nextStep, game, ...props }: Props) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
-  const [game] = useState(new RelatiGame(2));
   const blockedGridAtTurn4 = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
@@ -33,20 +32,6 @@ const RelatiScene6 = ({ nextStep, board: externalBoard, ...props }: Props) => {
       return setDescription("成功了，恭喜你！");
     }
   };
-
-  if (game.turn === 0) {
-    game.turn = 3;
-    game.board = externalBoard;
-
-    game.placementRecords = [
-      [4, 4],
-      [7, 3],
-      [6, 6],
-    ];
-
-    game.symbolToSourceGrid["O"] = game.board.getGridAt(4, 4) as RelatiGrid;
-    game.symbolToSourceGrid["X"] = game.board.getGridAt(7, 3) as RelatiGrid;
-  }
 
   const gameLastPlacementRecord = game.placementRecords[game.placementRecords.length - 1];
   const boardLastPieceCoordinate = { x: gameLastPlacementRecord[0], y: gameLastPlacementRecord[1] };

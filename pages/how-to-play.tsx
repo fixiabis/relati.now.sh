@@ -10,13 +10,13 @@ export interface Props {
   step?: number;
 }
 
-const HowToPlay: NextPage<Props> = ({ step }) => {
+const HowToPlay: NextPage<Props> = ({ step = 1 }) => {
   const router = useRouter();
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);
 
   return (
     <Page id="how-to-play" title="How to play">
-      <RelatiTutorial step={step} {...tutorialSetting} />
+      <RelatiTutorial step={step - 1} {...tutorialSetting} />
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={() => router.replace("/")} />
       </Button.Group>
@@ -25,7 +25,7 @@ const HowToPlay: NextPage<Props> = ({ step }) => {
 };
 
 HowToPlay.getInitialProps = async ({ query }) => {
-  return { step: parseInt(query.step as string) || 0 };
+  return { step: parseInt(query.step as string) || 1 };
 };
 
 export default HowToPlay;

@@ -1,68 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Props } from "./types";
 import RelatiBoard from "../../RelatiBoard";
-import RelatiGame, { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
-import { Coordinate } from "gridboard";
 
-const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
-  const [game] = useState(new RelatiGame(2));
-
-  if (game.turn === 0) {
-    game.turn = 4;
-    game.board = board;
-
-    game.placementRecords = [
-      [4, 4],
-      [7, 3],
-      [6, 6],
-      [5, 5],
-    ];
-
-    game.symbolToSourceGrid["O"] = board.getGridAt(4, 4) as RelatiGrid;
-    game.symbolToSourceGrid["X"] = board.getGridAt(7, 3) as RelatiGrid;
-
-    const gameLastPlacementRecord: Coordinate = game.board.grids.reduce((records, grid, i) => {
-      if (records[0] === -1) {
-        const isRecorded = game.placementRecords.some(record => record[0] === grid.x && record[1] === grid.y);
-        const isGridHasPiece = grid.piece;
-
-        if (!isRecorded && isGridHasPiece) {
-          return [grid.x, grid.y];
-        }
-      }
-
-      return records;
-    }, [-1, -1] as Coordinate);
-
-    if (gameLastPlacementRecord[0] === -1) {
-      game.placeSymbolByCoordinate(6, 4);
-    }
-    else {
-      game.placementRecords.push(gameLastPlacementRecord);
-      game.turn++;
-    }
-
-    const shouldBlockedGrid = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
-
-    for (let grid of game.board.grids) {
-      if (grid.piece || !isGridHasAvailableRelatiRouteBySymbol(grid, "X")) {
-        continue;
-      }
-
-      const { x, y } = grid;
-      game.placeSymbolByCoordinate(x, y);
-
-      if (!shouldBlockedGrid.piece.disabled) {
-        game.undo();
-      }
-      else {
-        break;
-      }
-    }
-  }
-
-  const gameLastPlacementRecord = game.placementRecords[game.placementRecords.length - 1];
-  const boardLastPieceCoordinate = { x: gameLastPlacementRecord[0], y: gameLastPlacementRecord[1] };
+const RelatiScene7 = ({ nextStep, game, ...props }: Props) => {
+  const [x, y] = game.placementRecords[game.placementRecords.length - 1];
+  const boardLastPieceCoordinate = { x, y };
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
@@ -80,4 +22,4 @@ const RelatiScene6 = ({ nextStep, board, ...props }: Props) => {
   );
 };
 
-export default RelatiScene6;
+export default RelatiScene7;

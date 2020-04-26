@@ -1,46 +1,58 @@
 import { Coordinate } from "gridboard";
-import { RelatiBoard, RelatiGrid } from "../../../../libs/Relati";
+import RelatiGame, { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 
-export function doPlacement(board: RelatiBoard, step: number) {
+export function doPlacement(game: RelatiGame, step: number) {
     if (step <= 0) {
         return;
     }
 
-    (board.getGridAt(4, 4) as RelatiGrid).piece = {
-        symbol: "O",
-        primary: true,
-        disabled: false,
-    };
+    game.placeSymbolByCoordinate(4, 4);
 
     if (step <= 1) {
         return;
     }
 
-    (board.getGridAt(7, 3) as RelatiGrid).piece = {
-        symbol: "X",
-        primary: true,
-        disabled: false,
-    };
+    game.placeSymbolByCoordinate(7, 3);
 
     if (step <= 4) {
         return;
     }
 
-    (board.getGridAt(6, 6) as RelatiGrid).piece = {
-        symbol: "O",
-        primary: false,
-        disabled: false,
-    };
+    game.placeSymbolByCoordinate(6, 6);
 
     if (step <= 5) {
         return;
     }
 
-    (board.getGridAt(5, 5) as RelatiGrid).piece = {
-        symbol: "X",
-        primary: false,
-        disabled: false,
-    };
+    game.placeSymbolByCoordinate(5, 5);
+
+    if (step <= 5) {
+        return;
+    }
+
+    if (game.turn === 4) {
+        game.placeSymbolByCoordinate(6, 4);
+    }
+
+    if (game.turn === 5) {
+        const shouldBlockedGrid = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
+
+        for (let grid of game.board.grids) {
+            if (grid.piece || !isGridHasAvailableRelatiRouteBySymbol(grid, "X")) {
+                continue;
+            }
+
+            const { x, y } = grid;
+            game.placeSymbolByCoordinate(x, y);
+
+            if (!shouldBlockedGrid.piece.disabled) {
+                game.undo();
+            }
+            else {
+                break;
+            }
+        }
+    }
 }
 
 export const SCENE4_SAMPLE_RELATI_ROUTES_LIST = [
@@ -129,9 +141,9 @@ export const SCENE4_CAPTIONS = [
     "這是側八方遠程連線！比其他遠程連線穩定！",
 ];
 
-type Scene6Script = [string, number, Coordinate] | [string, number];
+type SceneXScript = [string, number, Coordinate] | [string, number];
 
-export const SCENEX_SCRIPTS: Scene6Script[] = [
+export const SCENEX_SCRIPTS: SceneXScript[] = [
     ["中間沒空格，被打斷了，如何接回去呢？", 2000, [5, 5]],
     ["中間沒空格，被打斷了，如何接回去呢？", 2000, [5, 5]],
     ["現在作為藍方，如何再打斷紅方呢？", 2000],
