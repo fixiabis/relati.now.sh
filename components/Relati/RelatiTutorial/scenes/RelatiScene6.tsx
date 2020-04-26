@@ -33,11 +33,6 @@ const RelatiScene6: SceneComponent = ({ nextStep, game, ...props }) => {
     }
   };
 
-  const gameLastPlacementRecord = game.placementRecords[game.placementRecords.length - 1];
-  const boardLastPieceCoordinate = { x: gameLastPlacementRecord[0], y: gameLastPlacementRecord[1] };
-  const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
-  const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
-
   useEffect(() => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
@@ -53,6 +48,11 @@ const RelatiScene6: SceneComponent = ({ nextStep, game, ...props }) => {
 
     return () => clearTimeout(placementTimer);
   });
+
+  const gameLastPlacementRecord = game.placementRecords[game.placementRecords.length - 1];
+  const boardLastPieceCoordinate = { x: gameLastPlacementRecord[0], y: gameLastPlacementRecord[1] };
+  const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
+  const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
   return (
     <>

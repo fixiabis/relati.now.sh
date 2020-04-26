@@ -48,7 +48,6 @@ class RelatiGame {
         }
 
         this.turn--;
-        this.placementRecords.pop();
         disableAllPiecesByBoard(this.board);
 
         for (let symbol of RELATI_SYMBOLS) {

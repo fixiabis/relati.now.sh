@@ -1,26 +1,18 @@
 import { Component as SceneComponent } from "./types";
-import RelatiScene1 from "./RelatiScene1";
-import RelatiScene2 from "./RelatiScene2";
-import RelatiScene3 from "./RelatiScene3";
-import RelatiScene4 from "./RelatiScene4";
-import RelatiScene5 from "./RelatiScene5";
-import RelatiScene6 from "./RelatiScene6";
-import RelatiScene7 from "./RelatiScene7";
-import RelatiScene8 from "./RelatiScene8";
-import RelatiScene9 from "./RelatiScene9";
-import RelatiScene10 from "./RelatiScene10";
 
 const RELATI_SCENES: SceneComponent[] = [
-    RelatiScene1,
-    RelatiScene2,
-    RelatiScene3,
-    RelatiScene4,
-    RelatiScene5,
-    RelatiScene6,
-    RelatiScene7,
-    RelatiScene8,
-    RelatiScene9,
-    RelatiScene10,
-];
+    require("./RelatiScene1"),
+    require("./RelatiScene2"),
+    require("./RelatiScene3"),
+    require("./RelatiScene4"),
+    require("./RelatiScene5"),
+    require("./RelatiScene6"),
+    require("./RelatiScene7"),
+    require("./RelatiScene8"),
+    require("./RelatiScene9"),
+    require("./RelatiScene10"),
+    require("./RelatiScene11"),
+    require("./RelatiScene12"),
+].map(module => module.default);
 
 export default RELATI_SCENES;

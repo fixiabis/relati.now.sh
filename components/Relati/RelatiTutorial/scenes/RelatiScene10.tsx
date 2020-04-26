@@ -3,7 +3,7 @@ import RelatiBoard from "../../RelatiBoard";
 import { Component as SceneComponent } from "./types";
 
 const RelatiScene10: SceneComponent = ({ nextStep, game, ...props }) => {
-  // setTimeout(nextStep, 1000);
+  setTimeout(nextStep, 1000);
 
   return (
     <>
