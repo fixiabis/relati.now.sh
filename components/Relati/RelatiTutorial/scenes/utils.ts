@@ -1,56 +1,3 @@
-import { Coordinate } from "gridboard";
-import RelatiGame, { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
-
-export function doPlacement(game: RelatiGame, step: number) {
-    if (step <= 0) {
-        return;
-    }
-
-    game.placeSymbolByCoordinate(4, 4);
-
-    if (step <= 1) {
-        return;
-    }
-
-    game.placeSymbolByCoordinate(7, 3);
-
-    if (step <= 4) {
-        return;
-    }
-
-    game.placeSymbolByCoordinate(6, 6);
-
-    if (step <= 5) {
-        return;
-    }
-
-    game.placeSymbolByCoordinate(5, 5);
-
-    if (game.turn === 4) {
-        game.placeSymbolByCoordinate(6, 4);
-    }
-
-    if (game.turn === 5) {
-        const shouldBlockedGrid = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
-
-        for (let grid of game.board.grids) {
-            if (grid.piece || !isGridHasAvailableRelatiRouteBySymbol(grid, "X")) {
-                continue;
-            }
-
-            const { x, y } = grid;
-            game.placeSymbolByCoordinate(x, y);
-
-            if (!shouldBlockedGrid.piece.disabled) {
-                game.undo();
-            }
-            else {
-                break;
-            }
-        }
-    }
-}
-
 export const SCENE4_SAMPLE_RELATI_ROUTES_LIST = [
     [
         [[4, 3]],
@@ -136,4 +83,3 @@ export const SCENE4_CAPTIONS = [
     "這是側八方遠程連線！比其他遠程連線穩定！",
     "這是側八方遠程連線！比其他遠程連線穩定！",
 ];
-

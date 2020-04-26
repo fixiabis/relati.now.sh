@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import RELATI_SCENES from "./scenes";
 import RelatiGame from "../../../libs/Relati";
 import { RelatiBoardProps } from "../RelatiBoard";
-import { doPlacement } from "./scenes/utils";
 
 type OmittedRelatiBoardPropKeys =
   | "board"
