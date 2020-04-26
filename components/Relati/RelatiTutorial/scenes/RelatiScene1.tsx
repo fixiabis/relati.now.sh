@@ -21,8 +21,6 @@ const RelatiScene1: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene1.initial = (game) => {
-
-};
+RelatiScene1.initial = (game) => {};
 
 export default RelatiScene1;

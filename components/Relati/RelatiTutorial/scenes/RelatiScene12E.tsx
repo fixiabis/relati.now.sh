@@ -5,7 +5,7 @@ import { Component as SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene11 from "./RelatiScene11";
 
-const RelatiScene12D: SceneComponent = ({ toStep, game, ...props }) => {
+const RelatiScene12E: SceneComponent = ({ toStep, game, ...props }) => {
   const [isTurnBack, setIsTurnBack] = useState(false);
   const [description, setDescription] = useState("很好, 直接不讓他擺!");
 
@@ -97,9 +97,12 @@ const RelatiScene12D: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene12D.initial = (game) => {
+RelatiScene12E.initial = (game) => {
   RelatiScene11.initial(game);
-  game.placeSymbolByCoordinate(3, 1);
+
+  if (game.turn === 8) {
+    game.placeSymbolByCoordinate(3, 1);
+  }
 };
 
-export default RelatiScene12D;
+export default RelatiScene12E;

@@ -96,7 +96,10 @@ const RelatiScene12A: SceneComponent = ({ toStep, game, ...props }) => {
 
 RelatiScene12A.initial = (game) => {
   RelatiScene11.initial(game);
-  game.placeSymbolByCoordinate(2, 0);
+
+  if (game.turn === 8) {
+    game.placeSymbolByCoordinate(2, 0);
+  }
 };
 
 export default RelatiScene12A;

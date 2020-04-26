@@ -22,7 +22,10 @@ const RelatiScene3: SceneComponent = ({ toStep, game, ...props }) => {
 
 RelatiScene3.initial = (game) => {
   RelatiScene2.initial(game);
-  game.placeSymbolByCoordinate(7, 3);
+
+  if (game.turn === 1) {
+    game.placeSymbolByCoordinate(7, 3);
+  }
 };
 
 export default RelatiScene3;

@@ -3,9 +3,9 @@ import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
-import RelatiScene11 from "./RelatiScene11";
+import RelatiScene12C from "./RelatiScene12C";
 
-const RelatiScene12C: SceneComponent = ({ toStep, game, ...props }) => {
+const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
   const [isTurnBack, setIsTurnBack] = useState(false);
   const [description, setDescription] = useState("很好, 他要過來了!");
 
@@ -97,12 +97,16 @@ const RelatiScene12C: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene12C.initial = (game) => {
-  RelatiScene11.initial(game);
+RelatiScene13B.initial = (game) => {
+  RelatiScene12C.initial(game);
 
-  if (game.turn === 8) {
-    game.placeSymbolByCoordinate(4, 1);
+  if (game.turn === 9) {
+    game.placeSymbolByCoordinate(3, 1);
+  }
+
+  if (game.turn === 10) {
+    game.placeSymbolByCoordinate(4, 2);
   }
 };
 
-export default RelatiScene12C;
+export default RelatiScene13B;
