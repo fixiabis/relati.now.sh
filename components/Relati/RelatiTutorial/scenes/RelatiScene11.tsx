@@ -4,8 +4,9 @@ import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
 import RelatiPiece from "../../RelatiPiece";
 import { RelatiGrid } from "../../../../libs/Relati";
+import RelatiScene10 from "./RelatiScene10";
 
-const RelatiScene11: SceneComponent = ({ nextStep, game, ...props }) => {
+const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
   const [isTurnBack, setIsTurnBack] = useState(false);
   const [description, setDescription] = useState("下一步他在這就能入侵了！準備擋下來！");
 
@@ -75,7 +76,7 @@ const RelatiScene11: SceneComponent = ({ nextStep, game, ...props }) => {
               return setDescription("並沒有，他入侵了！");
             }
             else {
-              return nextStep();
+              return toStep("12");
             }
           case 12:
             return setIsTurnBack(true);
@@ -106,5 +107,7 @@ const RelatiScene11: SceneComponent = ({ nextStep, game, ...props }) => {
     </>
   );
 };
+
+RelatiScene11.initial = RelatiScene10.initial;
 
 export default RelatiScene11;

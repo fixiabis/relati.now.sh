@@ -10,22 +10,17 @@ type OmittedRelatiBoardPropKeys =
   | "symbolOfCurrentPlayer";
 
 export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
-  step?: number,
+  step?: string,
   onOver?: () => void;
 };
 
-const RelatiTutorial = ({ step: externalStep = 0, ...props }: Props) => {
+const RelatiTutorial = ({ step: externalStep = "0", ...props }: Props) => {
   const [game] = useState(new RelatiGame(2));
   const [step, setStep] = useState(externalStep);
   const [scale, setScale] = useState(0.95);
-  const nextStep = () => setStep(step + 1);
+  const toStep = (step: string) => setStep(step);
   const Scene = RELATI_SCENES[step];
   const style = { transform: `scale(${scale})` };
-
-  for (let i = 0; i <= step; i++) {
-    const Scene = RELATI_SCENES[i];
-    Scene.initial?.(game);
-  }
 
   useEffect(() => {
     const { innerWidth = 45, innerHeight = 185 } = globalThis;
@@ -35,9 +30,11 @@ const RelatiTutorial = ({ step: externalStep = 0, ...props }: Props) => {
     setScale(scale);
   }, []);
 
+  Scene.initial(game);
+
   return (
     <div className="relati-tutorial">
-      <Scene game={game} nextStep={nextStep} style={style} {...props} />
+      <Scene game={game} toStep={toStep} style={style} {...props} />
     </div>
   );
 };

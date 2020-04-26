@@ -2,13 +2,14 @@ import React from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { Component as SceneComponent } from "./types";
 import { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
+import RelatiScene6 from "./RelatiScene6";
 
-const RelatiScene7: SceneComponent = ({ nextStep, game, ...props }) => {
+const RelatiScene7: SceneComponent = ({ toStep, game, ...props }) => {
   const [x, y] = game.placementRecords[game.placementRecords.length - 1];
   const boardLastPieceCoordinate = { x, y };
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
-  setTimeout(nextStep, 1000);
+  setTimeout(() => toStep("8"), 1000);
 
   return (
     <>
@@ -25,6 +26,7 @@ const RelatiScene7: SceneComponent = ({ nextStep, game, ...props }) => {
 };
 
 RelatiScene7.initial = (game) => {
+  RelatiScene6.initial(game);
   game.placeSymbolByCoordinate(5, 5);
 
   if (game.turn === 4) {

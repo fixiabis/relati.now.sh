@@ -4,10 +4,10 @@ import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
 
-const RelatiScene1: SceneComponent = ({ nextStep, game, ...props }) => {
+const RelatiScene1: SceneComponent = ({ toStep, game, ...props }) => {
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 4 && y === 4) {
-      nextStep();
+      toStep("2");
     }
   };
 
@@ -19,6 +19,10 @@ const RelatiScene1: SceneComponent = ({ nextStep, game, ...props }) => {
       </RelatiBoard>
     </>
   );
+};
+
+RelatiScene1.initial = (game) => {
+
 };
 
 export default RelatiScene1;

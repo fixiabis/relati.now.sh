@@ -3,11 +3,12 @@ import RelatiBoard from "../../RelatiBoard";
 import { Focus } from "../../../Piece";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
+import RelatiScene7 from "./RelatiScene7";
 
-const RelatiScene8: SceneComponent = ({ nextStep, game, ...props }) => {
+const RelatiScene8: SceneComponent = ({ toStep, game, ...props }) => {
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 2 && y === 2) {
-      nextStep();
+      toStep("9");
     }
   };
 
@@ -25,5 +26,7 @@ const RelatiScene8: SceneComponent = ({ nextStep, game, ...props }) => {
     </>
   );
 };
+
+RelatiScene8.initial = RelatiScene7.initial;
 
 export default RelatiScene8;

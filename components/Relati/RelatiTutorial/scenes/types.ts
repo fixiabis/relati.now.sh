@@ -10,9 +10,9 @@ type OmittedRelatiBoardPropKeys =
 
 export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
     game: RelatiGame;
-    nextStep: () => void;
+    toStep: (step: string) => void;
 }
 
 export type Component<Super = React.FunctionComponent<Props>> = Super & {
-    initial?(game: RelatiGame): void;
+    initial(game: RelatiGame): void;
 };

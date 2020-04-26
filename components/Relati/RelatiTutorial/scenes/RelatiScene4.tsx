@@ -6,8 +6,9 @@ import DrawLine from "../../../DrawLine";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
 import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
+import RelatiScene3 from "./RelatiScene3";
 
-const RelatiScene4: SceneComponent = ({ nextStep, game, ...props }) => {
+const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
   const [placeStep, setPlaceStep] = useState(0);
   const nextPlaceStep = () => setPlaceStep(placeStep + 1);
   let drawLines: JSX.Element[] = [];
@@ -23,7 +24,7 @@ const RelatiScene4: SceneComponent = ({ nextStep, game, ...props }) => {
 
       if (coordinate.x === x && coordinate.y === y) {
         if (placeStep === 19) {
-          nextStep();
+          toStep("5");
         }
         else {
           nextPlaceStep();
@@ -74,5 +75,7 @@ const RelatiScene4: SceneComponent = ({ nextStep, game, ...props }) => {
     </>
   );
 };
+
+RelatiScene4.initial = RelatiScene3.initial;
 
 export default RelatiScene4;

@@ -3,8 +3,9 @@ import RelatiBoard from "../../RelatiBoard";
 import { RelatiGrid } from "../../../../libs/Relati";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
+import RelatiScene5 from "./RelatiScene5";
 
-const RelatiScene6: SceneComponent = ({ nextStep, game, ...props }) => {
+const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了！");
   const blockedGridAtTurn4 = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
 
@@ -41,7 +42,7 @@ const RelatiScene6: SceneComponent = ({ nextStep, game, ...props }) => {
           return setDescription("中間沒空格，被打斷了，如何接回去呢？");
         case 5:
           if (!blockedGridAtTurn4.piece.disabled) {
-            return nextStep();
+            return toStep("7");
           }
       }
     }, 1500);
@@ -70,6 +71,7 @@ const RelatiScene6: SceneComponent = ({ nextStep, game, ...props }) => {
 };
 
 RelatiScene6.initial = (game) => {
+  RelatiScene5.initial(game);
   game.placeSymbolByCoordinate(6, 6);
 };
 

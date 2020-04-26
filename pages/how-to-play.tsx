@@ -7,16 +7,16 @@ import { State } from "../reducers";
 import { SettingState } from "../reducers/setting";
 
 export interface Props {
-  step?: number;
+  step?: string;
 }
 
-const HowToPlay: NextPage<Props> = ({ step = 1 }) => {
+const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   const router = useRouter();
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);
 
   return (
     <Page id="how-to-play" title="How to play">
-      <RelatiTutorial step={step - 1} {...tutorialSetting} />
+      <RelatiTutorial step={step} {...tutorialSetting} />
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={() => router.replace("/")} />
       </Button.Group>
@@ -24,8 +24,8 @@ const HowToPlay: NextPage<Props> = ({ step = 1 }) => {
   );
 };
 
-HowToPlay.getInitialProps = async ({ query }) => {
-  return { step: parseInt(query.step as string) || 1 };
+HowToPlay.getInitialProps = async ({ query: { step } }) => {
+  return { step: step as string };
 };
 
 export default HowToPlay;
