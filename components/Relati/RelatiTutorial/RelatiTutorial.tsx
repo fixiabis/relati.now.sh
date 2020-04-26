@@ -19,7 +19,7 @@ const RelatiTutorial = ({ step: externalStep = "0", ...props }: Props) => {
   const [step, setStep] = useState(externalStep);
   const [scale, setScale] = useState(0.95);
   const toStep = (step: string) => setStep(step);
-  const Scene = RELATI_SCENES[step];
+  const Scene = RELATI_SCENES[step] || RELATI_SCENES["1"];
   const style = { transform: `scale(${scale})` };
 
   useEffect(() => {
