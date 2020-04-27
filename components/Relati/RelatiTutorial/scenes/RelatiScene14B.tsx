@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
-import { Component as SceneComponent } from "../scenes/types";
+import { Component as SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
-import RelatiScene12A from "./RelatiScene12A";
+import RelatiScene13B from "./RelatiScene13B";
 
-const RelatiScene13A: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("他換了一個方向!");
+const RelatiScene14B: SceneComponent = ({ toStep, game, ...props }) => {
+  const [description, setDescription] = useState("他打斷了你的計畫!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -25,12 +25,12 @@ const RelatiScene13A: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if (grid.i === 19) {
-      return toStep("14A");
+    if (grid.i === 29) {
+      return setDescription("擋的好!");
     }
 
-    if ((game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece.disabled) {
-      return setDescription("你擋下來了!");
+    if (!(game.board.getGridAt(2, 2) as Required<RelatiGrid>).piece.disabled) {
+      return setDescription("你接回來了!");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -39,27 +39,14 @@ const RelatiScene13A: SceneComponent = ({ toStep, game, ...props }) => {
   useEffect(() => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
-        case 13:
-          if (!(game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece.disabled) {
-            if (!(game.board.getGridAt(1, 2) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(1, 2);
-              return setDescription("並沒有用, 他入侵了!");
-            }
-          }
-          else {
-            if (!(game.board.getGridAt(3, 2) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(3, 2);
-              return setDescription("並沒有用, 他還是接上了!");
-            }
-
-            if (!(game.board.getGridAt(3, 3) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(3, 3);
-              return setDescription("並沒有用, 他還是接上了!");
-            }
+        case 15:
+          if (!(game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece) {
+            game.placeSymbolByCoordinate(1, 2);
+            return setDescription("並沒有用, 他入侵了!");
           }
 
           break;
-        case 14:
+        case 16:
           game.undo();
           game.undo();
           return setDescription("再試一次?");
@@ -88,16 +75,16 @@ const RelatiScene13A: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene13A.initial = (game) => {
-  RelatiScene12A.initial(game);
+RelatiScene14B.initial = (game) => {
+  RelatiScene13B.initial(game);
 
-  if (game.turn === 10) {
-    game.placeSymbolByCoordinate(2, 1);
+  if (game.turn === 12) {
+    game.placeSymbolByCoordinate(3, 2);
   }
 
-  if (game.turn === 11) {
-    game.placeSymbolByCoordinate(2, 3);
+  if (game.turn === 13) {
+    game.placeSymbolByCoordinate(3, 3);
   }
 };
 
-export default RelatiScene13A;
+export default RelatiScene14B;

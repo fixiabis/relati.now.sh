@@ -26,7 +26,7 @@ const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
     }
 
     if (grid.i === 21) {
-      return setDescription("擋的好!");
+      return toStep("14B");
     }
 
     if ((game.board.getGridAt(3, 1) as Required<RelatiGrid>).piece.disabled) {
@@ -43,18 +43,18 @@ const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
           if (!(game.board.getGridAt(3, 1) as Required<RelatiGrid>).piece.disabled) {
             if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
               game.placeSymbolByCoordinate(2, 0);
-              return setDescription("並沒有, 他入侵了!");
+              return setDescription("並沒有用, 他入侵了!");
             }
             
             if (!(game.board.getGridAt(2, 1) as RelatiGrid).piece) {
               game.placeSymbolByCoordinate(2, 1);
-              return setDescription("並沒有, 他入侵了!");
+              return setDescription("並沒有用, 他入侵了!");
             }
           }
           else {
             if (!(game.board.getGridAt(3, 2) as RelatiGrid).piece) {
               game.placeSymbolByCoordinate(3, 2);
-              return setDescription("並沒有, 他還是接上了!");
+              return setDescription("並沒有用, 他還是接上了!");
             }
           }
 
