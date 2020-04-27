@@ -22,18 +22,7 @@ const RELATI_SCENES: Record<string, SceneComponent> = {
     "13C": require("./RelatiScene13C").default,
     "14A": require("./RelatiScene14A").default,
     "14B": require("./RelatiScene14B").default,
-    // "15A": require("./RelatiScene15A").default,
-    // "15B": require("./RelatiScene15B").default,
-    // "15C": require("./RelatiScene15C").default,
-    // "16A": require("./RelatiScene16A").default,
-    // "16B": require("./RelatiScene16B").default,
-    // "16C": require("./RelatiScene16C").default,
-    // "16D": require("./RelatiScene16D").default,
-    // "16E": require("./RelatiScene16E").default,
-    // "16F": require("./RelatiScene16F").default,
-    // "17B": require("./RelatiScene17B").default,
-    // "17C": require("./RelatiScene17C").default,
-    // "17D": require("./RelatiScene17D").default,
+    "14C": require("./RelatiScene14C").default,
 };
 
 

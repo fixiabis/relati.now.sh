@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
-import { Component as SceneComponent } from "../scenes/types";
+import { Component as SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
-import RelatiScene12E from "./RelatiScene12E";
+import RelatiScene13C from "./RelatiScene13C";
 
-const RelatiScene13C: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("他打斷了你的計畫!");
+const RelatiScene14C: SceneComponent = ({ toStep, game, ...props }) => {
+  const [description, setDescription] = useState("他又打斷了, 而且快衝進去了!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -25,8 +25,8 @@ const RelatiScene13C: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if (grid.i === 38) {
-      return toStep("14C");
+    if (grid.i === 29) {
+      return setDescription("擋的好!");
     }
 
     if (!(game.board.getGridAt(2, 2) as Required<RelatiGrid>).piece.disabled) {
@@ -39,19 +39,14 @@ const RelatiScene13C: SceneComponent = ({ toStep, game, ...props }) => {
   useEffect(() => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
-        case 13:
+        case 15:
           if (!(game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece) {
             game.placeSymbolByCoordinate(1, 2);
-            return setDescription("但是, 他入侵了!");
-          }
-
-          if ((game.board.getGridAt(2, 3) as RelatiGrid).piece) {
-            game.placeSymbolByCoordinate(2, 4);
-            return setDescription("但是, 他打斷了!");
+            return setDescription("並沒有用, 他入侵了!");
           }
 
           break;
-        case 14:
+        case 16:
           game.undo();
           game.undo();
           return setDescription("再試一次?");
@@ -80,16 +75,16 @@ const RelatiScene13C: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene13C.initial = (game) => {
-  RelatiScene12E.initial(game);
+RelatiScene14C.initial = (game) => {
+  RelatiScene13C.initial(game);
 
-  if (game.turn === 10) {
-    game.placeSymbolByCoordinate(4, 1);
+  if (game.turn === 12) {
+    game.placeSymbolByCoordinate(2, 4);
   }
 
-  if (game.turn === 11) {
-    game.placeSymbolByCoordinate(3, 3);
+  if (game.turn === 13) {
+    game.placeSymbolByCoordinate(2, 3);
   }
 };
 
-export default RelatiScene13C;
+export default RelatiScene14C;
