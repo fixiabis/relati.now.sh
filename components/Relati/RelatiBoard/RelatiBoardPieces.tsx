@@ -25,8 +25,8 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
         key={i}
         x={x}
         y={y}
-        emphasized={lastPieceEmphasized && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y}
         placement={placementEffect && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y}
+        emphasized={lastPieceEmphasized && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y}
         {...piece} />
     ));
 
@@ -49,13 +49,19 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
 
   let linePaths = [] as Coordinate[][];
 
-  drawLinePaths.forEach(drawLinePath => {
-    const grid = board.getGridAt(drawLinePath[drawLinePath.length - 1]);
+  const hasSourceGrid = board.grids.some(({ piece }) =>
+    piece && piece.symbol === symbol && !piece.disabled
+  );
 
-    if (grid?.piece?.disabled) {
-      grid.piece.disabled = false;
+  if (hasSourceGrid) {
+    for (let drawLinePath of drawLinePaths) {
+      const grid = board.getGridAt(drawLinePath[drawLinePath.length - 1]);
+
+      if (grid?.piece?.disabled) {
+        grid.piece.disabled = false;
+      }
     }
-  });
+  }
 
   const sourceGrids = board.grids.filter(({ piece }) =>
     piece && piece.symbol === symbol && !piece.disabled

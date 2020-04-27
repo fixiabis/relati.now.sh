@@ -6,7 +6,6 @@ import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene11 from "./RelatiScene11";
 
 const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
-  const [isTurnBack, setIsTurnBack] = useState(false);
   const [description, setDescription] = useState("他過來了!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
@@ -27,7 +26,7 @@ const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
     }
 
     if (grid.i === 2) {
-      return setDescription("沒錯, 你擋下來了!");
+      return toStep("13A");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -35,35 +34,18 @@ const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
 
   useEffect(() => {
     const placementTimer = setTimeout(() => {
-      if (isTurnBack) {
-        switch (game.turn) {
-          case 10:
-            return setIsTurnBack(false);
-          case 11:
-            game.undo();
-            return setDescription("再試一次?");
-          case 12:
-            game.undo();
-            return setDescription("回到上一步中...");
-        }
-      }
-      else {
-        switch (game.turn) {
-          case 11:
-            if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(2, 0);
-              return setDescription("並沒有, 他入侵了!");
-            }
-            else if (!(game.board.getGridAt(2, 1) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(2, 1);
-              return setDescription("並沒有, 他入侵了!");
-            }
-            else {
-              return toStep("13A");
-            }
-          case 12:
-            return setIsTurnBack(true);
-        }
+      switch (game.turn) {
+        case 11:
+          if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
+            game.placeSymbolByCoordinate(2, 0);
+            return setDescription("並沒有, 他入侵了!");
+          }
+          
+          break;
+        case 12:
+          game.undo();
+          game.undo();
+          return setDescription("再試一次?");
       }
     }, 1500);
 

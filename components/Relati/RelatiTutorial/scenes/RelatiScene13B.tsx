@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
-import { Component as SceneComponent } from "./types";
+import { Component as SceneComponent } from "../scenes/types";
 import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene12C from "./RelatiScene12C";
 
 const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
   const [isTurnBack, setIsTurnBack] = useState(false);
-  const [description, setDescription] = useState("很好, 他要過來了!");
+  const [description, setDescription] = useState("沒錯, 你擋下來了!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
