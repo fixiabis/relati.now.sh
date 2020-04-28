@@ -25,5 +25,8 @@ const RELATI_SCENES: Record<string, SceneComponent> = {
     "14C": require("./RelatiScene14C").default,
 };
 
+RELATI_SCENES["12"] = RELATI_SCENES["12A"];
+RELATI_SCENES["13"] = RELATI_SCENES["13A"];
+RELATI_SCENES["14"] = RELATI_SCENES["14A"];
 
 export default RELATI_SCENES;

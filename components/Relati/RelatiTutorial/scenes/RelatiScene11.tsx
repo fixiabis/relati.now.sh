@@ -47,6 +47,7 @@ const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
         onGridClick={onGridClick}
         {...props}>
         <RelatiPiece x={3} y={1} symbol="X" opacity={0.6} flicker />
+        <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />
       </RelatiBoard>
     </>
   );

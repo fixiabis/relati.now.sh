@@ -70,7 +70,9 @@ const RelatiScene14B: SceneComponent = ({ toStep, game, ...props }) => {
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}
         onGridClick={onGridClick}
-        {...props} />
+        {...props} >
+        <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />
+      </RelatiBoard>
     </>
   );
 };

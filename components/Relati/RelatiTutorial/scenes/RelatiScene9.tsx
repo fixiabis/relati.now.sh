@@ -9,7 +9,9 @@ const RelatiScene9: SceneComponent = ({ toStep: toStep, game, ...props }) => {
   return (
     <>
       <div className="description">很好!</div>
-      <RelatiBoard board={game.board} symbolOfPreviousPlayer="O" symbolOfCurrentPlayer="X" {...props} />
+      <RelatiBoard board={game.board} symbolOfPreviousPlayer="O" symbolOfCurrentPlayer="X" {...props}>
+        <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />
+      </RelatiBoard>
     </>
   );
 };

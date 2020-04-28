@@ -5,7 +5,7 @@ import { Component as SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene11 from "./RelatiScene11";
 
-const RelatiScene12C: SceneComponent = ({ toStep, game, ...props }) => {
+const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他過來了!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
@@ -80,12 +80,14 @@ const RelatiScene12C: SceneComponent = ({ toStep, game, ...props }) => {
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}
         onGridClick={onGridClick}
-        {...props} />
+        {...props} >
+        <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />
+      </RelatiBoard>
     </>
   );
 };
 
-RelatiScene12C.initial = (game) => {
+RelatiScene12B.initial = (game) => {
   RelatiScene11.initial(game);
 
   if (game.turn === 8) {
@@ -97,4 +99,4 @@ RelatiScene12C.initial = (game) => {
   }
 };
 
-export default RelatiScene12C;
+export default RelatiScene12B;
