@@ -28,13 +28,13 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
 
     if (blockedGridAtTurn4.piece.disabled) {
       game.undo();
-      return setDescription("這裡好像不行?");
+      return setDescription("這裡沒辦法接回去, 換個方法吧?");
     }
     else if (x === 6 && y === 4) {
-      return setDescription("成功了, 厲害!甚至切斷別人的連線!");
+      return setDescription("做的好, 甚至切斷別人的連線!");
     }
     else {
-      return setDescription("成功了, 恭喜你!");
+      return setDescription("做的好!");
     }
   };
 

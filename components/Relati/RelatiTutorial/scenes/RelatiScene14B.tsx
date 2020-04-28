@@ -42,7 +42,7 @@ const RelatiScene14B: SceneComponent = ({ toStep, game, ...props }) => {
         case 15:
           if (!(game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece) {
             game.placeSymbolByCoordinate(1, 2);
-            return setDescription("並沒有用, 他入侵了!");
+            return setDescription("但是, 他入侵了!");
           }
 
           break;

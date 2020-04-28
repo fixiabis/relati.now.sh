@@ -6,7 +6,7 @@ import RelatiPiece from "../../RelatiPiece";
 import RelatiScene10 from "../scenes/RelatiScene10";
 
 const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("下一步他在這就能入侵了!準備擋下來!");
+  const [description, setDescription] = useState("下一步他會在這! 將破壞圍地的計畫!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -31,7 +31,7 @@ const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
 
     if (nextSceneIndex === -1) {
       game.undo();
-      return setDescription("這裡好像不行?");
+      return setDescription("這裡沒辦法做應對, 換個方法吧?");
     }
 
     toStep(indexToNextSceneNames[nextSceneIndex]);
