@@ -5,7 +5,7 @@ import { Component as SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene11 from "./RelatiScene11";
 
-const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
+const RelatiScene12C: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他過來了!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
@@ -25,8 +25,12 @@ const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if (grid.i === 2) {
-      return setDescription("很好! 他無法從這側靠近了! ");
+    if ((game.board.getGridAt(3, 1) as Required<RelatiGrid>).piece.disabled) {
+      return setDescription("不錯! 你打斷了!");
+    }
+
+    if (grid.i === 22) {
+      return setDescription("很好! 他無法靠近了!");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -36,12 +40,22 @@ const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
         case 11:
-          if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
-            game.placeSymbolByCoordinate(2, 0);
-            return setDescription("但是, 他靠近了!");
+          if (!(game.board.getGridAt(3, 1) as Required<RelatiGrid>).piece.disabled) {
+            if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
+              game.placeSymbolByCoordinate(2, 0);
+              return setDescription("但是, 他靠近了!");
+            }
+            else if (!(game.board.getGridAt(2, 1) as RelatiGrid).piece) {
+              game.placeSymbolByCoordinate(2, 1);
+              return setDescription("但是, 他靠近了!");
+            }
+          }
+          else if (!(game.board.getGridAt(4, 2) as RelatiGrid).piece) {
+            game.placeSymbolByCoordinate(4, 2);
+            return setDescription("但是, 他接上了!");
           }
 
-          return toStep("13A");
+          return toStep("13B");
         case 12:
           game.undo();
           game.undo();
@@ -71,11 +85,11 @@ const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene12B.initial = (game) => {
+RelatiScene12C.initial = (game) => {
   RelatiScene11.initial(game);
 
   if (game.turn === 8) {
-    game.placeSymbolByCoordinate(2, 1);
+    game.placeSymbolByCoordinate(4, 1);
   }
 
   if (game.turn === 9) {
@@ -83,4 +97,4 @@ RelatiScene12B.initial = (game) => {
   }
 };
 
-export default RelatiScene12B;
+export default RelatiScene12C;

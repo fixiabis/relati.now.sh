@@ -25,12 +25,8 @@ const RelatiScene12D: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if ((game.board.getGridAt(3, 1) as Required<RelatiGrid>).piece.disabled) {
-      return setDescription("不錯! 你打斷了!");
-    }
-
-    if (grid.i === 13) {
-      return setDescription("很好! 他無法靠近了!");
+    if (grid.i === 2) {
+      return setDescription("很好! 他無法從這側靠近了! ");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -40,22 +36,12 @@ const RelatiScene12D: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
         case 11:
-          if (!(game.board.getGridAt(3, 1) as Required<RelatiGrid>).piece.disabled) {
-            if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(2, 0);
-              return setDescription("但是, 他靠近了!");
-            }
-            else if (!(game.board.getGridAt(2, 1) as RelatiGrid).piece) {
-              game.placeSymbolByCoordinate(2, 1);
-              return setDescription("但是, 他靠近了!");
-            }
-          }
-          else if (!(game.board.getGridAt(4, 1) as RelatiGrid).piece) {
-            game.placeSymbolByCoordinate(4, 1);
-            return setDescription("但是, 他接上了!");
+          if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
+            game.placeSymbolByCoordinate(2, 0);
+            return setDescription("但是, 他靠近了!");
           }
 
-          return toStep("13B");
+          return toStep("13A");
         case 12:
           game.undo();
           game.undo();
@@ -89,7 +75,7 @@ RelatiScene12D.initial = (game) => {
   RelatiScene11.initial(game);
 
   if (game.turn === 8) {
-    game.placeSymbolByCoordinate(4, 2);
+    game.placeSymbolByCoordinate(2, 1);
   }
 
   if (game.turn === 9) {

@@ -3,7 +3,7 @@ import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "../scenes/types";
 import { RelatiGrid } from "../../../../libs/Relati";
-import RelatiScene12E from "./RelatiScene12E";
+import RelatiScene12C from "./RelatiScene12C";
 
 const RelatiScene13C: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他打斷了! 現在非常危險!");
@@ -76,7 +76,7 @@ const RelatiScene13C: SceneComponent = ({ toStep, game, ...props }) => {
 };
 
 RelatiScene13C.initial = (game) => {
-  RelatiScene12E.initial(game);
+  RelatiScene12C.initial(game);
 
   if (game.turn === 10) {
     game.placeSymbolByCoordinate(4, 1);
