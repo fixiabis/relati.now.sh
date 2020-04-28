@@ -3,6 +3,7 @@ import RelatiBoard from "../../RelatiBoard";
 import { Component as SceneComponent } from "./types";
 import { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene19B from "./RelatiScene19B";
+import { CoordinateObject } from "../../../../types";
 
 const RelatiScene20B: SceneComponent = ({ toStep, game, ...props }) => {
 
@@ -11,11 +12,32 @@ const RelatiScene20B: SceneComponent = ({ toStep, game, ...props }) => {
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
+  const onGridClick = ({ x, y }: CoordinateObject) => {
+    if (game.getNowPlayerSymbol() !== "O") {
+      return;
+    }
+
+    const grid = game.board.getGridAt(x, y);
+
+    if (grid?.piece) {
+      return;
+    }
+
+    game.placeSymbolByCoordinate(x, y);
+
+    if (!grid?.piece) {
+      return;
+    }
+
+    toStep("END");
+  };
+
   return (
     <>
       <div className="description">這是最後了! 讓對方無法下子就贏了!</div>
       <RelatiBoard
         board={game.board}
+        onGridClick={onGridClick}
         lastPieceCoordinate={boardLastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}

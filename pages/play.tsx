@@ -11,17 +11,26 @@ const Play = () => {
   const router = useRouter();
   const [game] = useState<Game>(new Game(2));
   const forceUpdate = useForceUpdate();
-  const gameOnOver = forceUpdate;
-  const [messageBoxShow, setMessageBoxShow] = useState(true);
-  const messageBoxOnCancel = () => setMessageBoxShow(false);
+  const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
+  const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);
+  const gameOnOver = forceUpdate;
+  const gameOverMessageBoxClose = () => setIsGameOverMessageBoxShow(false);
+  const gameLeaveMessageBoxClose = () => setIsGameLeaveMessageBoxShow(false);
 
   const restartGame = () => {
     game.restart();
     forceUpdate();
   };
 
-  const leaveGame = () => router.replace("/");
+  const leaveGame = () => {
+    if (game.turn && game.symbolOfWinner === "?") {
+      setIsGameLeaveMessageBoxShow(true);
+    }
+    else {
+      router.replace("/");
+    }
+  };
 
   const messageIcon = game.symbolOfWinner !== "?"
     ? (
@@ -35,8 +44,8 @@ const Play = () => {
 
   const messageText = game.symbolOfWinner !== "?"
     ? game.symbolOfWinner !== "N"
-      ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝`
-      : "平手"
+      ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝!`
+      : "平手!"
     : "";
 
   const saveGame = () => {
@@ -64,7 +73,23 @@ const Play = () => {
         <IconButton type="leave" color="#888" onClick={leaveGame} />
       </Button.Group>
 
-      <MessageBox show={messageBoxShow && game.symbolOfWinner !== "?"} onCancel={messageBoxOnCancel}>
+      <MessageBox show={isGameLeaveMessageBoxShow} onCancel={gameLeaveMessageBoxClose}>
+        <div className="message-container">
+          <div className="message-icon-container">
+            <svg width="5" height="5" className="message-icon">
+              <RelatiPiece x={0} y={0} symbol="N" primary />
+            </svg>
+          </div>
+          勝負未分, 確定離開?
+        </div>
+        <Button.Group>
+          <IconButton type="accept" color="crimson" onClick={() => router.replace("/")} />
+          <IconButton type="download" color="#888" onClick={saveGame} />
+          <IconButton type="reject" color="royalblue" onClick={gameLeaveMessageBoxClose} />
+        </Button.Group>
+      </MessageBox>
+
+      <MessageBox show={isGameOverMessageBoxShow && game.symbolOfWinner !== "?"} onCancel={gameOverMessageBoxClose}>
         <div className="message-container">
           {messageIcon}
           {messageText}
