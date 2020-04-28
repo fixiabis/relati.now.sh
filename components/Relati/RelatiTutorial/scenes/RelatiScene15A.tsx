@@ -40,12 +40,23 @@ const RelatiScene15A: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
         case 17:
-          if (!(game.board.getGridAt(0, 3) as RelatiGrid).piece) {
+          if ((game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece.disabled) {
+            if (!(game.board.getGridAt(3, 2) as RelatiGrid).piece) {
+              game.placeSymbolByCoordinate(3, 2);
+              return setDescription("但是, 他還是接上了!");
+            }
+
+            if (!(game.board.getGridAt(3, 3) as RelatiGrid).piece) {
+              game.placeSymbolByCoordinate(3, 3);
+              return setDescription("但是, 他還是接上了!");
+            }
+          }
+          else if (!(game.board.getGridAt(0, 3) as RelatiGrid).piece) {
             game.placeSymbolByCoordinate(0, 3);
             return setDescription("但是, 他破壞圍地了!");
           }
 
-          break;
+          return toStep("16A");
         case 18:
           game.undo();
           game.undo();

@@ -10,7 +10,7 @@ type OmittedRelatiBoardPropKeys =
   | "symbolOfCurrentPlayer";
 
 export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
-  step?: string,
+  step?: string;
   onOver?: () => void;
 };
 
