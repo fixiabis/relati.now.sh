@@ -63,7 +63,7 @@ const RelatiScene15B: SceneComponent = ({ toStep, game, ...props }) => {
             }
           }
 
-          break;
+          return toStep("16B");
         case 18:
           game.undo();
           game.undo();

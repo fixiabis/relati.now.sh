@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
-import { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
-import RelatiScene14C from "./RelatiScene14C";
+import { RelatiGrid } from "../../../../libs/Relati";
+import RelatiScene17C from "./RelatiScene17C";
 
-const RelatiScene15C: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("他靠近了, 現在非常危險!");
+const RelatiScene18C: SceneComponent = ({ toStep, game, ...props }) => {
+  const [description, setDescription] = useState("他換了方向!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -25,8 +25,12 @@ const RelatiScene15C: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if (grid.i === 28) {
-      return setDescription("很好! 你打斷了!");
+    if (grid.i === 4 || grid.i === 2) {
+      return setDescription("很好! 他永遠無法靠近了! ");
+    }
+
+    if ((game.board.getGridAt(5, 0) as Required<RelatiGrid>).piece.disabled) {
+      return setDescription("不錯! 你打斷了!");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -35,14 +39,20 @@ const RelatiScene15C: SceneComponent = ({ toStep, game, ...props }) => {
   useEffect(() => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
-        case 17:
-          if (!(game.board.getGridAt(1, 3) as RelatiGrid).piece) {
-            game.placeSymbolByCoordinate(1, 3);
-            return setDescription("但是, 他破壞圍地了!");
+        case 23:
+          if ((game.board.getGridAt(5, 1) as RelatiGrid).piece) {
+            game.placeSymbolByCoordinate(6, 1);
+            return setDescription("但是, 他接上了! ");
+          }
+          else if (!(game.board.getGridAt(4, 0) as RelatiGrid).piece) {
+            if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
+              game.placeSymbolByCoordinate(2, 0);
+              return setDescription("但是, 他破壞圍地了!");
+            }
           }
 
-          return toStep("16C");
-        case 18:
+          break;
+        case 24:
           game.undo();
           game.undo();
           return setDescription("再試一次?");
@@ -73,16 +83,16 @@ const RelatiScene15C: SceneComponent = ({ toStep, game, ...props }) => {
   );
 };
 
-RelatiScene15C.initial = (game) => {
-  RelatiScene14C.initial(game);
+RelatiScene18C.initial = (game) => {
+  RelatiScene17C.initial(game);
 
-  if (game.turn === 14) {
-    game.placeSymbolByCoordinate(3, 4);
+  if (game.turn === 20) {
+    game.placeSymbolByCoordinate(2, 1);
   }
 
-  if (game.turn === 15) {
-    game.placeSymbolByCoordinate(1, 2);
+  if (game.turn === 21) {
+    game.placeSymbolByCoordinate(5, 0);
   }
 };
 
-export default RelatiScene15C;
+export default RelatiScene18C;
