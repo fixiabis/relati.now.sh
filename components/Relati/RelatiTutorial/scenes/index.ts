@@ -15,8 +15,6 @@ const RELATI_SCENES: Record<string, SceneComponent> = {
     "12A": require("./RelatiScene12A").default,
     "12B": require("./RelatiScene12B").default,
     "12C": require("./RelatiScene12C").default,
-    "12D": require("./RelatiScene12D").default,
-    "12E": require("./RelatiScene12E").default,
     "13A": require("./RelatiScene13A").default,
     "13B": require("./RelatiScene13B").default,
     "13C": require("./RelatiScene13C").default,

@@ -26,7 +26,7 @@ const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
     }
 
     const exceptedGridIndexes: number[] = [2, 11, 13, 22, 12];
-    const indexToNextSceneNames: string[] = ["12A", "12D", "12B", "12E", "12C"];
+    const indexToNextSceneNames: string[] = ["12A", "12A", "12B", "12B", "12C"];
     const nextSceneIndex = exceptedGridIndexes.indexOf(grid.i);
 
     if (nextSceneIndex === -1) {

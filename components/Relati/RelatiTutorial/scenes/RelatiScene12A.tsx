@@ -36,6 +36,11 @@ const RelatiScene12A: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
         case 11:
+          if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {
+            game.placeSymbolByCoordinate(2, 0);
+            return setDescription("但是, 他靠近了!");
+          }
+
           if (!(game.board.getGridAt(2, 1) as RelatiGrid).piece) {
             game.placeSymbolByCoordinate(2, 1);
             return setDescription("但是, 他靠近了!");
