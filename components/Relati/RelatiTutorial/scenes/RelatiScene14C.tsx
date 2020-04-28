@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
 import { Component as SceneComponent } from "./types";
-import { RelatiGrid } from "../../../../libs/Relati";
+import { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene13C from "./RelatiScene13C";
 
 const RelatiScene14C: SceneComponent = ({ toStep, game, ...props }) => {
@@ -25,12 +25,12 @@ const RelatiScene14C: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if (grid.i === 29) {
-      return setDescription("擋的好!");
+    if (grid.i === 39) {
+      return setDescription("很好! 你接上了!");
     }
 
     if (!(game.board.getGridAt(2, 2) as Required<RelatiGrid>).piece.disabled) {
-      return setDescription("你接上了!");
+      return setDescription("不錯! 你接上了!");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -40,9 +40,22 @@ const RelatiScene14C: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
         case 15:
-          if (!(game.board.getGridAt(2, 3) as Required<RelatiGrid>).piece) {
-            game.placeSymbolByCoordinate(1, 2);
-            return setDescription("但是, 他靠近了!");
+          const shouldBlockedGrid = game.board.getGridAt(2, 3) as Required<RelatiGrid>;
+      
+          for (let grid of game.board.grids) {
+            if (grid.piece || !isGridHasAvailableRelatiRouteBySymbol(grid, "X")) {
+              continue;
+            }
+      
+            const { x, y } = grid;
+            game.placeSymbolByCoordinate(x, y);
+      
+            if (!shouldBlockedGrid.piece.disabled) {
+              game.undo();
+            }
+            else {
+              return setDescription("但是, 他打斷了!");
+            }
           }
 
           break;

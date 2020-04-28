@@ -26,7 +26,7 @@ const RelatiScene13C: SceneComponent = ({ toStep, game, ...props }) => {
     }
 
     if (grid.i === 29) {
-      return setDescription("很好!");
+      return setDescription("很好! 他暫時無法靠近了!");
     }
 
     if (!(game.board.getGridAt(2, 2) as Required<RelatiGrid>).piece.disabled) {

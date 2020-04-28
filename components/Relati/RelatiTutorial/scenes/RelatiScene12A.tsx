@@ -41,7 +41,7 @@ const RelatiScene12A: SceneComponent = ({ toStep, game, ...props }) => {
             return setDescription("但是, 他靠近了!");
           }
 
-          return  toStep("13A");
+          return toStep("13A");
         case 12:
           game.undo();
           game.undo();
