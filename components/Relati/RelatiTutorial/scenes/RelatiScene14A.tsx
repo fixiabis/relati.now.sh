@@ -6,7 +6,7 @@ import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene13A from "./RelatiScene13A";
 
 const RelatiScene14A: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("他還是入侵了, 有反抗的手段嗎?");
+  const [description, setDescription] = useState("他還是靠近了, 有反抗的手段嗎?");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -53,7 +53,7 @@ const RelatiScene14A: SceneComponent = ({ toStep, game, ...props }) => {
           }
           else if (!(game.board.getGridAt(1, 3) as RelatiGrid).piece) {
             game.placeSymbolByCoordinate(1, 3);
-            return setDescription("但是, 他成功永久入侵了!");
+            return setDescription("但是, 他成功永久靠近了!");
           }
 
           break;
