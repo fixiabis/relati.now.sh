@@ -51,7 +51,7 @@ const Play = () => {
   };
 
   return (
-    <Page id="play" title="Play">
+    <Page id="play" title="play">
       <div className="versus-header">
         <div className="player-o" />
         <div className="versus" />

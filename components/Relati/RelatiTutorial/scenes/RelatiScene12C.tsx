@@ -25,8 +25,12 @@ const RelatiScene12C: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
+    if ((game.board.getGridAt(3, 1) as Required<RelatiGrid>).piece.disabled) {
+      return setDescription("不錯! 你打斷了!");
+    }
+
     if (grid.i === 22) {
-      return toStep("13B");
+      return setDescription("很好! 他無法靠近了!");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -51,7 +55,7 @@ const RelatiScene12C: SceneComponent = ({ toStep, game, ...props }) => {
             return setDescription("但是, 他接上了!");
           }
 
-          break;
+          return toStep("13B");
         case 12:
           game.undo();
           game.undo();

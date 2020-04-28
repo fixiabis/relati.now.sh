@@ -23,7 +23,7 @@ const RelatiTutorial = ({ step: externalStep = "0", ...props }: Props) => {
   const style = { transform: `scale(${scale})` };
 
   useEffect(() => {
-    DEBUG: document.title = step;
+    DEBUG: document.title = `how to play (${step})`;
     const { innerWidth = 45, innerHeight = 185 } = globalThis;
     const widthRatio = innerWidth / 45;
     const heightRatio = (innerHeight - 140) / 45;

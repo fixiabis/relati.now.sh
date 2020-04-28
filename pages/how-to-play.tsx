@@ -15,7 +15,7 @@ const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);
 
   return (
-    <Page id="how-to-play" title="How to play">
+    <Page id="how-to-play" title="how to play">
       <RelatiTutorial step={step} {...tutorialSetting} />
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={() => router.replace("/")} />

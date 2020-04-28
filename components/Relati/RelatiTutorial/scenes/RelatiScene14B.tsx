@@ -6,7 +6,7 @@ import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene13B from "./RelatiScene13B";
 
 const RelatiScene14B: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("他打斷了你的計畫!");
+  const [description, setDescription] = useState("他打斷了! 現在非常危險!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
@@ -25,12 +25,8 @@ const RelatiScene14B: SceneComponent = ({ toStep, game, ...props }) => {
       return;
     }
 
-    if (grid.i === 29) {
-      return setDescription("擋的好!");
-    }
-
     if (!(game.board.getGridAt(2, 2) as Required<RelatiGrid>).piece.disabled) {
-      return setDescription("你接回來了!");
+      return setDescription("你接上了!");
     }
 
     return setDescription("這是特殊的戰略!");

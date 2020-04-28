@@ -31,7 +31,7 @@ const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
 
     if (nextSceneIndex === -1) {
       game.undo();
-      return setDescription("這裡沒辦法做應對, 換個方法吧?");
+      return setDescription("這裡無法做應對, 換個方法吧?");
     }
 
     toStep(indexToNextSceneNames[nextSceneIndex]);

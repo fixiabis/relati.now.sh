@@ -26,7 +26,7 @@ const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
     }
 
     if (grid.i === 2) {
-      return toStep("13A");
+      return setDescription("很好! 他無法從這側靠近了! ");
     }
 
     return setDescription("這是特殊的戰略!");
@@ -40,8 +40,8 @@ const RelatiScene12B: SceneComponent = ({ toStep, game, ...props }) => {
             game.placeSymbolByCoordinate(2, 0);
             return setDescription("但是, 他靠近了!");
           }
-          
-          break;
+
+          return toStep("13A");
         case 12:
           game.undo();
           game.undo();
