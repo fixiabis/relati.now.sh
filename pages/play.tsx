@@ -15,6 +15,7 @@ const Play = () => {
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);
   const gameOnOver = forceUpdate;
+  const gameLeaveMessageBoxOpen = () => setIsGameLeaveMessageBoxShow(true);
   const gameOverMessageBoxClose = () => setIsGameOverMessageBoxShow(false);
   const gameLeaveMessageBoxClose = () => setIsGameLeaveMessageBoxShow(false);
 
@@ -25,7 +26,7 @@ const Play = () => {
 
   const leaveGame = () => {
     if (game.turn && game.symbolOfWinner === "?") {
-      setIsGameLeaveMessageBoxShow(true);
+      gameLeaveMessageBoxOpen();
     }
     else {
       router.replace("/");
