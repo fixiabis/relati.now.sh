@@ -78,7 +78,7 @@ const Play = () => {
         <div className="message-container">
           <div className="message-icon-container">
             <svg width="5" height="5" className="message-icon">
-              <RelatiPiece x={0} y={0} symbol="N" primary />
+              <RelatiPiece x={0} y={0} symbol="K" primary />
             </svg>
           </div>
           勝負未分, 確定離開?

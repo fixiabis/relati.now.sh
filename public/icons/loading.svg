@@ -1,0 +1,5 @@
+<svg id="debug" xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none">
+    <circle cx="15" cy="30" r="10" fill="crimson"/>
+    <circle cx="45" cy="30" r="10" fill="royalblue"/>
+    <style>svg:target { background-color: #f2f2f2; }</style>
+</svg>
