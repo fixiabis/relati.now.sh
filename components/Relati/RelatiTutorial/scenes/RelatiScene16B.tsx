@@ -29,6 +29,10 @@ const RelatiScene16B: SceneComponent = ({ toStep, game, ...props }) => {
       return setDescription("很好! 你打斷了!");
     }
 
+    if ((game.board.getGridAt(2, 4) as Required<RelatiGrid>).piece.disabled) {
+      return setDescription("不錯! 你打斷了!");
+    }
+
     return setDescription("這是特殊的戰略!");
   };
 
@@ -36,7 +40,11 @@ const RelatiScene16B: SceneComponent = ({ toStep, game, ...props }) => {
     const placementTimer = setTimeout(() => {
       switch (game.turn) {
         case 19:
-          if (!(game.board.getGridAt(1, 3) as RelatiGrid).piece) {
+          if ((game.board.getGridAt(2, 4) as Required<RelatiGrid>).piece.disabled) {
+            game.placeSymbolByCoordinate(6, 3);
+            return setDescription("但是, 他接上了!");
+          }
+          else if (!(game.board.getGridAt(1, 3) as RelatiGrid).piece) {
             game.placeSymbolByCoordinate(1, 3);
             return setDescription("但是, 他破壞圍地了!");
           }
