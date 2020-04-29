@@ -9,7 +9,7 @@ const RelatiScene7: SceneComponent = ({ toStep, game, ...props }) => {
   const boardLastPieceCoordinate = { x, y };
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
-  setTimeout(() => toStep("8"), 1000);
+  setTimeout(() => toStep("8"), 1500);
 
   return (
     <>

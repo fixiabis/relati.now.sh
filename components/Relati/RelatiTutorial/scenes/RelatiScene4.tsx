@@ -40,7 +40,7 @@ const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
     });
   }
   else {
-    const ms = 1000;
+    const ms = 1500;
     const style = { animationDuration: `${ms}ms` };
 
     drawLines = SCENE4_SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) => {

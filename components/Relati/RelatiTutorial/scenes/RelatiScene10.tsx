@@ -4,7 +4,7 @@ import { Component as SceneComponent } from "./types";
 import RelatiScene9 from "./RelatiScene9";
 
 const RelatiScene10: SceneComponent = ({ toStep: toStep, game, ...props }) => {
-  setTimeout(() => toStep("11"), 1000);
+  setTimeout(() => toStep("11"), 1500);
 
   return (
     <>
