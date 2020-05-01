@@ -1,4 +1,4 @@
-import { Component as SceneComponent } from "./types";
+import { SceneComponent } from "./types";
 
 const RELATI_SCENES: Record<string, SceneComponent> = {
     "1": require("./RelatiScene1").default,

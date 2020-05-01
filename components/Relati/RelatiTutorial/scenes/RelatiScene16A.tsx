@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
-import { Component as SceneComponent } from "./types";
+import { SceneComponent } from "./types";
 import { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene15A from "./RelatiScene15A";
 import { useForceUpdate } from "../../../../utils/hook";

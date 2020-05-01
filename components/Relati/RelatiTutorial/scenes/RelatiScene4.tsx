@@ -4,7 +4,7 @@ import RelatiBoard from "../../RelatiBoard";
 import { Hint } from "../../../Piece";
 import DrawLine from "../../../DrawLine";
 import { CoordinateObject } from "../../../../types";
-import { Component as SceneComponent } from "./types";
+import { SceneComponent } from "./types";
 import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 import RelatiScene3 from "./RelatiScene3";
 

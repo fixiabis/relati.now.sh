@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { CoordinateObject } from "../../../../types";
-import { Component as SceneComponent } from "../scenes/types";
+import { SceneComponent } from "./types";
 import RelatiPiece from "../../RelatiPiece";
 import RelatiScene10 from "../scenes/RelatiScene10";
 

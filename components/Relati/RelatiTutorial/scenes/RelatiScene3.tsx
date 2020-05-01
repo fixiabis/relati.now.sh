@@ -1,6 +1,6 @@
 import React from "react";
 import RelatiBoard from "../../RelatiBoard";
-import { Component as SceneComponent } from "./types";
+import { SceneComponent } from "./types";
 import RelatiScene2 from "./RelatiScene2";
 
 const RelatiScene3: SceneComponent = ({ toStep, game, ...props }) => {

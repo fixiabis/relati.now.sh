@@ -1,6 +1,6 @@
 import React from "react";
 import RelatiBoard from "../../RelatiBoard";
-import { Component as SceneComponent } from "./types";
+import { SceneComponent } from "./types";
 import { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene6 from "./RelatiScene6";
 
