@@ -100,7 +100,7 @@ export function createRelatiPlacementScene(config: PlacementSceneComponentConfig
     onTurnToComputer,
     initialDescription,
     exceptedGridIndexes,
-    descriptionFromPlacedGridIndex,
+    onPlayerPlacedSymbol,
   } = config;
 
   const PlacementScene: SceneComponent = ({ toStep, game, ...props }) => {
@@ -126,7 +126,7 @@ export function createRelatiPlacementScene(config: PlacementSceneComponentConfig
         return;
       }
 
-      const description = descriptionFromPlacedGridIndex[grid.i] || "這是特殊的戰略!";
+      const description = onPlayerPlacedSymbol(grid) || "這是特殊的戰略!";
 
       if (exceptedGridIndexes.includes(grid.i)) {
         return setState({ tryAgainCount: 0, description });

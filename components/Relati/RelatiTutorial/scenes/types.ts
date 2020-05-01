@@ -24,5 +24,5 @@ export interface PlacementSceneComponentConfig extends Pick<RelatiBoardProps, "c
     initial(game: RelatiGame): void;
     exceptedGridIndexes: number[];
     onTurnToComputer: (game: RelatiGame) => string | void;
-    descriptionFromPlacedGridIndex: Record<number, string>;
+    onPlayerPlacedSymbol: (grid: RelatiGrid) => string | void;
 }
