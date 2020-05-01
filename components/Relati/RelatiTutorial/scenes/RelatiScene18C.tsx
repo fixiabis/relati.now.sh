@@ -9,7 +9,7 @@ const RelatiScene18C: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他換了方向!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
-    if (game.getNowPlayerSymbol() !== "O") {
+    if (game.getNowPlayerSymbol() !== "O" || game.turn === 24) {
       return;
     }
 

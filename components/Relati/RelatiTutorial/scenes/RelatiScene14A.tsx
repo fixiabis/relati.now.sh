@@ -9,7 +9,7 @@ const RelatiScene14A: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他還是靠近了, 有反抗手段嗎?");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
-    if (game.getNowPlayerSymbol() !== "O") {
+    if (game.getNowPlayerSymbol() !== "O" || game.turn === 16) {
       return;
     }
 

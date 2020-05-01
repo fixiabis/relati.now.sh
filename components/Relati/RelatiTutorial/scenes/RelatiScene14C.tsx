@@ -9,7 +9,7 @@ const RelatiScene14C: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他又打斷了, 而且現在非常危險!");
 
   const onGridClick = ({ x, y }: CoordinateObject) => {
-    if (game.getNowPlayerSymbol() !== "O") {
+    if (game.getNowPlayerSymbol() !== "O" || game.turn === 16) {
       return;
     }
 
@@ -41,15 +41,15 @@ const RelatiScene14C: SceneComponent = ({ toStep, game, ...props }) => {
       switch (game.turn) {
         case 15:
           const shouldBlockedGrid = game.board.getGridAt(2, 3) as Required<RelatiGrid>;
-      
+
           for (let grid of game.board.grids) {
             if (grid.piece || !isGridHasAvailableRelatiRouteBySymbol(grid, "X")) {
               continue;
             }
-      
+
             const { x, y } = grid;
             game.placeSymbolByCoordinate(x, y);
-      
+
             if (!shouldBlockedGrid.piece.disabled) {
               game.undo();
             }
