@@ -2,9 +2,9 @@ import { GridBoard, Coordinate } from "gridboard";
 import { RelatiPiece, RelatiSymbol, RelatiGrid } from "./types";
 import { RELATI_SYMBOLS, isGridHasAvailableRelatiRouteBySymbol, activePiecesByGrid, disableAllPiecesByBoard } from "./utils";
 
-class RelatiGame {
+class RelatiGameLite {
     public turn: number;
-    public static recentInstance?: RelatiGame;
+    public static recentInstance?: RelatiGameLite;
     public placementRecords: Coordinate[];
     public playersCount: number;
     public createdTime: number;
@@ -12,15 +12,15 @@ class RelatiGame {
     public symbolOfWinner: "?" | "N" | RelatiSymbol;
     public symbolToSourceGrid: Record<RelatiSymbol, RelatiGrid | undefined>;
 
-    constructor(playersCount: number, boardWidth: number = 9, boardHeight: number = 9) {
+    constructor(playersCount: number, boardWidth: number = 5, boardHeight: number = 5) {
         this.turn = 0;
         this.symbolOfWinner = "?";
         this.placementRecords = [];
         this.playersCount = playersCount;
         this.createdTime = new Date().getTime();
         this.board = new GridBoard<RelatiPiece>(boardWidth, boardHeight);
-        this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
-        RelatiGame.recentInstance = this;
+        this.symbolToSourceGrid = {} as RelatiGameLite["symbolToSourceGrid"];
+        RelatiGameLite.recentInstance = this;
     }
 
     public restart() {
@@ -28,7 +28,7 @@ class RelatiGame {
         this.symbolOfWinner = "?";
         this.placementRecords = [];
         this.board.grids.forEach(grid => delete grid.piece);
-        this.symbolToSourceGrid = {} as RelatiGame["symbolToSourceGrid"];
+        this.symbolToSourceGrid = {} as RelatiGameLite["symbolToSourceGrid"];
     }
 
     public getNowPlayerSymbol() {
@@ -128,4 +128,4 @@ class RelatiGame {
     }
 }
 
-export default RelatiGame;
+export default RelatiGameLite;

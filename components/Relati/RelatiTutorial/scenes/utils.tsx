@@ -1,7 +1,6 @@
 import { PlacementSceneComponentConfig, SceneComponent } from "./types";
 import { CoordinateObject } from "../../../../types";
 import React, { useState, useEffect } from "react";
-import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiBoard from "../../RelatiBoard";
 import { Focus } from "../../../Piece";
 
