@@ -7,7 +7,7 @@ import { State } from "../reducers";
 import { SettingState } from "../reducers/setting";
 import { useForceUpdate } from "../utils/hook";
 
-const Play = () => {
+const PlayLite = () => {
   const router = useRouter();
   const [game] = useState<GameLite>(new GameLite(2));
   const forceUpdate = useForceUpdate();
@@ -105,4 +105,4 @@ const Play = () => {
   );
 };
 
-export default Play;
+export default PlayLite;
