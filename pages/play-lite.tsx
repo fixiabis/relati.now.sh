@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import Game from "../libs/Relati";
-import { Page, Button, IconButton, RelatiGame, MessageBox, RelatiPiece } from "../components";
+import GameLite from "../libs/RelatiLite";
+import { Page, Button, IconButton, RelatiGameLite, MessageBox, RelatiPiece } from "../components";
 import { useSelector } from "react-redux";
 import { State } from "../reducers";
 import { SettingState } from "../reducers/setting";
 import { useForceUpdate } from "../utils/hook";
 
-const PlayLite = () => {
+const Play = () => {
   const router = useRouter();
-  const [game] = useState<Game>(new Game(2));
+  const [game] = useState<GameLite>(new GameLite(2));
   const forceUpdate = useForceUpdate();
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
@@ -61,14 +61,14 @@ const PlayLite = () => {
   };
 
   return (
-    <Page id="play" title="play lite">
+    <Page id="play" title="play">
       <div className="versus-header">
         <div className="player-o" />
         <div className="versus" />
         <div className="player-x" />
       </div>
 
-      <RelatiGame {...gameSetting} game={game} onOver={gameOnOver} />
+      <RelatiGameLite {...gameSetting} game={game} onOver={gameOnOver} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={leaveGame} />
@@ -105,4 +105,4 @@ const PlayLite = () => {
   );
 };
 
-export default PlayLite;
+export default Play;
