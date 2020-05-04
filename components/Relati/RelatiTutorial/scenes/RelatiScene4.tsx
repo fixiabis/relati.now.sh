@@ -10,7 +10,7 @@ import RelatiScene3 from "./RelatiScene3";
 
 const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
   const [placeStep, setPlaceStep] = useState(0);
-  const nextPlaceStep = () => setPlaceStep(placeStep + 1);
+  const toNextPlaceStep = () => setPlaceStep(placeStep + 1);
   let drawLines: JSX.Element[] = [];
   let hints: JSX.Element[] = [];
 
@@ -27,7 +27,7 @@ const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
           toStep("5");
         }
         else {
-          nextPlaceStep();
+          toNextPlaceStep();
         }
       }
     }
@@ -56,7 +56,7 @@ const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
       });
     }
 
-    setTimeout(nextPlaceStep, ms);
+    setTimeout(toNextPlaceStep, ms);
   }
 
   return (

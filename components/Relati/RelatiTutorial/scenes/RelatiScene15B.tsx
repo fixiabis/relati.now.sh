@@ -37,7 +37,7 @@ const RelatiScene15B: SceneComponent = ({ toStep, game, ...props }) => {
   };
 
   useEffect(() => {
-    const placementTimer = setTimeout(() => {
+    const doPlacementAfterTimeout = setTimeout(() => {
       switch (game.turn) {
         case 17:
           const shouldBlockedGrid = game.board.getGridAt(2, 2) as Required<RelatiGrid>;
@@ -71,7 +71,7 @@ const RelatiScene15B: SceneComponent = ({ toStep, game, ...props }) => {
       }
     }, 1500);
 
-    return () => clearTimeout(placementTimer);
+    return () => clearTimeout(doPlacementAfterTimeout);
   });
 
   const [x, y] = game.placementRecords[game.placementRecords.length - 1];

@@ -9,7 +9,7 @@ const RelatiScene16A: SceneComponent = ({ toStep, game, ...props }) => {
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
-    const placementTimer = setTimeout(() => {
+    const doPlacementAfterTimeout = setTimeout(() => {
       const symbol = game.getNowPlayerSymbol();
 
       for (let grid of game.board.grids) {
@@ -41,7 +41,7 @@ const RelatiScene16A: SceneComponent = ({ toStep, game, ...props }) => {
       return toStep("17A");
     }, 100);
 
-    return () => clearTimeout(placementTimer);
+    return () => clearTimeout(doPlacementAfterTimeout);
   });
 
   const [x, y] = game.placementRecords[game.placementRecords.length - 1];

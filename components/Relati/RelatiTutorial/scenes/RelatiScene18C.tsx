@@ -37,7 +37,7 @@ const RelatiScene18C: SceneComponent = ({ toStep, game, ...props }) => {
   };
 
   useEffect(() => {
-    const placementTimer = setTimeout(() => {
+    const doPlacementAfterTimeout = setTimeout(() => {
       switch (game.turn) {
         case 23:
           if ((game.board.getGridAt(5, 1) as RelatiGrid).piece) {
@@ -59,7 +59,7 @@ const RelatiScene18C: SceneComponent = ({ toStep, game, ...props }) => {
       }
     }, 1500);
 
-    return () => clearTimeout(placementTimer);
+    return () => clearTimeout(doPlacementAfterTimeout);
   });
 
   const [x, y] = game.placementRecords[game.placementRecords.length - 1];

@@ -136,7 +136,7 @@ export function createRelatiPlacementScene(config: PlacementSceneComponentConfig
     };
 
     useEffect(() => {
-      const placementTimer = setTimeout(() => {
+      const doPlacementAfterTimeout = setTimeout(() => {
         switch (game.turn) {
           case gameTurn + 1:
             const result = onTurnToComputer(game);
@@ -153,7 +153,7 @@ export function createRelatiPlacementScene(config: PlacementSceneComponentConfig
         }
       }, 1500);
 
-      return () => clearTimeout(placementTimer);
+      return () => clearTimeout(doPlacementAfterTimeout);
     });
 
     const [x, y] = game.placementRecords[game.placementRecords.length - 1];

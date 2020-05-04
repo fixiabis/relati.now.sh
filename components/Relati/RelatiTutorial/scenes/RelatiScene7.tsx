@@ -11,8 +11,8 @@ const RelatiScene7: SceneComponent = ({ toStep, game, ...props }) => {
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
   useEffect(() => {
-    const nextStepTimer = setTimeout(() => toStep("8"), 1500);
-    return () => clearTimeout(nextStepTimer);
+    const toNextStepAfterTimeout = setTimeout(() => toStep("8"), 1500);
+    return () => clearTimeout(toNextStepAfterTimeout);
   });
 
   return (

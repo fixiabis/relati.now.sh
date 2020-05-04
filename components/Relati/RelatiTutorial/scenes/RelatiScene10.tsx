@@ -5,8 +5,8 @@ import RelatiScene9 from "./RelatiScene9";
 
 const RelatiScene10: SceneComponent = ({ toStep: toStep, game, ...props }) => {
   useEffect(() => {
-    const nextStepTimer = setTimeout(() => toStep("11"), 1500);
-    return () => clearTimeout(nextStepTimer);
+    const toNextStepAfterTimeout = setTimeout(() => toStep("11"), 1500);
+    return () => clearTimeout(toNextStepAfterTimeout);
   });
 
   return (

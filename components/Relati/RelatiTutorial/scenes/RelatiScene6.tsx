@@ -39,7 +39,7 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
   };
 
   useEffect(() => {
-    const placementTimer = setTimeout(() => {
+    const doPlacementAfterTimeout = setTimeout(() => {
       switch (game.turn) {
         case 3:
           game.placeSymbolByCoordinate(5, 5);
@@ -51,7 +51,7 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
       }
     }, 1500);
 
-    return () => clearTimeout(placementTimer);
+    return () => clearTimeout(doPlacementAfterTimeout);
   });
 
   const gameLastPlacementRecord = game.placementRecords[game.placementRecords.length - 1];

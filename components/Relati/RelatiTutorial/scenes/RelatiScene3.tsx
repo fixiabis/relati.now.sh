@@ -7,8 +7,8 @@ const RelatiScene3: SceneComponent = ({ toStep, game, ...props }) => {
   const boardLastPieceCoordinate = { x: 7, y: 3 };
   
   useEffect(() => {
-    const nextStepTimer = setTimeout(() => toStep("4"), 1500);
-    return () => clearTimeout(nextStepTimer);
+    const toNextStepAfterTimeout = setTimeout(() => toStep("4"), 1500);
+    return () => clearTimeout(toNextStepAfterTimeout);
   });
 
   return (
