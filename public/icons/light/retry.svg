@@ -1,12 +1,12 @@
 <svg id="debug" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
     <path d="
-        M  25  25
+        M  25  27
         m -12   0
         a 12 12 0 0 0,  24   0
         a 12 12 0 0 0, -12 -12
         h -5
 
-        M  20 13
+        M  20 15
         m   7  7
         l  -7 -7
         l   7 -7
