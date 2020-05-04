@@ -1,6 +1,6 @@
 import { RelatiBoard, RelatiSymbol, disableAllPiecesByBoard, RelatiPiece as RelatiPieceType } from "../../../libs/RelatiLite";
 import RelatiPiece, { RelatiSymbolColor } from "../RelatiPiece";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Coordinate, GridBoard } from "gridboard";
 import DrawLine from "../../DrawLine";
 import { getTargetPathsBySourceGrid, cloneBoard } from "./utils";
@@ -15,10 +15,10 @@ export interface Props {
   symbol?: RelatiSymbol;
 }
 
-const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placementEffect, drawLineDuration, lastPieceCoordinate, symbol }: Props) => {
-  const hasTransition = drawLineDuration && externalBoard.grids.filter(({ piece }) => piece).length > 1;
+const RelatiBoardLitePieces = ({ board: externalBoard, lastPieceEmphasized, placementEffect, drawLineDuration, lastPieceCoordinate, symbol }: Props) => {
+  const isHasTransition = drawLineDuration && externalBoard.grids.filter(({ piece }) => piece).length > 1;
 
-  if (!hasTransition) {
+  if (!isHasTransition) {
     const pieces = externalBoard.grids.map(({ x, y, piece }, i) => (
       piece &&
       <RelatiPiece
@@ -49,11 +49,11 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
 
   let linePaths = [] as Coordinate[][];
 
-  const hasSourceGrid = board.grids.some(({ piece }) =>
+  const isHasSourceGrid = board.grids.some(({ piece }) =>
     piece && piece.symbol === symbol && !piece.disabled
   );
 
-  if (hasSourceGrid) {
+  if (isHasSourceGrid) {
     for (let drawLinePath of drawLinePaths) {
       const grid = board.getGridAt(drawLinePath[drawLinePath.length - 1]);
 
@@ -108,23 +108,27 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
     );
   });
 
-  const hasNewSourceGrid = linePaths.some(linePath => {
+  const isHasNewSourceGrid = linePaths.some(linePath => {
     const grid = board.getGridAt(linePath[linePath.length - 1]);
     return grid?.piece?.disabled;
   });
 
-  setTimeout(() => {
-    const isBoardPiecesCountEqual = externalBoard.grids.every(
-      (grid, i) => typeof grid.piece === typeof board.grids[i].piece
-    );
+  useEffect(() => {
+    const addDrawLineAfterTimeout = setTimeout(() => {
+      const isBoardPiecesCountEqual = externalBoard.grids.every(
+        (grid, i) => typeof grid.piece === typeof board.grids[i].piece
+      );
 
-    if (hasNewSourceGrid && isBoardPiecesCountEqual) {
-      setDrawLinePaths([
-        ...drawLinePaths,
-        ...linePaths,
-      ]);
-    }
-  }, drawLineDuration);
+      if (isHasNewSourceGrid && isBoardPiecesCountEqual) {
+        setDrawLinePaths([
+          ...drawLinePaths,
+          ...linePaths,
+        ]);
+      }
+    }, drawLineDuration);
+
+    return () => clearTimeout(addDrawLineAfterTimeout);
+  });
 
   const color = symbol ? RelatiSymbolColor[symbol] : "#888";
 
@@ -155,4 +159,4 @@ const RelatiBoardPieces = ({ board: externalBoard, lastPieceEmphasized, placemen
   );
 };
 
-export default RelatiBoardPieces;
+export default RelatiBoardLitePieces;

@@ -17,19 +17,20 @@ export interface Props extends Omit<BoardProps, "width" | "height"> {
   symbolOfCurrentPlayer: RelatiSymbol;
 }
 
-const RelatiBoard = ({ board, showHints = true, symbolOfPreviousPlayer, symbolOfCurrentPlayer, placementEffect, drawLineDuration, lastPieceEmphasized, lastPieceCoordinate, children, ...props }: Props) => {
+const RelatiBoard = ({ board, showHints: isHintsShow = true, symbolOfPreviousPlayer, symbolOfCurrentPlayer, placementEffect, drawLineDuration, lastPieceEmphasized, lastPieceCoordinate, children, ...props }: Props) => {
   const { width, height } = board;
   const colorOfCurrentPlayer = RelatiSymbolColor[symbolOfCurrentPlayer];
 
-  const hints = showHints
-    ? board.grids.map((grid, i) => {
-      const { x, y } = grid;
+  const hints =
+    isHintsShow
+      ? board.grids.map((grid, i) => {
+        const { x, y } = grid;
 
-      if (!grid.piece && isGridHasAvailableRelatiRouteBySymbol(grid, symbolOfCurrentPlayer)) {
-        return <Hint key={i} x={x} y={y} color={colorOfCurrentPlayer} />
-      }
-    })
-    : undefined;
+        if (!grid.piece && isGridHasAvailableRelatiRouteBySymbol(grid, symbolOfCurrentPlayer)) {
+          return <Hint key={i} x={x} y={y} color={colorOfCurrentPlayer} />
+        }
+      })
+      : undefined;
 
   const pieces = (
     <RelatiBoardPieces
