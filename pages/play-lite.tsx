@@ -14,7 +14,7 @@ const PlayLite = () => {
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);
-  const leavePage = () => router.replace("/");
+  const leavePage = () => router.replace("/choose-play-mode");
   const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(true);
   const closeGameOverMessageBox = () => setIsGameOverMessageBoxShow(false);
   const closeGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(false);
@@ -33,24 +33,6 @@ const PlayLite = () => {
     }
   };
 
-  const messageIcon =
-    game.symbolOfWinner !== "?"
-      ? (
-        <div className="message-icon-container">
-          <svg width="5" height="5" className="message-icon">
-            <RelatiPiece x={0} y={0} symbol={game.symbolOfWinner} primary />
-          </svg>
-        </div>
-      )
-      : undefined;
-
-  const messageText =
-    game.symbolOfWinner !== "?"
-      ? game.symbolOfWinner !== "N"
-        ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝!`
-        : "平手!"
-      : undefined;
-
   const saveGame = () => {
     const placementRecords = game.placementRecords.map(([x, y]) => game.board.getGridAt(x, y)?.i || -1);
     const placementRecordsJSONText = JSON.stringify(placementRecords);
@@ -68,18 +50,34 @@ const PlayLite = () => {
     document.body.removeChild(link);
   };
 
+  const gameOverMessageIcon =
+    game.symbolOfWinner !== "?"
+      ? (
+        <div className="message-icon-container">
+          <svg width="5" height="5" className="message-icon">
+            <RelatiPiece x={0} y={0} symbol={game.symbolOfWinner} primary />
+          </svg>
+        </div>
+      )
+      : undefined;
+
+  const gameOverMessageText =
+    game.symbolOfWinner !== "?"
+      ? game.symbolOfWinner !== "N"
+        ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝!`
+        : "平手!"
+      : undefined;
+
+  const gameLeaveMessageIconStyle = { backgroundImage: "url(/icons/help.svg)" };
+
   const gameLeaveMessageBox =
     isGameLeaveMessageBoxShow
       ? (
         <MessageBox onCancel={closeGameLeaveMessageBox}>
           <div className="message-container">
-            <div className="message-icon-container">
-              <svg width="5" height="5" className="message-icon">
-                <RelatiPiece x={0} y={0} symbol="K" primary />
-              </svg>
-            </div>
-          勝負未分, 確定離開?
-        </div>
+              <div className="message-icon" style={gameLeaveMessageIconStyle} />
+              勝負未分, 確定離開?
+          </div>
           <Button.Group>
             <IconButton type="accept" color="crimson" onClick={leavePage} />
             <IconButton type="download" color="#888" onClick={saveGame} />
@@ -94,8 +92,8 @@ const PlayLite = () => {
       ? (
         <MessageBox onCancel={closeGameOverMessageBox}>
           <div className="message-container">
-            {messageIcon}
-            {messageText}
+            {gameOverMessageIcon}
+            {gameOverMessageText}
           </div>
           <Button.Group>
             <IconButton type="retry" color="crimson" onClick={restartGame} />
