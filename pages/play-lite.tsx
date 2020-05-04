@@ -34,7 +34,7 @@ const PlayLite = () => {
   };
 
   const saveGame = () => {
-    const placementRecords = game.placementRecords.map(([x, y]) => game.board.getGridAt(x, y)?.i || -1);
+    const placementRecords = game.placementRecords.map(([x, y]) => game.board.getGridAt(x, y)?.i);
     const placementRecordsJSONText = JSON.stringify(placementRecords);
     const fileType = "text/json";
     const file = new Blob([placementRecordsJSONText], { type: fileType });
