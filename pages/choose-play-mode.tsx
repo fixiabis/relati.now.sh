@@ -14,7 +14,7 @@ const ChoosePlayMode = () => {
         <div className="play-icon" />
         請選擇模式遊玩
         <Button.Group>
-          <IconButton type="x5" color="seagreen" onClick={toPlayLitePage} />
+          <IconButton type="x5" color="royalblue" onClick={toPlayLitePage} />
           <IconButton type="x9" color="crimson" onClick={toPlayPage} />
           <IconButton type="leave" color="#888" onClick={leavePage} />
         </Button.Group>

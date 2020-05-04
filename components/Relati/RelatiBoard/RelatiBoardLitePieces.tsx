@@ -48,22 +48,22 @@ const RelatiBoardLitePieces = ({ board: externalBoard, lastPieceEmphasized, plac
     }
   });
 
-  useEffect(() => {
-    let linePaths = [] as Coordinate[][];
+  const isHasSourceGrid = board.grids.some(({ piece }) =>
+    piece && piece.symbol === symbol && !piece.disabled
+  );
 
-    const isHasSourceGrid = board.grids.some(({ piece }) =>
-      piece && piece.symbol === symbol && !piece.disabled
-    );
+  if (isHasSourceGrid) {
+    for (let drawLinePath of drawLinePaths) {
+      const grid = board.getGridAt(drawLinePath[drawLinePath.length - 1]);
 
-    if (isHasSourceGrid) {
-      for (let drawLinePath of drawLinePaths) {
-        const grid = board.getGridAt(drawLinePath[drawLinePath.length - 1]);
-
-        if (grid?.piece?.disabled) {
-          grid.piece.disabled = false;
-        }
+      if (grid?.piece?.disabled) {
+        grid.piece.disabled = false;
       }
     }
+  }
+
+  useEffect(() => {
+    let linePaths = [] as Coordinate[][];
 
     const sourceGrids = board.grids.filter(({ piece }) =>
       piece && piece.symbol === symbol && !piece.disabled
