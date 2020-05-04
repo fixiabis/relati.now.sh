@@ -3,24 +3,24 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../reducers";
 import { Page, Button, IconButton } from "../components";
-import { mainPageAnimationDisable } from "../actions";
+import { disableMainPageAnimation } from "../actions";
 import Box from "../components/Box";
 
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isSettingOpen, setSettingOpen] = useState(false);
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
   const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
   const toPlayPage = () => router.replace("/play");
   const toHowToPlayPage = () => router.replace("/how-to-play");
-  const openSetting = () => setSettingOpen(true);
-  const closeSetting = () => setSettingOpen(false);
+  const openSetting = () => setIsSettingOpen(true);
+  const closeSetting = () => setIsSettingOpen(false);
 
   useEffect(() => () => {
     if (mainPageAnimation) {
-      dispatch(mainPageAnimationDisable());
+      dispatch(disableMainPageAnimation());
     }
   }, [mainPageAnimation]);
 

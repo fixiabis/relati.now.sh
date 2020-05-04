@@ -1,6 +1,6 @@
 import { SET_MAIN_PAGE_ANIMATION } from "../constants";
 
-export function mainPageAnimationDisable() {
+export function disableMainPageAnimation() {
     return {
         type: SET_MAIN_PAGE_ANIMATION,
         value: false
