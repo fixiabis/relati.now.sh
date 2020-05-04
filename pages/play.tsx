@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Game from "../libs/Relati";
 import { Page, Button, IconButton, RelatiGame, MessageBox, RelatiPiece } from "../components";
@@ -10,7 +10,7 @@ import { useForceUpdate } from "../utils/hook";
 const Play = () => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
-  const [game] = useState<Game>(new Game(2));
+  const game = useRef<Game>(new Game(2)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);

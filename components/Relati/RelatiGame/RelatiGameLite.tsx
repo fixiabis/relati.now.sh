@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import GameLite, { RelatiSymbol } from "../../../libs/RelatiLite";
 import { Lite as RelatiBoardLite } from "../RelatiBoard";
 import { CoordinateObject } from "../../../types";
@@ -20,7 +20,7 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
 const RelatiGameLite = ({ game: externalGame, lastPieceEmphasized, onGridClick: externalHandleGridClick, onOver, ...props }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const forceUpdate = useForceUpdate();
-  const [game] = useState<GameLite>(externalGame || new GameLite(2));
+  const game = useRef<GameLite>(externalGame || new GameLite(2)).current;
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 

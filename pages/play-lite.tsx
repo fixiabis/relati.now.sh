@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import GameLite from "../libs/RelatiLite";
 import { Page, Button, IconButton, RelatiGameLite, MessageBox, RelatiPiece } from "../components";
@@ -10,7 +10,7 @@ import { useForceUpdate } from "../utils/hook";
 const PlayLite = () => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
-  const [game] = useState<GameLite>(new GameLite(2));
+  const game = useRef<GameLite>(new GameLite(2)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);

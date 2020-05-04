@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { NextPage } from "next";
 import Game from "../libs/Relati";
 import { useRouter } from "next/router";
@@ -13,7 +13,7 @@ export interface Props {
 
 const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   const router = useRouter();
-  const [game] = useState<Game>(new Game(2));
+  const game = useRef<Game>(new Game(2)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);

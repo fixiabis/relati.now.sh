@@ -1,4 +1,5 @@
 import { Grid, Coordinate, GridBoard } from "gridboard";
+import { RELATI_DIRECTIONS } from "../../../libs/RelatiLite";
 import { RelatiPiece, RELATI_ROUTES, RelatiBoard } from "../../../libs/Relati";
 
 export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
@@ -15,6 +16,29 @@ export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
         const sourcePath = [
             [grid.x, grid.y],
             ...route.map<Coordinate>(([x, y]) => [grid.x + x, grid.y + y]).reverse()
+        ] as Coordinate[];
+
+        if (targetGrid.piece.symbol === grid?.piece?.symbol) {
+            sourcePaths.push(sourcePath);
+        }
+    }
+
+    return sourcePaths;
+}
+
+export function getTargetPathsBySourceGridAsLite(grid: Grid<RelatiPiece>) {
+    const sourcePaths = [];
+
+    for (let direction of RELATI_DIRECTIONS) {
+        const targetGrid = grid.getGridTo(direction);
+
+        if (!targetGrid?.piece?.disabled) {
+            continue;
+        }
+
+        const sourcePath = [
+            [grid.x, grid.y],
+            [targetGrid.x, targetGrid.y],
         ] as Coordinate[];
 
         if (targetGrid.piece.symbol === grid?.piece?.symbol) {

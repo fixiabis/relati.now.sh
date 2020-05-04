@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Game, { RelatiSymbol } from "../../../libs/Relati";
 import { RelatiBoard } from "..";
 import { CoordinateObject } from "../../../types";
@@ -20,7 +20,7 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
 const RelatiGame = ({ game: externalGame, lastPieceEmphasized, onGridClick: externalHandleGridClick, onOver, ...props }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const forceUpdate = useForceUpdate();
-  const [game] = useState<Game>(externalGame || new Game(2));
+  const game = useRef<Game>(externalGame || new Game(2)).current;
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 

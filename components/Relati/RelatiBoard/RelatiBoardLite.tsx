@@ -2,7 +2,7 @@ import Board, { BoardProps } from "../../Board";
 import { RelatiSymbol, isGridHasAvailableRelatiRouteBySymbol, RelatiPiece } from "../../../libs/RelatiLite";
 import { RelatiSymbolColor } from "../RelatiPiece";
 import { Hint } from "../../Piece";
-import RelatiBoardPieces from "./RelatiBoardPieces";
+import RelatiBoardLitePieces from "./RelatiBoardLitePieces";
 import { GridBoard } from "gridboard";
 import { CoordinateObject } from "../../../types";
 
@@ -33,7 +33,7 @@ const RelatiBoardLite = ({ board, showHints: isHintsShow = true, symbolOfPreviou
       : undefined;
 
   const pieces = (
-    <RelatiBoardPieces
+    <RelatiBoardLitePieces
       board={board}
       placementEffect={placementEffect}
       drawLineDuration={drawLineDuration}
