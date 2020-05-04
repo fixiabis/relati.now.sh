@@ -7,7 +7,7 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
 }
 
 const IconButton = ({ type, color, style, ...props }: Props) => {
-    const imageUrl = `/icons/${type}.svg`;
+    const imageUrl = `/icons/light/${type}.svg`;
 
     style = {
         ...style,

@@ -1,0 +1,14 @@
+#choose-play-mode {
+    .choose-play-mode-control {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: calc(100% - 70px);
+    }
+
+    .button-group {
+        width: 100%;
+        max-width: 200px;
+    }
+}

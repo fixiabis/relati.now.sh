@@ -13,7 +13,7 @@ const Main = () => {
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
   const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
-  const toPlayPage = () => router.replace("/play");
+  const toChoosePlayModePage = () => router.replace("/choose-play-mode");
   const toHowToPlayPage = () => router.replace("/how-to-play");
   const openSetting = () => setIsSettingOpen(true);
   const closeSetting = () => setIsSettingOpen(false);
@@ -29,7 +29,7 @@ const Main = () => {
       <div className="main-control">
         <div className="logo" />
         <Button.Group className={buttonGroupClassName}>
-          <IconButton type="play" color="crimson" onClick={toPlayPage} />
+          <IconButton type="play" color="crimson" onClick={toChoosePlayModePage} />
           <IconButton type="help" color="royalblue" onClick={toHowToPlayPage} />
         </Button.Group>
       </div>
