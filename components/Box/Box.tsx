@@ -6,15 +6,15 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
   onCancel?: () => void;
 }
 
-const Box = ({ className = "", show: visible = true, onCancel, ...props }: Props) => {
-  const containerDisplay = visible ? "block" : "none";
+const Box = ({ className = "", show: isVisible = true, onCancel, ...props }: Props) => {
+  const containerDisplayMode = isVisible ? "block" : "none";
   const containerRef = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
 
   const containerStyle = {
-    display: containerDisplay
+    display: containerDisplayMode
   };
 
-  const handleClickContainer = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const cancelBoxShow = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (event.target === containerRef.current) {
       onCancel?.();
     }
@@ -23,7 +23,7 @@ const Box = ({ className = "", show: visible = true, onCancel, ...props }: Props
   className = `box${className && ` ${className}`}`;
 
   return (
-    <div className="box-container" ref={containerRef} style={containerStyle} onClick={handleClickContainer}>
+    <div className="box-container" ref={containerRef} style={containerStyle} onClick={cancelBoxShow}>
       <div className={className} {...props} />
     </div>
   );
