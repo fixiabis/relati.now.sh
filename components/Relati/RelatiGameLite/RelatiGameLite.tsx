@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import GameLite, { RelatiSymbol } from "../../../libs/RelatiLite";
-import RelatiBoardLite from "../RelatiBoard";
+import RelatiBoardLite from "../RelatiBoardLite";
 import { CoordinateObject } from "../../../types";
 import { useForceUpdate } from "../../../utils/hook";
-import { RelatiBoardProps } from "../RelatiBoard";
+import { RelatiBoardLiteProps } from "../RelatiBoardLite";
 
 type OmittedRelatiBoardPropKeys =
   | "board"
@@ -11,7 +11,7 @@ type OmittedRelatiBoardPropKeys =
   | "symbolOfPreviousPlayer"
   | "symbolOfCurrentPlayer";
 
-export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
+export interface Props extends Omit<RelatiBoardLiteProps, OmittedRelatiBoardPropKeys> {
   game?: GameLite;
   onOver?: (symbol?: RelatiSymbol | "N") => void;
   onGridClick?: ({ x, y }: CoordinateObject) => boolean | void;

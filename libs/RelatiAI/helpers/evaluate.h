@@ -1,0 +1,3 @@
+int evaluateByBoard(int *board) {
+
+}
