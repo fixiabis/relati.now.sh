@@ -12,7 +12,7 @@ const RelatiScene20C: SceneComponent = ({ toStep, game, ...props }) => {
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
       return;
     }
@@ -37,7 +37,7 @@ const RelatiScene20C: SceneComponent = ({ toStep, game, ...props }) => {
       <div className="description">這是最後了! 讓對方無法下子就贏了!</div>
       <RelatiBoard
         board={game.board}
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         lastPieceCoordinate={boardLastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}

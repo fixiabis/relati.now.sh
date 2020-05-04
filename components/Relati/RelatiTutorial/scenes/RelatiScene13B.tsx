@@ -8,7 +8,7 @@ import RelatiScene12B from "./RelatiScene12B";
 const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他接上了!");
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O" || game.turn === 14) {
       return;
     }
@@ -82,7 +82,7 @@ const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
         lastPieceCoordinate={boardLastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         {...props} >
         <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />
       </RelatiBoard>

@@ -9,7 +9,7 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了!");
   const blockedGridAtTurn4 = game.board.getGridAt(6, 6) as Required<RelatiGrid>;
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
       return;
     }
@@ -65,7 +65,7 @@ const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
       <RelatiBoard
         drawLineDuration={180}
         board={game.board}
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         lastPieceCoordinate={boardLastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}

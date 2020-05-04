@@ -8,7 +8,7 @@ import RelatiScene16B from "./RelatiScene16B";
 const RelatiScene17B: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他還沒有放棄呢!");
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O" || game.turn === 22) {
       return;
     }
@@ -73,7 +73,7 @@ const RelatiScene17B: SceneComponent = ({ toStep, game, ...props }) => {
         lastPieceCoordinate={boardLastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer}
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         {...props} >
         <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />
       </RelatiBoard>

@@ -6,7 +6,7 @@ import { SceneComponent } from "./types";
 import RelatiScene7 from "./RelatiScene7";
 
 const RelatiScene8: SceneComponent = ({ toStep, game, ...props }) => {
-  const onGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 2 && y === 2) {
       toStep("9");
     }
@@ -19,7 +19,7 @@ const RelatiScene8: SceneComponent = ({ toStep, game, ...props }) => {
         board={game.board}
         symbolOfPreviousPlayer="X"
         symbolOfCurrentPlayer="O"
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         {...props}>
         <Focus x={2} y={2} color="crimson" />
         <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />

@@ -10,12 +10,13 @@ type OmittedRelatiBoardPropKeys =
   | "symbolOfCurrentPlayer";
 
 export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
+  game?: RelatiGame;
   step?: string;
   onFinish?: () => void;
 };
 
-const RelatiTutorial = ({ step: externalStep = "0", onFinish, ...props }: Props) => {
-  const [game] = useState(new RelatiGame(2));
+const RelatiTutorial = ({ game: externalGame, step: externalStep = "0", onFinish, ...props }: Props) => {
+  const [game] = useState(externalGame || new RelatiGame(2));
   const [step, setStep] = useState(externalStep);
   const [scale, setScale] = useState(0.95);
 

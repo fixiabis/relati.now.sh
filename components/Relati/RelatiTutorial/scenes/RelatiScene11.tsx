@@ -8,7 +8,7 @@ import RelatiScene10 from "../scenes/RelatiScene10";
 const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("下一步他會在這! 將破壞圍地的計畫!");
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O") {
       return;
     }
@@ -44,7 +44,7 @@ const RelatiScene11: SceneComponent = ({ toStep, game, ...props }) => {
         board={game.board}
         symbolOfCurrentPlayer="O"
         symbolOfPreviousPlayer="X"
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         {...props}>
         <RelatiPiece x={3} y={1} symbol="X" opacity={0.6} flicker />
         <rect x="0" y="0" width="10" height="10" fill="crimson" opacity="0.4" />

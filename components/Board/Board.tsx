@@ -9,7 +9,7 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean;
 }
 
-const Board = ({ width, height, onClick: externalOnClick, children, className = "", onGridClick, style, ...props }: Props) => {
+const Board = ({ width, height, onClick: externalHandleClick, children, className = "", onGridClick: handleGridClick, style, ...props }: Props) => {
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
@@ -28,8 +28,8 @@ const Board = ({ width, height, onClick: externalOnClick, children, className = 
     ref.current.style.transform = `scale(${scale})`;
   };
 
-  const onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (externalOnClick?.(event) === false) {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (externalHandleClick?.(event) === false) {
       return event.preventDefault();
     }
 
@@ -37,8 +37,8 @@ const Board = ({ width, height, onClick: externalOnClick, children, className = 
     const x = Math.floor(offsetX / 5);
     const y = Math.floor(offsetY / 5);
 
-    if (onGridClick) {
-      onGridClick({ x, y });
+    if (handleGridClick) {
+      handleGridClick({ x, y });
     }
   };
 
@@ -70,7 +70,7 @@ const Board = ({ width, height, onClick: externalOnClick, children, className = 
 
   return (
     <div ref={containerRef} className="board-container">
-      <div ref={ref} className={className} style={style} onClick={onClick} {...props}>
+      <div ref={ref} className={className} style={style} onClick={handleClick} {...props}>
         <svg width={viewWidth} height={viewHeight}>
           {children}
           <g className="grid-lines" stroke="#888" strokeWidth="0.4">{gridLines}</g>

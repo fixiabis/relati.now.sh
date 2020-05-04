@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { SceneComponent } from "./types";
 import RelatiScene2 from "./RelatiScene2";
 
 const RelatiScene3: SceneComponent = ({ toStep, game, ...props }) => {
   const boardLastPieceCoordinate = { x: 7, y: 3 };
-  setTimeout(() => toStep("4"), 1500);
+  
+  useEffect(() => {
+    const nextStepTimer = setTimeout(() => toStep("4"), 1500);
+    return () => clearTimeout(nextStepTimer);
+  });
 
   return (
     <>

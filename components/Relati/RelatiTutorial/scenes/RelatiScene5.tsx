@@ -9,7 +9,7 @@ const RelatiScene5: SceneComponent = ({ toStep, game, ...props }) => {
   const [focused, setFocused] = useState<JSX.Element>();
   const description = focused ? "點這裡如何?" : "這些就是可以點的範圍了!";
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 6 && y === 6) {
       toStep("6");
     }
@@ -25,7 +25,7 @@ const RelatiScene5: SceneComponent = ({ toStep, game, ...props }) => {
         board={game.board}
         symbolOfPreviousPlayer="X"
         symbolOfCurrentPlayer="O"
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         {...props}>
         {focused}
       </RelatiBoard>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NextPage } from "next";
+import Game from "../libs/Relati";
 import { useRouter } from "next/router";
 import { Page, Button, IconButton, RelatiTutorial, MessageBox, RelatiPiece } from "../components";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ export interface Props {
 
 const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   const router = useRouter();
+  const [game] = useState<Game>(new Game(2));
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);
@@ -21,7 +23,7 @@ const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   const closeTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(false);
 
   const leaveTutorial = () => {
-    if (!isTutorialFinish) {
+    if (game.turn && !isTutorialFinish) {
       openTutorialLeaveMessageBox();
     }
     else {
@@ -67,7 +69,7 @@ const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
 
   return (
     <Page id="how-to-play" title="how to play">
-      <RelatiTutorial step={step} onFinish={finishTutorial} {...tutorialSetting} />
+      <RelatiTutorial step={step} game={game} onFinish={finishTutorial} {...tutorialSetting} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={leaveTutorial} />

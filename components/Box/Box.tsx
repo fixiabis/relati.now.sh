@@ -14,7 +14,7 @@ const Box = ({ className = "", show: visible = true, onCancel, ...props }: Props
     display: containerDisplay
   };
 
-  const containerOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleClickContainer = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (event.target === containerRef.current) {
       onCancel?.();
     }
@@ -23,7 +23,7 @@ const Box = ({ className = "", show: visible = true, onCancel, ...props }: Props
   className = `box${className && ` ${className}`}`;
 
   return (
-    <div className="box-container" ref={containerRef} style={containerStyle} onClick={containerOnClick}>
+    <div className="box-container" ref={containerRef} style={containerStyle} onClick={handleClickContainer}>
       <div className={className} {...props} />
     </div>
   );

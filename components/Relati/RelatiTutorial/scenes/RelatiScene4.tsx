@@ -14,7 +14,7 @@ const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
   let drawLines: JSX.Element[] = [];
   let hints: JSX.Element[] = [];
 
-  const onGridClick = (coordinate: CoordinateObject) => {
+  const handleGridClick = (coordinate: CoordinateObject) => {
     if (placeStep % 2 === 0) {
       return;
     }
@@ -67,7 +67,7 @@ const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
         showHints={false}
         symbolOfPreviousPlayer="X"
         symbolOfCurrentPlayer="O"
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         {...props}>
         <g>{drawLines}</g>
         <g>{hints}</g>

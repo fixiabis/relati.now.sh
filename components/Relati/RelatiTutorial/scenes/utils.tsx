@@ -108,7 +108,7 @@ export function createRelatiPlacementScene(config: PlacementSceneComponentConfig
       description: initialDescription
     });
 
-    const onGridClick = ({ x, y }: CoordinateObject) => {
+    const handleGridClick = ({ x, y }: CoordinateObject) => {
       if (game.getNowPlayerSymbol() !== "O" || game.turn === gameTurn + 2) {
         return;
       }
@@ -177,7 +177,7 @@ export function createRelatiPlacementScene(config: PlacementSceneComponentConfig
           lastPieceCoordinate={boardLastPieceCoordinate}
           symbolOfCurrentPlayer={symbolOfCurrentPlayer}
           symbolOfPreviousPlayer={symbolOfPreviousPlayer}
-          onGridClick={onGridClick}
+          onGridClick={handleGridClick}
           {...props} >
           {children}
           {focused}

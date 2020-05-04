@@ -17,15 +17,15 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
   onGridClick?: ({ x, y }: CoordinateObject) => boolean | void;
 };
 
-const RelatiGameLite = ({ game: externalGame, lastPieceEmphasized, onGridClick: externalOnGridClick, onOver, ...props }: Props) => {
+const RelatiGameLite = ({ game: externalGame, lastPieceEmphasized, onGridClick: externalHandleGridClick, onOver, ...props }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const forceUpdate = useForceUpdate();
   const [game] = useState<GameLite>(externalGame || new GameLite(2));
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
 
-  const onGridClick = ({ x, y }: CoordinateObject) => {
-    if (externalOnGridClick?.({ x, y }) === false) {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
+    if (externalHandleGridClick?.({ x, y }) === false) {
       return;
     }
 
@@ -55,7 +55,7 @@ const RelatiGameLite = ({ game: externalGame, lastPieceEmphasized, onGridClick: 
         lastPieceEmphasized={lastPieceEmphasized}
         {...props}
         board={game.board}
-        onGridClick={onGridClick}
+        onGridClick={handleGridClick}
         lastPieceCoordinate={lastPieceCoordinate}
         symbolOfCurrentPlayer={symbolOfCurrentPlayer}
         symbolOfPreviousPlayer={symbolOfPreviousPlayer} />

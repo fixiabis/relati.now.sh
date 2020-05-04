@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { SceneComponent } from "./types";
 import { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
@@ -9,7 +9,11 @@ const RelatiScene7: SceneComponent = ({ toStep, game, ...props }) => {
   const boardLastPieceCoordinate = { x, y };
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
   const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
-  setTimeout(() => toStep("8"), 1500);
+
+  useEffect(() => {
+    const nextStepTimer = setTimeout(() => toStep("8"), 1500);
+    return () => clearTimeout(nextStepTimer);
+  });
 
   return (
     <>
