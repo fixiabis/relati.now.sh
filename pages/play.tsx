@@ -14,7 +14,6 @@ const Play = () => {
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);
-  const gameOnOver = forceUpdate;
   const leavePage = () => router.replace("/");
   const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(true);
   const closeGameOverMessageBox = () => setIsGameOverMessageBoxShow(false);
@@ -113,7 +112,7 @@ const Play = () => {
         <div className="player-x" />
       </div>
 
-      <RelatiGame {...gameSetting} game={game} onOver={gameOnOver} />
+      <RelatiGame {...gameSetting} game={game} onOver={forceUpdate} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={leaveGame} />

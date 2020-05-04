@@ -15,55 +15,66 @@ const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);
-  const tutorialOnOver = () => setIsTutorialFinish(true);
-  const tutorialLeaveMessageBoxOpen = () => setIsTutorialLeaveMessageBoxShow(true);
-  const tutorialLeaveMessageBoxClose = () => setIsTutorialLeaveMessageBoxShow(false);
+  const leavePage = () => router.replace("/");
+  const finishTutorial = () => setIsTutorialFinish(true);
+  const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(true);
+  const closeTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(false);
 
   const leaveTutorial = () => {
     if (!isTutorialFinish) {
-      tutorialLeaveMessageBoxOpen();
+      openTutorialLeaveMessageBox();
     }
     else {
-      router.replace("/");
+      leavePage();
     }
   };
 
+  const tutorialLeaveMessageBox =
+    isTutorialLeaveMessageBoxShow
+      ? (
+        <MessageBox onCancel={closeTutorialLeaveMessageBox}>
+          <div className="message-container">
+            <div className="message-icon-container">
+              <svg width="5" height="5" className="message-icon">
+                <RelatiPiece x={0} y={0} symbol="K" primary />
+              </svg>
+            </div>
+            教學尚未結束, 確定離開?
+          </div>
+          <Button.Group>
+            <IconButton type="accept" color="crimson" onClick={leavePage} />
+            <IconButton type="reject" color="royalblue" onClick={closeTutorialLeaveMessageBox} />
+          </Button.Group>
+        </MessageBox>
+      )
+      : undefined;
+
+  const tutorialFinishMessageBox = (
+    <MessageBox show={isTutorialFinish}>
+      <div className="message-container">
+        <div className="message-icon-container">
+          <svg width="5" height="5" className="message-icon">
+            <RelatiPiece x={0} y={0} symbol="O" primary />
+          </svg>
+        </div>
+        恭喜你完成教學!
+      </div>
+      <Button.Group>
+        <IconButton type="verify" color="seagreen" onClick={leavePage} />
+      </Button.Group>
+    </MessageBox>
+  );
+
   return (
     <Page id="how-to-play" title="how to play">
-      <RelatiTutorial step={step} onOver={tutorialOnOver} {...tutorialSetting} />
+      <RelatiTutorial step={step} onFinish={finishTutorial} {...tutorialSetting} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={leaveTutorial} />
       </Button.Group>
 
-      <MessageBox show={isTutorialLeaveMessageBoxShow} onCancel={tutorialLeaveMessageBoxClose}>
-        <div className="message-container">
-          <div className="message-icon-container">
-            <svg width="5" height="5" className="message-icon">
-              <RelatiPiece x={0} y={0} symbol="K" primary />
-            </svg>
-          </div>
-          教學尚未結束, 確定離開?
-        </div>
-        <Button.Group>
-          <IconButton type="accept" color="crimson" onClick={() => router.replace("/")} />
-          <IconButton type="reject" color="royalblue" onClick={tutorialLeaveMessageBoxClose} />
-        </Button.Group>
-      </MessageBox>
-
-      <MessageBox show={isTutorialFinish}>
-        <div className="message-container">
-          <div className="message-icon-container">
-            <svg width="5" height="5" className="message-icon">
-              <RelatiPiece x={0} y={0} symbol="O" primary />
-            </svg>
-          </div>
-          恭喜你完成教學!
-        </div>
-        <Button.Group>
-          <IconButton type="verify" color="seagreen" onClick={() => router.replace("/")} />
-        </Button.Group>
-      </MessageBox>
+      {tutorialLeaveMessageBox}
+      {tutorialFinishMessageBox}
     </Page>
   );
 };

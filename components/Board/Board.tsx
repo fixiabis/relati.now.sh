@@ -9,18 +9,15 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean;
 }
 
-const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, children, className = "", onGridClick, style, ...props }: Props) => {
+const Board = ({ width, height, onClick: externalOnClick, children, className = "", onGridClick, style, ...props }: Props) => {
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
   const containerRef = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
-
-  const ref = typeof externalRef !== "object"
-    ? useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>
-    : externalRef;
+  const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
 
   const scaleByMeasurement = () => {
-    if (!ref || !ref.current || !containerRef.current) {
+    if (!ref.current || !containerRef.current) {
       return;
     }
 
@@ -29,10 +26,6 @@ const Board = ({ ref: externalRef, width, height, onClick: externalOnClick, chil
     const heightRatio = offsetHeight / viewHeight;
     const scale = Math.min(widthRatio, heightRatio) * 0.95;
     ref.current.style.transform = `scale(${scale})`;
-
-    if (typeof externalRef === "function") {
-      externalRef(ref.current);
-    }
   };
 
   const onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

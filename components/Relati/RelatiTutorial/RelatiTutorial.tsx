@@ -11,10 +11,10 @@ type OmittedRelatiBoardPropKeys =
 
 export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
   step?: string;
-  onOver?: () => void;
+  onFinish?: () => void;
 };
 
-const RelatiTutorial = ({ step: externalStep = "0", onOver, ...props }: Props) => {
+const RelatiTutorial = ({ step: externalStep = "0", onFinish, ...props }: Props) => {
   const [game] = useState(new RelatiGame(2));
   const [step, setStep] = useState(externalStep);
   const [scale, setScale] = useState(0.95);
@@ -24,12 +24,12 @@ const RelatiTutorial = ({ step: externalStep = "0", onOver, ...props }: Props) =
       setStep(step);
     }
     else {
-      onOver?.();
+      onFinish?.();
     }
   };
 
   const Scene = RELATI_SCENES[step] || RELATI_SCENES["1"];
-  const style = { transform: `scale(${scale})` };
+  const sceneStyle = { transform: `scale(${scale})` };
 
   useEffect(() => {
     DEBUG: document.title = `how to play (${step})`;
@@ -44,7 +44,7 @@ const RelatiTutorial = ({ step: externalStep = "0", onOver, ...props }: Props) =
 
   return (
     <div className="relati-tutorial">
-      <Scene game={game} toStep={toStep} style={style} {...props} />
+      <Scene game={game} toStep={toStep} style={sceneStyle} {...props} />
     </div>
   );
 };
