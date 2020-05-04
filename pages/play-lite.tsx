@@ -14,7 +14,7 @@ const PlayLite = () => {
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);
-  const leavePage = () => router.replace("/choose-play-mode");
+  const leavePage = () => router.replace("/choose-game-mode");
   const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(true);
   const closeGameOverMessageBox = () => setIsGameOverMessageBoxShow(false);
   const closeGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(false);
