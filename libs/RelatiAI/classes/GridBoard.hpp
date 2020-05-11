@@ -1,28 +1,49 @@
-#include <stdbool.h>
+#ifndef __GRIDBOARD__
+#define __GRIDBOARD__
 
-template <class GridBody>
+#ifndef __GRID__
+
+#include "./Grid.hpp"
+
+#endif
+
+template <class GridPiece>
 class GridBoard
 {
 public:
     int width;
     int height;
-    GridBody *grids;
+    Grid<GridPiece> **grids;
 
     GridBoard(int width, int height)
     {
         int gridsLength = width * height;
         this->width = width;
         this->height = height;
-        this->grids = new GridBody[gridLength]();
+        this->grids = (Grid<GridPiece> **)malloc(sizeof(Grid<GridPiece> *) * gridsLength);
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Grid<GridPiece> *grid = new Grid<GridPiece>(x, y, this);
+                this->grids[grid->i] = grid;
+            }
+        }
     }
 
-    int getGridIndexByCoordinate(int x, int y)
+    Grid<GridPiece> *getGridByAbsoluteCoordinate(int x, int y)
     {
-        if (x < 0 || x >= this->width || y < 0 || y >= this->height)
+        bool isOverBoundary = x < 0 || x >= this->width || y < 0 || y >= this->height;
+
+        if (isOverBoundary)
         {
-            return -1;
+            return nullptr;
         }
 
-        return y * this->width + x;
+        int i = y * this->width + x;
+        return this->grids[i];
     }
 };
+
+#endif

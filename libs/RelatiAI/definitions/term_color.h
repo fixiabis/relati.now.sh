@@ -1,5 +1,5 @@
-#ifndef __COLOR_H__
-#define __COLOR_H__
+#ifndef __TERM_COLOR__
+#define __TERM_COLOR__
 
 #define COLOR_RESET "\x1b[0m"
 #define COLOR_FG_BLACK "\x1b[30m"
