@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import GameLite, { RelatiSymbol } from "../../../libs/RelatiLite";
-import { Lite as RelatiBoardLite } from "../RelatiBoard";
-import { CoordinateObject } from "../../../types";
+import RelatiBoardLite from "../RelatiBoardLite";
 import { useForceUpdate } from "../../../utils/hook";
 import { RelatiBoardProps } from "../RelatiBoard";
+import { CoordinateObject } from "../../Board";
 
 type OmittedRelatiBoardPropKeys =
   | "board"

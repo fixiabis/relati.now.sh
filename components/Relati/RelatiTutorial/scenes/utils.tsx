@@ -1,8 +1,8 @@
 import { PlacementSceneComponentConfig, SceneComponent } from "./types";
-import { CoordinateObject } from "../../../../types";
 import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
 import { Focus } from "../../../Piece";
+import { CoordinateObject } from "../../../Board";
 
 export const SCENE4_SAMPLE_RELATI_ROUTES_LIST = [
   [

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
-import { CoordinateObject } from "../../types";
 import "./board.scss";
+
+export type CoordinateObject = { x: number, y: number };
 
 export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   width: number;

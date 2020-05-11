@@ -1,10 +1,9 @@
-import Board, { BoardProps } from "../../Board";
+import Board, { BoardProps, CoordinateObject } from "../../Board";
 import { RelatiSymbol, isGridHasAvailableRelatiRouteBySymbol, RelatiPiece } from "../../../libs/Relati";
 import { RelatiSymbolColor } from "../RelatiPiece";
 import { Hint } from "../../Piece";
 import RelatiBoardPieces from "./RelatiBoardPieces";
 import { GridBoard } from "gridboard";
-import { CoordinateObject } from "../../../types";
 
 export interface Props extends Omit<BoardProps, "width" | "height"> {
   board: GridBoard<RelatiPiece>;

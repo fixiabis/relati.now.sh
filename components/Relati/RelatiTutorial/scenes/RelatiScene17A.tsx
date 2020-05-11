@@ -3,7 +3,7 @@ import RelatiBoard from "../../RelatiBoard";
 import { SceneComponent } from "./types";
 import { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene16A from "./RelatiScene16A";
-import { CoordinateObject } from "../../../../types";
+import { CoordinateObject } from "../../../Board";
 
 const RelatiScene17A: SceneComponent = ({ toStep, game, ...props }) => {
   const [x, y] = game.placementRecords[game.placementRecords.length - 1];

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import RelatiBoard from "../../RelatiBoard";
-import { CoordinateObject } from "../../../../types";
 import { SceneComponent } from "./types";
 import { RelatiGrid } from "../../../../libs/Relati";
 import RelatiScene17B from "./RelatiScene17B";
+import { CoordinateObject } from "../../../Board";
 
 const RelatiScene18B: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他換了方向!");

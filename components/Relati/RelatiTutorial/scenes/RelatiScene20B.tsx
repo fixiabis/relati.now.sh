@@ -3,10 +3,9 @@ import RelatiBoard from "../../RelatiBoard";
 import { SceneComponent } from "./types";
 import { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene19B from "./RelatiScene19B";
-import { CoordinateObject } from "../../../../types";
+import { CoordinateObject } from "../../../Board";
 
 const RelatiScene20B: SceneComponent = ({ toStep, game, ...props }) => {
-
   const [x, y] = game.placementRecords[game.placementRecords.length - 1];
   const boardLastPieceCoordinate = { x, y };
   const symbolOfCurrentPlayer = game.getNowPlayerSymbol();

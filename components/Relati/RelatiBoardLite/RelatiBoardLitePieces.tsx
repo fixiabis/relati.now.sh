@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Coordinate, GridBoard } from "gridboard";
 import DrawLine from "../../DrawLine";
 import { getTargetPathsBySourceGridAsLite, cloneBoard } from "./utils";
-import { CoordinateObject } from "../../../types";
+import { CoordinateObject } from "../../Board";
 
 export interface Props {
   board: RelatiBoard;
