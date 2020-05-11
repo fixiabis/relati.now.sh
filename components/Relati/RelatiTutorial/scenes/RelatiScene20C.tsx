@@ -1,9 +1,8 @@
 import React from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { SceneComponent } from "./types";
-import { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene19C from "./RelatiScene19C";
-import { CoordinateObject } from "../../../Board";
+import { RelatiBoard } from "./components";
+import { SceneComponent, CoordinateObject, RelatiGrid } from "./types";
+import { isGridHasAvailableRelatiRouteBySymbol } from "./utils";
 
 const RelatiScene20C: SceneComponent = ({ toStep, game, ...props }) => {
   const [x, y] = game.placementRecords[game.placementRecords.length - 1];

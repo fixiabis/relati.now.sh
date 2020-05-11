@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { Focus } from "../../../Piece";
-import { SceneComponent } from "./types";
 import RelatiScene4 from "./RelatiScene4";
-import { CoordinateObject } from "../../../Board";
+import { RelatiBoard, Focus } from "./components";
+import { SceneComponent, CoordinateObject } from "./types";
 
 const RelatiScene5: SceneComponent = ({ toStep, game, ...props }) => {
   const [focused, setFocused] = useState<JSX.Element>();

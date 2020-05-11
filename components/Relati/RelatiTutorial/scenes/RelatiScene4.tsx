@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { Coordinate } from "gridboard";
-import RelatiBoard from "../../RelatiBoard";
-import { Hint } from "../../../Piece";
-import DrawLine from "../../../DrawLine";
-import { SceneComponent } from "./types";
-import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 import RelatiScene3 from "./RelatiScene3";
-import { CoordinateObject } from "../../../Board";
+import { RelatiBoard, Hint, DrawLine } from "./components";
+import { Coordinate, SceneComponent, CoordinateObject } from "./types";
+import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
 
 const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
   const [placeStep, setPlaceStep] = useState(0);

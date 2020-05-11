@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { SceneComponent } from "./types";
 import RelatiScene2 from "./RelatiScene2";
+import { RelatiBoard } from "./components";
+import { SceneComponent } from "./types";
 
 const RelatiScene3: SceneComponent = ({ toStep, game, ...props }) => {
   const boardLastPieceCoordinate = { x: 7, y: 3 };

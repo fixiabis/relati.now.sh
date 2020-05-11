@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import RELATI_SCENES from "./scenes";
+import relatiScenes from "./scenes";
 import RelatiGame from "../../../libs/Relati";
 import { RelatiBoardProps } from "../RelatiBoard";
 
@@ -29,7 +29,7 @@ const RelatiTutorial = ({ game: externalGame, step: externalStep = "0", onFinish
     }
   };
 
-  const Scene = RELATI_SCENES[step] || RELATI_SCENES["1"];
+  const Scene = relatiScenes[step] || relatiScenes["1"];
   const sceneStyle = { transform: `scale(${scale})` };
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { SceneComponent } from "./types";
 
-const RELATI_SCENES: Record<string, SceneComponent> = {
+const relatiScenes: Record<string, SceneComponent> = {
     "1": require("./RelatiScene1").default,
     "2": require("./RelatiScene2").default,
     "3": require("./RelatiScene3").default,
@@ -38,9 +38,9 @@ const RELATI_SCENES: Record<string, SceneComponent> = {
     "20C": require("./RelatiScene20C").default,
 };
 
-RELATI_SCENES["12"] = RELATI_SCENES["12A"];
-RELATI_SCENES["13"] = RELATI_SCENES["13A"];
-RELATI_SCENES["14"] = RELATI_SCENES["14A"];
-RELATI_SCENES["15"] = RELATI_SCENES["15A"];
+relatiScenes["12"] = relatiScenes["12A"];
+relatiScenes["13"] = relatiScenes["13A"];
+relatiScenes["14"] = relatiScenes["14A"];
+relatiScenes["15"] = relatiScenes["15A"];
 
-export default RELATI_SCENES;
+export default relatiScenes;

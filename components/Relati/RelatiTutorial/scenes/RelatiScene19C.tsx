@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { SceneComponent } from "./types";
-import { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene18C from "./RelatiScene18C";
-import { useForceUpdate } from "../../../../utils/hook";
+import { RelatiBoard } from "./components";
+import { SceneComponent } from "./types";
+import { useForceUpdate, isGridHasAvailableRelatiRouteBySymbol } from "./utils";
 
 const RelatiScene19C: SceneComponent = ({ toStep, game, ...props }) => {
   const forceUpdate = useForceUpdate();

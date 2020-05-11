@@ -1,6 +1,9 @@
 import React from "react";
 import { RelatiBoardProps } from "../../RelatiBoard";
 import RelatiGame, { RelatiGrid } from "../../../../libs/Relati";
+export type { Coordinate } from "gridboard";
+export type { CoordinateObject } from "../../../Board";
+export type { default as RelatiGame, RelatiGrid } from "../../../../libs/Relati";
 
 type OmittedRelatiBoardPropKeys =
     | "board"

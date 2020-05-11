@@ -1,9 +1,7 @@
 import React from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { Focus } from "../../../Piece";
-import { SceneComponent } from "./types";
 import RelatiScene7 from "./RelatiScene7";
-import { CoordinateObject } from "../../../Board";
+import { RelatiBoard, Focus } from "./components";
+import { SceneComponent, CoordinateObject } from "./types";
 
 const RelatiScene8: SceneComponent = ({ toStep, game, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {

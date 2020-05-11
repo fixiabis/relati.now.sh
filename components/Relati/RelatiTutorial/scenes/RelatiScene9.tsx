@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { SceneComponent } from "./types";
 import RelatiScene8 from "./RelatiScene8";
+import { RelatiBoard } from "./components";
+import { SceneComponent } from "./types";
 
 const RelatiScene9: SceneComponent = ({ toStep: toStep, game, ...props }) => {
   useEffect(() => {

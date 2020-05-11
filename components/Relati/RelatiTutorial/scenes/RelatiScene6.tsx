@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { RelatiGrid } from "../../../../libs/Relati";
-import { SceneComponent } from "./types";
 import RelatiScene5 from "./RelatiScene5";
-import { CoordinateObject } from "../../../Board";
+import { RelatiBoard } from "./components";
+import { SceneComponent, CoordinateObject, RelatiGrid } from "./types";
 
 const RelatiScene6: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("中間有空格就可以放在那裡了!");

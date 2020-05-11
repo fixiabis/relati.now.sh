@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import RelatiBoard from "../../RelatiBoard";
-import { SceneComponent } from "./types";
-import { RelatiGrid, isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
 import RelatiScene13C from "./RelatiScene13C";
-import { CoordinateObject } from "../../../Board";
+import { RelatiBoard } from "./components";
+import { SceneComponent, CoordinateObject, RelatiGrid } from "./types";
+import { isGridHasAvailableRelatiRouteBySymbol } from "./utils";
 
 const RelatiScene14C: SceneComponent = ({ toStep, game, ...props }) => {
   const [description, setDescription] = useState("他又打斷了, 而且現在非常危險!");
