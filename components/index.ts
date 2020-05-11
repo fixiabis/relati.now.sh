@@ -1,6 +1,4 @@
-import * as Piece from "./Piece";
-
-export { Piece };
+export { Hint, Focus } from "./Piece";
 export { default as Page } from "./Page";
 export { default as Board } from "./Board";
 export { default as Button } from "./Button";
