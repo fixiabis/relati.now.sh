@@ -17,7 +17,7 @@ class RelatiGameLite {
         this.symbolOfWinner = "?";
         this.placementRecords = [];
         this.playersCount = playersCount;
-        this.createdTime = new Date().getTime();
+        this.createdTime = Date.now();
         this.board = new GridBoard<RelatiPiece>(boardWidth, boardHeight);
         this.symbolToSourceGrid = {} as RelatiGameLite["symbolToSourceGrid"];
         RelatiGameLite.recentInstance = this;
