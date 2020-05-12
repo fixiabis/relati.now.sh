@@ -85,4 +85,4 @@ export const SCENE4_CAPTIONS = [
 ];
 
 export { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
-export { useForceUpdate } from "../../../../utils/hook";
+export { useForceUpdate } from "../../../utils";

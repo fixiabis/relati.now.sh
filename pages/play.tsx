@@ -5,7 +5,7 @@ import { Page, Button, IconButton, RelatiGame, MessageBox, RelatiPiece } from ".
 import { useSelector } from "react-redux";
 import { State } from "../reducers";
 import { SettingState } from "../reducers/setting";
-import { useForceUpdate } from "../utils/hook";
+import { useForceUpdate } from "../components/utils";
 
 const Play = () => {
   const router = useRouter();

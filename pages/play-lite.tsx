@@ -5,7 +5,7 @@ import { Page, Button, IconButton, RelatiGameLite, MessageBox, RelatiPiece } fro
 import { useSelector } from "react-redux";
 import { State } from "../reducers";
 import { SettingState } from "../reducers/setting";
-import { useForceUpdate } from "../utils/hook";
+import { useForceUpdate } from "../components/utils";
 
 const PlayLite = () => {
   const router = useRouter();
