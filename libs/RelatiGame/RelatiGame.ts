@@ -1,0 +1,99 @@
+import { GridBoard, Coordinate } from "gridboard";
+import RelatiGameBasicRule from "./RelatiGameBasicRule";
+import { RelatiBoard, RelatiPiece, RelatiGrid, RelatiGameRule } from "./types";
+import { RelatiSymbol, TurnBasedGame } from "./utils";
+
+class RelatiGame extends TurnBasedGame {
+    public winner: number;
+    public isOver: boolean;
+    public readonly board: RelatiBoard;
+    public readonly rule: RelatiGameRule;
+    public readonly playerSourceGrids: RelatiGrid[];
+    public readonly placementRecords: Coordinate[];
+
+    constructor(playersCount: number, rule: RelatiGameRule) {
+        super(playersCount);
+        this.rule = rule;
+        this.board = new GridBoard<RelatiPiece>(rule.boardWidth, rule.boardHeight);
+        this.winner = -1;
+        this.isOver = false;
+        this.playerSourceGrids = [];
+        this.placementRecords = [];
+    }
+
+    public doPlacementByCoordinateAndPlayer(x: number, y: number, player: number) {
+        const playerSymbol = RelatiSymbol[player] as RelatiPiece["symbol"];
+        const grid = this.board.getGridAt(x, y) as RelatiGrid;
+
+        const isPlayerCanDoPlacement =
+            RelatiGameBasicRule.validateIsPlayerCanDoPlacement(this, grid, player) &&
+            this.rule.validateIsPlayerCanDoPlacement(this, grid, player);
+
+        if (!isPlayerCanDoPlacement) {
+            return;
+        }
+
+        const isNotAllPlayerSourcePlaced = this.getIsNotAllPlayerSourcePlaced();
+
+        if (isNotAllPlayerSourcePlaced) {
+            grid.piece = {
+                symbol: playerSymbol,
+                primary: true,
+                disabled: false,
+            };
+
+            this.playerSourceGrids[player] = grid;
+        }
+        else {
+            grid.piece = {
+                symbol: playerSymbol,
+                primary: false,
+                disabled: false,
+            };
+        }
+
+        this.turn++;
+        this.placementRecords.push([x, y]);
+    }
+
+    public reenableAllPieces() {
+        this.rule.disableAllPieces(this);
+        this.rule.enableAllPieces(this);
+    }
+
+    public checkIsOverAndFindWinner() {
+        const isNotAllPlayerSourcePlaced = this.getIsNotAllPlayerSourcePlaced();
+
+        if (isNotAllPlayerSourcePlaced) {
+            return;
+        }
+
+        for (let canDoPlacementPlayersCount = 0; canDoPlacementPlayersCount !== this.playersCount; canDoPlacementPlayersCount++) {
+            const player = this.getNowPlayer();
+
+            const isPlayerCanDoPlacement = this.board.grids.some(
+                grid =>
+                    RelatiGameBasicRule.validateIsPlayerCanDoPlacement(this, grid, player) &&
+                    this.rule.validateIsPlayerCanDoPlacement(this, grid, player)
+            );
+
+            if (isPlayerCanDoPlacement) {
+                if (canDoPlacementPlayersCount === this.playersCount - 1) {
+                    this.winner = player;
+                    this.isOver = true;
+                }
+
+                return;
+            }
+            else {
+                this.turn++;
+            }
+        }
+    }
+
+    public getIsNotAllPlayerSourcePlaced() {
+        return this.turn < this.playersCount;
+    }
+}
+
+export default RelatiGame;

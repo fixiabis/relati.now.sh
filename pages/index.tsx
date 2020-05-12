@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../reducers";
-import { Page, Button, IconButton } from "../components";
+import { Box, Page, Button, IconButton } from "../components";
 import { disableMainPageAnimation } from "../actions";
-import Box from "../components/Box";
+import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX9 } from "../libs/RelatiGame";
+
+DEBUG: {
+  Object.assign(global, { RelatiGame, RelatiGameRuleX5, RelatiGameRuleX9 });
+}
 
 const Main = () => {
   const router = useRouter();
@@ -39,7 +43,7 @@ const Main = () => {
         <IconButton type="gear" color="#888" onClick={openSetting} />
       </Button.Group>
       <Box show={isSettingOpen} onCancel={closeSetting}>
-        
+
       </Box>
     </Page>
   );
