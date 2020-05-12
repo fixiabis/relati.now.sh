@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import GameLite from "../libs/RelatiLite";
+import GameLite from "../libraries/RelatiLite";
 import { Page, Button, IconButton, RelatiGameLite, MessageBox, RelatiPiece } from "../components";
 import { useSelector } from "react-redux";
 import { State } from "../reducers";

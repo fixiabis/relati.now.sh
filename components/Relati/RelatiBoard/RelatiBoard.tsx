@@ -1,5 +1,5 @@
 import Board, { BoardProps, CoordinateObject } from "../../Board";
-import { RelatiSymbol, isGridHasAvailableRelatiRouteBySymbol, RelatiPiece } from "../../../libs/Relati";
+import { RelatiSymbol, isGridHasAvailableRelatiRouteBySymbol, RelatiPiece } from "../../../libraries/Relati";
 import { RelatiSymbolColor } from "../RelatiPiece";
 import { Hint } from "../../Piece";
 import RelatiBoardPieces from "./RelatiBoardPieces";

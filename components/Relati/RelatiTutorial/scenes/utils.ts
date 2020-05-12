@@ -84,5 +84,5 @@ export const SCENE4_CAPTIONS = [
   "這是側八方遠程連線!比其他遠程連線穩定!",
 ];
 
-export { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libs/Relati";
+export { isGridHasAvailableRelatiRouteBySymbol } from "../../../../libraries/Relati";
 export { useForceUpdate } from "../../../utils";

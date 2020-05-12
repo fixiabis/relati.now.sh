@@ -1,5 +1,5 @@
 import { Grid, Coordinate, GridBoard } from "gridboard";
-import { RelatiPiece, RELATI_ROUTES, RelatiBoard } from "../../../libs/Relati";
+import { RelatiPiece, RELATI_ROUTES, RelatiBoard } from "../../../libraries/Relati";
 
 export function getTargetPathsBySourceGrid(grid: Grid<RelatiPiece>) {
     const sourcePaths = [];

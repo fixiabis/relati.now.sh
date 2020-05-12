@@ -1,4 +1,4 @@
-import { RelatiBoard, RelatiSymbol, disableAllPiecesByBoard, RelatiPiece as RelatiPieceType } from "../../../libs/Relati";
+import { RelatiBoard, RelatiSymbol, disableAllPiecesByBoard, RelatiPiece as RelatiPieceType } from "../../../libraries/Relati";
 import RelatiPiece, { RelatiSymbolColor } from "../RelatiPiece";
 import { useState, useEffect } from "react";
 import { Coordinate, GridBoard } from "gridboard";

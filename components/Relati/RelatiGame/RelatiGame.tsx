@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import Game, { RelatiSymbol } from "../../../libs/Relati";
+import Game, { RelatiSymbol } from "../../../libraries/Relati";
 import { RelatiBoard } from "..";
 import { useForceUpdate } from "../../utils";
 import { RelatiBoardProps } from "../RelatiBoard";

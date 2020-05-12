@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { NextPage } from "next";
-import Game from "../libs/Relati";
+import Game from "../libraries/Relati";
 import { useRouter } from "next/router";
 import { Page, Button, IconButton, RelatiTutorial, MessageBox, RelatiPiece } from "../components";
 import { useSelector } from "react-redux";

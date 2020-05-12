@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import GameLite, { RelatiSymbol } from "../../../libs/RelatiLite";
+import GameLite, { RelatiSymbol } from "../../../libraries/RelatiLite";
 import RelatiBoardLite from "../RelatiBoardLite";
 import { useForceUpdate } from "../../utils";
 import { RelatiBoardLiteProps } from "../RelatiBoardLite";
