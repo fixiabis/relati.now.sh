@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Box, { BoxProps } from "../Box";
 import "./message-box.scss";
 
