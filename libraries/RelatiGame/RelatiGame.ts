@@ -30,6 +30,23 @@ class RelatiGame extends TurnBasedGame {
         this.playerSourceGrids.splice(0, this.playersCount);
     }
 
+    public undo() {
+        const [x, y] = this.placementRecords.pop();
+        const grid = this.board.getGridAt(x, y);
+
+        if (grid?.piece) {
+            delete grid.piece;
+        }
+
+        this.turn--;
+        this.reenableAllPieces();
+    }
+
+    public doPlacementByCoordinate(x: number, y: number) {
+        const nowPlayer = this.getNowPlayer();
+        this.doPlacementByCoordinateAndPlayer(x, y, nowPlayer);
+    }
+
     public doPlacementByCoordinateAndPlayer(x: number, y: number, player: number) {
         const playerSymbol = RelatiSymbols[player] as RelatiPiece["symbol"];
         const grid = this.board.getGridAt(x, y) as RelatiGrid;

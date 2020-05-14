@@ -1,0 +1,46 @@
+import { SceneComponent } from "./types";
+
+const RelatiScenes: Record<string, SceneComponent> = {
+    "1": require("./RelatiScene1").default,
+    "2": require("./RelatiScene2").default,
+    "3": require("./RelatiScene3").default,
+    "4": require("./RelatiScene4").default,
+    "5": require("./RelatiScene5").default,
+    "6": require("./RelatiScene6").default,
+    "7": require("./RelatiScene7").default,
+    "8": require("./RelatiScene8").default,
+    "9": require("./RelatiScene9").default,
+    "10": require("./RelatiScene10").default,
+    "11": require("./RelatiScene11").default,
+    "12A": require("./RelatiScene12A").default,
+    "13A": require("./RelatiScene13A").default,
+    "14A": require("./RelatiScene14A").default,
+    "15A": require("./RelatiScene15A").default,
+    "16A": require("./RelatiScene16A").default,
+    "17A": require("./RelatiScene17A").default,
+    "12B": require("./RelatiScene12B").default,
+    "13B": require("./RelatiScene13B").default,
+    "14B": require("./RelatiScene14B").default,
+    "15B": require("./RelatiScene15B").default,
+    "16B": require("./RelatiScene16B").default,
+    "17B": require("./RelatiScene17B").default,
+    "18B": require("./RelatiScene18B").default,
+    "19B": require("./RelatiScene19B").default,
+    "20B": require("./RelatiScene20B").default,
+    "12C": require("./RelatiScene12C").default,
+    "13C": require("./RelatiScene13C").default,
+    "14C": require("./RelatiScene14C").default,
+    "15C": require("./RelatiScene15C").default,
+    "16C": require("./RelatiScene16C").default,
+    "17C": require("./RelatiScene17C").default,
+    "18C": require("./RelatiScene18C").default,
+    "19C": require("./RelatiScene19C").default,
+    "20C": require("./RelatiScene20C").default,
+};
+
+RelatiScenes["12"] = RelatiScenes["12A"];
+RelatiScenes["13"] = RelatiScenes["13A"];
+RelatiScenes["14"] = RelatiScenes["14A"];
+RelatiScenes["15"] = RelatiScenes["15A"];
+
+export default RelatiScenes;

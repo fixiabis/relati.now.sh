@@ -1,0 +1,33 @@
+import React, { useEffect } from "react";
+import RelatiScene2 from "./RelatiScene2";
+import { RelatiBoard } from "./components";
+import { SceneComponent } from "./types";
+
+const RelatiScene3: SceneComponent = ({ toStep, game, ...props }) => {
+  const boardLastPieceCoordinate = { x: 7, y: 3 };
+  
+  useEffect(() => {
+    const toNextStepAfterTimeout = setTimeout(() => toStep("4"), 1500);
+    return () => clearTimeout(toNextStepAfterTimeout);
+  });
+
+  return (
+    <>
+      <div className="description">輪到對方了!</div>
+      <RelatiBoard
+        game={game}
+        lastPieceCoordinate={boardLastPieceCoordinate}
+        {...props} />
+    </>
+  );
+};
+
+RelatiScene3.initial = (game) => {
+  RelatiScene2.initial(game);
+
+  if (game.turn === 1) {
+    game.doPlacementByCoordinate(7, 3);
+  }
+};
+
+export default RelatiScene3;
