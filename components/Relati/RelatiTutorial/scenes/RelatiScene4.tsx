@@ -1,75 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import RelatiScene3 from "./RelatiScene3";
-import { RelatiBoard, Hint, DrawLine } from "./components";
-import { Coordinate, SceneComponent, CoordinateObject } from "./types";
-import { SCENE4_CAPTIONS, SCENE4_SAMPLE_RELATI_ROUTES_LIST } from "./utils";
+import { RelatiBoard, Focus } from "./components";
+import { SceneComponent, CoordinateObject } from "./types";
 
-const RelatiScene4: SceneComponent = ({ toStep, game, ...props }) => {
-  const [placeStep, setPlaceStep] = useState(0);
-  const toNextPlaceStep = () => setPlaceStep(placeStep + 1);
-  let drawLines: JSX.Element[] = [];
-  let hints: JSX.Element[] = [];
-
-  const handleGridClick = (coordinate: CoordinateObject) => {
-    if (placeStep % 2 === 0) {
-      return;
-    }
-
-    for (let coordinates of SCENE4_SAMPLE_RELATI_ROUTES_LIST[(placeStep - 1) / 2]) {
-      const [x, y] = coordinates[coordinates.length - 1];
-
-      if (coordinate.x === x && coordinate.y === y) {
-        if (placeStep === 19) {
-          toStep("5");
-        }
-        else {
-          toNextPlaceStep();
-        }
-      }
+const RelatiScene4: SceneComponent = ({ toScene: toStep, game, ...props }) => {
+  const handleGridClick = ({ x, y }: CoordinateObject) => {
+    if (x === 2 && (y === 1 || y === 3)) {
+      game.doPlacementByCoordinate(x, y);
+      toStep("5");
     }
   };
 
-  if (placeStep % 2 === 1) {
-    hints = SCENE4_SAMPLE_RELATI_ROUTES_LIST[(placeStep - 1) / 2].map((coordinates, i) => {
-      const [x, y] = coordinates[coordinates.length - 1];
-      return <Hint key={i} x={x} y={y} color="crimson" />;
-    });
-  }
-  else {
-    const ms = 1500;
-    const style = { animationDuration: `${ms}ms` };
-
-    drawLines = SCENE4_SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) => {
-      const key = placeStep * 4 + i;
-      const linePath: Coordinate[] = [[4, 4], ...coordinates as [number, number][]];
-      return <DrawLine key={key} linePath={linePath} color="crimson" style={style} />
-    });
-
-    if (placeStep >= 8) {
-      hints = SCENE4_SAMPLE_RELATI_ROUTES_LIST[placeStep / 2].map((coordinates, i) => {
-        const [x, y] = coordinates[coordinates.length - 1];
-        return <Hint key={i} x={x} y={y} color="crimson" />;
-      });
-    }
-
-    setTimeout(toNextPlaceStep, ms);
-  }
-
   return (
     <>
-      <div key={Math.floor(placeStep / 2)} className="description">{SCENE4_CAPTIONS[placeStep]}</div>
-      <RelatiBoard
-        game={game}
-        showHints={false}
-        onGridClick={handleGridClick}
-        {...props}>
-        <g>{drawLines}</g>
-        <g>{hints}</g>
+      <div className="description">選一個地方擺吧!</div>
+      <RelatiBoard game={game} onGridClick={handleGridClick} {...props}>
+        <Focus x={2} y={1} color="crimson" emphasized />
+        <Focus x={2} y={3} color="crimson" emphasized />
       </RelatiBoard>
     </>
   );
 };
 
 RelatiScene4.initial = RelatiScene3.initial;
-
 export default RelatiScene4;

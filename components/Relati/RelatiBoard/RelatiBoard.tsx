@@ -9,10 +9,9 @@ export interface Props extends Omit<BoardProps, "width" | "height"> {
   placementEffect?: boolean;
   drawLineDuration?: number;
   lastPieceEmphasized?: boolean;
-  lastPieceCoordinate?: CoordinateObject;
 }
 
-const RelatiBoard = ({ game, showHints: isHintsShow = true, placementEffect: isPlacementEffectOn, drawLineDuration, lastPieceEmphasized: isLastPieceEmphasized, lastPieceCoordinate, children, ...props }: Props) => {
+const RelatiBoard = ({ game, showHints: isHintsShow = true, placementEffect: isPlacementEffectOn, drawLineDuration, lastPieceEmphasized: isLastPieceEmphasized, children, ...props }: Props) => {
   const { board, rule } = game;
   const { width, height } = board;
   const currentPlayer = game.getNowPlayer();
@@ -36,8 +35,7 @@ const RelatiBoard = ({ game, showHints: isHintsShow = true, placementEffect: isP
       game={game}
       placementEffect={isPlacementEffectOn}
       drawLineDuration={drawLineDuration}
-      lastPieceEmphasized={isLastPieceEmphasized}
-      lastPieceCoordinate={lastPieceCoordinate} />;
+      lastPieceEmphasized={isLastPieceEmphasized} />;
 
   return (
     <Board width={width} height={height} {...props}>

@@ -6,7 +6,6 @@ import { useForceUpdate } from "../../hooks";
 
 type OmittedRelatiBoardPropKeys =
   | "game"
-  | "lastPieceCoordinate"
   | "symbolOfPreviousPlayer"
   | "symbolOfCurrentPlayer";
 
@@ -17,7 +16,6 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
 };
 
 const RelatiGame = ({ game: externalGame, lastPieceEmphasized: isLastPieceEmphasized, onGridClick: externalHandleGridClick, onOver, ...props }: Props) => {
-  const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const forceUpdate = useForceUpdate();
   const game = useRef<Game>(externalGame || new Game(2, RelatiGameRuleX9)).current;
 
@@ -27,27 +25,21 @@ const RelatiGame = ({ game: externalGame, lastPieceEmphasized: isLastPieceEmphas
     }
 
     const grid = game.board.getGridAt(x, y);
-    const nowPlayer = game.getNowPlayer();
 
     if (grid?.piece || game.isOver) {
       return;
     }
 
-    game.doPlacementByCoordinateAndPlayer(x, y, nowPlayer);
+    game.doPlacementByCoordinate(x, y);
     game.reenableAllPieces();
     game.checkIsOverAndFindWinner();
 
     if (game.isOver) {
-      const nowPlayerSymbol = RelatiSymbols[nowPlayer];
-      onOver?.(nowPlayerSymbol);
+      const winnerSymbol = RelatiSymbols[game.winner] || "N";
+      onOver?.(winnerSymbol);
     }
 
-    if (grid?.piece && isLastPieceEmphasized) {
-      setLastPieceCoordinate({ x, y });
-    }
-    else {
-      forceUpdate();
-    }
+    forceUpdate();
   };
 
   return (
@@ -56,8 +48,7 @@ const RelatiGame = ({ game: externalGame, lastPieceEmphasized: isLastPieceEmphas
         lastPieceEmphasized={isLastPieceEmphasized}
         {...props}
         game={game}
-        onGridClick={handleGridClick}
-        lastPieceCoordinate={lastPieceCoordinate} />
+        onGridClick={handleGridClick} />
     </>
   );
 };

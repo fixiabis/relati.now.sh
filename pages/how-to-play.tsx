@@ -2,9 +2,10 @@ import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game from "../libraries/Relati";
-import { Page, Button, IconButton, RelatiTutorial, MessageBox, RelatiPiece } from "../components";
+import Game, { RelatiGameRuleX5 } from "../libraries/RelatiGame";
+import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
 import { State, SettingState } from "../reducers";
+import { RelatiTutorial } from "../components/Relati";
 
 export interface Props {
   step?: string;
@@ -12,7 +13,7 @@ export interface Props {
 
 const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   const router = useRouter();
-  const game = useRef<Game>(new Game(2)).current;
+  const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);

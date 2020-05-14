@@ -2,9 +2,9 @@ import React from "react";
 import { RelatiBoard, Focus } from "./components";
 import { SceneComponent, CoordinateObject } from "./types";
 
-const RelatiScene1: SceneComponent = ({ toStep, game, ...props }) => {
+const RelatiScene1: SceneComponent = ({ toScene: toStep, game, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {
-    if (x === 4 && y === 4) {
+    if (x === 2 && y === 2) {
       toStep("2");
     }
   };
@@ -13,7 +13,7 @@ const RelatiScene1: SceneComponent = ({ toStep, game, ...props }) => {
     <>
       <div className="description">看到中間的框框了嗎?你知道該怎麼做的!</div>
       <RelatiBoard game={game} onGridClick={handleGridClick} {...props}>
-        <Focus x={4} y={4} color="crimson" emphasized />
+        <Focus x={2} y={2} color="crimson" emphasized />
       </RelatiBoard>
     </>
   );

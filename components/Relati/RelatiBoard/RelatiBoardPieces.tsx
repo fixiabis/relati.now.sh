@@ -10,19 +10,19 @@ export interface Props {
   placementEffect?: boolean;
   drawLineDuration?: number;
   lastPieceEmphasized?: boolean;
-  lastPieceCoordinate?: CoordinateObject;
 }
 
-const RelatiBoardPieces = ({ game, placementEffect: isPlacementEffectOn, drawLineDuration, lastPieceEmphasized: isLastPieceEmphasized, lastPieceCoordinate }: Props) => {
+const RelatiBoardPieces = ({ game, placementEffect: isPlacementEffectOn, drawLineDuration, lastPieceEmphasized: isLastPieceEmphasized }: Props) => {
   const { board: externalBoard } = game;
   const previousPlayer = game.getPlayerByTurn(game.turn - 1);
   const previousPlayerSymbool = RelatiSymbols[previousPlayer];
+  const [gameLastPlacementRecordX, gameLastPlacementRecordY] = game.placementRecords[game.placementRecords.length - 1] || [];
   const isHasTransition = drawLineDuration && externalBoard.grids.filter(({ piece }) => piece).length > 1;
 
   if (!isHasTransition) {
     const pieces = externalBoard.grids.map(({ x, y, piece }, i) => {
-      const isPieceHasPlacementEffect = isPlacementEffectOn && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y;
-      const isPieceHasEmphasized = isLastPieceEmphasized && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y;
+      const isPieceHasPlacementEffect = isPlacementEffectOn && gameLastPlacementRecordX === x && gameLastPlacementRecordY === y;
+      const isPieceHasEmphasized = isLastPieceEmphasized && gameLastPlacementRecordX === x && gameLastPlacementRecordY === y;
 
       if (piece) {
         return (
@@ -140,8 +140,8 @@ const RelatiBoardPieces = ({ game, placementEffect: isPlacementEffectOn, drawLin
   const color = previousPlayerSymbool ? RelatiSymbolColor[previousPlayerSymbool] : "#888";
 
   const pieces = board.grids.map(({ x, y, piece }, i) => {
-    const isPieceHasPlacementEffect = isPlacementEffectOn && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y;
-    const isPieceHasEmphasized = isLastPieceEmphasized && lastPieceCoordinate && lastPieceCoordinate.x === x && lastPieceCoordinate.y === y;
+    const isPieceHasPlacementEffect = isPlacementEffectOn && gameLastPlacementRecordX === x && gameLastPlacementRecordY === y;
+    const isPieceHasEmphasized = isLastPieceEmphasized && gameLastPlacementRecordX === x && gameLastPlacementRecordY === y;
 
     if (piece) {
       return (

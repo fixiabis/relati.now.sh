@@ -9,6 +9,10 @@
         position: relative;
     }
 
+    .board {
+        transition: transform 0.5s;
+    }
+
     .board * {
         pointer-events: none;
     }

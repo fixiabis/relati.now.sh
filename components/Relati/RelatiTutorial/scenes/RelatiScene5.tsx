@@ -1,34 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import RelatiScene4 from "./RelatiScene4";
-import { RelatiBoard, Focus } from "./components";
-import { SceneComponent, CoordinateObject } from "./types";
+import { RelatiBoard } from "./components";
+import { SceneComponent } from "./types";
+import { useTimeout } from "./hooks";
 
-const RelatiScene5: SceneComponent = ({ toStep, game, ...props }) => {
-  const [focused, setFocused] = useState<JSX.Element>();
-  const description = focused ? "點這裡如何?" : "這些就是可以點的範圍了!";
-
-  const handleGridClick = ({ x, y }: CoordinateObject) => {
-    if (x === 6 && y === 6) {
-      toStep("6");
-    }
-    else {
-      setFocused(<Focus x={6} y={6} color="crimson" />);
-    }
-  };
+const RelatiScene5: SceneComponent = ({ toScene: toStep, game, ...props }) => {
+  useTimeout(() => toStep("6"), 1500);
 
   return (
     <>
-      <div key={description} className="description">{description}</div>
-      <RelatiBoard
-        game={game}
-        onGridClick={handleGridClick}
-        {...props}>
-        {focused}
-      </RelatiBoard>
+      <div className="description">輪到對方了!</div>
+      <RelatiBoard game={game} {...props} />
     </>
   );
 };
 
-RelatiScene5.initial = RelatiScene4.initial;
+RelatiScene5.initial = (game) => {
+  RelatiScene4.initial(game);
+
+  if (game.turn === 2) {
+    game.doPlacementByCoordinate(2, 3);
+  }
+};
 
 export default RelatiScene5;
