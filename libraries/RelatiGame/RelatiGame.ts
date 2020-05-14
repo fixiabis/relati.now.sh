@@ -1,7 +1,7 @@
 import { GridBoard, Coordinate } from "gridboard";
 import RelatiGameBasicRule from "./RelatiGameBasicRule";
 import { RelatiBoard, RelatiPiece, RelatiGrid, RelatiGameRule } from "./types";
-import { RelatiSymbols, TurnBasedGame } from "./utils";
+import { RelatiSymbols, TurnBasedGame } from "./utilities";
 
 class RelatiGame extends TurnBasedGame {
     public winner: number;

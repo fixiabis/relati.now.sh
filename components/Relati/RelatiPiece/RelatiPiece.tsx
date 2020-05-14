@@ -1,5 +1,5 @@
 import React from "react";
-import { RelatiSymbolColor, RelatiSymbolRoute } from "./utils";
+import { RelatiSymbolColor, RelatiSymbolRoute } from "./utilities";
 import "./relati-piece.scss";
 
 export interface Props extends React.SVGProps<SVGPathElement> {

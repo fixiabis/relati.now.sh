@@ -1,5 +1,5 @@
 import React from "react";
-import { PieceRoute } from "./utils";
+import { PieceRoute } from "./utilities";
 
 export interface Props extends React.SVGProps<SVGPathElement> {
   x: number;
