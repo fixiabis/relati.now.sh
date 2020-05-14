@@ -8,10 +8,10 @@ import { State, SettingState } from "../reducers";
 import { RelatiTutorial } from "../components/Relati";
 
 export interface Props {
-  step?: string;
+  scene?: string;
 }
 
-const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
+const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
   const router = useRouter();
   const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
@@ -67,7 +67,7 @@ const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
 
   return (
     <Page id="how-to-play" title="how to play">
-      <RelatiTutorial step={step} game={game} onFinish={finishTutorial} {...tutorialSetting} />
+      <RelatiTutorial scene={scene} game={game} onFinish={finishTutorial} {...tutorialSetting} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={leaveTutorial} />
@@ -79,8 +79,8 @@ const HowToPlay: NextPage<Props> = ({ step = "1" }) => {
   );
 };
 
-HowToPlay.getInitialProps = async ({ query: { step } }) => {
-  return { step: step as string };
+HowToPlay.getInitialProps = async ({ query: { scene } }) => {
+  return { scene: scene as string };
 };
 
 export default HowToPlay;

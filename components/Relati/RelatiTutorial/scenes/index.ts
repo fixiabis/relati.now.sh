@@ -7,6 +7,8 @@ const RelatiScenes: Record<string, SceneComponent> = {
     "4": require("./RelatiScene4").default,
     "5": require("./RelatiScene5").default,
     "6": require("./RelatiScene6").default,
+    "7": require("./RelatiScene7").default,
+    "8": require("./RelatiScene8").default,
 };
 
 export default RelatiScenes;

@@ -2,8 +2,11 @@ import React from "react";
 import RelatiScene5 from "./RelatiScene5";
 import { RelatiBoard } from "./components";
 import { SceneComponent } from "./types";
+import { useTimeout } from "./hooks";
 
-const RelatiScene6: SceneComponent = ({ toScene: toStep, game, ...props }) => {
+const RelatiScene6: SceneComponent = ({ toScene, game, ...props }) => {
+  useTimeout(() => toScene("7"), 1500);
+
   return (
     <>
       <div className="description">輪到對方了!</div>
