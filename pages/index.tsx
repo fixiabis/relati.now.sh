@@ -4,11 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { State } from "../reducers";
 import { Box, Page, Button, IconButton } from "../components";
 import { disableMainPageAnimation } from "../actions";
-import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX9 } from "../libraries/RelatiGame";
-
-DEBUG: {
-  Object.assign(global, { RelatiGame, RelatiGameRuleX5, RelatiGameRuleX9 });
-}
 
 const Main = () => {
   const router = useRouter();

@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
-import { NextPage } from "next";
-import Game from "../libraries/Relati";
-import { useRouter } from "next/router";
-import { Page, Button, IconButton, RelatiTutorial, MessageBox, RelatiPiece } from "../components";
 import { useSelector } from "react-redux";
-import { State } from "../reducers";
-import { SettingState } from "../reducers/setting";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import Game from "../libraries/Relati";
+import { Page, Button, IconButton, RelatiTutorial, MessageBox, RelatiPiece } from "../components";
+import { State, SettingState } from "../reducers";
 
 export interface Props {
   step?: string;

@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX5, RelatiSymbols } from "../libraries/RelatiGame";
-import RelatiGame from "../components/Relati/RelatiGame";
-import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
-import { useSelector } from "react-redux";
+import { RelatiGame, RelatiPiece } from "../components/Relati";
+import { Page, Button, IconButton, MessageBox, useForceUpdate } from "../components";
 import { State, SettingState } from "../reducers";
-import { useForceUpdate } from "../components/hooks";
 
 const PlayLite = () => {
   const router = useRouter();
