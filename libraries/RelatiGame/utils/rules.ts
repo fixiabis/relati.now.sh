@@ -38,7 +38,6 @@ export const RelatiGameRuleX5: RelatiGameRule = {
             }
         }
 
-        // console.warn("未找到可以連線的路徑");
         return false;
     }
 };
@@ -79,7 +78,6 @@ export const RelatiGameRuleX9: RelatiGameRule = {
             }
         }
 
-        // console.warn("未找到可以連線的路徑");
         return false;
     }
 };
