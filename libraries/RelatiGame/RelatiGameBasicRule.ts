@@ -3,7 +3,7 @@ import { RelatiGrid, HasPieceRelatiGrid } from "./types";
 import { Direction } from "gridboard";
 
 namespace RelatiGameBasicRule {
-    export const RELATI_ROUTES = [
+    export const RelatiRoutes = [
         [Direction`F`],
         [Direction`B`],
         [Direction`L`],
@@ -108,7 +108,7 @@ namespace RelatiGameBasicRule {
         const sourceGrid = grid as HasPieceRelatiGrid;
         sourceGrid.piece.disabled = false;
 
-        for (let route of RELATI_ROUTES) {
+        for (let route of RelatiRoutes) {
             const [targetGrid, ...middleGrids] = route.map(
                 direction => grid.getGridTo(direction)
             ) as HasPieceRelatiGrid[];

@@ -17,7 +17,7 @@ export function getTargetPathsBySourceGrid(grid: RelatiGrid, isRuleX5: boolean) 
     const sourcePaths = [];
     const { symbol } = (grid as HasPieceRelatiGrid).piece;
 
-    for (let route of RelatiGameBasicRule.RELATI_ROUTES) {
+    for (let route of RelatiGameBasicRule.RelatiRoutes) {
         const isRouteHasMiddleGrid = route.length > 1;
 
         if (isRuleX5 && isRouteHasMiddleGrid) {

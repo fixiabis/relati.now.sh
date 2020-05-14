@@ -18,7 +18,7 @@ export const RelatiGameRuleX5: RelatiGameRule = {
 
         const symbol = RelatiSymbols[player];
 
-        for (let route of RelatiGameBasicRule.RELATI_ROUTES) {
+        for (let route of RelatiGameBasicRule.RelatiRoutes) {
             const isRouteHasMiddleGrid = route.length > 1;
 
             if (isRouteHasMiddleGrid) {
@@ -57,7 +57,7 @@ export const RelatiGameRuleX9: RelatiGameRule = {
 
         const symbol = RelatiSymbols[player];
 
-        for (let route of RelatiGameBasicRule.RELATI_ROUTES) {
+        for (let route of RelatiGameBasicRule.RelatiRoutes) {
             const [sourceGrid, ...middleGrids] = route.map(
                 direction => grid.getGridTo(direction)
             ) as HasPieceRelatiGrid[];
