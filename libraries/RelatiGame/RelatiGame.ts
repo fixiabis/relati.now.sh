@@ -1,7 +1,7 @@
 import { GridBoard, Coordinate } from "gridboard";
 import RelatiGameBasicRule from "./RelatiGameBasicRule";
 import { RelatiBoard, RelatiPiece, RelatiGrid, RelatiGameRule } from "./types";
-import { RelatiSymbol, TurnBasedGame } from "./utils";
+import { RelatiSymbols, TurnBasedGame } from "./utils";
 
 class RelatiGame extends TurnBasedGame {
     public winner: number;
@@ -21,8 +21,17 @@ class RelatiGame extends TurnBasedGame {
         this.placementRecords = [];
     }
 
+    public restart() {
+        this.turn = 0;
+        this.winner = -1;
+        this.isOver = false;
+        this.playerSourceGrids.splice(0, this.turn);
+        this.board.grids.forEach(grid => delete grid.piece);
+        this.playerSourceGrids.splice(0, this.playersCount);
+    }
+
     public doPlacementByCoordinateAndPlayer(x: number, y: number, player: number) {
-        const playerSymbol = RelatiSymbol[player] as RelatiPiece["symbol"];
+        const playerSymbol = RelatiSymbols[player] as RelatiPiece["symbol"];
         const grid = this.board.getGridAt(x, y) as RelatiGrid;
 
         const isPlayerCanDoPlacement =
@@ -68,7 +77,9 @@ class RelatiGame extends TurnBasedGame {
             return;
         }
 
-        for (let canDoPlacementPlayersCount = 0; canDoPlacementPlayersCount !== this.playersCount; canDoPlacementPlayersCount++) {
+        let canDoPlacementPlayersCount = 0;
+
+        for (; canDoPlacementPlayersCount !== this.playersCount; canDoPlacementPlayersCount++) {
             const player = this.getNowPlayer();
 
             const isPlayerCanDoPlacement = this.board.grids.some(
@@ -88,6 +99,10 @@ class RelatiGame extends TurnBasedGame {
             else {
                 this.turn++;
             }
+        }
+
+        if (canDoPlacementPlayersCount === this.playersCount) {
+            this.isOver = true;
         }
     }
 

@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
-import Game, { RelatiSymbol } from "../../../libraries/Relati";
-import { RelatiBoard } from "..";
-import { useForceUpdate } from "../../hooks";
-import { RelatiBoardProps } from "../RelatiBoard";
+import RelatiBoard, { RelatiBoardProps } from "../RelatiBoard";
 import { CoordinateObject } from "../../Board";
+import Game, { RelatiSymbol, RelatiGameRuleX9, RelatiSymbols } from "../../../libraries/RelatiGame";
+import { useForceUpdate } from "../../hooks";
 
 type OmittedRelatiBoardPropKeys =
-  | "board"
+  | "game"
   | "lastPieceCoordinate"
   | "symbolOfPreviousPlayer"
   | "symbolOfCurrentPlayer";
@@ -17,12 +16,10 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
   onGridClick?: ({ x, y }: CoordinateObject) => boolean | void;
 };
 
-const RelatiGame = ({ game: externalGame, lastPieceEmphasized, onGridClick: externalHandleGridClick, onOver, ...props }: Props) => {
+const RelatiGame = ({ game: externalGame, lastPieceEmphasized: isLastPieceEmphasized, onGridClick: externalHandleGridClick, onOver, ...props }: Props) => {
   const [lastPieceCoordinate, setLastPieceCoordinate] = useState<CoordinateObject>({ x: -1, y: -1 });
   const forceUpdate = useForceUpdate();
-  const game = useRef<Game>(externalGame || new Game(2)).current;
-  const symbolOfCurrentPlayer = game.getNowPlayerSymbol();
-  const symbolOfPreviousPlayer = game.getPlayerSymbolByTurn(game.turn - 1);
+  const game = useRef<Game>(externalGame || new Game(2, RelatiGameRuleX9)).current;
 
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (externalHandleGridClick?.({ x, y }) === false) {
@@ -30,18 +27,22 @@ const RelatiGame = ({ game: externalGame, lastPieceEmphasized, onGridClick: exte
     }
 
     const grid = game.board.getGridAt(x, y);
+    const nowPlayer = game.getNowPlayer();
 
-    if (grid?.piece || game.symbolOfWinner !== "?") {
+    if (grid?.piece || game.isOver) {
       return;
     }
 
-    game.placeSymbolByCoordinate(x, y);
+    game.doPlacementByCoordinateAndPlayer(x, y, nowPlayer);
+    game.reenableAllPieces();
+    game.checkIsOverAndFindWinner();
 
-    if (game.symbolOfWinner !== "?") {
-      onOver?.(game.symbolOfWinner);
+    if (game.isOver) {
+      const nowPlayerSymbol = RelatiSymbols[nowPlayer];
+      onOver?.(nowPlayerSymbol);
     }
 
-    if (lastPieceEmphasized && grid?.piece) {
+    if (grid?.piece && isLastPieceEmphasized) {
       setLastPieceCoordinate({ x, y });
     }
     else {
@@ -52,13 +53,11 @@ const RelatiGame = ({ game: externalGame, lastPieceEmphasized, onGridClick: exte
   return (
     <>
       <RelatiBoard
-        lastPieceEmphasized={lastPieceEmphasized}
+        lastPieceEmphasized={isLastPieceEmphasized}
         {...props}
-        board={game.board}
+        game={game}
         onGridClick={handleGridClick}
-        lastPieceCoordinate={lastPieceCoordinate}
-        symbolOfCurrentPlayer={symbolOfCurrentPlayer}
-        symbolOfPreviousPlayer={symbolOfPreviousPlayer} />
+        lastPieceCoordinate={lastPieceCoordinate} />
     </>
   );
 };

@@ -60,14 +60,12 @@ namespace RelatiGameBasicRule {
         const isPlayerCanNotDoPlacement = player !== nowPlayer;
 
         if (isPlayerCanNotDoPlacement) {
-            // console.warn("尚未輪到該玩家");
             return false;
         }
 
         const isGridNotExistsOrGridHasPiece = !grid || grid.piece;
 
         if (isGridNotExistsOrGridHasPiece) {
-            // console.warn("格子已有棋子或找不到該格子");
             return false;
         }
 
@@ -111,7 +109,9 @@ namespace RelatiGameBasicRule {
         sourceGrid.piece.disabled = false;
 
         for (let route of RELATI_ROUTES) {
-            const [targetGrid, ...middleGrids] = route.map(direction => grid.getGridTo(direction)) as HasPieceRelatiGrid[];
+            const [targetGrid, ...middleGrids] = route.map(
+                direction => grid.getGridTo(direction)
+            ) as HasPieceRelatiGrid[];
 
             const isTargetGridNotExistsOrHasNotPieceOrPieceNotDisabled =
                 !targetGrid?.piece?.disabled;

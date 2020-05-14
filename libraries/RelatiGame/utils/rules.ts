@@ -1,7 +1,7 @@
-import { RelatiGameRule, RelatiGrid, HasPieceRelatiGrid } from "../types";
-import RelatiGameBasicRule from "../RelatiGameBasicRule";
 import RelatiGame from "../RelatiGame";
-import { RelatiSymbol } from "./index";
+import RelatiGameBasicRule from "../RelatiGameBasicRule";
+import { RelatiGameRule, RelatiGrid, HasPieceRelatiGrid } from "../types";
+import { RelatiSymbols } from "../utils";
 
 export const RelatiGameRuleX5: RelatiGameRule = {
     boardWidth: 5,
@@ -16,7 +16,7 @@ export const RelatiGameRuleX5: RelatiGameRule = {
             return true;
         }
 
-        const symbol = RelatiSymbol[player];
+        const symbol = RelatiSymbols[player];
 
         for (let route of RelatiGameBasicRule.RELATI_ROUTES) {
             const isRouteHasMiddleGrid = route.length > 1;
@@ -55,10 +55,12 @@ export const RelatiGameRuleX9: RelatiGameRule = {
             return true;
         }
 
-        const symbol = RelatiSymbol[player];
+        const symbol = RelatiSymbols[player];
 
         for (let route of RelatiGameBasicRule.RELATI_ROUTES) {
-            const [sourceGrid, ...middleGrids] = route.map(direction => grid.getGridTo(direction)) as HasPieceRelatiGrid[];
+            const [sourceGrid, ...middleGrids] = route.map(
+                direction => grid.getGridTo(direction)
+            ) as HasPieceRelatiGrid[];
 
             const isSourceGridNotExistsOrHasNotPieceOrPieceDisabled =
                 !sourceGrid?.piece || sourceGrid.piece.disabled;

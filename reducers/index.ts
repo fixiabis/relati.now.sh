@@ -12,4 +12,5 @@ const rootReducer = combineReducers({
     setting: settingReducer,
 });
 
+export type { PageState, SettingState };
 export default rootReducer;

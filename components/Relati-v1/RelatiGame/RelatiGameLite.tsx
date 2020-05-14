@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import GameLite, { RelatiSymbol } from "../../../libraries/RelatiLite";
 import RelatiBoardLite from "../RelatiBoardLite";
-import { useForceUpdate } from "../../utils";
+import { useForceUpdate } from "../../hooks";
 import { RelatiBoardProps } from "../RelatiBoard";
 import { CoordinateObject } from "../../Board";
 

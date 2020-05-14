@@ -1,16 +1,16 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import Game from "../libraries/Relati";
-import { Page, Button, IconButton, RelatiGame, MessageBox, RelatiPiece } from "../components";
+import Game, { RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
+import RelatiGame from "../components/Relati/RelatiGame";
+import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
 import { useSelector } from "react-redux";
-import { State } from "../reducers";
-import { SettingState } from "../reducers/setting";
-import { useForceUpdate } from "../components/utils";
+import { State, SettingState } from "../reducers";
+import { useForceUpdate } from "../components/hooks";
 
 const Play = () => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
-  const game = useRef<Game>(new Game(2)).current;
+  const game = useRef<Game>(new Game(2, RelatiGameRuleX9)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const gameSetting = useSelector<State, SettingState>(state => state.setting);
@@ -25,7 +25,7 @@ const Play = () => {
   };
 
   const leaveGame = () => {
-    if (game.turn && game.symbolOfWinner === "?") {
+    if (game.turn && !game.isOver) {
       openGameLeaveMessageBox();
     }
     else {
@@ -51,19 +51,19 @@ const Play = () => {
   };
 
   const gameOverMessageIcon =
-    game.symbolOfWinner !== "?"
+    game.isOver
       ? (
         <div className="message-icon-container">
           <svg width="5" height="5" className="message-icon">
-            <RelatiPiece x={0} y={0} symbol={game.symbolOfWinner} primary />
+            <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
           </svg>
         </div>
       )
       : undefined;
 
   const gameOverMessageText =
-    game.symbolOfWinner !== "?"
-      ? game.symbolOfWinner !== "N"
+    game.isOver
+      ? game.winner !== -1
         ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝!`
         : "平手!"
       : undefined;
@@ -75,7 +75,7 @@ const Play = () => {
       ? (
         <MessageBox onCancel={closeGameLeaveMessageBox}>
           <div className="message-container">
-              <div className="message-icon" style={gameLeaveMessageIconStyle} />
+            <div className="message-icon" style={gameLeaveMessageIconStyle} />
               勝負未分, 確定離開?
           </div>
           <Button.Group>
@@ -88,7 +88,7 @@ const Play = () => {
       : undefined;
 
   const gameOverMessageBox =
-    isGameOverMessageBoxShow && game.symbolOfWinner !== "?"
+    isGameOverMessageBoxShow && game.isOver
       ? (
         <MessageBox onCancel={closeGameOverMessageBox}>
           <div className="message-container">
