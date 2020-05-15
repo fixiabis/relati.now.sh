@@ -1,11 +1,11 @@
 import React from "react";
-import RelatiScene7 from "./RelatiScene7";
+import RelatiScene10 from "./RelatiScene10";
 import { RelatiBoard } from "./components";
 import { SceneComponent } from "./types";
 import { useTimeout } from "./hooks";
 
-const RelatiScene8: SceneComponent = ({ toScene, game, ...props }) => {
-  useTimeout(() => toScene("9"), 1500);
+const RelatiScene11: SceneComponent = ({ toScene, game, ...props }) => {
+  // useTimeout(() => toScene("9"), 1500);
 
   return (
     <>
@@ -15,12 +15,12 @@ const RelatiScene8: SceneComponent = ({ toScene, game, ...props }) => {
   );
 };
 
-RelatiScene8.initial = (game) => {
-  RelatiScene7.initial(game);
+RelatiScene11.initial = (game) => {
+  RelatiScene10.initial(game);
 
   if (game.turn === 4) {
     game.doPlacementByCoordinate(1, 2);
   }
 };
 
-export default RelatiScene8;
+export default RelatiScene11;

@@ -9,7 +9,7 @@ const RelatiScene5: SceneComponent = ({ toScene, game, ...props }) => {
 
   return (
     <>
-      <div className="description">輪到對方了!</div>
+      <div className="description">很好, 放置的時候需要產生連線!</div>
       <RelatiBoard game={game} {...props} />
     </>
   );
