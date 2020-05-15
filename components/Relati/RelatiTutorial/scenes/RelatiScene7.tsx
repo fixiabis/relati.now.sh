@@ -6,7 +6,7 @@ import { preventEffect } from "./utilities";
 
 const RelatiScene7: SceneComponent = ({ toScene, game, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {
-    if (x === 2 && (y === 1 || y === 3)) {
+    if (x === 1 && y === 2) {
       game.doPlacementByCoordinate(x, y);
       toScene("8");
     }
