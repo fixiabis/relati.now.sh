@@ -1,7 +1,7 @@
 import React from "react";
 import RelatiScene9 from "./RelatiScene9";
 import { RelatiBoard, Focus } from "./components";
-import { SceneComponent, CoordinateObject, RelatiGrid, HasPieceRelatiGrid } from "./types";
+import { SceneComponent, CoordinateObject, HasPieceRelatiGrid } from "./types";
 import { preventEffect } from "./utilities";
 
 const RelatiScene10: SceneComponent = ({ toScene, game, ...props }) => {
