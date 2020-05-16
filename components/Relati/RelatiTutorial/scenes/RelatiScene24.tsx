@@ -4,6 +4,7 @@ import RelatiScene23 from "./RelatiScene23";
 import { RelatiBoard } from "./components";
 import { SceneComponent } from "./types";
 import { preventEffect } from "./utilities";
+import { useTimeout } from "./hooks";
 
 const GAME_RESULT_FROM_WINNER = {
   [-1]: "平手!",
@@ -12,7 +13,8 @@ const GAME_RESULT_FROM_WINNER = {
 };
 
 const RelatiScene24: SceneComponent = ({ toScene, game, ...props }) => {
-  const gameResult = GAME_RESULT_FROM_WINNER[game.winner as -1 | 0 | 1];
+  const gameResult = GAME_RESULT_FROM_WINNER[game.winner as -1 | 0 | 1] + " 沒法放置就輸了!";
+  useTimeout(() => toScene("END"), 1500);
 
   return (
     <>

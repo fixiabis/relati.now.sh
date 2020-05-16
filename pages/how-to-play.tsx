@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX5 } from "../libraries/RelatiGame";
+import Game, { RelatiGameRuleX5, RelatiSymbols } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
 import { State, SettingState } from "../reducers";
 import { RelatiTutorial } from "../components/Relati";
@@ -15,11 +15,13 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
   const router = useRouter();
   const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
+  const [isTutorialFinishBoxShow, setIsTutorialFinishBoxShow] = useState(true);
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
   const tutorialSetting = useSelector<State, SettingState>(state => state.setting);
   const leavePage = () => router.replace("/");
   const finishTutorial = () => setIsTutorialFinish(true);
   const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(true);
+  const closeTutorialFinishMessageBox = () => setIsTutorialFinishBoxShow(false);
   const closeTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(false);
 
   const leaveTutorial = () => {
@@ -49,21 +51,40 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
       )
       : undefined;
 
-  const tutorialFinishMessageBox = (
-    <MessageBox show={isTutorialFinish}>
-      <div className="message-container">
+  const tutorialFinishMessageIcon =
+    game.isOver
+      ? (
         <div className="message-icon-container">
           <svg width="5" height="5" className="message-icon">
-            <RelatiPiece x={0} y={0} symbol="O" primary />
+            <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
           </svg>
         </div>
-        恭喜你完成教學!
-      </div>
-      <Button.Group>
-        <IconButton type="verify" color="seagreen" onClick={leavePage} />
-      </Button.Group>
-    </MessageBox>
-  );
+      )
+      : undefined;
+
+  const tutorialFinishMessageText =
+    game.isOver
+      ? (
+        game.winner !== -1
+          ? `${game.winner ? "藍" : "紅"}方玩家獲勝!`
+          : "平手!"
+      ) + " 恭喜你完成教學!"
+      : undefined;
+
+  const tutorialFinishMessageBox =
+    isTutorialFinish && isTutorialFinishBoxShow
+      ? (
+        <MessageBox onCancel={closeTutorialFinishMessageBox}>
+          <div className="message-container">
+            {tutorialFinishMessageIcon}
+            {tutorialFinishMessageText}
+          </div>
+          <Button.Group>
+            <IconButton type="verify" color="seagreen" onClick={leavePage} />
+          </Button.Group>
+        </MessageBox>
+      )
+      : undefined;
 
   return (
     <Page id="how-to-play" title="how to play">
