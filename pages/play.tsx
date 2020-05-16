@@ -12,7 +12,7 @@ const Play = () => {
   const game = useRef<Game>(new Game(2, RelatiGameRuleX9)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
-  const gameSetting = useSelector<State, SettingState>(state => state.setting);
+  const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
   const leavePage = () => router.replace("/choose-game-mode");
   const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(true);
   const closeGameOverMessageBox = () => setIsGameOverMessageBoxShow(false);
@@ -111,7 +111,7 @@ const Play = () => {
         <div className="player-x" />
       </div>
 
-      <RelatiGame {...gameSetting} game={game} onOver={forceUpdate} />
+      <RelatiGame {...effectSetting} game={game} onOver={forceUpdate} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={leaveGame} />

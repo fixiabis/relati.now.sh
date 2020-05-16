@@ -4,7 +4,7 @@ import { RelatiBoard } from "./components";
 import { SceneComponent, CoordinateObject } from "./types";
 import { preventEffect } from "./utilities";
 
-const RelatiScene22: SceneComponent = ({ toScene, game, ...props }) => {
+const RelatiScene22: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     const grid = game.board.getGridAt(x, y);
     game.doPlacementByCoordinate(x, y);

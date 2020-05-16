@@ -5,8 +5,8 @@ import { SceneComponent } from "./types";
 import { RelatiGameBasicRule } from "./utilities";
 import { useTimeout } from "./hooks";
 
-const RelatiScene21: SceneComponent = ({ toScene, game, ...props }) => {
-  useTimeout(() => toScene(game.isOver ? "24" : "22"), 1500);
+const RelatiScene21: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
+  useTimeout(() => toScene(game.isOver ? "24" : "22"), sceneDuration);
 
   return (
     <>

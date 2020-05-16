@@ -4,7 +4,7 @@ import { RelatiBoard, Focus } from "./components";
 import { SceneComponent, CoordinateObject, HasPieceRelatiGrid } from "./types";
 import { preventEffect } from "./utilities";
 
-const RelatiScene10: SceneComponent = ({ toScene, game, ...props }) => {
+const RelatiScene10: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   const gridAtC2 = game.board.getGridAt(2, 1) as HasPieceRelatiGrid;
 
   const [exceptedX, exceptedY] =

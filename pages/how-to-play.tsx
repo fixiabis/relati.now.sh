@@ -17,7 +17,8 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
   const [isTutorialFinishBoxShow, setIsTutorialFinishBoxShow] = useState(true);
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
-  const tutorialSetting = useSelector<State, SettingState>(state => state.setting);
+  const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
+  const tutorialSetting = useSelector<State, SettingState["tutorial"]>(state => state.setting.tutorial);
   const leavePage = () => router.replace("/");
   const finishTutorial = () => setIsTutorialFinish(true);
   const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(true);
@@ -88,7 +89,7 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
 
   return (
     <Page id="how-to-play" title="how to play">
-      <RelatiTutorial scene={scene} game={game} onFinish={finishTutorial} {...tutorialSetting} />
+      <RelatiTutorial scene={scene} game={game} onFinish={finishTutorial} {...effectSetting} {...tutorialSetting} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" onClick={leaveTutorial} />

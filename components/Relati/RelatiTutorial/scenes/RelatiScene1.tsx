@@ -2,7 +2,7 @@ import React from "react";
 import { RelatiBoard, Focus } from "./components";
 import { SceneComponent, CoordinateObject } from "./types";
 
-const RelatiScene1: SceneComponent = ({ toScene, game, ...props }) => {
+const RelatiScene1: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 2 && y === 2) {
       toScene("2");

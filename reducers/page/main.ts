@@ -9,7 +9,7 @@ const INITIAL_STATE: MainPageState = {
     animation: true,
 };
 
-function mainPageReducer(state = INITIAL_STATE, action: AnyAction) {
+function mainPageReducer(state = INITIAL_STATE, action: AnyAction): MainPageState {
     switch (action.type) {
         case SET_MAIN_PAGE_ANIMATION: {
             return { ...state, animation: action.value };

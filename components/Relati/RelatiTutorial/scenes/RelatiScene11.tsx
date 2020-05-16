@@ -4,8 +4,8 @@ import { RelatiBoard } from "./components";
 import { SceneComponent } from "./types";
 import { useTimeout } from "./hooks";
 
-const RelatiScene11: SceneComponent = ({ toScene, game, ...props }) => {
-  useTimeout(() => toScene("12"), 1500);
+const RelatiScene11: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
+  useTimeout(() => toScene("12"), sceneDuration);
 
   return (
     <>

@@ -12,9 +12,9 @@ const GAME_RESULT_FROM_WINNER = {
   [1]: "對方贏了!",
 };
 
-const RelatiScene24: SceneComponent = ({ toScene, game, ...props }) => {
+const RelatiScene24: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   const gameResult = GAME_RESULT_FROM_WINNER[game.winner as -1 | 0 | 1] + " 沒法放置就輸了!";
-  useTimeout(() => toScene("END"), 1500);
+  useTimeout(() => toScene("END"), sceneDuration);
 
   return (
     <>

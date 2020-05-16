@@ -12,6 +12,7 @@ type OmittedRelatiBoardPropKeys =
 export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
   game?: RelatiGame;
   scene?: string;
+  sceneDuration: number;
   onFinish?: () => void;
 };
 

@@ -4,7 +4,7 @@ import { RelatiBoard, Focus } from "./components";
 import { SceneComponent, CoordinateObject } from "./types";
 import { preventEffect } from "./utilities";
 
-const RelatiScene4: SceneComponent = ({ toScene, game, ...props }) => {
+const RelatiScene4: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (x === 2 && (y === 1 || y === 3)) {
       game.doPlacementByCoordinate(x, y);
