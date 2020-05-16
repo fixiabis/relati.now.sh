@@ -41,6 +41,7 @@ const RelatiTutorial = ({ game: externalGame, scene: externalStep = "0", onFinis
   });
 
   Scene.initial(game);
+  game.checkIsOverAndFindWinner();
 
   return (
     <div className="relati-tutorial">

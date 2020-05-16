@@ -15,7 +15,7 @@ const RelatiScene19: SceneComponent = ({ toScene, game, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (x === exceptedX && y === exceptedY) {
       game.doPlacementByCoordinate(x, y);
-      // toScene("20");
+      toScene("20");
     }
   };
 

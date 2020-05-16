@@ -3,3 +3,5 @@ export const preventEffect = {
     placementEffect: false,
     lastPieceEmphasized: false,
 };
+
+export * from "../../../../libraries/RelatiGame";
