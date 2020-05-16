@@ -1,15 +1,15 @@
 import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
+import Game, { RelatiGameRuleX5, RelatiSymbols } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate } from "../components";
-import { useSelector } from "react-redux";
 import { State, SettingState } from "../reducers";
 
-const Play = () => {
+const PlayX52P = () => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
-  const game = useRef<Game>(new Game(2, RelatiGameRuleX9)).current;
+  const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
@@ -49,17 +49,6 @@ const Play = () => {
     document.body.removeChild(link);
   };
 
-  const gameOverMessageIcon =
-    game.isOver
-      ? (
-        <div className="message-icon-container">
-          <svg width="5" height="5" className="message-icon">
-            <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
-          </svg>
-        </div>
-      )
-      : undefined;
-
   const gameOverMessageText =
     game.isOver
       ? game.winner !== -1
@@ -75,7 +64,7 @@ const Play = () => {
         <MessageBox onCancel={closeGameLeaveMessageBox}>
           <div className="message-container">
             <div className="message-icon" style={gameLeaveMessageIconStyle} />
-              勝負未分, 確定離開?
+            勝負未分, 確定離開?
           </div>
           <Button.Group>
             <IconButton type="accept" color="crimson" onClick={leavePage} />
@@ -91,7 +80,11 @@ const Play = () => {
       ? (
         <MessageBox onCancel={closeGameOverMessageBox}>
           <div className="message-container">
-            {gameOverMessageIcon}
+            <div className="message-icon">
+              <svg width="5" height="5">
+                <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
+              </svg>
+            </div>
             {gameOverMessageText}
           </div>
           <Button.Group>
@@ -123,4 +116,4 @@ const Play = () => {
   );
 };
 
-export default Play;
+export default PlayX52P;
