@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { GridBoard, Coordinate } from "gridboard";
 import RelatiPiece, { RelatiSymbolColor } from "../RelatiPiece";
-import { CoordinateObject, DrawLine } from "./components";
-import { RelatiGame, RelatiPiece as RelatiPieceType, RelatiSymbols, RelatiGameRuleX5 } from "./libraries";
+import { DrawLine } from "./components";
 import { cloneBoard, disableAllPiecesByBoardAndSymbol, getTargetPathsBySourceGrid } from "./utilities";
+import RelatiGame, { RelatiSymbols, RelatiGameRuleX5, RelatiPiece as RelatiPieceType } from "../../../libraries/RelatiGame";
 
 export interface Props {
   game: RelatiGame;

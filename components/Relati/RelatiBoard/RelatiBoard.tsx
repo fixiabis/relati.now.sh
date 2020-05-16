@@ -1,7 +1,7 @@
 import { RelatiSymbolColor } from "../RelatiPiece";
 import RelatiBoardPieces from "./RelatiBoardPieces";
-import { RelatiGame, RelatiSymbols } from "./libraries";
 import { Hint, Board, BoardProps } from "./components";
+import RelatiGame, { RelatiSymbols } from "../../../libraries/RelatiGame";
 
 export interface Props extends Omit<BoardProps, "width" | "height"> {
   game: RelatiGame;

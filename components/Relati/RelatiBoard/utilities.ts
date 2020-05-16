@@ -1,5 +1,5 @@
 import { GridBoard, Coordinate } from "gridboard";
-import { RelatiBoard, RelatiPiece, RelatiSymbol, RelatiGameBasicRule, RelatiGrid, HasPieceRelatiGrid } from "./libraries";
+import { RelatiBoard, RelatiPiece, RelatiSymbol, RelatiGameBasicRule, RelatiGrid, HasPieceRelatiGrid } from "../../../libraries/RelatiGame";
 
 export function cloneBoard(board: RelatiBoard) {
     const clonedBoard = new GridBoard<RelatiPiece>(board.width, board.height);
