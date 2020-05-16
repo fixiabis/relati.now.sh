@@ -4,7 +4,7 @@ import RelatiScene23 from "./RelatiScene23";
 import { RelatiBoard } from "./components";
 import { SceneComponent } from "./types";
 import { preventEffect } from "./utilities";
-import { useTimeout } from "./hooks";
+import { useTimeout } from "../../../hooks";
 
 const GAME_RESULT_FROM_WINNER = {
   [-1]: "平手!",

@@ -2,8 +2,8 @@ import React from "react";
 import RelatiScene22 from "./RelatiScene22";
 import { RelatiBoard } from "./components";
 import { SceneComponent } from "./types";
-import { useTimeout } from "./hooks";
-import { RelatiGameBasicRule } from "./utilities";
+import { useTimeout } from "../../../hooks";
+import { RelatiGameBasicRule } from "../../../../libraries/RelatiGame";
 
 const RelatiScene23: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   useTimeout(() => toScene(game.isOver ? "24" : "21"), sceneDuration);

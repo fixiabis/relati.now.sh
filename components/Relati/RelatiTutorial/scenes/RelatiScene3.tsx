@@ -2,7 +2,7 @@ import React from "react";
 import RelatiScene2 from "./RelatiScene2";
 import { RelatiBoard } from "./components";
 import { SceneComponent } from "./types";
-import { useTimeout } from "./hooks";
+import { useTimeout } from "../../../hooks";
 
 const RelatiScene3: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   useTimeout(() => toScene("4"), sceneDuration);

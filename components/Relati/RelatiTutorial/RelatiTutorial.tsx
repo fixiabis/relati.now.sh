@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import RelatiScenes from "./scenes";
 import { RelatiBoardProps } from "../RelatiBoard";
 import RelatiGame, { RelatiGameRuleX5 } from "../../../libraries/RelatiGame";
-import RelatiScenes from "./scenes";
 
 type OmittedRelatiBoardPropKeys =
   | "game"
