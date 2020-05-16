@@ -1,11 +1,11 @@
 import React from "react";
 import RelatiScene16 from "./RelatiScene16";
 import { RelatiBoard } from "./components";
-import { SceneComponent } from "./types";
+import { SceneComponent, HasPieceRelatiGrid } from "./types";
 import { useTimeout } from "./hooks";
 
 const RelatiScene17: SceneComponent = ({ toScene, game, ...props }) => {
-  // useTimeout(() => toScene("15"), 1500);
+  useTimeout(() => toScene("18"), 1500);
 
   return (
     <>
@@ -19,7 +19,14 @@ RelatiScene17.initial = (game) => {
   RelatiScene16.initial(game);
 
   if (game.turn === 10) {
-    game.doPlacementByCoordinate(2, 4);
+    const gridAtC2 = game.board.getGridAt(2, 1) as HasPieceRelatiGrid;
+
+    if (gridAtC2.piece.symbol === "X") {
+      game.doPlacementByCoordinate(3, 1);
+    }
+    else {
+      game.doPlacementByCoordinate(3, 3);
+    }
   }
 };
 
