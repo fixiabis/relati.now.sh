@@ -1,3 +1,2 @@
-export { default as RelatiGame, RelatiGameBasicRule } from "../../../libraries/RelatiGame";
-export * from "../../../libraries/RelatiGame/types";
-export * from "../../../libraries/RelatiGame/utilities";
+export { default as RelatiGame } from "../../../libraries/RelatiGame";
+export * from "../../../libraries/RelatiGame";
