@@ -92,7 +92,7 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
       <RelatiTutorial scene={scene} game={game} onFinish={finishTutorial} {...effectSetting} {...tutorialSetting} />
 
       <Button.Group>
-        <IconButton type="leave" color="#888" onClick={leaveTutorial} />
+        <IconButton type="leave" color="#888" title="離開" onClick={leaveTutorial} />
       </Button.Group>
 
       {tutorialLeaveMessageBox}

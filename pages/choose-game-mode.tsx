@@ -14,11 +14,18 @@ const ChooseGameMode = () => {
         <div className="play-icon" />
         請選擇模式
         <Button.Group>
-          <IconButton type="x5" color="royalblue" onClick={toPlay2POnX5Page} />
-          <IconButton type="x9" color="crimson" onClick={toPlay2POnX9Page} />
-          <IconButton type="leave" color="#888" onClick={leavePage} />
+          <IconButton type="x5" color="royalblue" className="with-text" onClick={toPlay2POnX5Page}>
+            單機雙人
+          </IconButton>
+          <IconButton type="x9" color="crimson" className="with-text" onClick={toPlay2POnX9Page}>
+            單機雙人
+          </IconButton>
         </Button.Group>
       </div>
+
+      <Button.Group>
+        <IconButton type="leave" color="#888" title="離開" onClick={leavePage} />
+      </Button.Group>
     </Page>
   );
 };

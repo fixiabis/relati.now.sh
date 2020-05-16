@@ -107,7 +107,7 @@ const PlayX52P = () => {
       <RelatiGame {...effectSetting} game={game} onOver={forceUpdate} />
 
       <Button.Group>
-        <IconButton type="leave" color="#888" onClick={leaveGame} />
+        <IconButton type="leave" color="#888" title="離開" onClick={leaveGame} />
       </Button.Group>
 
       {gameLeaveMessageBox}

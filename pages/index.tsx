@@ -23,23 +23,27 @@ const Main = () => {
     }
   }, [mainPageAnimation]);
 
+  const settingBox = (
+    <Box show={isSettingOpen} onCancel={closeSetting}>
+
+    </Box>
+  );
+
   return (
     <Page id="main" title="relati">
       <div className="main-control">
         <div className="logo" />
         <Button.Group className={buttonGroupClassName}>
-          <IconButton type="play" color="crimson" onClick={toChooseGameModePage} />
-          <IconButton type="help" color="royalblue" onClick={toHowToPlayPage} />
+          <IconButton type="play" color="crimson" title="開始遊玩" onClick={toChooseGameModePage} />
+          <IconButton type="help" color="royalblue" title="如何遊玩" onClick={toHowToPlayPage} />
         </Button.Group>
       </div>
       <Button.Group className={bottomButtonGroupClassName}>
-        <IconButton type="knowledge" color="seagreen" />
-        <IconButton type="badge" color="darkorange" />
-        <IconButton type="gear" color="#888" onClick={openSetting} />
+        <IconButton type="knowledge" title="相關知識" color="seagreen" />
+        <IconButton type="badge" title="成就" color="darkorange" />
+        <IconButton type="gear" title="設定" color="#888" onClick={openSetting} />
       </Button.Group>
-      <Box show={isSettingOpen} onCancel={closeSetting}>
-
-      </Box>
+      {settingBox}
     </Page>
   );
 };
