@@ -1,7 +1,7 @@
-import RelatiGame from "../RelatiGame";
-import RelatiGameBasicRule from "../RelatiGameBasicRule";
-import { RelatiGameRule, RelatiGrid, HasPieceRelatiGrid } from "../types";
-import { RelatiSymbols } from ".";
+import RelatiGame from "./RelatiGame";
+import RelatiGameBasicRule from "./RelatiGameBasicRule";
+import { RelatiGameRule, RelatiGrid, HasPieceRelatiGrid } from "./types";
+import { RelatiSymbols } from "./utilities";
 
 export const RelatiGameRuleX5: RelatiGameRule = {
     boardWidth: 5,
