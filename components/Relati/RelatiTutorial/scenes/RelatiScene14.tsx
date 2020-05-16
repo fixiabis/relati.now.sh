@@ -5,7 +5,7 @@ import { SceneComponent } from "./types";
 import { useTimeout } from "./hooks";
 
 const RelatiScene14: SceneComponent = ({ toScene, game, ...props }) => {
-  // useTimeout(() => toScene("12"), 1500);
+  useTimeout(() => toScene("15"), 1500);
 
   return (
     <>
@@ -18,8 +18,8 @@ const RelatiScene14: SceneComponent = ({ toScene, game, ...props }) => {
 RelatiScene14.initial = (game) => {
   RelatiScene13.initial(game);
 
-  if (game.turn === 6) {
-    game.doPlacementByCoordinate(2, 4);
+  if (game.turn === 8) {
+    game.doPlacementByCoordinate(0, 2);
   }
 };
 

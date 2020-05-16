@@ -15,6 +15,9 @@ const RelatiScenes: Record<string, SceneComponent> = {
     "12": require("./RelatiScene12").default,
     "13": require("./RelatiScene13").default,
     "14": require("./RelatiScene14").default,
+    "15": require("./RelatiScene15").default,
+    "16": require("./RelatiScene16").default,
+    "17": require("./RelatiScene17").default,
 };
 
 export default RelatiScenes;
