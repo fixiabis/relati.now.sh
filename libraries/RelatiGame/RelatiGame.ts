@@ -19,6 +19,7 @@ class RelatiGame extends TurnBasedGame {
         this.isOver = false;
         this.playerSourceGrids = [];
         this.placementRecords = [];
+        DEBUG: Object.assign(globalThis, { GAME: this });
     }
 
     public restart() {
