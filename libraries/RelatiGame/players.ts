@@ -82,23 +82,50 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
         }
     } while (!isAllGridExplored);
 
+    console.log(
+        playerOPointFromGridIndexes,
+        playerXPointFromGridIndexes
+    );
+
     if (player === 0) {
         return (
             playerOPointFromGridIndexes.reduce(
-                (r, v) => r + (v && 25 - v), 0
-            ) -
-            playerXPointFromGridIndexes.reduce(
-                (r, v) => r + (v && 25 - v), 0
+                (r, v, i) => {
+                    if (v === 0) {
+                        return r;
+                    }
+                    else if (playerXPointFromGridIndexes[i] === -1) {
+                        return r + 25;
+                    }
+                    else if (v === -1) {
+                        return r - 25;
+                    }
+                    else {
+                        return r + (v - playerXPointFromGridIndexes[i]);
+                    }
+                },
+                0
             )
         );
     }
     else {
         return (
             playerXPointFromGridIndexes.reduce(
-                (r, v) => r + (v && 25 - v), 0
-            ) -
-            playerOPointFromGridIndexes.reduce(
-                (r, v) => r + (v && 25 - v), 0
+                (r, v, i) => {
+                    if (v === 0) {
+                        return r;
+                    }
+                    else if (playerOPointFromGridIndexes[i] === -1) {
+                        return r + 25;
+                    }
+                    else if (v === -1) {
+                        return r - 25;
+                    }
+                    else {
+                        return r + (v - playerOPointFromGridIndexes[i]);
+                    }
+                },
+                0
             )
         );
     }
@@ -119,6 +146,6 @@ DEBUG: Object.assign(globalThis, { EVALUATE: evaluateByGameAndPlayer });
 
 export const RelatiGamePlayerX5 = {
     doPlacementByGameAndPlayer(game: RelatiGame, player: number) {
-        
+
     }
 };
