@@ -1,6 +1,7 @@
 import RelatiGame from "./RelatiGame";
 import { Direction } from "gridboard";
 import { RelatiPiece } from "./types";
+import RelatiGameBasicRule from "./RelatiGameBasicRule";
 
 const nearbyDirections = ["F", "B", "L", "R", "FL", "FR", "BL", "BR"].map(Direction);
 
@@ -82,10 +83,7 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
         }
     } while (!isAllGridExplored);
 
-    console.log(
-        playerOPointFromGridIndexes,
-        playerXPointFromGridIndexes
-    );
+    // console.log(playerOPointFromGridIndexes, playerXPointFromGridIndexes);
 
     if (player === 0) {
         return (
@@ -137,15 +135,106 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
     depth: number,
     nowPlayer: number = player,
     alpha: number = -Infinity,
-    beta: number = +Infinity
+    beta: number = +Infinity,
 ) {
-    
+    if (depth === 0) {
+        return evaluateByGameAndPlayer(game, player);
+    }
+
+    if (player === nowPlayer) {
+        let point = -Infinity;
+
+        for (let grid of game.board.grids) {
+            const isGridPlaceable =
+                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer) &&
+                game.rule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer);
+
+            if (!isGridPlaceable) {
+                continue;
+            }
+
+            // console.group("alpha", grid);
+            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
+
+            point = Math.max(point, evaluateUseDeepThinkingByGameAndPlayerAndDepth(
+                game,
+                player,
+                depth - 1,
+                nowPlayer ? 0 : 1,
+                alpha,
+                beta,
+            ));
+
+            game.undo();
+            alpha = Math.max(alpha, point);
+            // console.groupEnd();
+            // console.log(point);
+
+            if (beta <= alpha) {
+                break;
+            }
+        }
+
+        return point;
+    }
+    else {
+        let point = Infinity;
+
+        for (let grid of game.board.grids) {
+            const isGridPlaceable =
+                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer) &&
+                game.rule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer);
+
+            if (!isGridPlaceable) {
+                continue;
+            }
+
+            // console.group("beta", grid);
+            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
+
+            point = Math.min(point, evaluateUseDeepThinkingByGameAndPlayerAndDepth(
+                game,
+                player,
+                depth - 1,
+                nowPlayer ? 0 : 1,
+                alpha,
+                beta,
+            ));
+
+            game.undo();
+            beta = Math.min(beta, point);
+            // console.groupEnd();
+            // console.log(point);
+
+            if (beta <= alpha) {
+                break;
+            }
+        }
+
+        return point;
+    }
 }
 
-DEBUG: Object.assign(globalThis, { EVALUATE: evaluateByGameAndPlayer });
-
 export const RelatiGamePlayerX5 = {
-    doPlacementByGameAndPlayer(game: RelatiGame, player: number) {
+    doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
+        for (let grid of game.board.grids) {
+            const isGridPlaceable =
+                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, player) &&
+                game.rule.validateIsPlayerCanDoPlacement(game, grid, player);
 
+            if (!isGridPlaceable) {
+                continue;
+            }
+
+            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
+            console.log(grid.x, grid.y, evaluateUseDeepThinkingByGameAndPlayerAndDepth(game, player ? 0 : 1, level));
+            game.undo();
+        }
     }
 };
+
+DEBUG: Object.assign(globalThis, {
+    EVALUATE: evaluateByGameAndPlayer,
+    DEEP_EVALUATE: evaluateUseDeepThinkingByGameAndPlayerAndDepth,
+    PLAYER: RelatiGamePlayerX5,
+});
