@@ -86,45 +86,41 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
     // console.log(playerOPointFromGridIndexes, playerXPointFromGridIndexes);
 
     if (player === 0) {
-        return (
-            playerOPointFromGridIndexes.reduce(
-                (r, v, i) => {
-                    if (v === 0) {
-                        return r;
-                    }
-                    else if (playerXPointFromGridIndexes[i] === -1) {
-                        return r + 25;
-                    }
-                    else if (v === -1) {
-                        return r - 25;
-                    }
-                    else {
-                        return r + (v - playerXPointFromGridIndexes[i]);
-                    }
-                },
-                0
-            )
+        return playerOPointFromGridIndexes.reduce(
+            (r, v, i) => {
+                if (v === 0) {
+                    return r;
+                }
+                else if (v === -1) {
+                    return r - 25;
+                }
+                else if (playerXPointFromGridIndexes[i] === -1) {
+                    return r + 25;
+                }
+                else {
+                    return r + (v - playerXPointFromGridIndexes[i]);
+                }
+            },
+            0
         );
     }
     else {
-        return (
-            playerXPointFromGridIndexes.reduce(
-                (r, v, i) => {
-                    if (v === 0) {
-                        return r;
-                    }
-                    else if (playerOPointFromGridIndexes[i] === -1) {
-                        return r + 25;
-                    }
-                    else if (v === -1) {
-                        return r - 25;
-                    }
-                    else {
-                        return r + (v - playerOPointFromGridIndexes[i]);
-                    }
-                },
-                0
-            )
+        return playerXPointFromGridIndexes.reduce(
+            (r, v, i) => {
+                if (v === 0) {
+                    return r;
+                }
+                else if (v === -1) {
+                    return r - 25;
+                }
+                else if (playerOPointFromGridIndexes[i] === -1) {
+                    return r + 25;
+                }
+                else {
+                    return r + (v - playerOPointFromGridIndexes[i]);
+                }
+            },
+            0
         );
     }
 }
@@ -132,7 +128,7 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
 function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
     game: RelatiGame,
     player: number,
-    depth: number,
+    depth: number = 0,
     nowPlayer: number = player,
     alpha: number = -Infinity,
     beta: number = +Infinity,
@@ -232,6 +228,23 @@ export const RelatiGamePlayerX5 = {
         }
     }
 };
+
+function printBoardContent(board: RelatiGame["board"]) {
+    let boardContent = "";
+
+    for (let x = 0; x < board.width; x++) {
+        boardContent += "|";
+
+        for (let y = 0; y < board.height; y++) {
+            boardContent += board.getGridAt(x, y)?.piece?.symbol || " ";
+            boardContent += "|";
+        }
+
+        boardContent += "\n";
+    }
+
+    console.log(boardContent);
+}
 
 DEBUG: Object.assign(globalThis, {
     EVALUATE: evaluateByGameAndPlayer,
