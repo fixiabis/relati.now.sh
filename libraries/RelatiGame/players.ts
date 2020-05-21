@@ -97,7 +97,7 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
                 return r + 25;
             }
             else {
-                return r + (v - playerXPointFromGridIndexes[i]);
+                return r + ((25 - v) - (25 - playerXPointFromGridIndexes[i]));
             }
         }, 0);
     }
@@ -113,7 +113,7 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
                 return r + 25;
             }
             else {
-                return r + (v - playerOPointFromGridIndexes[i]);
+                return r + ((25 - v) - (25 - playerOPointFromGridIndexes[i]));
             }
         }, 0);
     }
@@ -130,7 +130,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
     if (depth === 0) {
         const point = evaluateByGameAndPlayer(game, player);
         // printBoardContent(game.board);
-        // console.log(player, point);
+        // console.log(nowPlayer, point);
         return point;
     }
 
@@ -236,7 +236,7 @@ export const RelatiGamePlayerX5 = {
             game.undo();
         }
 
-        gridIndexWithPoints.sort(([, pointA], [, pointB]) => pointA > pointB ? 1 : -1);
+        gridIndexWithPoints.sort(([, pointA], [, pointB]) => pointA > pointB ? -1 : 1);
 
         if (gridIndexWithPoints[0]) {
             const grid = game.board.grids[gridIndexWithPoints[0][0]];
@@ -245,6 +245,25 @@ export const RelatiGamePlayerX5 = {
     }
 };
 
+function printPointContent(points: Int8Array) {
+    let boardContent = "";
+
+    for (let y = 0; y < 5; y++) {
+        boardContent += "|";
+
+        for (let x = 0; x < 5; x++) {
+            let pointText = points[y * 5 + x].toString();
+            pointText = " ".repeat(3 - pointText.length) + pointText;
+            boardContent += pointText;
+            boardContent += "|";
+        }
+
+        boardContent += "\n";
+    }
+
+    console.log(boardContent);
+}
+
 function printBoardContent(board: RelatiGame["board"]) {
     let boardContent = "";
 
@@ -252,8 +271,9 @@ function printBoardContent(board: RelatiGame["board"]) {
         boardContent += "|";
 
         for (let x = 0; x < board.width; x++) {
+            boardContent += " ";
             boardContent += board.getGridAt(x, y)?.piece?.symbol || " ";
-            boardContent += "|";
+            boardContent += " |";
         }
 
         boardContent += "\n";

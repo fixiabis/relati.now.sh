@@ -97,20 +97,22 @@ const Play1pOnX5WithXLv1 = () => {
       : undefined;
 
   const handleGameGridClick = ({ x, y }: CoordinateObject) => {
-    if (game.getNowPlayer() === 1) {
+    if (game.getNowPlayer() === 0) {
       return false;
     }
   };
 
   const handleGameAfterGridClick = () => {
-    if (game.getNowPlayer() !== 1) {
+    if (game.getNowPlayer() !== 0) {
       return;
     }
 
-    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, 2);
+    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, 2);
     game.checkIsOverAndFindWinner();
     forceUpdate();
   };
+  
+  RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, 2);
 
   return (
     <Page id="play" title="play">
