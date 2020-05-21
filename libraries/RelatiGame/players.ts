@@ -218,6 +218,8 @@ export const RelatiGamePlayerX5 = {
     doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
         const gridIndexWithPoints: [number, number][] = [];
 
+        console.log(`turn: ${game.turn}`);
+
         for (let grid of game.board.grids) {
             const isGridPlaceable =
                 RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, player) &&

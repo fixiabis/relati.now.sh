@@ -19,13 +19,13 @@ const ChooseGameMode = () => {
           <IconButton type="x5" color="royalblue" className="with-text" onClick={toPlay2pOnX5Page}>
             單機雙人
           </IconButton>
-          <IconButton type="x5" color="royalblue" className="with-text" onClick={toPlay1pOnX5WithOPage}>
+          <IconButton type="x5" color="#888" className="with-text" onClick={toPlay1pOnX5WithOPage}>
             單機對
             <svg width="5" height="5" style={{ transform: "scale(4)", marginLeft: 7.5 }}>
               <RelatiPiece x={0} y={0} symbol="O" primary />
             </svg>
           </IconButton>
-          <IconButton type="x5" color="royalblue" className="with-text" onClick={toPlay1pOnX5WithXPage}>
+          <IconButton type="x5" color="#888" className="with-text" onClick={toPlay1pOnX5WithXPage}>
             單機對
             <svg width="5" height="5" style={{ transform: "scale(4)", marginLeft: 7.5 }}>
               <RelatiPiece x={0} y={0} symbol="X" primary />
