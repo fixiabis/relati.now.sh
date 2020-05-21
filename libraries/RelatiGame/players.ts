@@ -128,7 +128,9 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
     beta: number = +Infinity,
 ) {
     if (depth === 0) {
-        return evaluateByGameAndPlayer(game, player);
+        const point = evaluateByGameAndPlayer(game, player);
+        printBoardContent(game.board);
+        return point;
     }
 
     if (player === nowPlayer) {
