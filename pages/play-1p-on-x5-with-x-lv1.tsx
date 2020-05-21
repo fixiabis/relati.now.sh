@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX5, RelatiSymbols } from "../libraries/RelatiGame";
+import Game, { RelatiGameRuleX5, RelatiSymbols, RelatiGamePlayerX5 } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
-import { Page, Button, IconButton, MessageBox, useForceUpdate } from "../components";
+import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
 import { State, SettingState } from "../reducers";
 
-const Play2pOnX5 = () => {
+const Play1pOnX5WithXLv1 = () => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
   const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
@@ -96,6 +96,23 @@ const Play2pOnX5 = () => {
       )
       : undefined;
 
+  const handleGameGridClick = ({ x, y }: CoordinateObject) => {
+    if (game.getNowPlayer() === 1) {
+      return false;
+    }
+  };
+
+  const handleGameAfterGridClick = () => {
+    if (game.getNowPlayer() !== 1) {
+      return;
+    }
+
+    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, 2);
+    forceUpdate();
+  };
+  
+  RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, 2);
+
   return (
     <Page id="play" title="play">
       <div className="versus-header">
@@ -104,7 +121,7 @@ const Play2pOnX5 = () => {
         <div className="player-x" />
       </div>
 
-      <RelatiGame {...effectSetting} game={game} onOver={forceUpdate} />
+      <RelatiGame {...effectSetting} game={game} onGridClick={handleGameGridClick} onAfterGridClick={handleGameAfterGridClick} onOver={forceUpdate} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" title="離開" onClick={leaveGame} />
@@ -116,4 +133,4 @@ const Play2pOnX5 = () => {
   );
 };
 
-export default Play2pOnX5;
+export default Play1pOnX5WithXLv1;

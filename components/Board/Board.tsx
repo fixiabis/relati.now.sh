@@ -7,10 +7,11 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
   width: number;
   height: number;
   onGridClick?: ({ x, y }: CoordinateObject) => void;
+  onAfterGridClick?: ({ x, y }: CoordinateObject) => void;
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void | boolean;
 }
 
-const Board = ({ width, height, onClick: externalHandleClick, children, className = "", onGridClick: handleGridClick, style, ...props }: Props) => {
+const Board = ({ width, height, onClick: externalHandleClick, children, className = "", onGridClick: handleGridClick, onAfterGridClick: handleAfterGridClick, style, ...props }: Props) => {
   const gridLines = [];
   const viewWidth = width * 5;
   const viewHeight = height * 5;
@@ -40,6 +41,10 @@ const Board = ({ width, height, onClick: externalHandleClick, children, classNam
 
     if (handleGridClick) {
       handleGridClick({ x, y });
+    }
+
+    if (handleAfterGridClick) {
+      handleAfterGridClick({ x, y });
     }
   };
 

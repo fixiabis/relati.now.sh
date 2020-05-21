@@ -1,9 +1,16 @@
 export { Hint, Focus } from "./Piece";
+export type { HintProps, FocusProps } from "./Piece";
 export { default as Box } from "./Box";
+export type { BoxProps } from "./Box";
 export { default as Page } from "./Page";
+export type { PageProps } from "./Page";
 export { default as Board } from "./Board";
+export type { BoardProps, CoordinateObject } from "./Board";
 export { default as Button } from "./Button";
+export type { ButtonProps } from "./Button";
 export { default as IconButton } from "./IconButton";
+export type { IconButtonProps } from "./IconButton";
 export { default as MessageBox } from "./MessageBox";
+export type { MessageBoxProps } from "./MessageBox";
 export * from "./hooks";
 export * from "./Relati-v1";

@@ -6,7 +6,7 @@ import { Page, Button, IconButton, MessageBox, useForceUpdate } from "../compone
 import { useSelector } from "react-redux";
 import { State, SettingState } from "../reducers";
 
-const PlayX92P = () => {
+const Play2pOnX9 = () => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
   const game = useRef<Game>(new Game(2, RelatiGameRuleX9)).current;
@@ -116,4 +116,4 @@ const PlayX92P = () => {
   );
 };
 
-export default PlayX92P;
+export default Play2pOnX9;

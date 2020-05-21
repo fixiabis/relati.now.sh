@@ -129,7 +129,8 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
 ) {
     if (depth === 0) {
         const point = evaluateByGameAndPlayer(game, player);
-        printBoardContent(game.board);
+        // printBoardContent(game.board);
+        // console.log(player, point);
         return point;
     }
 
@@ -215,6 +216,8 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
 
 export const RelatiGamePlayerX5 = {
     doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
+        const gridIndexWithPoints: [number, number][] = [];
+
         for (let grid of game.board.grids) {
             const isGridPlaceable =
                 RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, player) &&
@@ -225,8 +228,19 @@ export const RelatiGamePlayerX5 = {
             }
 
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
-            console.log(grid.x, grid.y, evaluateUseDeepThinkingByGameAndPlayerAndDepth(game, player ? 0 : 1, level));
+
+            const point = evaluateUseDeepThinkingByGameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
+            gridIndexWithPoints.push([grid.i, point]);
+
+            console.log(`coord: (${grid.x}, ${grid.y}) = ${point}`);
             game.undo();
+        }
+
+        gridIndexWithPoints.sort(([, pointA], [, pointB]) => pointA > pointB ? 1 : -1);
+
+        if (gridIndexWithPoints[0]) {
+            const grid = game.board.grids[gridIndexWithPoints[0][0]];
+            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
         }
     }
 };
