@@ -112,12 +112,12 @@ const Play1pOnX9WithO: NextPage<Props> = ({ level = 1 }) => {
       return;
     }
 
-    RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, 1);
+    RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, level);
     game.checkIsOverAndFindWinner();
     forceUpdate();
   };
 
-  RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, 1);
+  RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, level);
 
   return (
     <Page id="play" title="play">
@@ -145,7 +145,7 @@ const Play1pOnX9WithO: NextPage<Props> = ({ level = 1 }) => {
 };
 
 Play1pOnX9WithO.getInitialProps = async ({ query: { level } }) => {
-  return { level: parseInt(level as string) };
+  return { level: parseInt(level as string || "1") };
 };
 
 export default Play1pOnX9WithO;

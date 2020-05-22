@@ -145,7 +145,7 @@ const Play1pOnX5WithO: NextPage<Props> = ({ level = 1 }) => {
 };
 
 Play1pOnX5WithO.getInitialProps = async ({ query: { level } }) => {
-  return { level: parseInt(level as string) };
+  return { level: parseInt(level as string || "1") };
 };
 
 export default Play1pOnX5WithO;

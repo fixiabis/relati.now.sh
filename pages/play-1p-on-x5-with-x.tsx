@@ -102,22 +102,20 @@ const Play1pOnX5WithX: NextPage<Props> = ({ level = 1 }) => {
       : undefined;
 
   const handleGameGridClick = ({ x, y }: CoordinateObject) => {
-    if (game.getNowPlayer() === 0) {
+    if (game.getNowPlayer() === 1) {
       return false;
     }
   };
 
   const handleGameAfterGridClick = () => {
-    if (game.getNowPlayer() !== 0) {
+    if (game.getNowPlayer() !== 1) {
       return;
     }
 
-    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, level);
+    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, level);
     game.checkIsOverAndFindWinner();
     forceUpdate();
   };
-
-  RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, level);
 
   return (
     <Page id="play" title="play">
@@ -145,7 +143,7 @@ const Play1pOnX5WithX: NextPage<Props> = ({ level = 1 }) => {
 };
 
 Play1pOnX5WithX.getInitialProps = async ({ query: { level } }) => {
-  return { level: parseInt(level as string) };
+  return { level: parseInt(level as string || "1") };
 };
 
 export default Play1pOnX5WithX;
