@@ -149,8 +149,6 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
             // console.group("alpha", grid);
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
 
-            // const previousPoint = point;
-
             point = Math.max(point, evaluateUseDeepThinkingByGameAndPlayerAndDepth(
                 game,
                 player,
@@ -159,10 +157,6 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
                 alpha,
                 beta,
             ));
-
-            // if (previousPoint !== -105 && point === -105) {
-            //     printBoardContent(game.board);
-            // }
 
             game.undo();
             alpha = Math.max(alpha, point);

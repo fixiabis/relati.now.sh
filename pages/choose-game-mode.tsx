@@ -6,8 +6,8 @@ const ChooseGameMode = () => {
   const router = useRouter();
   const leavePage = () => router.replace("/");
   const toPlay2pOnX5Page = () => router.replace("/play-2p-on-x5");
-  const toPlay1pOnX5WithOPage = () => router.replace("/play-1p-on-x5-with-o-lv1");
-  const toPlay1pOnX5WithXPage = () => router.replace("/play-1p-on-x5-with-x-lv1");
+  const toPlay1pOnX5WithOPage = () => router.replace("/play-1p-on-x5-with-o");
+  const toPlay1pOnX5WithXPage = () => router.replace("/play-1p-on-x5-with-x");
   const toPlay2pOnX9Page = () => router.replace("/play-2p-on-x9");
 
   return (

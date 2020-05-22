@@ -6,7 +6,7 @@ import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
 import { State, SettingState } from "../reducers";
 
-const Play1pOnX5WithXLv1 = () => {
+const Play1pOnX5WithX = () => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
   const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
@@ -107,7 +107,7 @@ const Play1pOnX5WithXLv1 = () => {
       return;
     }
 
-    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, 2);
+    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, 1);
     game.checkIsOverAndFindWinner();
     forceUpdate();
   };
@@ -132,4 +132,4 @@ const Play1pOnX5WithXLv1 = () => {
   );
 };
 
-export default Play1pOnX5WithXLv1;
+export default Play1pOnX5WithX;
