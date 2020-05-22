@@ -3,7 +3,7 @@ import Express from "express";
 export type Middleware = (clientRequest: Express.Request, serverResponse: Express.Response, next: (error?: any) => void) => void;
 
 export function runMiddleware(clientRequest: Express.Request, serverResponse: Express.Response, middleware: Middleware) {
-    return new Promise((resolve, reject) => middleware(clientRequest, serverResponse, (result: unknown) => {
+    return new Promise((resolve, reject) => middleware(clientRequest, serverResponse, (result?: Error) => {
         if (result instanceof Error) {
             return reject(result);
         }

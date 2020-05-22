@@ -212,7 +212,7 @@ export const RelatiGamePlayerX5 = {
     getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
         const gridIndexWithPoints: [number, number][] = [];
 
-        console.log(`turn: ${game.turn}`);
+        // console.log(`turn: ${game.turn}`);
 
         for (let grid of game.board.grids) {
             const isGridPlaceable =
@@ -228,7 +228,7 @@ export const RelatiGamePlayerX5 = {
             const point = evaluateUseDeepThinkingByGameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
             gridIndexWithPoints.push([grid.i, point]);
 
-            console.log(`coord: (${grid.x}, ${grid.y}) = ${point}`);
+            // console.log(`coord: (${grid.x}, ${grid.y}) = ${point}`);
             game.undo();
         }
 
