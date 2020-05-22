@@ -106,13 +106,13 @@ function evaluateByX7GameAndPlayer(game: RelatiGame, player: number) {
                 return r;
             }
             else if (v === -1) {
-                return r - 81;
+                return r - 49;
             }
             else if (playerXPointFromGridIndexes[i] === -1) {
-                return r + 81;
+                return r + 49;
             }
             else {
-                return r + ((81 - v) - (81 - playerXPointFromGridIndexes[i]));
+                return r + ((49 - v) - (49 - playerXPointFromGridIndexes[i]));
             }
         }, 0);
 
@@ -124,13 +124,13 @@ function evaluateByX7GameAndPlayer(game: RelatiGame, player: number) {
                 return r;
             }
             else if (v === -1) {
-                return r - 81;
+                return r - 49;
             }
             else if (playerOPointFromGridIndexes[i] === -1) {
-                return r + 81;
+                return r + 49;
             }
             else {
-                return r + ((81 - v) - (81 - playerOPointFromGridIndexes[i]));
+                return r + ((49 - v) - (49 - playerOPointFromGridIndexes[i]));
             }
         }, 0);
 
