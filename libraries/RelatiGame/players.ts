@@ -209,7 +209,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
 }
 
 export const RelatiGamePlayerX5 = {
-    doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
+    getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
         const gridIndexWithPoints: [number, number][] = [];
 
         console.log(`turn: ${game.turn}`);
@@ -235,10 +235,20 @@ export const RelatiGamePlayerX5 = {
         gridIndexWithPoints.sort(([, pointA], [, pointB]) => pointA > pointB ? -1 : 1);
 
         if (gridIndexWithPoints[0]) {
-            const grid = game.board.grids[gridIndexWithPoints[0][0]];
+            return gridIndexWithPoints[0][0];
+        }
+        else {
+            return -1;
+        }
+    },
+    doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
+        const gridIndex = RelatiGamePlayerX5.getGridIndexForPlacementByGameAndPlayer(game, player, level);
+
+        if (gridIndex !== -1) {
+            const grid = game.board.grids[gridIndex];
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
         }
-    }
+    },
 };
 
 function printPointContent(points: Int8Array) {
