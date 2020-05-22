@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import Game, { RelatiGameRuleX5, RelatiSymbols, RelatiGamePlayerX5 } from "../libraries/RelatiGame";
+import Game, { RelatiGameRuleX5, RelatiSymbols, RelatiGamePlayerX5, convertBoardToPieceCodes } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
 import { downloadRecordJSONByRelatiGame } from "../utilities";
@@ -98,10 +98,22 @@ const Play1pOnX5WithX: NextPage<Props> = ({ level = 1 }) => {
       return;
     }
 
-    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, level);
-    game.reenableAllPieces();
-    game.checkIsOverAndFindWinner();
-    forceUpdate();
+    const pieceCodes = convertBoardToPieceCodes(game.board);
+
+    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}`)
+      .then(response => response.json())
+      .then((gridIndex: number) => {
+        const grid = game.board.grids[gridIndex];
+        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, 1);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      }).catch(() => {
+        RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, level);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      });
   };
 
   return (

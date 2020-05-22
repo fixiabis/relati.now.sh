@@ -1,7 +1,7 @@
 import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
-import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX9, RelatiGamePlayerX5, createPieceByCode, RelatiGamePlayerX9 } from "../../libraries/RelatiGame";
+import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX9, RelatiGamePlayerX5, RelatiGamePlayerX9, createPieceByCode } from "../../libraries/RelatiGame";
 import { runMiddlewares, Middleware } from "../../middlewares";
 
 const cors = Cors({

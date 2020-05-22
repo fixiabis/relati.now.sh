@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9 } from "../libraries/RelatiGame";
+import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
 import { downloadRecordJSONByRelatiGame } from "../utilities";
@@ -98,13 +98,44 @@ const Play1pOnX9WithO: NextPage<Props> = ({ level = 1 }) => {
       return;
     }
 
-    RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, level);
-    game.reenableAllPieces();
-    game.checkIsOverAndFindWinner();
-    forceUpdate();
+    const pieceCodes = convertBoardToPieceCodes(game.board);
+
+    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}`)
+      .then(response => response.json())
+      .then((gridIndex: number) => {
+        const grid = game.board.grids[gridIndex];
+        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, 0);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      }).catch(() => {
+        RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, level);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      });
   };
 
-  RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, level);
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    const pieceCodes = convertBoardToPieceCodes(game.board);
+
+    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}`, { signal })
+      .then(response => response.json())
+      .then((gridIndex: number) => {
+        const grid = game.board.grids[gridIndex];
+        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, 0);
+        forceUpdate();
+      }).catch(() => {
+        RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, level);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      });
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <Page id="play" title="play">

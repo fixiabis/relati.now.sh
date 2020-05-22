@@ -99,7 +99,7 @@ namespace RelatiGameBasicRule {
     }
 
     export function enableNearbyPiecesByGrid(grid: RelatiGrid) {
-        const isGridHasNotPieceOrGridPieceNotDisabled = !grid.piece || !grid.piece.disabled;
+        const isGridHasNotPieceOrGridPieceNotDisabled = !grid?.piece?.disabled;
 
         if (isGridHasNotPieceOrGridPieceNotDisabled) {
             return;

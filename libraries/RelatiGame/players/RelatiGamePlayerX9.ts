@@ -37,10 +37,10 @@ function evaluateByX9GameAndPlayer(game: RelatiGame, player: number) {
         for (let grid of game.board.grids as HasPieceRelatiGrid[]) {
             const isGridHasNotPlayerOPoint = playerOPointFromGridIndexes[grid.i] === -1;
             const isGridHasNotPlayerXPoint = playerXPointFromGridIndexes[grid.i] === -1;
-            const isGridHasPointButPieceNotO = !isGridHasNotPlayerOPoint && grid.piece.symbol !== "O";
-            const isGridHasPointButPieceNotX = !isGridHasNotPlayerXPoint && grid.piece.symbol !== "X";
-            const isGridHasPointButPieceODisabled = !isGridHasNotPlayerOPoint && grid.piece.symbol === "O" && grid.piece.disabled;
-            const isGridHasPointButPieceXDisabled = !isGridHasNotPlayerXPoint && grid.piece.symbol === "X" && grid.piece.disabled;
+            const isGridHasPointButPieceNotO = playerOPointFromGridIndexes[grid.i] === 0 && grid.piece.symbol !== "O";
+            const isGridHasPointButPieceNotX = playerXPointFromGridIndexes[grid.i] === 0 && grid.piece.symbol !== "X";
+            const isGridHasPointButPieceODisabled = playerOPointFromGridIndexes[grid.i] === 0 && grid.piece.symbol === "O" && grid.piece.disabled;
+            const isGridHasPointButPieceXDisabled = playerXPointFromGridIndexes[grid.i] === 0 && grid.piece.symbol === "X" && grid.piece.disabled;
 
             evaluateGridPlayerOPoint: {
                 if (isGridHasNotPlayerOPoint || isGridHasPointButPieceNotO || isGridHasPointButPieceODisabled) {
