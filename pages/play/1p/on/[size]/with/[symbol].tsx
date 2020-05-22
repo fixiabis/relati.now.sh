@@ -21,12 +21,12 @@ const gamePlayerFromSize: Record<number, RelatiGamePlayer> = {
 };
 
 export interface Props {
-  size?: number;
-  player?: number;
-  level?: number;
+  size: number;
+  player: number;
+  level: number;
 }
 
-const Play1p: NextPage<Props> = ({ level = 1, size = 9, player = 1 }) => {
+const Play1p: NextPage<Props> = ({ level, size, player }) => {
   const router = useRouter();
   const gameRule = gameRuleFromSize[size];
   const gamePlayer = gamePlayerFromSize[size];
@@ -185,8 +185,8 @@ const Play1p: NextPage<Props> = ({ level = 1, size = 9, player = 1 }) => {
 Play1p.getInitialProps = async ({ query: { level, size, symbol } }) => {
   return {
     level: parseInt(level as string || "1"),
-    size: parseInt((size as string)?.replace("x", "") || "5"),
-    player: ((symbol as string).toUpperCase()) === "O" ? 0 : 1,
+    size: parseInt((size as string)?.replace("x", "") || "9"),
+    player: ((symbol as string)?.toUpperCase()) === "O" ? 0 : 1,
   };
 };
 

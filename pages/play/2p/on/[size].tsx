@@ -15,10 +15,10 @@ const gameRuleFromSize: Record<number, RelatiGameRule> = {
 };
 
 export interface Props {
-  size?: number;
+  size: number;
 }
 
-const Play2p: NextPage<Props> = ({ size = 9 }) => {
+const Play2p: NextPage<Props> = ({ size }) => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
   const gameRule = gameRuleFromSize[size];
@@ -116,7 +116,7 @@ const Play2p: NextPage<Props> = ({ size = 9 }) => {
 
 Play2p.getInitialProps = async ({ query: { size } }) => {
   return {
-    size: parseInt((size as string)?.replace("x", "") || "5"),
+    size: parseInt((size as string)?.replace("x", "") || "9"),
   };
 };
 
