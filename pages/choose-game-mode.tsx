@@ -6,9 +6,11 @@ const ChooseGameMode = () => {
   const router = useRouter();
   const leavePage = () => router.replace("/");
   const toPlay2pOnX5Page = () => router.replace("/play-2p-on-x5");
-  const toPlay1pOnX5WithOPage = () => router.replace("/play-1p-on-x5-with-o");
-  const toPlay1pOnX5WithXPage = () => router.replace("/play-1p-on-x5-with-x");
   const toPlay2pOnX9Page = () => router.replace("/play-2p-on-x9");
+  const toPlay1pOnX5WithOPage = () => router.replace("/play-1p-on-x5-with-o");
+  const toPlay1pOnX9WithOPage = () => router.replace("/play-1p-on-x9-with-o");
+  const toPlay1pOnX5WithXPage = () => router.replace("/play-1p-on-x5-with-x");
+  const toPlay1pOnX9WithXPage = () => router.replace("/play-1p-on-x9-with-x");
 
   return (
     <Page id="choose-game-mode" title="choose game mode">
@@ -19,7 +21,16 @@ const ChooseGameMode = () => {
           <IconButton type="x5" color="royalblue" className="with-text" onClick={toPlay2pOnX5Page}>
             單機雙人
           </IconButton>
+          <IconButton type="x9" color="crimson" className="with-text" onClick={toPlay2pOnX9Page}>
+            單機雙人
+          </IconButton>
           <IconButton type="x5" color="#888" className="with-text" onClick={toPlay1pOnX5WithOPage}>
+            單機對
+            <svg width="5" height="5" style={{ transform: "scale(4)", marginLeft: 7.5 }}>
+              <RelatiPiece x={0} y={0} symbol="O" primary />
+            </svg>
+          </IconButton>
+          <IconButton type="x9" color="#888" className="with-text" onClick={toPlay1pOnX9WithOPage}>
             單機對
             <svg width="5" height="5" style={{ transform: "scale(4)", marginLeft: 7.5 }}>
               <RelatiPiece x={0} y={0} symbol="O" primary />
@@ -31,8 +42,11 @@ const ChooseGameMode = () => {
               <RelatiPiece x={0} y={0} symbol="X" primary />
             </svg>
           </IconButton>
-          <IconButton type="x9" color="crimson" className="with-text" onClick={toPlay2pOnX9Page}>
-            單機雙人
+          <IconButton type="x9" color="#888" className="with-text" onClick={toPlay1pOnX9WithXPage}>
+            單機對
+            <svg width="5" height="5" style={{ transform: "scale(4)", marginLeft: 7.5 }}>
+              <RelatiPiece x={0} y={0} symbol="X" primary />
+            </svg>
           </IconButton>
         </Button.Group>
       </div>
