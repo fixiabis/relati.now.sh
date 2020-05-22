@@ -100,7 +100,7 @@ const Play1pOnX5WithX: NextPage<Props> = ({ level = 1 }) => {
 
     const pieceCodes = convertBoardToPieceCodes(game.board);
 
-    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}`)
+    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`)
       .then(response => response.json())
       .then((gridIndex: number) => {
         const grid = game.board.grids[gridIndex];

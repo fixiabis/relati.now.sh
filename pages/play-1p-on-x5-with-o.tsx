@@ -101,7 +101,7 @@ const Play1pOnX5WithO: NextPage<Props> = ({ level = 1 }) => {
 
     const pieceCodes = convertBoardToPieceCodes(game.board);
 
-    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}`)
+    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`)
       .then(response => response.json())
       .then((gridIndex: number) => {
         const grid = game.board.grids[gridIndex];
@@ -122,7 +122,7 @@ const Play1pOnX5WithO: NextPage<Props> = ({ level = 1 }) => {
     const { signal } = controller;
     const pieceCodes = convertBoardToPieceCodes(game.board);
 
-    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}`, { signal })
+    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
       .then(response => response.json())
       .then((gridIndex: number) => {
         const grid = game.board.grids[gridIndex];
