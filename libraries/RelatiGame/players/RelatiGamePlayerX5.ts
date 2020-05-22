@@ -1,18 +1,18 @@
-import RelatiGame from "./RelatiGame";
+import RelatiGame from "../RelatiGame";
 import { Direction } from "gridboard";
-import { RelatiPiece } from "./types";
-import RelatiGameBasicRule from "./RelatiGameBasicRule";
-import { convertBoardToPieceCodes } from "./utilities";
+import { HasPieceRelatiGrid } from "../types";
+import RelatiGameBasicRule from "../RelatiGameBasicRule";
+import { convertBoardToPieceCodes } from "../utilities";
 
 const nearbyDirections = ["F", "B", "L", "R", "FL", "FR", "BL", "BR"].map(Direction);
 
-const evaluatedPointFromPlayerWithPieceCodes: Record<string, number> = {};
+const evaluatedX5PointFromPlayerWithPieceCodes: Record<string, number> = {};
 
-function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
+function evaluateByX5GameAndPlayer(game: RelatiGame, player: number) {
     const playerWithPieceCodes = player + convertBoardToPieceCodes(game.board);
 
-    if (playerWithPieceCodes in evaluatedPointFromPlayerWithPieceCodes) {
-        return evaluatedPointFromPlayerWithPieceCodes[playerWithPieceCodes];
+    if (playerWithPieceCodes in evaluatedX5PointFromPlayerWithPieceCodes) {
+        return evaluatedX5PointFromPlayerWithPieceCodes[playerWithPieceCodes];
     }
 
     const playerOPointFromGridIndexes = new Int8Array(game.board.grids.length);
@@ -34,11 +34,11 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
     do {
         isAllGridExplored = true;
 
-        for (let grid of game.board.grids) {
+        for (let grid of game.board.grids as HasPieceRelatiGrid[]) {
             const isGridHasNotPlayerOPoint = playerOPointFromGridIndexes[grid.i] === -1;
             const isGridHasNotPlayerXPoint = playerXPointFromGridIndexes[grid.i] === -1;
-            const isGridHasPointButPieceNotO = playerOPointFromGridIndexes[grid.i] === 0 && (grid.piece as RelatiPiece).symbol !== "O";
-            const isGridHasPointButPieceNotX = playerXPointFromGridIndexes[grid.i] === 0 && (grid.piece as RelatiPiece).symbol !== "X";
+            const isGridHasPointButPieceNotO = playerOPointFromGridIndexes[grid.i] === 0 && grid.piece.symbol !== "O";
+            const isGridHasPointButPieceNotX = playerXPointFromGridIndexes[grid.i] === 0 && grid.piece.symbol !== "X";
 
             evaluateGridPlayerOPoint: {
                 if (isGridHasNotPlayerOPoint || isGridHasPointButPieceNotO) {
@@ -110,7 +110,7 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
             }
         }, 0);
 
-        return evaluatedPointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
+        return evaluatedX5PointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
     }
     else {
         const evaluatedPoint = playerXPointFromGridIndexes.reduce((r, v, i) => {
@@ -128,11 +128,11 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
             }
         }, 0);
 
-        return evaluatedPointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
+        return evaluatedX5PointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
     }
 }
 
-function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
+function evaluateUseDeepThinkingByX5GameAndPlayerAndDepth(
     game: RelatiGame,
     player: number,
     depth: number = 0,
@@ -141,7 +141,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
     beta: number = +Infinity,
 ) {
     if (depth === 0) {
-        const point = evaluateByGameAndPlayer(game, player);
+        const point = evaluateByX5GameAndPlayer(game, player);
         // printBoardContent(game.board);
         // console.log(nowPlayer, point);
         return point;
@@ -163,7 +163,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
             game.reenableAllPieces();
 
-            point = Math.max(point, evaluateUseDeepThinkingByGameAndPlayerAndDepth(
+            point = Math.max(point, evaluateUseDeepThinkingByX5GameAndPlayerAndDepth(
                 game,
                 player,
                 depth - 1,
@@ -200,7 +200,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
             game.reenableAllPieces();
 
-            point = Math.min(point, evaluateUseDeepThinkingByGameAndPlayerAndDepth(
+            point = Math.min(point, evaluateUseDeepThinkingByX5GameAndPlayerAndDepth(
                 game,
                 player,
                 depth - 1,
@@ -223,7 +223,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
     }
 }
 
-export const RelatiGamePlayerX5 = {
+const RelatiGamePlayerX5 = {
     getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
         const gridIndexWithPoints: [number, number][] = [];
 
@@ -240,7 +240,7 @@ export const RelatiGamePlayerX5 = {
 
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
 
-            const point = evaluateUseDeepThinkingByGameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
+            const point = evaluateUseDeepThinkingByX5GameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
             gridIndexWithPoints.push([grid.i, point]);
 
             // console.log(`coord: (${grid.x}, ${grid.y}) = ${point}`);
@@ -266,46 +266,4 @@ export const RelatiGamePlayerX5 = {
     },
 };
 
-export const RelatiGamePlayerX9 = {
-    getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
-        const gridIndexWithPoints: [number, number][] = [];
-
-        // console.log(`turn: ${game.turn}`);
-
-        for (let grid of game.board.grids) {
-            const isGridPlaceable =
-                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, player) &&
-                game.rule.validateIsPlayerCanDoPlacement(game, grid, player);
-
-            if (!isGridPlaceable) {
-                continue;
-            }
-
-            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
-            game.reenableAllPieces();
-
-            const point = evaluateUseDeepThinkingByGameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
-            gridIndexWithPoints.push([grid.i, point]);
-
-            // console.log(`coord: (${grid.x}, ${grid.y}) = ${point}`);
-            game.undo();
-        }
-
-        gridIndexWithPoints.sort(([, pointA], [, pointB]) => pointA > pointB ? -1 : 1);
-
-        if (gridIndexWithPoints[0]) {
-            return gridIndexWithPoints[0][0];
-        }
-        else {
-            return -1;
-        }
-    },
-    doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
-        const gridIndex = RelatiGamePlayerX5.getGridIndexForPlacementByGameAndPlayer(game, player, level);
-
-        if (gridIndex !== -1) {
-            const grid = game.board.grids[gridIndex];
-            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
-        }
-    },
-};
+export default RelatiGamePlayerX5;

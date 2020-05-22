@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9 } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
+import { downloadRecordJSONByRelatiGame } from "../utilities";
 import { useSelector } from "react-redux";
 import { State, SettingState } from "../reducers";
 
@@ -37,22 +38,7 @@ const Play1pOnX9WithX: NextPage<Props> = ({ level = 1 }) => {
     }
   };
 
-  const saveGame = () => {
-    const placementRecords = game.placementRecords.map(([x, y]) => game.board.getGridAt(x, y)?.i);
-    const placementRecordsJSONText = JSON.stringify(placementRecords);
-    const fileType = "text/json";
-    const file = new Blob([placementRecordsJSONText], { type: fileType });
-    const fileUrl = URL.createObjectURL(file);
-    const nowTime = Date.now();
-    const fileName = `relati-record-at-${nowTime}.json`;
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    link.target = "_blank";
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  const saveGame = () => downloadRecordJSONByRelatiGame(game);
 
   const gameOverMessageText =
     game.isOver
@@ -113,6 +99,7 @@ const Play1pOnX9WithX: NextPage<Props> = ({ level = 1 }) => {
     }
 
     RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 1, level);
+    game.reenableAllPieces();
     game.checkIsOverAndFindWinner();
     forceUpdate();
   };
