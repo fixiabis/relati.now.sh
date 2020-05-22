@@ -13,14 +13,19 @@ export function cloneBoard(board: RelatiBoard) {
     return clonedBoard;
 }
 
-export function getTargetPathsBySourceGrid(grid: RelatiGrid, isRuleX5: boolean) {
+export function getTargetPathsBySourceGrid(grid: RelatiGrid, boardSize: number) {
     const sourcePaths = [];
     const { symbol } = (grid as HasPieceRelatiGrid).piece;
 
     for (let route of RelatiGameBasicRule.RelatiRoutes) {
         const isRouteHasMiddleGrid = route.length > 1;
+        const isRouteHas2MiddleGrids = route.length > 2;
 
-        if (isRuleX5 && isRouteHasMiddleGrid) {
+        if (boardSize === 25 && isRouteHasMiddleGrid) {
+            continue;
+        }
+
+        if (boardSize === 49 && isRouteHas2MiddleGrids) {
             continue;
         }
 

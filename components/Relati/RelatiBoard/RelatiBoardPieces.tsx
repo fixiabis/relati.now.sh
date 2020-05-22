@@ -98,7 +98,7 @@ const RelatiBoardPieces = ({ game, placementEffect: isPlacementEffectOn, drawLin
 
     sourceGrids.forEach(sourceGrid => linePaths = [
       ...linePaths,
-      ...getTargetPathsBySourceGrid(sourceGrid, game.rule === RelatiGameRuleX5)
+      ...getTargetPathsBySourceGrid(sourceGrid, game.board.grids.length)
     ]);
 
     linePaths = linePaths.filter((path, i) => {

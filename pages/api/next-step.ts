@@ -1,7 +1,7 @@
 import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
-import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX9, RelatiGamePlayerX5, RelatiGamePlayerX9, createPieceByCode } from "../../libraries/RelatiGame";
+import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiGamePlayerX5, RelatiGamePlayerX7, RelatiGamePlayerX9, createPieceByCode } from "../../libraries/RelatiGame";
 import { runMiddlewares, Middleware } from "../../middlewares";
 
 const cors = Cors({
@@ -28,13 +28,13 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
 
     const turn = parseInt(clientRequest.query["turn"] as string);
     const pieceCodesFieldName = clientRequest.query["board"] ? "board" : "pieces";
-    const pieceCodes = clientRequest.query["board"] || clientRequest.query["pieces"] as string;
+    const pieceCodes = (clientRequest.query["board"] || clientRequest.query["pieces"]) as string;
 
-    if (pieceCodes.length !== 25 && pieceCodes.length !== 81) {
+    if (![25, 49, 81].includes(pieceCodes.length)) {
         return respondByCodeAndErrorMessage(422, `欄位: ${pieceCodesFieldName} 大小不符`);
     }
 
-    if (turn < 0 || pieceCodes.length === 25 && turn > 25 || pieceCodes.length === 81 && turn > 81) {
+    if (turn < 0 || turn > pieceCodes.length) {
         return respondByCodeAndErrorMessage(422, "欄位: turn 規則不符");
     }
 
@@ -46,9 +46,21 @@ const nextStep = async (clientRequest: NextApiRequest & Express.Request, serverR
     const turn = parseInt(clientRequest.query["turn"] as string);
     const pieceCodes = clientRequest.query["board"] || clientRequest.query["pieces"] as string;
     const level = parseInt(clientRequest.query["level"] as string) || 1;
-    const isX5 = pieceCodes.length === 25;
-    const rule = isX5 ? RelatiGameRuleX5 : RelatiGameRuleX9;
-    const gamePlayer = isX5 ? RelatiGamePlayerX5 : RelatiGamePlayerX9;
+
+    const rule =
+        pieceCodes.length === 25
+            ? RelatiGameRuleX5
+            : pieceCodes.length === 49
+                ? RelatiGameRuleX7
+                : RelatiGameRuleX9;
+
+    const gamePlayer =
+        pieceCodes.length === 25
+            ? RelatiGamePlayerX5
+            : pieceCodes.length === 49
+                ? RelatiGamePlayerX7
+                : RelatiGamePlayerX9;
+
     const game = new RelatiGame(2, rule);
     game.turn = turn;
 

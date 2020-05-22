@@ -229,7 +229,7 @@ function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
     }
 }
 
-const RelatiGamePlayerX9 = {
+const RelatiGamePlayerX7 = {
     getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
         const gridIndexWithPoints: [number, number][] = [];
 
@@ -263,7 +263,7 @@ const RelatiGamePlayerX9 = {
         }
     },
     doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
-        const gridIndex = RelatiGamePlayerX9.getGridIndexForPlacementByGameAndPlayer(game, player, level);
+        const gridIndex = RelatiGamePlayerX7.getGridIndexForPlacementByGameAndPlayer(game, player, level);
 
         if (gridIndex !== -1) {
             const grid = game.board.grids[gridIndex];
@@ -272,4 +272,4 @@ const RelatiGamePlayerX9 = {
     },
 };
 
-export default RelatiGamePlayerX9;
+export default RelatiGamePlayerX7;
