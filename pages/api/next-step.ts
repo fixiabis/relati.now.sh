@@ -51,13 +51,22 @@ const nextStep = async (clientRequest: NextApiRequest & Express.Request, serverR
     const gamePlayer = isX5 ? RelatiGamePlayerX5 : RelatiGamePlayerX9;
     const game = new RelatiGame(2, rule);
     game.turn = turn;
-    const player = game.getNowPlayer();
 
     for (let grid of game.board.grids) {
         const pieceCode = pieceCodes[grid.i];
         grid.piece = createPieceByCode(pieceCode);
+
+        if (grid.piece?.primary) {
+            if (grid.piece.symbol === "O") {
+                game.playerSourceGrids[0] = grid;
+            }
+            else {
+                game.playerSourceGrids[1] = grid;
+            }
+        }
     }
 
+    const player = game.getNowPlayer();
     const gridIndex = gamePlayer.getGridIndexForPlacementByGameAndPlayer(game, player, level);
     serverResponse.json(gridIndex);
 };

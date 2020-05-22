@@ -1,4 +1,4 @@
-import { RelatiSymbol, RelatiBoard, RelatiPiece } from "../types";
+import { RelatiSymbol, RelatiBoard, RelatiPiece, RelatiGrid } from "../types";
 export { default as TurnBasedGame } from "./TurnBasedGame";
 export const RelatiSymbols: RelatiSymbol[] = ["O", "X", "D", "U", "A"];
 
@@ -45,11 +45,11 @@ export function createPieceByCode(code: string): RelatiPiece | undefined {
 export function printPointContent(points: Int8Array) {
     let boardContent = "";
 
-    for (let y = 0; y < 5; y++) {
+    for (let y = 0; y < (points.length ** 0.5); y++) {
         boardContent += "|";
 
-        for (let x = 0; x < 5; x++) {
-            let pointText = points[y * 5 + x].toString();
+        for (let x = 0; x < (points.length ** 0.5); x++) {
+            let pointText = points[y * (points.length ** 0.5) + x].toString();
             pointText = " ".repeat(3 - pointText.length) + pointText;
             boardContent += pointText;
             boardContent += "|";
@@ -68,9 +68,22 @@ export function printBoardContent(board: RelatiBoard) {
         boardContent += "|";
 
         for (let x = 0; x < board.width; x++) {
-            boardContent += " ";
-            boardContent += board.getGridAt(x, y)?.piece?.symbol || " ";
-            boardContent += " |";
+            const grid = board.getGridAt(x, y) as RelatiGrid;
+
+            if (grid.piece) {
+                if (grid.piece.primary) {
+                    boardContent += `[${grid.piece.symbol}]|`;
+                }
+                else if (grid.piece.disabled) {
+                    boardContent += `-${grid.piece.symbol}-|`;
+                }
+                else {
+                    boardContent += ` ${grid.piece.symbol} |`;
+                }
+            }
+            else {
+                boardContent += "   |"
+            }
         }
 
         boardContent += "\n";

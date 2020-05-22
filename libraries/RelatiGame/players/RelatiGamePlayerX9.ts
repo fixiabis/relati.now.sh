@@ -2,7 +2,7 @@ import RelatiGame from "../RelatiGame";
 import { Direction } from "gridboard";
 import { HasPieceRelatiGrid } from "../types";
 import RelatiGameBasicRule from "../RelatiGameBasicRule";
-import { convertBoardToPieceCodes } from "../utilities";
+import { convertBoardToPieceCodes, printPointContent, printBoardContent } from "../utilities";
 
 const nearbyDirections = ["F", "B", "L", "R", "FL", "FR", "BL", "BR"].map(Direction);
 
@@ -95,6 +95,10 @@ function evaluateByX9GameAndPlayer(game: RelatiGame, player: number) {
     } while (!isAllGridExplored);
 
     // console.log(playerOPointFromGridIndexes, playerXPointFromGridIndexes);
+
+    // printBoardContent(game.board);
+    // printPointContent(playerOPointFromGridIndexes);
+    // printPointContent(playerXPointFromGridIndexes);
 
     if (player === 0) {
         const evaluatedPoint = playerOPointFromGridIndexes.reduce((r, v, i) => {
