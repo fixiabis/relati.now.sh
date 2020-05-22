@@ -1,6 +1,6 @@
 import RelatiGame from "../RelatiGame";
 import { Direction } from "gridboard";
-import { HasPieceRelatiGrid } from "../types";
+import { HasPieceRelatiGrid, RelatiGamePlayer } from "../types";
 import RelatiGameBasicRule from "../RelatiGameBasicRule";
 import { convertBoardToPieceCodes } from "../utilities";
 
@@ -223,7 +223,7 @@ function evaluateUseDeepThinkingByX5GameAndPlayerAndDepth(
     }
 }
 
-const RelatiGamePlayerX5 = {
+const RelatiGamePlayerX5: RelatiGamePlayer = {
     getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
         const gridIndexWithPoints: [number, number][] = [];
 

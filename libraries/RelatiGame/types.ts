@@ -20,3 +20,8 @@ export interface RelatiGameRule {
     disableAllPieces(game: RelatiGame): void;
     enableAllPieces(game: RelatiGame): void;
 }
+
+export interface RelatiGamePlayer {
+    getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number): number;
+    doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number): void;
+}

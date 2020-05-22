@@ -1,18 +1,18 @@
 import RelatiGame from "../RelatiGame";
 import { Direction } from "gridboard";
-import { HasPieceRelatiGrid } from "../types";
+import { HasPieceRelatiGrid, RelatiGamePlayer } from "../types";
 import RelatiGameBasicRule from "../RelatiGameBasicRule";
 import { convertBoardToPieceCodes } from "../utilities";
 
 const nearbyDirections = ["F", "B", "L", "R", "FL", "FR", "BL", "BR"].map(Direction);
 
-const evaluatedX9PointFromPlayerWithPieceCodes: Record<string, number> = {};
+const evaluatedX7PointFromPlayerWithPieceCodes: Record<string, number> = {};
 
-function evaluateByX9GameAndPlayer(game: RelatiGame, player: number) {
+function evaluateByX7GameAndPlayer(game: RelatiGame, player: number) {
     const playerWithPieceCodes = player + convertBoardToPieceCodes(game.board);
 
-    if (playerWithPieceCodes in evaluatedX9PointFromPlayerWithPieceCodes) {
-        return evaluatedX9PointFromPlayerWithPieceCodes[playerWithPieceCodes];
+    if (playerWithPieceCodes in evaluatedX7PointFromPlayerWithPieceCodes) {
+        return evaluatedX7PointFromPlayerWithPieceCodes[playerWithPieceCodes];
     }
 
     const playerOPointFromGridIndexes = new Int8Array(game.board.grids.length);
@@ -116,7 +116,7 @@ function evaluateByX9GameAndPlayer(game: RelatiGame, player: number) {
             }
         }, 0);
 
-        return evaluatedX9PointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
+        return evaluatedX7PointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
     }
     else {
         const evaluatedPoint = playerXPointFromGridIndexes.reduce((r, v, i) => {
@@ -134,11 +134,11 @@ function evaluateByX9GameAndPlayer(game: RelatiGame, player: number) {
             }
         }, 0);
 
-        return evaluatedX9PointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
+        return evaluatedX7PointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
     }
 }
 
-function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
+function evaluateUseDeepThinkingByX7GameAndPlayerAndDepth(
     game: RelatiGame,
     player: number,
     depth: number = 0,
@@ -147,7 +147,7 @@ function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
     beta: number = +Infinity,
 ) {
     if (depth === 0) {
-        const point = evaluateByX9GameAndPlayer(game, player);
+        const point = evaluateByX7GameAndPlayer(game, player);
         // printBoardContent(game.board);
         // console.log(nowPlayer, point);
         return point;
@@ -169,7 +169,7 @@ function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
             game.reenableAllPieces();
 
-            point = Math.max(point, evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
+            point = Math.max(point, evaluateUseDeepThinkingByX7GameAndPlayerAndDepth(
                 game,
                 player,
                 depth - 1,
@@ -206,7 +206,7 @@ function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
             game.reenableAllPieces();
 
-            point = Math.min(point, evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
+            point = Math.min(point, evaluateUseDeepThinkingByX7GameAndPlayerAndDepth(
                 game,
                 player,
                 depth - 1,
@@ -229,7 +229,7 @@ function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
     }
 }
 
-const RelatiGamePlayerX7 = {
+const RelatiGamePlayerX7: RelatiGamePlayer = {
     getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
         const gridIndexWithPoints: [number, number][] = [];
 
@@ -246,7 +246,7 @@ const RelatiGamePlayerX7 = {
 
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
 
-            const point = evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
+            const point = evaluateUseDeepThinkingByX7GameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
             gridIndexWithPoints.push([grid.i, point]);
 
             // console.log(`coord: (${grid.x}, ${grid.y}) = ${point}`);

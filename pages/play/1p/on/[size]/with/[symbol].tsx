@@ -1,21 +1,37 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes } from "../libraries/RelatiGame";
-import { RelatiGame, RelatiPiece } from "../components/Relati";
-import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
-import { downloadRecordJSONByRelatiGame } from "../utilities";
+import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../../../../../../libraries/RelatiGame";
+import { RelatiGame, RelatiPiece } from "../../../../../../components/Relati";
+import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../../../../../../components";
+import { downloadRecordJSONByRelatiGame } from "../../../../../../utilities";
 import { useSelector } from "react-redux";
-import { State, SettingState } from "../reducers";
+import { State, SettingState } from "../../../../../../reducers";
+
+const gameRuleFromSize: Record<number, RelatiGameRule> = {
+  5: RelatiGameRuleX5,
+  7: RelatiGameRuleX7,
+  9: RelatiGameRuleX9,
+};
+
+const gamePlayerFromSize: Record<number, RelatiGamePlayer> = {
+  5: RelatiGamePlayerX5,
+  7: RelatiGamePlayerX7,
+  9: RelatiGamePlayerX9,
+};
 
 export interface Props {
+  size?: number;
+  player?: number;
   level?: number;
 }
 
-const Play1pOnX9WithX: NextPage<Props> = ({ level = 1 }) => {
+const Play1p: NextPage<Props> = ({ level = 1, size = 9, player = 1 }) => {
   const router = useRouter();
+  const gameRule = gameRuleFromSize[size];
+  const gamePlayer = gamePlayerFromSize[size];
   const forceUpdate = useForceUpdate();
-  const game = useRef<Game>(new Game(2, RelatiGameRuleX9)).current;
+  const game = useRef<Game>(new Game(2, gameRule)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
@@ -88,13 +104,13 @@ const Play1pOnX9WithX: NextPage<Props> = ({ level = 1 }) => {
       : undefined;
 
   const handleGameGridClick = ({ x, y }: CoordinateObject) => {
-    if (game.getNowPlayer() === 1) {
+    if (game.getNowPlayer() === player) {
       return false;
     }
   };
 
   const handleGameAfterGridClick = () => {
-    if (game.getNowPlayer() !== 1) {
+    if (game.getNowPlayer() !== player) {
       return;
     }
 
@@ -104,17 +120,42 @@ const Play1pOnX9WithX: NextPage<Props> = ({ level = 1 }) => {
       .then(response => response.json())
       .then((gridIndex: number) => {
         const grid = game.board.grids[gridIndex];
-        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, 1);
+        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
         game.reenableAllPieces();
         game.checkIsOverAndFindWinner();
         forceUpdate();
       }).catch(() => {
-        RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 1, level);
+        gamePlayer.doPlacementByGameAndPlayer(game, player, level);
         game.reenableAllPieces();
         game.checkIsOverAndFindWinner();
         forceUpdate();
       });
   };
+
+  useEffect(() => {
+    if (player === 1 && game.turn === 0) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const { signal } = controller;
+    const pieceCodes = convertBoardToPieceCodes(game.board);
+
+    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
+      .then(response => response.json())
+      .then((gridIndex: number) => {
+        const grid = game.board.grids[gridIndex];
+        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
+        forceUpdate();
+      }).catch(() => {
+        RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, player, level);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      });
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <Page id="play" title="play">
@@ -141,8 +182,12 @@ const Play1pOnX9WithX: NextPage<Props> = ({ level = 1 }) => {
   );
 };
 
-Play1pOnX9WithX.getInitialProps = async ({ query: { level } }) => {
-  return { level: parseInt(level as string || "1") };
+Play1p.getInitialProps = async ({ query: { level, size, symbol } }) => {
+  return {
+    level: parseInt(level as string || "1"),
+    size: parseInt((size as string)?.replace("x", "") || "5"),
+    player: ((symbol as string).toUpperCase()) === "O" ? 0 : 1,
+  };
 };
 
-export default Play1pOnX9WithX;
+export default Play1p;

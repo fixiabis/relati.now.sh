@@ -1,16 +1,28 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX9, RelatiSymbols, } from "../libraries/RelatiGame";
-import { RelatiGame, RelatiPiece } from "../components/Relati";
-import { Page, Button, IconButton, MessageBox, useForceUpdate } from "../components";
-import { downloadRecordJSONByRelatiGame } from "../utilities";
+import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7 } from "../../../../libraries/RelatiGame";
+import { RelatiGame, RelatiPiece } from "../../../../components/Relati";
+import { Page, Button, IconButton, MessageBox, useForceUpdate } from "../../../../components";
+import { downloadRecordJSONByRelatiGame } from "../../../../utilities";
 import { useSelector } from "react-redux";
-import { State, SettingState } from "../reducers";
+import { State, SettingState } from "../../../../reducers";
+import { NextPage } from "next";
 
-const Play2pOnX9 = () => {
+const gameRuleFromSize: Record<number, RelatiGameRule> = {
+  5: RelatiGameRuleX5,
+  7: RelatiGameRuleX7,
+  9: RelatiGameRuleX9,
+};
+
+export interface Props {
+  size?: number;
+}
+
+const Play2p: NextPage<Props> = ({ size = 9 }) => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
-  const game = useRef<Game>(new Game(2, RelatiGameRuleX9)).current;
+  const gameRule = gameRuleFromSize[size];
+  const game = useRef<Game>(new Game(2, gameRule)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
@@ -102,4 +114,10 @@ const Play2pOnX9 = () => {
   );
 };
 
-export default Play2pOnX9;
+Play2p.getInitialProps = async ({ query: { size } }) => {
+  return {
+    size: parseInt((size as string)?.replace("x", "") || "5"),
+  };
+};
+
+export default Play2p;
