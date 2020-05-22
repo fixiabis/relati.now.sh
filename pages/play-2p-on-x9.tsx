@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
+import Game, { RelatiGameRuleX9, RelatiSymbols, printBoardContent, convertBoardToPieceCodes } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate } from "../components";
 import { useSelector } from "react-redux";

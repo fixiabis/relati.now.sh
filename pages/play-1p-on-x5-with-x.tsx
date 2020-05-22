@@ -1,12 +1,17 @@
 import React, { useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import Game, { RelatiGameRuleX5, RelatiSymbols, RelatiGamePlayerX5 } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
 import { State, SettingState } from "../reducers";
 
-const Play1pOnX5WithX = () => {
+export interface Props {
+  level?: number;
+}
+
+const Play1pOnX5WithX: NextPage<Props> = ({ level = 1 }) => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
   const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
@@ -97,20 +102,22 @@ const Play1pOnX5WithX = () => {
       : undefined;
 
   const handleGameGridClick = ({ x, y }: CoordinateObject) => {
-    if (game.getNowPlayer() === 1) {
+    if (game.getNowPlayer() === 0) {
       return false;
     }
   };
 
   const handleGameAfterGridClick = () => {
-    if (game.getNowPlayer() !== 1) {
+    if (game.getNowPlayer() !== 0) {
       return;
     }
 
-    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 1, 1);
+    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, level);
     game.checkIsOverAndFindWinner();
     forceUpdate();
   };
+
+  RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, level);
 
   return (
     <Page id="play" title="play">
@@ -120,7 +127,12 @@ const Play1pOnX5WithX = () => {
         <div className="player-x" />
       </div>
 
-      <RelatiGame {...effectSetting} game={game} onGridClick={handleGameGridClick} onAfterGridClick={handleGameAfterGridClick} onOver={forceUpdate} />
+      <RelatiGame
+        {...effectSetting}
+        game={game}
+        onGridClick={handleGameGridClick}
+        onAfterGridClick={handleGameAfterGridClick}
+        onOver={forceUpdate} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" title="離開" onClick={leaveGame} />
@@ -130,6 +142,10 @@ const Play1pOnX5WithX = () => {
       {gameOverMessageBox}
     </Page>
   );
+};
+
+Play1pOnX5WithX.getInitialProps = async ({ query: { level } }) => {
+  return { level: parseInt(level as string) };
 };
 
 export default Play1pOnX5WithX;

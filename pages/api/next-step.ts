@@ -1,7 +1,7 @@
 import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
-import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX9, RelatiGamePlayerX5, createPieceByCode } from "../../libraries/RelatiGame";
+import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX9, RelatiGamePlayerX5, createPieceByCode, RelatiGamePlayerX9 } from "../../libraries/RelatiGame";
 import { runMiddlewares, Middleware } from "../../middlewares";
 
 const cors = Cors({
@@ -48,7 +48,7 @@ const nextStep = async (clientRequest: NextApiRequest & Express.Request, serverR
     const level = parseInt(clientRequest.query["level"] as string) || 1;
     const isX5 = pieceCodes.length === 25;
     const rule = isX5 ? RelatiGameRuleX5 : RelatiGameRuleX9;
-    const gamePlayer = RelatiGamePlayerX5;
+    const gamePlayer = isX5 ? RelatiGamePlayerX5 : RelatiGamePlayerX9;
     const game = new RelatiGame(2, rule);
     game.turn = turn;
     const player = game.getNowPlayer();

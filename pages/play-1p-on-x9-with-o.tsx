@@ -1,20 +1,20 @@
 import React, { useState, useRef } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import Game, { RelatiGameRuleX5, RelatiSymbols, RelatiGamePlayerX5 } from "../libraries/RelatiGame";
+import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9 } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
+import { useSelector } from "react-redux";
 import { State, SettingState } from "../reducers";
 
 export interface Props {
   level?: number;
 }
 
-const Play1pOnX5WithO: NextPage<Props> = ({ level = 1 }) => {
+const Play1pOnX9WithO: NextPage<Props> = ({ level = 1 }) => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
-  const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
+  const game = useRef<Game>(new Game(2, RelatiGameRuleX9)).current;
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
@@ -112,12 +112,12 @@ const Play1pOnX5WithO: NextPage<Props> = ({ level = 1 }) => {
       return;
     }
 
-    RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, level);
+    RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, 1);
     game.checkIsOverAndFindWinner();
     forceUpdate();
   };
 
-  RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, 0, level);
+  RelatiGamePlayerX9.doPlacementByGameAndPlayer(game, 0, 1);
 
   return (
     <Page id="play" title="play">
@@ -144,8 +144,8 @@ const Play1pOnX5WithO: NextPage<Props> = ({ level = 1 }) => {
   );
 };
 
-Play1pOnX5WithO.getInitialProps = async ({ query: { level } }) => {
+Play1pOnX9WithO.getInitialProps = async ({ query: { level } }) => {
   return { level: parseInt(level as string) };
 };
 
-export default Play1pOnX5WithO;
+export default Play1pOnX9WithO;

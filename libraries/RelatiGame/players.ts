@@ -2,10 +2,19 @@ import RelatiGame from "./RelatiGame";
 import { Direction } from "gridboard";
 import { RelatiPiece } from "./types";
 import RelatiGameBasicRule from "./RelatiGameBasicRule";
+import { convertBoardToPieceCodes } from "./utilities";
 
 const nearbyDirections = ["F", "B", "L", "R", "FL", "FR", "BL", "BR"].map(Direction);
 
+const evaluatedPointFromPlayerWithPieceCodes: Record<string, number> = {};
+
 function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
+    const playerWithPieceCodes = player + convertBoardToPieceCodes(game.board);
+
+    if (playerWithPieceCodes in evaluatedPointFromPlayerWithPieceCodes) {
+        return evaluatedPointFromPlayerWithPieceCodes[playerWithPieceCodes];
+    }
+
     const playerOPointFromGridIndexes = new Int8Array(game.board.grids.length);
     const playerXPointFromGridIndexes = new Int8Array(game.board.grids.length);
 
@@ -86,7 +95,7 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
     // console.log(playerOPointFromGridIndexes, playerXPointFromGridIndexes);
 
     if (player === 0) {
-        return playerOPointFromGridIndexes.reduce((r, v, i) => {
+        const evaluatedPoint = playerOPointFromGridIndexes.reduce((r, v, i) => {
             if (v === 0) {
                 return r;
             }
@@ -100,9 +109,11 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
                 return r + ((25 - v) - (25 - playerXPointFromGridIndexes[i]));
             }
         }, 0);
+
+        return evaluatedPointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
     }
     else {
-        return playerXPointFromGridIndexes.reduce((r, v, i) => {
+        const evaluatedPoint = playerXPointFromGridIndexes.reduce((r, v, i) => {
             if (v === 0) {
                 return r;
             }
@@ -116,6 +127,8 @@ function evaluateByGameAndPlayer(game: RelatiGame, player: number) {
                 return r + ((25 - v) - (25 - playerOPointFromGridIndexes[i]));
             }
         }, 0);
+
+        return evaluatedPointFromPlayerWithPieceCodes[playerWithPieceCodes] = evaluatedPoint;
     }
 }
 
@@ -148,6 +161,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
 
             // console.group("alpha", grid);
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
+            game.reenableAllPieces();
 
             point = Math.max(point, evaluateUseDeepThinkingByGameAndPlayerAndDepth(
                 game,
@@ -184,6 +198,7 @@ function evaluateUseDeepThinkingByGameAndPlayerAndDepth(
 
             // console.group("beta", grid);
             game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
+            game.reenableAllPieces();
 
             point = Math.min(point, evaluateUseDeepThinkingByGameAndPlayerAndDepth(
                 game,
@@ -251,45 +266,46 @@ export const RelatiGamePlayerX5 = {
     },
 };
 
-function printPointContent(points: Int8Array) {
-    let boardContent = "";
+export const RelatiGamePlayerX9 = {
+    getGridIndexForPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
+        const gridIndexWithPoints: [number, number][] = [];
 
-    for (let y = 0; y < 5; y++) {
-        boardContent += "|";
+        // console.log(`turn: ${game.turn}`);
 
-        for (let x = 0; x < 5; x++) {
-            let pointText = points[y * 5 + x].toString();
-            pointText = " ".repeat(3 - pointText.length) + pointText;
-            boardContent += pointText;
-            boardContent += "|";
+        for (let grid of game.board.grids) {
+            const isGridPlaceable =
+                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, player) &&
+                game.rule.validateIsPlayerCanDoPlacement(game, grid, player);
+
+            if (!isGridPlaceable) {
+                continue;
+            }
+
+            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
+            game.reenableAllPieces();
+
+            const point = evaluateUseDeepThinkingByGameAndPlayerAndDepth(game, player, level, player ? 0 : 1);
+            gridIndexWithPoints.push([grid.i, point]);
+
+            // console.log(`coord: (${grid.x}, ${grid.y}) = ${point}`);
+            game.undo();
         }
 
-        boardContent += "\n";
-    }
+        gridIndexWithPoints.sort(([, pointA], [, pointB]) => pointA > pointB ? -1 : 1);
 
-    console.log(boardContent);
-}
-
-function printBoardContent(board: RelatiGame["board"]) {
-    let boardContent = "";
-
-    for (let y = 0; y < board.height; y++) {
-        boardContent += "|";
-
-        for (let x = 0; x < board.width; x++) {
-            boardContent += " ";
-            boardContent += board.getGridAt(x, y)?.piece?.symbol || " ";
-            boardContent += " |";
+        if (gridIndexWithPoints[0]) {
+            return gridIndexWithPoints[0][0];
         }
+        else {
+            return -1;
+        }
+    },
+    doPlacementByGameAndPlayer(game: RelatiGame, player: number, level: number) {
+        const gridIndex = RelatiGamePlayerX5.getGridIndexForPlacementByGameAndPlayer(game, player, level);
 
-        boardContent += "\n";
-    }
-
-    console.log(boardContent);
-}
-
-DEBUG: Object.assign(globalThis, {
-    EVALUATE: evaluateByGameAndPlayer,
-    DEEP_EVALUATE: evaluateUseDeepThinkingByGameAndPlayerAndDepth,
-    PLAYER: RelatiGamePlayerX5,
-});
+        if (gridIndex !== -1) {
+            const grid = game.board.grids[gridIndex];
+            game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
+        }
+    },
+};
