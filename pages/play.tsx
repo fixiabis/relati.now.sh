@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
 import { RelatiGame, RelatiPiece } from "../components/Relati";
 import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
-import { downloadRecordJSONByRelatiGame } from "../utilities";
+import { downloadRecordSVGByRelatiGame } from "../utilities";
 import { useSelector } from "react-redux";
 import { State, SettingState } from "../reducers";
 
@@ -55,7 +55,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playerCount })
     }
   };
 
-  const saveGame = () => downloadRecordJSONByRelatiGame(game);
+  const saveGame = () => downloadRecordSVGByRelatiGame(game);
 
   const gameOverMessageText =
     game.isOver
