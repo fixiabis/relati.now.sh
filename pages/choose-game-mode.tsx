@@ -5,15 +5,15 @@ import { Page, Button, IconButton } from "../components";
 const ChooseGameMode = () => {
   const router = useRouter();
   const leavePage = () => router.replace("/");
-  const toPlay2pOnX5Page = () => router.replace("/play/2p/on/x5");
-  const toPlay2pOnX7Page = () => router.replace("/play/2p/on/x7");
-  const toPlay2pOnX9Page = () => router.replace("/play/2p/on/x9");
-  const toPlay1pOnX5WithOPage = () => router.replace("/play/1p/on/x5/with/o");
-  const toPlay1pOnX7WithOPage = () => router.replace("/play/1p/on/x7/with/o");
-  const toPlay1pOnX9WithOPage = () => router.replace("/play/1p/on/x9/with/o");
-  const toPlay1pOnX5WithXPage = () => router.replace("/play/1p/on/x5/with/x");
-  const toPlay1pOnX7WithXPage = () => router.replace("/play/1p/on/x7/with/x");
-  const toPlay1pOnX9WithXPage = () => router.replace("/play/1p/on/x9/with/x");
+  const toPlay2pOnX5Page = () => router.replace("/play?2p&on=x5");
+  const toPlay2pOnX7Page = () => router.replace("/play?2p&on=x7");
+  const toPlay2pOnX9Page = () => router.replace("/play?2p&on=x9");
+  const toPlay1pOnX5WithOPage = () => router.replace("/play?1p&on=x5&with=o");
+  const toPlay1pOnX7WithOPage = () => router.replace("/play?1p&on=x7&with=o");
+  const toPlay1pOnX9WithOPage = () => router.replace("/play?1p&on=x9&with=o");
+  const toPlay1pOnX5WithXPage = () => router.replace("/play?1p&on=x5&with=x");
+  const toPlay1pOnX7WithXPage = () => router.replace("/play?1p&on=x7&with=x");
+  const toPlay1pOnX9WithXPage = () => router.replace("/play?1p&on=x9&with=x");
 
   return (
     <Page id="choose-game-mode" title="choose game mode">

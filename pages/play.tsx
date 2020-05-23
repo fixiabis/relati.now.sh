@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../../../../../../libraries/RelatiGame";
-import { RelatiGame, RelatiPiece } from "../../../../../../components/Relati";
-import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../../../../../../components";
-import { downloadRecordJSONByRelatiGame } from "../../../../../../utilities";
+import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
+import { RelatiGame, RelatiPiece } from "../components/Relati";
+import { Page, Button, IconButton, MessageBox, useForceUpdate, CoordinateObject } from "../components";
+import { downloadRecordJSONByRelatiGame } from "../utilities";
 import { useSelector } from "react-redux";
-import { State, SettingState } from "../../../../../../reducers";
+import { State, SettingState } from "../reducers";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
@@ -22,11 +22,12 @@ const gamePlayerFromSize: Record<number, RelatiGamePlayer> = {
 
 export interface Props {
   size: number;
-  player: number;
   level: number;
+  withPlayer: number;
+  playerCount: number;
 }
 
-const Play1p: NextPage<Props> = ({ level, size, player }) => {
+const Play: NextPage<Props> = ({ size, level, withPlayer: player, playerCount }) => {
   const router = useRouter();
   const gameRule = gameRuleFromSize[size];
   const gamePlayer = gamePlayerFromSize[size];
@@ -104,13 +105,17 @@ const Play1p: NextPage<Props> = ({ level, size, player }) => {
       : undefined;
 
   const handleGameGridClick = ({ x, y }: CoordinateObject) => {
+    if (playerCount === 2) {
+      return;
+    }
+
     if (game.getNowPlayer() === player) {
       return false;
     }
   };
 
   const handleGameAfterGridClick = () => {
-    if (game.getNowPlayer() !== player) {
+    if (playerCount === 2 || game.getNowPlayer() !== player) {
       return;
     }
 
@@ -124,7 +129,8 @@ const Play1p: NextPage<Props> = ({ level, size, player }) => {
         game.reenableAllPieces();
         game.checkIsOverAndFindWinner();
         forceUpdate();
-      }).catch(() => {
+      })
+      .catch(() => {
         gamePlayer.doPlacementByGameAndPlayer(game, player, level);
         game.reenableAllPieces();
         game.checkIsOverAndFindWinner();
@@ -133,7 +139,7 @@ const Play1p: NextPage<Props> = ({ level, size, player }) => {
   };
 
   useEffect(() => {
-    if (player === 1 && game.turn === 0) {
+    if (playerCount === 2 || player === 1 || game.turn !== 0) {
       return;
     }
 
@@ -147,7 +153,8 @@ const Play1p: NextPage<Props> = ({ level, size, player }) => {
         const grid = game.board.grids[gridIndex];
         game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
         forceUpdate();
-      }).catch(() => {
+      })
+      .catch(() => {
         RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, player, level);
         game.reenableAllPieces();
         game.checkIsOverAndFindWinner();
@@ -182,12 +189,13 @@ const Play1p: NextPage<Props> = ({ level, size, player }) => {
   );
 };
 
-Play1p.getInitialProps = async ({ query: { level, size, symbol } }) => {
+Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol } }) => {
   return {
     level: parseInt(level as string || "1"),
     size: parseInt((size as string)?.replace("x", "") || "9"),
-    player: ((symbol as string)?.toUpperCase()) === "O" ? 0 : 1,
+    withPlayer: ((symbol as string)?.toUpperCase()) === "O" ? 0 : 1,
+    playerCount: "1p" in query ? 1 : 2,
   };
 };
 
-export default Play1p;
+export default Play;
