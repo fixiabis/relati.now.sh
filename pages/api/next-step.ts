@@ -1,8 +1,20 @@
 import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
-import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiGamePlayerX5, RelatiGamePlayerX7, RelatiGamePlayerX9, createPieceByCode } from "../../libraries/RelatiGame";
+import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiGamePlayerX5, RelatiGamePlayerX7, RelatiGamePlayerX9, createPieceByCode, RelatiGameRule, RelatiGamePlayer } from "../../libraries/RelatiGame";
 import { runMiddlewares, Middleware } from "../../middlewares";
+
+const gameRuleFromSize: Record<number, RelatiGameRule> = {
+    25: RelatiGameRuleX5,
+    49: RelatiGameRuleX7,
+    81: RelatiGameRuleX9,
+};
+
+const gamePlayerFromSize: Record<number, RelatiGamePlayer> = {
+    25: RelatiGamePlayerX5,
+    49: RelatiGamePlayerX7,
+    81: RelatiGamePlayerX9,
+};
 
 const cors = Cors({
     methods: ["GET"],
@@ -46,22 +58,10 @@ const nextStep = async (clientRequest: NextApiRequest & Express.Request, serverR
     const turn = parseInt(clientRequest.query["turn"] as string);
     const pieceCodes = clientRequest.query["board"] || clientRequest.query["pieces"] as string;
     const level = parseInt(clientRequest.query["level"] as string) || 1;
+    const gameRule = gameRuleFromSize[pieceCodes.length];
+    const gamePlayer = gamePlayerFromSize[pieceCodes.length];
 
-    const rule =
-        pieceCodes.length === 25
-            ? RelatiGameRuleX5
-            : pieceCodes.length === 49
-                ? RelatiGameRuleX7
-                : RelatiGameRuleX9;
-
-    const gamePlayer =
-        pieceCodes.length === 25
-            ? RelatiGamePlayerX5
-            : pieceCodes.length === 49
-                ? RelatiGamePlayerX7
-                : RelatiGamePlayerX9;
-
-    const game = new RelatiGame(2, rule);
+    const game = new RelatiGame(2, gameRule);
     game.turn = turn;
 
     for (let grid of game.board.grids) {
