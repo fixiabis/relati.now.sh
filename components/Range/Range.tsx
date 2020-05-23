@@ -31,6 +31,7 @@ const Range = ({ min, max, value, onChange }: Props) => {
   };
 
   const [rangeViewWidth, setRangeViewWidth] = useState(0);
+  const setRatio = (ratio: number) => setState({ rangeStartCoordinateX, ratio });
   const ref = useRef<HTMLDivElement>() as React.RefObject<HTMLDivElement>;
   const containerRef = useRef<HTMLDivElement>() as React.RefObject<HTMLDivElement>;
 
@@ -93,6 +94,8 @@ const Range = ({ min, max, value, onChange }: Props) => {
       ratio: newRatio,
     });
   };
+
+  useEffect(() => setRatio(((value - min) / (max - min)) * 100), [value]);
 
   useEffect(() => {
     setRangeViewWidthByMeasurement();
