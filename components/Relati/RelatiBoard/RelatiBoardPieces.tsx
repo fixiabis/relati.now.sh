@@ -3,7 +3,7 @@ import { GridBoard, Coordinate } from "gridboard";
 import RelatiPiece, { RelatiSymbolColor } from "../RelatiPiece";
 import { DrawLine } from "./components";
 import { cloneBoard, disableAllPiecesByBoardAndSymbol, getTargetPathsBySourceGrid } from "./utilities";
-import RelatiGame, { RelatiSymbols, RelatiGameRuleX5, RelatiPiece as RelatiPieceType } from "../../../libraries/RelatiGame";
+import RelatiGame, { RelatiSymbols, RelatiPiece as RelatiPieceType } from "../../../libraries/RelatiGame";
 
 export interface Props {
   game: RelatiGame;

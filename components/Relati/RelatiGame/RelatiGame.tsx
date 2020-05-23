@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import RelatiBoard, { RelatiBoardProps } from "../RelatiBoard";
+import RelatiBoard, { Props as RelatiBoardProps } from "../RelatiBoard";
 import { CoordinateObject } from "../../Board";
 import Game, { RelatiSymbol, RelatiGameRuleX9, RelatiSymbols } from "../../../libraries/RelatiGame";
 import { useForceUpdate } from "../../hooks";

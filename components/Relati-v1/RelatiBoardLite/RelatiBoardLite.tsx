@@ -1,4 +1,4 @@
-import Board, { BoardProps, CoordinateObject } from "../../Board";
+import Board, { Props as BoardProps, CoordinateObject } from "../../Board";
 import { RelatiSymbol, isGridHasAvailableRelatiRouteBySymbol, RelatiPiece } from "../../../libraries/RelatiLite";
 import { RelatiSymbolColor } from "../RelatiPiece";
 import { Hint } from "../../Piece";

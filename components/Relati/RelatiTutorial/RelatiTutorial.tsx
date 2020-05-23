@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RelatiScenes from "./scenes";
-import { RelatiBoardProps } from "../RelatiBoard";
+import { Props as RelatiBoardProps } from "../RelatiBoard";
 import RelatiGame, { RelatiGameRuleX5 } from "../../../libraries/RelatiGame";
 
 type OmittedRelatiBoardPropKeys =

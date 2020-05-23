@@ -1,5 +1,5 @@
 import React from "react";
-import { RelatiBoardProps } from "../../RelatiBoard";
+import { Props as RelatiBoardProps } from "../../RelatiBoard";
 import RelatiGame from "../../../../libraries/RelatiGame";
 export type { Coordinate } from "gridboard";
 export type { CoordinateObject } from "../../../Board";
