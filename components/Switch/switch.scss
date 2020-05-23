@@ -1,0 +1,32 @@
+.switch-container {
+    & {
+        width: 50px;
+        height: 50px;
+        position: relative;
+    }
+
+    * {
+        position: absolute;
+    }
+
+    .switch {
+        width: 40px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #aaa;
+        top: 20px;
+        left: 5px;
+    }
+
+    .switch.off .switch-thumb {
+        left: 20px;
+    }
+
+    .switch-thumb {
+        width: 25px;
+        height: 25px;
+        background-color: #888;
+        top: -7.5px;
+        border-radius: 12.5px;
+    }
+}

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../reducers";
-import { Box, Page, Button, Range, IconButton } from "../components";
-import { disableMainPageAnimation, setEffectSettingDrawLineDuration, setTutorialSettingSceneDuration, resetAllSetting } from "../actions";
+import { Box, Page, Button, Range, IconButton, Switch } from "../components";
+import { disableMainPageAnimation, setEffectSettingDrawLineDuration, setTutorialSettingSceneDuration, resetAllSetting, setEffectSettingPlacementEffect, setEffectSettingLastPieceEmphasized } from "../actions";
 
 const Main = () => {
   const router = useRouter();
@@ -20,6 +20,14 @@ const Main = () => {
 
   const resetSetting = () => {
     dispatch(resetAllSetting());
+  };
+
+  const setPlacementEffect = (isOn: boolean) => {
+    dispatch(setEffectSettingPlacementEffect(isOn));
+  };
+
+  const setLastPieceEmphasized = (isOn: boolean) => {
+    dispatch(setEffectSettingLastPieceEmphasized(isOn));
   };
 
   const setDrawLineEffectDuration = (duration: number) => {
@@ -40,6 +48,17 @@ const Main = () => {
     isSettingOpen
       ? (
         <Box className="setting" onCancel={closeSetting}>
+          <div style={{ display: "flex", width: "100%", justifyContent: "space-around" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div>符號放置特效</div>
+              <Switch value={setting.effect.placementEffect} onChange={setPlacementEffect} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div>強調最後符號</div>
+              <Switch value={setting.effect.lastPieceEmphasized} onChange={setLastPieceEmphasized} />
+            </div>
+          </div>
+
           <div>連線特效速度({(setting.effect.drawLineDuration / 1000).toFixed(2)}秒)</div>
 
           <Range
