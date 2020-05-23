@@ -71,4 +71,12 @@
             transform: translateX(100%);
         }
     }
+
+    .setting {
+        user-select: none;
+        width: 280px;
+        height: 320px;
+        top: calc(50% - 160px);
+        left: calc(50% - 140px);
+    }
 }

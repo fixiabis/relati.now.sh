@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../reducers";
-import { Box, Page, Button, IconButton } from "../components";
-import { disableMainPageAnimation } from "../actions";
+import { Box, Page, Button, Range, IconButton } from "../components";
+import { disableMainPageAnimation, setEffectSettingDrawLineDuration, setTutorialSettingSceneDuration, resetAllSetting } from "../actions";
 
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const setting = useSelector<State, State["setting"]>(state => state.setting);
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
   const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
@@ -17,17 +18,51 @@ const Main = () => {
   const openSetting = () => setIsSettingOpen(true);
   const closeSetting = () => setIsSettingOpen(false);
 
+  const resetSetting = () => {
+    dispatch(resetAllSetting());
+  };
+
+  const setDrawLineEffectDuration = (duration: number) => {
+    dispatch(setEffectSettingDrawLineDuration((duration / 10 | 0) * 10));
+  };
+
+  const setTutorialSceneDuration = (duration: number) => {
+    dispatch(setTutorialSettingSceneDuration((duration / 100 | 0) * 100));
+  };
+
   useEffect(() => () => {
     if (mainPageAnimation) {
       dispatch(disableMainPageAnimation());
     }
   }, [mainPageAnimation]);
 
-  const settingBox = (
-    <Box show={isSettingOpen} onCancel={closeSetting}>
+  const settingBox =
+    isSettingOpen
+      ? (
+        <Box className="setting" onCancel={closeSetting}>
+          <div>連線特效速度({(setting.effect.drawLineDuration / 1000).toFixed(2)}秒)</div>
 
-    </Box>
-  );
+          <Range
+            min={100}
+            max={1000}
+            value={setting.effect.drawLineDuration}
+            onChange={setDrawLineEffectDuration} />
+
+          <div>教學場景速度({(setting.tutorial.sceneDuration / 1000).toFixed(1)}秒)</div>
+
+          <Range
+            min={500}
+            max={2000}
+            value={setting.tutorial.sceneDuration}
+            onChange={setTutorialSceneDuration} />
+
+          <Button.Group className={buttonGroupClassName}>
+            <IconButton type="retry" color="crimson" title="重設" onClick={resetSetting} />
+            <IconButton type="verify" color="seagreen" title="完成" onClick={closeSetting} />
+          </Button.Group>
+        </Box>
+      )
+      : undefined;
 
   return (
     <Page id="main" title="relati">

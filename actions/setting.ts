@@ -3,6 +3,7 @@ import {
     SET_EFFECT_SETTING_PLACEMENT_EFFECT,
     SET_EFFECT_SETTING_LAST_PIECE_EMPHASIZED,
     SET_TUTORIAL_SETTING_SCENE_DURATION,
+    RESET_ALL_SETTING,
 } from "../constants";
 
 export function setEffectSettingDrawLineDuration(duration: number) {
@@ -30,5 +31,11 @@ export function setTutorialSettingSceneDuration(duration: number) {
     return {
         type: SET_TUTORIAL_SETTING_SCENE_DURATION,
         value: duration,
-    }
+    };
+}
+
+export function resetAllSetting() {
+    return {
+        type: RESET_ALL_SETTING,
+    };
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import Box, { BoxProps } from "../Box";
+import Box, { Props as BoxProps } from "../Box";
 import "./message-box.scss";
 
 export interface Props extends BoxProps {

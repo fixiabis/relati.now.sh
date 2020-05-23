@@ -4,6 +4,7 @@ import {
     SET_EFFECT_SETTING_DRAW_LINE_DURATION,
     SET_EFFECT_SETTING_PLACEMENT_EFFECT,
     SET_EFFECT_SETTING_LAST_PIECE_EMPHASIZED,
+    RESET_ALL_SETTING,
 } from "../../constants";
 
 export interface EffectSettingState {
@@ -20,6 +21,10 @@ const INITIAL_STATE: EffectSettingState = {
 
 function effectSettingReducer(state = INITIAL_STATE, action: AnyAction): EffectSettingState {
     switch (action.type) {
+        case RESET_ALL_SETTING: {
+            return INITIAL_STATE;
+        }
+
         case SET_EFFECT_SETTING_DRAW_LINE_DURATION: {
             return { ...state, drawLineDuration: action.value };
         }

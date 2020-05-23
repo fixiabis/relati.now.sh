@@ -1,7 +1,7 @@
 import RelatiGame from "../libraries/RelatiGame";
 import { RelatiSymbolRoute, RelatiSymbolColor } from "../components/Relati/RelatiPiece";
 
-export const downloadRecordSVGByRelatiGame = (game: RelatiGame) => {
+export const createBoardSVGTextByRelatiGame = (game: RelatiGame) => {
     const placementRecordsJSONText = JSON.stringify(game.placementRecords);
     const viewWidth = game.board.width * 5;
     const viewHeight = game.board.height * 5;
@@ -47,7 +47,9 @@ export const downloadRecordSVGByRelatiGame = (game: RelatiGame) => {
         `</g>`
     );
 
-    const boardXMLText = (
+    return (
+        `<?xml version="1.0"?>` +
+        `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">` +
         `<svg width="${viewWidth}" height="${viewHeight}" xmlns="http://www.w3.org/2000/svg">` +
         `<script>${placementRecordsJSONText}</script>` +
         `<rect width="100%" height="100%" fill="#f2f2f2" /> ` +
@@ -55,11 +57,14 @@ export const downloadRecordSVGByRelatiGame = (game: RelatiGame) => {
         gridPiecesGroupXMLText +
         `</svg>`
     );
+};
 
+export const downloadRecordSVGByRelatiGame = (game: RelatiGame) => {
+    const boardSVGText = createBoardSVGTextByRelatiGame(game);
     const fileType = "image/svg+xml";
     const nowTime = Date.now();
     const fileName = `relati-x${game.board.width}-record-at-${nowTime}.svg`;
-    downloadFile(fileName, fileType, boardXMLText);
+    downloadFile(fileName, fileType, boardSVGText);
 };
 
 export const downloadRecordJSONByRelatiGame = (game: RelatiGame) => {
