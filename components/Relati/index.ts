@@ -8,3 +8,5 @@ export { default as RelatiTutorialX5 } from "./RelatiTutorialX5";
 export type { Props as RelatiTutorialX5Props } from "./RelatiTutorialX5";
 export { default as RelatiTutorialX7 } from "./RelatiTutorialX7";
 export type { Props as RelatiTutorialX7Props } from "./RelatiTutorialX7";
+export { default as RelatiTutorialX9 } from "./RelatiTutorialX9";
+export type { Props as RelatiTutorialX9Props } from "./RelatiTutorialX9";

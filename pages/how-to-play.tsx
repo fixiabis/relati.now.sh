@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
 import { State, SettingState } from "../reducers";
-import { RelatiTutorialX5, RelatiTutorialX7 } from "../components/Relati";
+import { RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9 } from "../components/Relati";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
@@ -16,6 +16,7 @@ const gameRuleFromSize: Record<number, RelatiGameRule> = {
 const RelatiTutorialFromSize: Record<number, (typeof RelatiTutorialX5 | typeof RelatiTutorialX7)> = {
   5: RelatiTutorialX5,
   7: RelatiTutorialX7,
+  9: RelatiTutorialX9,
 };
 
 export interface Props {
