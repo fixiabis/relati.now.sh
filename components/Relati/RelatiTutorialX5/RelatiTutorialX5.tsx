@@ -16,7 +16,7 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
   onFinish?: () => void;
 };
 
-const RelatiTutorial = ({ game: externalGame, scene: externalStep = "0", onFinish, ...props }: Props) => {
+const RelatiTutorialX5 = ({ game: externalGame, scene: externalStep = "0", onFinish, ...props }: Props) => {
   const [game] = useState(externalGame || new RelatiGame(2, RelatiGameRuleX5));
   const [sceneName, setSceneName] = useState(externalStep);
   const [scale, setScale] = useState(0.95);
@@ -51,4 +51,4 @@ const RelatiTutorial = ({ game: externalGame, scene: externalStep = "0", onFinis
   );
 };
 
-export default RelatiTutorial;
+export default RelatiTutorialX5;

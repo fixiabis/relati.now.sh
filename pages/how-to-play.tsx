@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX5, RelatiSymbols } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
 import { State, SettingState } from "../reducers";
-import { RelatiTutorial } from "../components/Relati";
+import { RelatiTutorialX5 } from "../components/Relati";
 
 export interface Props {
   scene?: string;
@@ -89,7 +89,7 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
 
   return (
     <Page id="how-to-play" title="how to play">
-      <RelatiTutorial scene={scene} game={game} onFinish={finishTutorial} {...effectSetting} {...tutorialSetting} />
+      <RelatiTutorialX5 scene={scene} game={game} onFinish={finishTutorial} {...effectSetting} {...tutorialSetting} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" title="離開" onClick={leaveTutorial} />
