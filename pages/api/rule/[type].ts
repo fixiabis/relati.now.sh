@@ -97,9 +97,10 @@ const rule = async (clientRequest: NextApiRequest & Express.Request, serverRespo
     switch (type) {
         case "is-valid-placement":
             const gridIndex = parseInt(clientRequest.query["at"] as string);
+            const grid = game.board.grids[gridIndex];
 
             return serverResponse.json(
-                game.validateIsPlayerCanDoPlacement(game.board.grids[gridIndex], player)
+                game.validateIsPlayerCanDoPlacement(grid, player)
             );
         case "placeable-steps":
             return serverResponse.json(game.board.grids.filter(grid =>
