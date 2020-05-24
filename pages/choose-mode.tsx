@@ -79,7 +79,7 @@ const ChooseMode: NextPage<Props> = ({ type }) => {
           <Button.Group>
             <IconButton type="x5" color="royalblue" onClick={toHowToPlayPageOnX5} title="5x5" />
             <IconButton type="x7" color="seagreen" onClick={toHowToPlayPageOnX7} title="7x7" />
-            {/* <IconButton type="x9" color="crimson" onClick={toHowToPlayPageOnX9} title="9x9" /> */}
+            <IconButton type="x9" color="crimson" onClick={toHowToPlayPageOnX9} title="9x9" />
           </Button.Group>
         </div>
         <Button.Group>

@@ -5,12 +5,12 @@ import { SceneComponent, CoordinateObject, RelatiGrid } from "./types";
 import { preventEffect } from "./utilities";
 
 const RelatiScene16: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
-  const gridAtF2 = game.board.getGridAt(5, 1) as RelatiGrid;
+  const gridAtI4 = game.board.getGridAt(8, 3) as RelatiGrid;
 
   const [exceptedX, exceptedY] =
-    gridAtF2.piece
-      ? [5, 5]
-      : [5, 1];
+    gridAtI4.piece
+      ? [6, 5]
+      : [6, 3];
 
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (x === exceptedX && y === exceptedY) {

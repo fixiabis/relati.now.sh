@@ -9,7 +9,7 @@ const RelatiScene6: SceneComponent = ({ toScene, game, sceneDuration, ...props }
 
   return (
     <>
-      <div className="description">對方打斷了連線!</div>
+      <div className="description">對方開始了佈局!</div>
       <RelatiBoard game={game} {...props} />
     </>
   );
@@ -19,13 +19,13 @@ RelatiScene6.initial = (game) => {
   RelatiScene5.initial(game);
 
   if (game.turn === 3) {
-    const gridAtF2 = game.board.getGridAt(5, 1) as RelatiGrid;
+    const gridAtG4 = game.board.getGridAt(6, 3) as RelatiGrid;
     
-    if (gridAtF2.piece) {
-      game.doPlacementByCoordinate(4, 2);
+    if (gridAtG4.piece) {
+      game.doPlacementByCoordinate(5, 3);
     }
     else {
-      game.doPlacementByCoordinate(4, 4);
+      game.doPlacementByCoordinate(5, 5);
     }
   }
 };

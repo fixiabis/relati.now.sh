@@ -40,7 +40,7 @@ const RelatiScene18C: SceneComponent = ({ toStep, game, ...props }) => {
         case 23:
           if ((game.board.getGridAt(5, 1) as RelatiGrid).piece) {
             game.placeSymbolByCoordinate(6, 1);
-            return setDescription("但是, 他接上了! ");
+            return setDescription("但是, 他連上了! ");
           }
           else if (!(game.board.getGridAt(4, 0) as RelatiGrid).piece) {
             if (!(game.board.getGridAt(2, 0) as RelatiGrid).piece) {

@@ -4,7 +4,7 @@ import { RelatiBoard } from "./components";
 import { SceneComponent, CoordinateObject, RelatiGrid } from "./types";
 
 const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
-  const [description, setDescription] = useState("他接上了!");
+  const [description, setDescription] = useState("他連上了!");
 
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (game.getNowPlayerSymbol() !== "O" || game.turn === 14) {
@@ -52,7 +52,7 @@ const RelatiScene13B: SceneComponent = ({ toStep, game, ...props }) => {
           else {
             if (!(game.board.getGridAt(3, 2) as RelatiGrid).piece) {
               game.placeSymbolByCoordinate(3, 2);
-              return setDescription("但是, 他接上了!");
+              return setDescription("但是, 他連上了!");
             }
           }
 

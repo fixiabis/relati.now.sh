@@ -1,7 +1,7 @@
 import React from "react";
 import RelatiScene11 from "./RelatiScene11";
 import { RelatiBoard } from "./components";
-import { SceneComponent } from "./types";
+import { SceneComponent, RelatiGrid } from "./types";
 import { useTimeout } from "../../../hooks";
 
 const RelatiScene12: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
@@ -9,7 +9,7 @@ const RelatiScene12: SceneComponent = ({ toScene, game, sceneDuration, ...props 
 
   return (
     <>
-      <div className="description">對方又接了回去!</div>
+      <div className="description">對方又連了回去!</div>
       <RelatiBoard game={game} {...props} />
     </>
   );
@@ -19,7 +19,14 @@ RelatiScene12.initial = (game) => {
   RelatiScene11.initial(game);
 
   if (game.turn === 7) {
-    game.doPlacementByCoordinate(6, 4);
+    const gridAtG4 = game.board.getGridAt(6, 3) as RelatiGrid;
+
+    if (gridAtG4.piece) {
+      game.doPlacementByCoordinate(8, 2);
+    }
+    else {
+      game.doPlacementByCoordinate(8, 6);
+    }
   }
 };
 

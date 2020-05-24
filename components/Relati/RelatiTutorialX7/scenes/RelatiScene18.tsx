@@ -9,7 +9,7 @@ const RelatiScene18: SceneComponent = ({ toScene, game, sceneDuration, ...props 
 
   return (
     <>
-      <div className="description">對方終於接回去了!</div>
+      <div className="description">對方終於連回去了!</div>
       <RelatiBoard game={game} {...props} />
     </>
   );

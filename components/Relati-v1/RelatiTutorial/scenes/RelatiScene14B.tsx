@@ -28,7 +28,7 @@ const RelatiScene14B: SceneComponent = ({ toStep, game, ...props }) => {
     }
 
     if (!(game.board.getGridAt(2, 2) as Required<RelatiGrid>).piece.disabled) {
-      return setDescription("不錯! 你接上了!");
+      return setDescription("不錯! 你連上了!");
     }
 
     return setDescription("這是特殊的戰略!");
