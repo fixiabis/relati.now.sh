@@ -1,7 +1,7 @@
 import React from "react";
 import RelatiScene19 from "./RelatiScene19";
 import { RelatiBoard } from "./components";
-import { SceneComponent, HasPieceRelatiGrid } from "./types";
+import { SceneComponent } from "./types";
 import { useTimeout } from "../../../hooks";
 
 const RelatiScene20: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
@@ -9,7 +9,7 @@ const RelatiScene20: SceneComponent = ({ toScene, game, sceneDuration, ...props 
 
   return (
     <>
-      <div className="description">做的好!你大幅度破壞對方的連線了!</div>
+      <div className="description">做的好!你大幅度打斷對方的連線了!</div>
       <RelatiBoard game={game} {...props} />
     </>
   );
