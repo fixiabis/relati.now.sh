@@ -174,7 +174,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
     const { signal } = controller;
     const pieceCodes = convertBoardToPieceCodes(game.board);
     const nowPlayer = game.getNowPlayer();
-    const apiUrl = player === nowPlayer ? "/api/next-step" : versusApi;
+    const apiUrl = player === nowPlayer ? "/api/next-step" : versusApi || "/api/next-step";
 
     fetch(`${apiUrl}?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
       .then(response => response.json())
