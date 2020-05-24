@@ -19,7 +19,7 @@ RelatiScene2.initial = (game) => {
   RelatiScene1.initial(game);
 
   if (game.turn === 0) {
-    game.doPlacementByCoordinate(3, 3);
+    game.doPlacementByCoordinate(4, 4);
   }
 };
 
