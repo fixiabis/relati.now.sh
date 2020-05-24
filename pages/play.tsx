@@ -125,10 +125,10 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
     }
 
     const apiUrl = versusApi || "/api/next-step";
-    getAbortControllerAndDoPlacementByApiUrl(apiUrl);
+    getAbortControllerFromDoPlacementByApiUrl(apiUrl);
   };
 
-  const getAbortControllerAndDoPlacementByApiUrl = (apiUrl: string) => {
+  const getAbortControllerFromDoPlacementByApiUrl = (apiUrl: string) => {
     const controller = new AbortController();
     const { signal } = controller;
     const pieceCodes = convertBoardToPieceCodes(game.board);
@@ -138,10 +138,13 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
       .then(response => response.json())
       .then((gridIndex: number) => {
         const grid = game.board.grids[gridIndex];
-        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
-        game.reenableAllPieces();
-        game.checkIsOverAndFindWinner();
-        forceUpdate();
+
+        if (grid) {
+          game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
+          game.reenableAllPieces();
+          game.checkIsOverAndFindWinner();
+          forceUpdate();
+        }
       })
       .catch(() => {
         gamePlayer.doPlacementByGameAndPlayer(game, nowPlayer, level);
@@ -159,7 +162,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
     }
 
     const apiUrl = versusApi || "/api/next-step";
-    const controller = getAbortControllerAndDoPlacementByApiUrl(apiUrl);
+    const controller = getAbortControllerFromDoPlacementByApiUrl(apiUrl);
     return () => controller.abort();
   });
 
@@ -170,9 +173,25 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
 
     const nowPlayer = game.getNowPlayer();
     const apiUrl = nowPlayer === 0 ? playerOApi : playerXApi;
-    const controller = getAbortControllerAndDoPlacementByApiUrl(apiUrl);
+    const controller = getAbortControllerFromDoPlacementByApiUrl(apiUrl);
     return () => controller.abort();
   });
+
+  useEffect(() => {
+    if (playersCount !== 0 || !playerOApi || !playerXApi) {
+      return;
+    }
+
+    if (game.isOver) {
+      const controllerFromPlayerOApiRequest = getAbortControllerFromDoPlacementByApiUrl(playerOApi);
+      const controllerFromPlayerXApiRequest = getAbortControllerFromDoPlacementByApiUrl(playerXApi);
+
+      return () => {
+        controllerFromPlayerOApiRequest.abort();
+        controllerFromPlayerXApiRequest.abort();
+      };
+    }
+  }, [game.isOver]);
 
   return (
     <Page id="play" title="play">

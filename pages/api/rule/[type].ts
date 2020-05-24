@@ -1,8 +1,8 @@
 import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
-import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiGamePlayerX5, RelatiGamePlayerX7, RelatiGamePlayerX9, createPieceByCode, RelatiGameRule, RelatiGamePlayer } from "../../libraries/RelatiGame";
-import { runMiddlewares, Middleware } from "../../middlewares";
+import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, createPieceByCode, RelatiGameRule, RelatiGameBasicRule } from "../../../libraries/RelatiGame";
+import { runMiddlewares, Middleware } from "../../../middlewares";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
     25: RelatiGameRuleX5,
@@ -10,15 +10,12 @@ const gameRuleFromSize: Record<number, RelatiGameRule> = {
     81: RelatiGameRuleX9,
 };
 
-const gamePlayerFromSize: Record<number, RelatiGamePlayer> = {
-    25: RelatiGamePlayerX5,
-    49: RelatiGamePlayerX7,
-    81: RelatiGamePlayerX9,
-};
-
 const cors = Cors({
     methods: ["GET"],
 });
+
+const allowedSizes = [25, 49, 81];
+const allowedTypes = ["is-valid-placement", "winner"];
 
 const validateFields: Middleware = (clientRequest, serverResponse, next) => {
     const respondByCodeAndErrorMessage = (code: number, message: string) => {
@@ -30,6 +27,10 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
         return respondByCodeAndErrorMessage(405, `不允許的方法: ${clientRequest.method}`)
     }
 
+    if (!allowedTypes.includes(clientRequest.query["type"] as string)) {
+        return respondByCodeAndErrorMessage(404, `不存在的類型: ${clientRequest.query["type"]}`);
+    }
+
     if (!clientRequest.query["turn"]) {
         return respondByCodeAndErrorMessage(400, "遺失欄位: turn");
     }
@@ -38,16 +39,28 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
         return respondByCodeAndErrorMessage(400, "遺失欄位: board 或 pieces");
     }
 
+    if (clientRequest.query["type"] === "is-valid-placement" && !clientRequest.query["at"]) {
+        return respondByCodeAndErrorMessage(400, "遺失欄位: at");
+    }
+
     const turn = parseInt(clientRequest.query["turn"] as string);
     const pieceCodesFieldName = clientRequest.query["board"] ? "board" : "pieces";
     const pieceCodes = (clientRequest.query["board"] || clientRequest.query["pieces"]) as string;
 
-    if (![25, 49, 81].includes(pieceCodes.length)) {
-        return respondByCodeAndErrorMessage(422, `欄位: ${pieceCodesFieldName} 大小不符`);
+    if (!allowedSizes.includes(pieceCodes.length)) {
+        return respondByCodeAndErrorMessage(422, `欄位長度不符: ${pieceCodesFieldName}`);
     }
 
     if (turn < 0 || turn > pieceCodes.length) {
-        return respondByCodeAndErrorMessage(422, "欄位: turn 規則不符");
+        return respondByCodeAndErrorMessage(422, "欄位範圍不符: turn");
+    }
+
+    if (clientRequest.query["type"] === "is-valid-placement") {
+        const gridIndex = parseInt(clientRequest.query["at"] as string);
+
+        if (gridIndex < 0 || gridIndex >= pieceCodes.length) {
+            return respondByCodeAndErrorMessage(422, "欄位範圍不符: at");
+        }
     }
 
     next();
@@ -55,11 +68,10 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
 
 const rule = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
     await runMiddlewares(clientRequest, serverResponse, [cors, validateFields]);
+    const type = clientRequest.query["type"] as string;
     const turn = parseInt(clientRequest.query["turn"] as string);
     const pieceCodes = clientRequest.query["board"] || clientRequest.query["pieces"] as string;
-    const level = parseInt(clientRequest.query["level"] as string) || 1;
     const gameRule = gameRuleFromSize[pieceCodes.length];
-    const gamePlayer = gamePlayerFromSize[pieceCodes.length];
 
     const game = new RelatiGame(2, gameRule);
     game.turn = turn;
@@ -78,9 +90,25 @@ const rule = async (clientRequest: NextApiRequest & Express.Request, serverRespo
         }
     }
 
+    game.reenableAllPieces();
+    game.checkIsOverAndFindWinner();
     const player = game.getNowPlayer();
-    const gridIndex = gamePlayer.getGridIndexForPlacementByGameAndPlayer(game, player, level);
-    serverResponse.json(gridIndex);
+
+    switch (type) {
+        case "is-valid-placement":
+            const gridIndex = parseInt(clientRequest.query["at"] as string);
+
+            return serverResponse.json(
+                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, game.board.grids[gridIndex], player) &&
+                gameRule.validateIsPlayerCanDoPlacement(game, game.board.grids[gridIndex], player)
+            );
+        case "winner":
+            if (!game.isOver) {
+                serverResponse.status(404);
+            }
+
+            return serverResponse.json(game.winner);
+    }
 };
 
 export default rule;
