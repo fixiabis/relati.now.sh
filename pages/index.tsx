@@ -31,11 +31,11 @@ const Main = () => {
   };
 
   const setDrawLineEffectDuration = (duration: number) => {
-    dispatch(setEffectSettingDrawLineDuration((duration / 10 | 0) * 10));
+    dispatch(setEffectSettingDrawLineDuration(Math.round(duration / 10) * 10));
   };
 
   const setTutorialSceneDuration = (duration: number) => {
-    dispatch(setTutorialSettingSceneDuration((duration / 100 | 0) * 100));
+    dispatch(setTutorialSettingSceneDuration(Math.round(duration / 100) * 100));
   };
 
   useEffect(() => () => {
@@ -47,7 +47,7 @@ const Main = () => {
   const settingBox =
     isSettingOpen
       ? (
-        <Box className="setting" onCancel={closeSetting}>
+        <Box className="setting">
           <div style={{ display: "flex", width: "100%", justifyContent: "space-around" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
               <div>符號放置特效</div>

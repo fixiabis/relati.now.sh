@@ -11,6 +11,7 @@ const IconButton = ({ type, color, style, ...props }: Props) => {
 
     style = {
         ...style,
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundColor: color,
         backgroundImage: `url(${imageUrl})`
