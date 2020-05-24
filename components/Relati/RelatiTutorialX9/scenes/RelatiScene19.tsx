@@ -21,7 +21,7 @@ const RelatiScene19: SceneComponent = ({ toScene, game, sceneDuration, ...props 
 
   return (
     <>
-      <div className="description">擺這邊! 讓對方陷入絕望吧!</div>
+      <div className="description">擺這邊!讓對方陷入絕望吧!</div>
       <RelatiBoard game={game} onGridClick={handleGridClick} {...props} {...preventEffect}>
         <Focus x={exceptedX} y={exceptedY} color="crimson" emphasized />
       </RelatiBoard>
