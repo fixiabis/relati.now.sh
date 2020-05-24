@@ -17,4 +17,4 @@ export type { Props as RangeProps } from "./Range";
 export { default as Switch } from "./Switch";
 export type { Props as SwitchProps } from "./Switch";
 export * from "./hooks";
-export * from "./Relati-v1";
+export * from "./Relati";
