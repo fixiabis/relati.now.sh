@@ -6,7 +6,7 @@ import { preventEffect } from "./utilities";
 
 const RelatiScene4: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
   const handleGridClick = ({ x, y }: CoordinateObject) => {
-    if (x === 2 && (y === 1 || y === 3)) {
+    if (x === 5 && (y === 1 || y === 5)) {
       game.doPlacementByCoordinate(x, y);
       toScene("5");
     }
@@ -16,8 +16,8 @@ const RelatiScene4: SceneComponent = ({ toScene, game, sceneDuration, ...props }
     <>
       <div className="description">選一個地方擺吧!</div>
       <RelatiBoard game={game} onGridClick={handleGridClick} {...props} {...preventEffect}>
-        <Focus x={2} y={1} color="crimson" emphasized />
-        <Focus x={2} y={3} color="crimson" emphasized />
+        <Focus x={5} y={1} color="crimson" emphasized />
+        <Focus x={5} y={5} color="crimson" emphasized />
       </RelatiBoard>
     </>
   );

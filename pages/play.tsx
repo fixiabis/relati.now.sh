@@ -124,61 +124,15 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
       return;
     }
 
-    const pieceCodes = convertBoardToPieceCodes(game.board);
-
-    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`)
-      .then(response => response.json())
-      .then((gridIndex: number) => {
-        const grid = game.board.grids[gridIndex];
-        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
-        game.reenableAllPieces();
-        game.checkIsOverAndFindWinner();
-        forceUpdate();
-      })
-      .catch(() => {
-        gamePlayer.doPlacementByGameAndPlayer(game, player, level);
-        game.reenableAllPieces();
-        game.checkIsOverAndFindWinner();
-        forceUpdate();
-      });
+    const apiUrl = versusApi || "/api/next-step";
+    getAbortControllerAndDoPlacementByApiUrl(apiUrl);
   };
 
-  useEffect(() => {
-    if (playersCount === 2 || player === 1 || game.turn !== 0) {
-      return;
-    }
-
-    const controller = new AbortController();
-    const { signal } = controller;
-    const pieceCodes = convertBoardToPieceCodes(game.board);
-
-    fetch(`/api/next-step?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
-      .then(response => response.json())
-      .then((gridIndex: number) => {
-        const grid = game.board.grids[gridIndex];
-        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, player);
-        forceUpdate();
-      })
-      .catch(() => {
-        RelatiGamePlayerX5.doPlacementByGameAndPlayer(game, player, level);
-        game.reenableAllPieces();
-        game.checkIsOverAndFindWinner();
-        forceUpdate();
-      });
-
-    return () => controller.abort();
-  }, []);
-
-  useEffect(() => {
-    if (playersCount !== 0 || game.isOver || !playerOApi|| !playerXApi) {
-      return;
-    }
-
+  const getAbortControllerAndDoPlacementByApiUrl = (apiUrl: string) => {
     const controller = new AbortController();
     const { signal } = controller;
     const pieceCodes = convertBoardToPieceCodes(game.board);
     const nowPlayer = game.getNowPlayer();
-    const apiUrl = nowPlayer === 0 ? playerOApi : playerXApi;
 
     fetch(`${apiUrl}${apiUrl.includes("?") ? "&" : "?"}turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
       .then(response => response.json())
@@ -196,6 +150,27 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
         forceUpdate();
       });
 
+    return controller;
+  };
+
+  useEffect(() => {
+    if (playersCount === 2 || player === 1 || game.turn !== 0) {
+      return;
+    }
+
+    const apiUrl = versusApi || "/api/next-step";
+    const controller = getAbortControllerAndDoPlacementByApiUrl(apiUrl);
+    return () => controller.abort();
+  });
+
+  useEffect(() => {
+    if (playersCount !== 0 || game.isOver || !playerOApi || !playerXApi) {
+      return;
+    }
+
+    const nowPlayer = game.getNowPlayer();
+    const apiUrl = nowPlayer === 0 ? playerOApi : playerXApi;
+    const controller = getAbortControllerAndDoPlacementByApiUrl(apiUrl);
     return () => controller.abort();
   });
 

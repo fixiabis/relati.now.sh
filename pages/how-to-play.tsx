@@ -2,10 +2,16 @@ import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX5, RelatiSymbols } from "../libraries/RelatiGame";
+import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
 import { State, SettingState } from "../reducers";
 import { RelatiTutorialX5, RelatiTutorialX7 } from "../components/Relati";
+
+const gameRuleFromSize: Record<number, RelatiGameRule> = {
+  5: RelatiGameRuleX5,
+  7: RelatiGameRuleX7,
+  9: RelatiGameRuleX9,
+};
 
 const RelatiTutorialFromSize: Record<number, (typeof RelatiTutorialX5 | typeof RelatiTutorialX7)> = {
   5: RelatiTutorialX5,
@@ -19,7 +25,8 @@ export interface Props {
 
 const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
   const router = useRouter();
-  const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
+  const gameRule = gameRuleFromSize[size];
+  const game = useRef<Game>(new Game(2, gameRule)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
   const [isTutorialFinishBoxShow, setIsTutorialFinishBoxShow] = useState(true);
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);

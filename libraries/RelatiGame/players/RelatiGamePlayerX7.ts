@@ -256,7 +256,8 @@ const RelatiGamePlayerX7: RelatiGamePlayer = {
         gridIndexWithPoints.sort(([, pointA], [, pointB]) => pointA > pointB ? -1 : 1);
 
         if (gridIndexWithPoints[0]) {
-            return gridIndexWithPoints[0][0];
+            const bestGridIndexWithPoints = gridIndexWithPoints.filter(([, point]) => gridIndexWithPoints[0][1] === point);
+            return bestGridIndexWithPoints[Math.floor(Math.random() * bestGridIndexWithPoints.length)][0];
         }
         else {
             return -1;

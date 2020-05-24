@@ -42,6 +42,7 @@ const RelatiTutorialX7 = ({ game: externalGame, scene: externalStep = "0", onFin
   });
 
   Scene.initial(game);
+  game.reenableAllPieces();
   game.checkIsOverAndFindWinner();
 
   return (
