@@ -7,7 +7,7 @@ import { makeStore } from '../containers/store';
 import "../styles/index.scss";
 import "../styles/play.scss";
 import "../styles/how-to-play.scss";
-import "../styles/choose-game-mode.scss";
+import "../styles/choose-mode.scss";
 
 class RelatiApp extends App<ReduxWrapperAppProps<State>> {
   public static async getInitialProps({ Component, ctx }: AppContext) {

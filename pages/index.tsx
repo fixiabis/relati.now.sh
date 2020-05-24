@@ -13,8 +13,8 @@ const Main = () => {
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
   const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
-  const toChooseGameModePage = () => router.replace("/choose-game-mode");
-  const toHowToPlayPage = () => router.replace("/how-to-play");
+  const toChooseGameModePage = () => router.replace("/choose-mode?type=game");
+  const toChooseTutorialModePage = () => router.replace("/choose-mode?type=tutorial");
   const openSetting = () => setIsSettingOpen(true);
   const closeSetting = () => setIsSettingOpen(false);
 
@@ -89,7 +89,7 @@ const Main = () => {
         <div className="logo" />
         <Button.Group className={buttonGroupClassName}>
           <IconButton type="play" color="crimson" title="開始遊玩" onClick={toChooseGameModePage} />
-          <IconButton type="help" color="royalblue" title="如何遊玩" onClick={toHowToPlayPage} />
+          <IconButton type="help" color="royalblue" title="如何遊玩" onClick={toChooseTutorialModePage} />
         </Button.Group>
       </div>
       <Button.Group className={bottomButtonGroupClassName}>
