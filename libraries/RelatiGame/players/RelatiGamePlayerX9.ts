@@ -157,9 +157,7 @@ function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
         let point = -Infinity;
 
         for (let grid of game.board.grids) {
-            const isGridPlaceable =
-                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer) &&
-                game.rule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer);
+            const isGridPlaceable = game.validateIsPlayerCanDoPlacement(grid, nowPlayer);
 
             if (!isGridPlaceable) {
                 continue;
@@ -194,9 +192,7 @@ function evaluateUseDeepThinkingByX9GameAndPlayerAndDepth(
         let point = Infinity;
 
         for (let grid of game.board.grids) {
-            const isGridPlaceable =
-                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer) &&
-                game.rule.validateIsPlayerCanDoPlacement(game, grid, nowPlayer);
+            const isGridPlaceable = game.validateIsPlayerCanDoPlacement(grid, nowPlayer);
 
             if (!isGridPlaceable) {
                 continue;
@@ -236,9 +232,7 @@ const RelatiGamePlayerX9: RelatiGamePlayer = {
         // console.log(`turn: ${game.turn}`);
 
         for (let grid of game.board.grids) {
-            const isGridPlaceable =
-                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, player) &&
-                game.rule.validateIsPlayerCanDoPlacement(game, grid, player);
+            const isGridPlaceable = game.validateIsPlayerCanDoPlacement(grid, player);
 
             if (!isGridPlaceable) {
                 continue;

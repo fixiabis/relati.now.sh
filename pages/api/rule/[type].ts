@@ -1,7 +1,7 @@
 import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
-import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, createPieceByCode, RelatiGameRule, RelatiGameBasicRule } from "../../../libraries/RelatiGame";
+import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, createPieceByCode, RelatiGameRule } from "../../../libraries/RelatiGame";
 import { runMiddlewares, Middleware } from "../../../middlewares";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
@@ -15,7 +15,7 @@ const cors = Cors({
 });
 
 const allowedSizes = [25, 49, 81];
-const allowedTypes = ["is-valid-placement", "winner"];
+const allowedTypes = ["is-valid-placement", "placeable-steps", "winner"];
 
 const validateFields: Middleware = (clientRequest, serverResponse, next) => {
     const respondByCodeAndErrorMessage = (code: number, message: string) => {
@@ -99,9 +99,12 @@ const rule = async (clientRequest: NextApiRequest & Express.Request, serverRespo
             const gridIndex = parseInt(clientRequest.query["at"] as string);
 
             return serverResponse.json(
-                RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, game.board.grids[gridIndex], player) &&
-                gameRule.validateIsPlayerCanDoPlacement(game, game.board.grids[gridIndex], player)
+                game.validateIsPlayerCanDoPlacement(game.board.grids[gridIndex], player)
             );
+        case "placeable-steps":
+            return serverResponse.json(game.board.grids.filter(grid =>
+                game.validateIsPlayerCanDoPlacement(grid, player)
+            ).map(grid => grid.i));
         case "winner":
             if (!game.isOver) {
                 serverResponse.status(404);

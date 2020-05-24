@@ -19,7 +19,6 @@ class RelatiGame extends TurnBasedGame {
         this.isOver = false;
         this.playerSourceGrids = [];
         this.placementRecords = [];
-        DEBUG: Object.assign(globalThis, { GAME: this });
     }
 
     public restart() {
@@ -43,6 +42,13 @@ class RelatiGame extends TurnBasedGame {
         this.reenableAllPieces();
     }
 
+    public validateIsPlayerCanDoPlacement(grid: RelatiGrid, player: number) {
+        return (
+            RelatiGameBasicRule.validateIsPlayerCanDoPlacement(this, grid, player) &&
+            this.rule.validateIsPlayerCanDoPlacement(this, grid, player)
+        );
+    }
+
     public doPlacementByCoordinate(x: number, y: number) {
         const nowPlayer = this.getNowPlayer();
         this.doPlacementByCoordinateAndPlayer(x, y, nowPlayer);
@@ -51,10 +57,7 @@ class RelatiGame extends TurnBasedGame {
     public doPlacementByCoordinateAndPlayer(x: number, y: number, player: number) {
         const playerSymbol = RelatiSymbols[player] as RelatiPiece["symbol"];
         const grid = this.board.getGridAt(x, y) as RelatiGrid;
-
-        const isPlayerCanDoPlacement =
-            RelatiGameBasicRule.validateIsPlayerCanDoPlacement(this, grid, player) &&
-            this.rule.validateIsPlayerCanDoPlacement(this, grid, player);
+        const isPlayerCanDoPlacement = this.validateIsPlayerCanDoPlacement(grid, player);
 
         if (!isPlayerCanDoPlacement) {
             return;

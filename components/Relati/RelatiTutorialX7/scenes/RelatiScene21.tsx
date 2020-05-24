@@ -25,8 +25,7 @@ RelatiScene21.initial = (game) => {
     const placeableGrids = game.board.grids.filter(
       (grid, i) =>
         ![0, 1].includes(i) &&
-        RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, 1) &&
-        game.rule.validateIsPlayerCanDoPlacement(game, grid, 1)
+        game.validateIsPlayerCanDoPlacement(grid, 1)
     );
 
     const randomIndexOfPlaceableGrids = Math.floor(Math.random() * placeableGrids.length);
@@ -34,9 +33,7 @@ RelatiScene21.initial = (game) => {
 
     if (!randomOfPlaceableGrid) {
       const placeableGrids = game.board.grids.filter(
-        (grid, i) =>
-          RelatiGameBasicRule.validateIsPlayerCanDoPlacement(game, grid, 1) &&
-          game.rule.validateIsPlayerCanDoPlacement(game, grid, 1)
+        (grid, i) => game.validateIsPlayerCanDoPlacement(grid, 1)
       );
 
       const randomIndexOfPlaceableGrids = Math.floor(Math.random() * placeableGrids.length);
