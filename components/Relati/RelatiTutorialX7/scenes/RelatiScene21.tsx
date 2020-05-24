@@ -24,7 +24,7 @@ RelatiScene21.initial = (game) => {
   if (game.getNowPlayer() === 1 && !game.isOver) {
     const placeableGrids = game.board.grids.filter(
       (grid, i) =>
-        ![0, 1].includes(i) &&
+        ![13].includes(i) &&
         game.validateIsPlayerCanDoPlacement(grid, 1)
     );
 

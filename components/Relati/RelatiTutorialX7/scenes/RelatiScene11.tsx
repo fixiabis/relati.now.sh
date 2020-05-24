@@ -9,7 +9,7 @@ const RelatiScene11: SceneComponent = ({ toScene, game, sceneDuration, ...props 
 
   return (
     <>
-      <div className="description">做的好!</div>
+      <div className="description">做的好!打斷了對方的連線</div>
       <RelatiBoard game={game} {...props} />
     </>
   );
@@ -19,7 +19,7 @@ RelatiScene11.initial = (game) => {
   RelatiScene10.initial(game);
 
   if (game.turn === 6) {
-    game.doPlacementByCoordinate(2, 4);
+    game.doPlacementByCoordinate(4, 3);
   }
 };
 

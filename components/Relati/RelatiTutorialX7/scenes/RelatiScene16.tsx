@@ -1,16 +1,16 @@
 import React from "react";
 import RelatiScene15 from "./RelatiScene15";
 import { RelatiBoard, Focus } from "./components";
-import { SceneComponent, CoordinateObject, HasPieceRelatiGrid } from "./types";
+import { SceneComponent, CoordinateObject, RelatiGrid } from "./types";
 import { preventEffect } from "./utilities";
 
 const RelatiScene16: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
-  const gridAtC2 = game.board.getGridAt(2, 1) as HasPieceRelatiGrid;
+  const gridAtF2 = game.board.getGridAt(5, 1) as RelatiGrid;
 
   const [exceptedX, exceptedY] =
-    gridAtC2.piece.symbol === "X"
-      ? [3, 1]
-      : [3, 3];
+    gridAtF2.piece
+      ? [5, 5]
+      : [5, 1];
 
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     if (x === exceptedX && y === exceptedY) {

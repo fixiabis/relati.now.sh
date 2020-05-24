@@ -1,19 +1,12 @@
 import React from "react";
 import RelatiScene9 from "./RelatiScene9";
 import { RelatiBoard, Focus } from "./components";
-import { SceneComponent, CoordinateObject, HasPieceRelatiGrid } from "./types";
+import { SceneComponent, CoordinateObject } from "./types";
 import { preventEffect } from "./utilities";
 
 const RelatiScene10: SceneComponent = ({ toScene, game, sceneDuration, ...props }) => {
-  const gridAtC2 = game.board.getGridAt(2, 1) as HasPieceRelatiGrid;
-
-  const [exceptedX, exceptedY] =
-    gridAtC2.piece.symbol === "X"
-      ? [2, 4]
-      : [2, 0];
-
   const handleGridClick = ({ x, y }: CoordinateObject) => {
-    if (x === exceptedX && y === exceptedY) {
+    if (x === 4 && y === 3) {
       game.doPlacementByCoordinate(x, y);
       toScene("11");
     }
@@ -23,7 +16,7 @@ const RelatiScene10: SceneComponent = ({ toScene, game, sceneDuration, ...props 
     <>
       <div className="description">擺這邊!</div>
       <RelatiBoard game={game} onGridClick={handleGridClick} {...props} {...preventEffect}>
-        <Focus x={exceptedX} y={exceptedY} color="crimson" emphasized />
+        <Focus x={4} y={3} color="crimson" emphasized />
       </RelatiBoard>
     </>
   );
