@@ -25,10 +25,10 @@ export interface Props {
   level: number;
   withPlayer: number;
   playersCount: number;
-  externalApi?: string;
+  versusApi?: string;
 }
 
-const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, externalApi }) => {
+const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, versusApi }) => {
   const router = useRouter();
   const gameRule = gameRuleFromSize[size];
   const gamePlayer = gamePlayerFromSize[size];
@@ -174,7 +174,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
     const { signal } = controller;
     const pieceCodes = convertBoardToPieceCodes(game.board);
     const nowPlayer = game.getNowPlayer();
-    const apiUrl = player === nowPlayer ? "/api/next-step" : externalApi;
+    const apiUrl = player === nowPlayer ? "/api/next-step" : versusApi;
 
     fetch(`${apiUrl}?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
       .then(response => response.json())
@@ -220,13 +220,13 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
   );
 };
 
-Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, and: externalApi } }) => {
+Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, versus: versusApi } }) => {
   return {
     level: parseInt(level as string || "1"),
     size: parseInt((size as string)?.replace("x", "") || "9"),
     withPlayer: ((symbol as string)?.toUpperCase()) === "O" ? 0 : 1,
     playersCount: "1p" in query ? 1 : "0p" in query ? 0 : 2,
-    externalApi: externalApi as string,
+    versusApi: versusApi as string,
   };
 };
 
