@@ -1,7 +1,6 @@
 import RelatiGame from "../RelatiGame";
 import { Direction } from "gridboard";
 import { HasPieceRelatiGrid, RelatiGamePlayer } from "../types";
-import RelatiGameBasicRule from "../RelatiGameBasicRule";
 import { convertBoardToPieceCodes } from "../utilities";
 
 const nearbyDirections = ["F", "B", "L", "R", "FL", "FR", "BL", "BR"].map(Direction);
