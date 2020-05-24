@@ -5,13 +5,19 @@ import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX5, RelatiSymbols } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiPiece } from "../components";
 import { State, SettingState } from "../reducers";
-import { RelatiTutorialX5 } from "../components/Relati";
+import { RelatiTutorialX5, RelatiTutorialX7 } from "../components/Relati";
+
+const RelatiTutorialFromSize: Record<number, (typeof RelatiTutorialX5 | typeof RelatiTutorialX7)> = {
+  5: RelatiTutorialX5,
+  7: RelatiTutorialX7,
+};
 
 export interface Props {
+  size: number;
   scene?: string;
 }
 
-const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
+const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
   const router = useRouter();
   const game = useRef<Game>(new Game(2, RelatiGameRuleX5)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
@@ -24,6 +30,7 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
   const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(true);
   const closeTutorialFinishMessageBox = () => setIsTutorialFinishBoxShow(false);
   const closeTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(false);
+  const RelatiTutorial = RelatiTutorialFromSize[size];
 
   const leaveTutorial = () => {
     if (game.turn && !isTutorialFinish) {
@@ -89,7 +96,12 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
 
   return (
     <Page id="how-to-play" title="how to play">
-      <RelatiTutorialX5 scene={scene} game={game} onFinish={finishTutorial} {...effectSetting} {...tutorialSetting} />
+      <RelatiTutorial
+        scene={scene}
+        game={game}
+        onFinish={finishTutorial}
+        {...effectSetting}
+        {...tutorialSetting} />
 
       <Button.Group>
         <IconButton type="leave" color="#888" title="離開" onClick={leaveTutorial} />
@@ -101,8 +113,11 @@ const HowToPlay: NextPage<Props> = ({ scene = "1" }) => {
   );
 };
 
-HowToPlay.getInitialProps = async ({ query: { scene } }) => {
-  return { scene: scene as string };
+HowToPlay.getInitialProps = async ({ query: { scene, on: size } }) => {
+  return {
+    size: parseInt((size as string)?.replace("x", "") || "5"),
+    scene: scene as string,
+  };
 };
 
 export default HowToPlay;

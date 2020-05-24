@@ -24,10 +24,11 @@ export interface Props {
   size: number;
   level: number;
   withPlayer: number;
-  playerCount: number;
+  playersCount: number;
+  externalApi?: string;
 }
 
-const Play: NextPage<Props> = ({ size, level, withPlayer: player, playerCount }) => {
+const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, externalApi }) => {
   const router = useRouter();
   const gameRule = gameRuleFromSize[size];
   const gamePlayer = gamePlayerFromSize[size];
@@ -105,17 +106,17 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playerCount })
       : undefined;
 
   const handleGameGridClick = ({ x, y }: CoordinateObject) => {
-    if (playerCount === 2) {
+    if (playersCount === 2) {
       return;
     }
 
-    if (game.getNowPlayer() === player) {
+    if (playersCount === 0 || game.getNowPlayer() === player) {
       return false;
     }
   };
 
   const handleGameAfterGridClick = () => {
-    if (playerCount === 2 || game.getNowPlayer() !== player) {
+    if (playersCount === 0 || playersCount === 2 || game.getNowPlayer() !== player) {
       return;
     }
 
@@ -139,7 +140,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playerCount })
   };
 
   useEffect(() => {
-    if (playerCount === 2 || player === 1 || game.turn !== 0) {
+    if (playersCount === 2 || player === 1 || game.turn !== 0) {
       return;
     }
 
@@ -163,6 +164,36 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playerCount })
 
     return () => controller.abort();
   }, []);
+
+  useEffect(() => {
+    if (playersCount !== 0 || game.isOver) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const { signal } = controller;
+    const pieceCodes = convertBoardToPieceCodes(game.board);
+    const nowPlayer = game.getNowPlayer();
+    const apiUrl = player === nowPlayer ? "/api/next-step" : externalApi;
+
+    fetch(`${apiUrl}?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
+      .then(response => response.json())
+      .then((gridIndex: number) => {
+        const grid = game.board.grids[gridIndex];
+        game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      })
+      .catch(() => {
+        gamePlayer.doPlacementByGameAndPlayer(game, nowPlayer, level);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      });
+
+    return () => controller.abort();
+  });
 
   return (
     <Page id="play" title="play">
@@ -189,12 +220,13 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playerCount })
   );
 };
 
-Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol } }) => {
+Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, and: externalApi } }) => {
   return {
     level: parseInt(level as string || "1"),
     size: parseInt((size as string)?.replace("x", "") || "9"),
     withPlayer: ((symbol as string)?.toUpperCase()) === "O" ? 0 : 1,
-    playerCount: "1p" in query ? 1 : 2,
+    playersCount: "1p" in query ? 1 : "0p" in query ? 0 : 2,
+    externalApi: externalApi as string,
   };
 };
 
