@@ -13,8 +13,8 @@ const Main = () => {
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
   const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
-  const toChooseGameModePage = () => router.replace("/choose-mode?type=game");
-  const toChooseTutorialModePage = () => router.replace("/choose-mode?type=tutorial");
+  const toChooseGameModePage = () => router.replace("/choose-mode?for=game");
+  const toChooseTutorialModePage = () => router.replace("/choose-mode?for=tutorial");
   const openSetting = () => setIsSettingOpen(true);
   const closeSetting = () => setIsSettingOpen(false);
 

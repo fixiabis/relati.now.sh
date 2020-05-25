@@ -38,7 +38,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
-  const leavePage = () => router.replace("/choose-game-mode");
+  const leavePage = () => router.replace("/choose-mode?for=game");
   const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(true);
   const closeGameOverMessageBox = () => setIsGameOverMessageBoxShow(false);
   const closeGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(false);

@@ -90,7 +90,7 @@ const ChooseMode: NextPage<Props> = ({ type }) => {
   }
 };
 
-ChooseMode.getInitialProps = async ({ query: { type } }) => {
+ChooseMode.getInitialProps = async ({ query: { for: type } }) => {
   return { type: type as string || "game" };
 };
 
