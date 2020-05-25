@@ -32,7 +32,7 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
   const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
   const tutorialSetting = useSelector<State, SettingState["tutorial"]>(state => state.setting.tutorial);
-  const leavePage = () => router.replace("/choose-mode?type=tutorial");
+  const leavePage = () => router.replace("/choose-mode?for=tutorial");
   const finishTutorial = () => setIsTutorialFinish(true);
   const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(true);
   const closeTutorialFinishMessageBox = () => setIsTutorialFinishBoxShow(false);

@@ -22,6 +22,7 @@ const gamePlayerFromSize: Record<number, RelatiGamePlayer> = {
 export interface Props {
   size: number;
   level: number;
+  rounds: number;
   withPlayer: number;
   playersCount: number;
   versusApi?: string;
@@ -29,12 +30,16 @@ export interface Props {
   playerXApi?: string;
 }
 
-const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, playerOApi, playerXApi, versusApi }) => {
+const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, playersCount, playerOApi, playerXApi, versusApi }) => {
   const router = useRouter();
   const gameRule = gameRuleFromSize[size];
   const gamePlayer = gamePlayerFromSize[size];
   const forceUpdate = useForceUpdate();
   const game = useRef<Game>(new Game(2, gameRule)).current;
+  const gameRoundWinners = useRef([] as number[]).current;
+  const roundWinsOfO = gameRoundWinners.filter(winner => winner === 0).length;
+  const roundWinsOfX = gameRoundWinners.filter(winner => winner === 1).length;
+  const [gameRound, setGameRound] = useState(0);
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
@@ -192,12 +197,23 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
     }
   }, [game.isOver]);
 
+  useEffect(() => {
+    if (game.isOver) {
+      gameRoundWinners.push(game.winner);
+
+      if (gameRound + 1 !== rounds) {
+        game.restart();
+        setGameRound(gameRound + 1);
+      }
+    }
+  }, [game.isOver]);
+
   return (
     <Page id="play" title="play">
       <div className="versus-header">
-        <div className="player-o" />
+        <div className="player-o">{roundWinsOfO}</div>
         <div className="versus" />
-        <div className="player-x" />
+        <div className="player-x">{roundWinsOfX}</div>
       </div>
 
       <RelatiGame
@@ -217,7 +233,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, playersCount, 
   );
 };
 
-Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, versus, playerO, playerX } }) => {
+Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, rounds, versus, playerO, playerX } }) => {
   return {
     level: parseInt(level as string || "1"),
     size: parseInt((size as string)?.replace("x", "") || "9"),
@@ -226,6 +242,7 @@ Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, v
     playersCount: "1p" in query ? 1 : "0p" in query ? 0 : 2,
     playerOApi: playerO as string,
     playerXApi: playerX as string,
+    rounds: rounds === "Infinity" ? Infinity : parseInt(rounds as string) || 1,
   };
 };
 

@@ -46,7 +46,7 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
         return respondByCodeAndErrorMessage(422, `欄位: ${pieceCodesFieldName} 大小不符`);
     }
 
-    if (turn < 0 || turn > pieceCodes.length) {
+    if (turn < 0) {
         return respondByCodeAndErrorMessage(422, "欄位: turn 規則不符");
     }
 

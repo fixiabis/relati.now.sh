@@ -21,6 +21,12 @@
 
         .player-o,
         .player-x {
+            position: relative;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             border: {
                 width: 5px;
                 style: solid;
@@ -35,6 +41,9 @@
             &::after {
                 content: "";
                 display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
                 width: 20px;
                 height: 20px;
                 margin-top: 25px;
@@ -45,8 +54,9 @@
         @each $type, $color in (o: crimson, x: royalblue) {
             .player-#{$type} {
                 & {
+                    color: $color;
                     border-color: $color;
-                    background-image: url(/icons/player-#{$type}.svg);
+                    // background-image: url(/icons/player-#{$type}.svg);
                 }
 
                 &::after {

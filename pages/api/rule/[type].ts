@@ -51,7 +51,7 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
         return respondByCodeAndErrorMessage(422, `欄位長度不符: ${pieceCodesFieldName}`);
     }
 
-    if (turn < 0 || turn > pieceCodes.length) {
+    if (turn < 0) {
         return respondByCodeAndErrorMessage(422, "欄位範圍不符: turn");
     }
 
@@ -102,13 +102,16 @@ const rule = async (clientRequest: NextApiRequest & Express.Request, serverRespo
             return serverResponse.json(
                 game.validateIsPlayerCanDoPlacement(grid, player)
             );
+
         case "placeable-steps":
             return serverResponse.json(game.board.grids.filter(grid =>
                 game.validateIsPlayerCanDoPlacement(grid, player)
             ).map(grid => grid.i));
+
         case "winner":
             if (!game.isOver) {
                 serverResponse.status(404);
+                return serverResponse.json(-2);
             }
 
             return serverResponse.json(game.winner);
