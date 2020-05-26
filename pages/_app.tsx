@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import App, { AppContext } from 'next/app';
 import withRedux, { ReduxWrapperAppProps } from 'next-redux-wrapper';
 import { State } from '../reducers';
-import { makeStore } from '../containers/store';
+import { makeStore } from '../container/store';
 import "../styles/index.scss";
 import "../styles/play.scss";
 import "../styles/how-to-play.scss";
