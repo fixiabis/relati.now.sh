@@ -51,7 +51,13 @@ const Main = () => {
     }
 
     const firebaseFacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(firebaseFacebookAuthProvider);
+    firebase.auth().signInWithPopup(firebaseFacebookAuthProvider).then(() => {
+      // firebase.firestore().collection("players").doc("DBFwC4niWmctcmGa0hKQSJzgRAv2").set({
+      //   "name": firebase.auth().currentUser.displayName,
+      //   "avatarUrl": firebase.auth().currentUser.photoURL,
+      //   "referTest": firebase.firestore().collection("players").doc("DBFwC4niWmctcmGa0hKQSJzgRAv2")
+      // });
+    });
   });
 
   const settingBox =
