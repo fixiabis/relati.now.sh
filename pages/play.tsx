@@ -5,6 +5,7 @@ import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoard
 import { Page, Button, IconButton, MessageBox, RelatiGame, RelatiPiece, useForceUpdate, CoordinateObject } from "../components";
 import { downloadRecordSVGByRelatiGame } from "../utilities";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import { State, SettingState } from "../reducers";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
@@ -129,18 +130,18 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
     }
 
     const apiUrl = versusApi || "/api/next-step";
-    getAbortControllerFromDoPlacementByApiUrl(apiUrl);
+    getRequestCancellerFromDoPlacementByApiUrl(apiUrl);
   };
 
-  const getAbortControllerFromDoPlacementByApiUrl = (apiUrl: string) => {
-    const controller = new AbortController();
-    const { signal } = controller;
+  const getRequestCancellerFromDoPlacementByApiUrl = (apiUrl: string) => {
     const pieceCodes = convertBoardToPieceCodes(game.board);
     const nowPlayer = game.getNowPlayer();
+    const canceller = axios.CancelToken.source();
+    const cancelToken = canceller.token;
+    const apiUrlWithQuery = `${apiUrl}${apiUrl.includes("?") ? "&" : "?"}turn=${game.turn}&pieces=${pieceCodes}&level=${level}`;
 
-    fetch(`${apiUrl}${apiUrl.includes("?") ? "&" : "?"}turn=${game.turn}&pieces=${pieceCodes}&level=${level}`, { signal })
-      .then(response => response.json())
-      .then((gridIndex: number) => {
+    axios.get(apiUrlWithQuery, { cancelToken })
+      .then(({ data: gridIndex }) => {
         const grid = game.board.grids[gridIndex];
 
         if (grid) {
@@ -157,7 +158,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
         forceUpdate();
       });
 
-    return controller;
+    return canceller;
   };
 
   useEffect(() => {
@@ -166,8 +167,8 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
     }
 
     const apiUrl = versusApi || "/api/next-step";
-    const controller = getAbortControllerFromDoPlacementByApiUrl(apiUrl);
-    return () => controller.abort();
+    const canceller = getRequestCancellerFromDoPlacementByApiUrl(apiUrl);
+    return () => canceller.cancel();
   });
 
   useEffect(() => {
@@ -177,8 +178,8 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
 
     const nowPlayer = game.getNowPlayer();
     const apiUrl = nowPlayer === 0 ? playerOApi : playerXApi;
-    const controller = getAbortControllerFromDoPlacementByApiUrl(apiUrl);
-    return () => controller.abort();
+    const canceller = getRequestCancellerFromDoPlacementByApiUrl(apiUrl);
+    return () => canceller.cancel();
   });
 
   useEffect(() => {
@@ -187,12 +188,12 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
     }
 
     if (game.isOver) {
-      const controllerFromPlayerOApiRequest = getAbortControllerFromDoPlacementByApiUrl(playerOApi);
-      const controllerFromPlayerXApiRequest = getAbortControllerFromDoPlacementByApiUrl(playerXApi);
+      const controllerFromPlayerOApiRequest = getRequestCancellerFromDoPlacementByApiUrl(playerOApi);
+      const controllerFromPlayerXApiRequest = getRequestCancellerFromDoPlacementByApiUrl(playerXApi);
 
       return () => {
-        controllerFromPlayerOApiRequest.abort();
-        controllerFromPlayerXApiRequest.abort();
+        controllerFromPlayerOApiRequest.cancel();
+        controllerFromPlayerXApiRequest.cancel();
       };
     }
   }, [game.isOver]);
