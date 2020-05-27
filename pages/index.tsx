@@ -52,11 +52,16 @@ const Main = () => {
 
     const firebaseFacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(firebaseFacebookAuthProvider).then(() => {
-      // firebase.firestore().collection("players").doc("DBFwC4niWmctcmGa0hKQSJzgRAv2").set({
-      //   "name": firebase.auth().currentUser.displayName,
-      //   "avatarUrl": firebase.auth().currentUser.photoURL,
-      //   "referTest": firebase.firestore().collection("players").doc("DBFwC4niWmctcmGa0hKQSJzgRAv2")
-      // });
+      const { currentUser: player } = firebase.auth();
+
+      if (!player) {
+        return;
+      }
+
+      firebase.firestore().collection("players").doc(player.uid).update({
+        name: player.displayName,
+        avatarURL: player.photoURL,
+      });
     });
   });
 
