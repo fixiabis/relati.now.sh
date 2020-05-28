@@ -46,21 +46,27 @@ const Main = () => {
   }, [mainPageAnimation]);
 
   useEffect(() => {
-    if (firebase.auth().currentUser) {
-      return;
-    }
+    return; // disabled
 
-    const firebaseFacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(firebaseFacebookAuthProvider).then(() => {
-      const { currentUser: player } = firebase.auth();
-
-      if (!player) {
+    firebase.auth().onAuthStateChanged(player => {
+       if (!player) {
         return;
-      }
+       }
 
-      firebase.firestore().collection("players").doc(player.uid).update({
-        name: player.displayName,
-        avatarURL: player.photoURL,
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+        const firebaseFacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(firebaseFacebookAuthProvider).then(() => {
+          const { currentUser: player } = firebase.auth();
+
+          if (!player) {
+            return;
+          }
+
+          firebase.firestore().collection("players").doc(player.uid).update({
+            name: player.displayName,
+            avatarURL: player.photoURL,
+          });
+        });
       });
     });
   });
