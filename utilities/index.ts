@@ -1,6 +1,8 @@
 import RelatiGame from "../libraries/RelatiGame";
 import { RelatiSymbolRoute, RelatiSymbolColor } from "../components/Relati/RelatiPiece";
 
+export const delay = (ms: number) => new Promise(done => setTimeout(done, ms));
+
 export const createBoardSVGTextByRelatiGame = (game: RelatiGame) => {
     const placementRecordsJSONText = JSON.stringify(game.placementRecords);
     const viewWidth = game.board.width * 5;

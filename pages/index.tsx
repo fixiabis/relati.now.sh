@@ -49,23 +49,21 @@ const Main = () => {
     return; // disabled
 
     firebase.auth().onAuthStateChanged(player => {
-       if (!player) {
+      if (!player) {
         return;
-       }
+      }
 
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
-        const firebaseFacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-        firebase.auth().signInWithPopup(firebaseFacebookAuthProvider).then(() => {
-          const { currentUser: player } = firebase.auth();
+      const firebaseFacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
+      firebase.auth().signInWithPopup(firebaseFacebookAuthProvider).then(() => {
+        const { currentUser: player } = firebase.auth();
 
-          if (!player) {
-            return;
-          }
+        if (!player) {
+          return;
+        }
 
-          firebase.firestore().collection("players").doc(player.uid).update({
-            name: player.displayName,
-            avatarURL: player.photoURL,
-          });
+        firebase.firestore().collection("players").doc(player.uid).update({
+          name: player.displayName,
+          avatarURL: player.photoURL,
         });
       });
     });

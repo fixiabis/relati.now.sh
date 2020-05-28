@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiGame, RelatiPiece, useForceUpdate, CoordinateObject } from "../components";
-import { downloadRecordSVGByRelatiGame } from "../utilities";
+import { downloadRecordSVGByRelatiGame, delay } from "../utilities";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { State, SettingState } from "../reducers";
@@ -141,10 +141,11 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
     const apiUrlWithQuery = `${apiUrl}${apiUrl.includes("?") ? "&" : "?"}turn=${game.turn}&pieces=${pieceCodes}&level=${level}`;
 
     axios.get(apiUrlWithQuery, { cancelToken })
-      .then(({ data: gridIndex }) => {
+      .then(async ({ data: gridIndex }) => {
         const grid = game.board.grids[gridIndex];
 
         if (grid) {
+          await delay(100);
           game.doPlacementByCoordinateAndPlayer(grid.x, grid.y, nowPlayer);
           game.reenableAllPieces();
           game.checkIsOverAndFindWinner();
