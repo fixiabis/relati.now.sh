@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
-import { Page, Button, IconButton, MessageBox, RelatiPiece, RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9 } from "../components";
+import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9 } from "../libraries/RelatiGame";
+import { Page, Button, IconButton, RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9 } from "../components";
 import { State, SettingState } from "../container/store";
 import { LeaveMessageBox, FinishMessageBox } from "../page-components/how-to-play";
 
