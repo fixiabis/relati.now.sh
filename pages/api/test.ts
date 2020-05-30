@@ -9,7 +9,7 @@ const cors = Cors({
 
 const Test = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
     await runMiddlewares(clientRequest, serverResponse, [cors]);
-    serverResponse.json(process.env.FIREBASE_ADMIN_SDK_JSON && JSON.parse(process.env.FIREBASE_ADMIN_SDK_JSON));
+    // serverResponse.json(process.env.FIREBASE_ADMIN_SDK_JSON && JSON.parse(process.env.FIREBASE_ADMIN_SDK_JSON));
 };
 
 export default Test;
