@@ -6,18 +6,10 @@ export interface Props extends MessageBoxProps {
   onVerify?: () => void;
 }
 
-const FinishMessageBox = ({ show: isShow, game, onCancel: handleCancel, onVerify: handleVerify }: Props) => {
+const TutorialFinishMessageBox = ({ show: isShow, game, onCancel: handleCancel, onVerify: handleVerify }: Props) => {
   if (!isShow || !game.isOver) {
     return <></>;
   }
-
-  const messageIcon = (
-    <div className="message-icon-container">
-      <svg width="5" height="5" className="message-icon">
-        <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
-      </svg>
-    </div>
-  );
 
   const messageText = (
     game.winner !== -1
@@ -28,7 +20,11 @@ const FinishMessageBox = ({ show: isShow, game, onCancel: handleCancel, onVerify
   return (
     <MessageBox onCancel={handleCancel}>
       <div className="message-container">
-        {messageIcon}
+        <div className="message-icon-container">
+          <svg width="5" height="5" className="message-icon">
+            <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
+          </svg>
+        </div>
         {messageText}
       </div>
       <Button.Group>
@@ -38,4 +34,4 @@ const FinishMessageBox = ({ show: isShow, game, onCancel: handleCancel, onVerify
   );
 };
 
-export default FinishMessageBox;
+export default TutorialFinishMessageBox;

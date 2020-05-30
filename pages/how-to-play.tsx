@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9 } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9 } from "../components";
 import { State, SettingState } from "../container/store";
-import { LeaveMessageBox, FinishMessageBox } from "../page-components/how-to-play";
+import { TutorialLeaveMessageBox, TutorialFinishMessageBox } from "../page-components/how-to-play";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
@@ -58,13 +58,13 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
         {...effectSetting}
         {...tutorialSetting} />
 
-      <LeaveMessageBox
+      <TutorialLeaveMessageBox
         show={isTutorialLeaveMessageBoxShow}
         onCancel={closeTutorialLeaveMessageBox}
         onAccept={leavePage}
         onReject={closeTutorialLeaveMessageBox} />
 
-      <FinishMessageBox
+      <TutorialFinishMessageBox
         game={game}
         show={isTutorialFinish && isTutorialFinishBoxShow}
         onCancel={closeTutorialFinishMessageBox}

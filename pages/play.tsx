@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
-import { Page, Button, IconButton, MessageBox, RelatiGame, RelatiPiece, useForceUpdate, CoordinateObject } from "../components";
+import Game, { RelatiGameRuleX9, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
+import { Page, Button, IconButton, RelatiGame, useForceUpdate, CoordinateObject } from "../components";
 import { downloadRecordSVGByRelatiGame } from "../utilities/client-side";
 import { delay } from "../utilities";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { State, SettingState } from "../container/store";
+import { GameLeaveMessageBox, GameOverMessageBox } from "../page-components/play";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
@@ -68,54 +69,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
 
   const saveGame = () => downloadRecordSVGByRelatiGame(game);
 
-  const gameOverMessageText =
-    game.isOver
-      ? game.winner !== -1
-        ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝!`
-        : "平手!"
-      : undefined;
-
-  const gameLeaveMessageIconStyle = { backgroundImage: "url(/icons/help.svg)" };
-
-  const gameLeaveMessageBox =
-    isGameLeaveMessageBoxShow
-      ? (
-        <MessageBox onCancel={closeGameLeaveMessageBox}>
-          <div className="message-container">
-            <div className="message-icon" style={gameLeaveMessageIconStyle} />
-            勝負未分, 確定離開?
-          </div>
-          <Button.Group>
-            <IconButton type="accept" color="crimson" onClick={leavePage} />
-            <IconButton type="download" color="#888" onClick={saveGame} />
-            <IconButton type="reject" color="royalblue" onClick={closeGameLeaveMessageBox} />
-          </Button.Group>
-        </MessageBox>
-      )
-      : undefined;
-
-  const gameOverMessageBox =
-    isGameOverMessageBoxShow && game.isOver
-      ? (
-        <MessageBox onCancel={closeGameOverMessageBox}>
-          <div className="message-container">
-            <div className="message-icon">
-              <svg width="5" height="5">
-                <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
-              </svg>
-            </div>
-            {gameOverMessageText}
-          </div>
-          <Button.Group>
-            <IconButton type="retry" color="crimson" onClick={restartGame} />
-            <IconButton type="download" color="#888" onClick={saveGame} />
-            <IconButton type="reject" color="royalblue" onClick={leaveGame} />
-          </Button.Group>
-        </MessageBox>
-      )
-      : undefined;
-
-  const handleGameGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGameGridClick = () => {
     if (playersCount === 2) {
       return;
     }
@@ -226,12 +180,24 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
         onAfterGridClick={handleGameAfterGridClick}
         onOver={forceUpdate} />
 
+      <GameLeaveMessageBox
+        show={isGameLeaveMessageBoxShow}
+        onCancel={closeGameLeaveMessageBox}
+        onAccept={leavePage}
+        onReject={closeGameLeaveMessageBox}
+        onDownload={saveGame} />
+
+      <GameOverMessageBox
+        game={game}
+        show={isGameOverMessageBoxShow && game.isOver}
+        onCancel={closeGameOverMessageBox}
+        onRetry={restartGame}
+        onLeave={leaveGame}
+        onDownload={saveGame} />
+
       <Button.Group>
         <IconButton type="leave" color="#888" title="離開" onClick={leaveGame} />
       </Button.Group>
-
-      {gameLeaveMessageBox}
-      {gameOverMessageBox}
     </Page>
   );
 };

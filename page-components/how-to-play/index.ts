@@ -1,4 +1,4 @@
-export { default as LeaveMessageBox } from "./LeaveMessageBox";
-export type { Props as LeaveMessageBoxProps } from "./LeaveMessageBox";
-export { default as FinishMessageBox } from "./FinishMessageBox";
-export type { Props as FinishMessageBoxProps } from "./FinishMessageBox";
+export { default as TutorialLeaveMessageBox } from "./TutorialLeaveMessageBox";
+export type { Props as TutorialLeaveMessageBoxProps } from "./TutorialLeaveMessageBox";
+export { default as TutorialFinishMessageBox } from "./TutorialFinishMessageBox";
+export type { Props as TutorialFinishMessageBoxProps } from "./TutorialFinishMessageBox";
