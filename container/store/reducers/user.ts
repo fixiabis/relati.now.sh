@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { UserInfo } from "../types";
+import { UserInfo } from "../../../types";
 
 import {
     SET_USER_INFO,

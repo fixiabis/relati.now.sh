@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware } from "redux";
 import { MakeStore } from "next-redux-wrapper";
 import createSagaMiddleware from "redux-saga";
-import firebase from "./firebase";
-import reducer, { State } from "../reducers";
-import rootSaga from "../sagas";
-import { setUserInfo } from "../actions";
+import firebase from "../firebase";
+import reducer, { State } from "./reducers";
+import rootSaga from "./sagas";
+import { setUserInfo } from "./actions";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -13,13 +13,13 @@ export const makeStore: MakeStore = (initialState: State) => {
     sagaMiddleware.run(rootSaga);
 
     if (module.hot) {
-        module.hot.accept("../reducers", () => {
-            store.replaceReducer(require("../reducers").default);
+        module.hot.accept("./reducers", () => {
+            store.replaceReducer(require("./reducers").default);
         });
     }
 
     firebase.auth().onAuthStateChanged(player => {
-        if (player === null) {
+        if (!player) {
             return;
         }
 
@@ -35,3 +35,6 @@ export const makeStore: MakeStore = (initialState: State) => {
 
     return store;
 };
+
+export * from "./actions";
+export * from "./reducers";

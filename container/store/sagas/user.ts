@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { SIGN_USER_IN } from '../constants';
-import firebase from "../container/firebase";
+import firebase from "../../firebase";
 import { setUserInfo } from '../actions';
 import { AnyAction } from 'redux';
 

@@ -1,5 +1,5 @@
 import { SET_USER_INFO, SIGN_USER_IN, SIGN_USER_OUT } from "../constants";
-import { UserInfo } from "../types";
+import { UserInfo } from "../../../types";
 
 export function setUserInfo(userInfo: UserInfo) {
     return {

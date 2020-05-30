@@ -6,7 +6,7 @@ import { Page, Button, IconButton, MessageBox, RelatiGame, RelatiPiece, useForce
 import { downloadRecordSVGByRelatiGame, delay } from "../utilities";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { State, SettingState } from "../reducers";
+import { State, SettingState } from "../container/store";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,

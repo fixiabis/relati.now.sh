@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Page, Button, IconButton } from "../components";
-import { signUserIn } from "../actions";
-import { State, UserState } from "../reducers";
+import { State, UserState, signUserIn } from "../container/store";
 
 export interface Props {
   type: string;

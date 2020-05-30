@@ -2,7 +2,7 @@ import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
 import RelatiGame, { RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, createPieceByCode, RelatiGameRule } from "../../../libraries/RelatiGame";
-import { runMiddlewares, Middleware } from "../../../middlewares";
+import { runMiddlewares, Middleware } from "../../../utilities/server-side";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
     25: RelatiGameRuleX5,

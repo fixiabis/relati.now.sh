@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiPiece, RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9 } from "../components";
-import { State, SettingState } from "../reducers";
+import { State, SettingState } from "../container/store";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
