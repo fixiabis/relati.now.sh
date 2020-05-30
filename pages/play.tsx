@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiGame, RelatiPiece, useForceUpdate, CoordinateObject } from "../components";
 import { downloadRecordSVGByRelatiGame, delay } from "../utilities";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import { State, SettingState } from "../reducers";
+import { State, SettingState, UserState } from "../reducers";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
@@ -44,6 +44,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
   const [gameRound, setGameRound] = useState(0);
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
+  const playerInfo = useSelector<State, UserState["userInfo"]>(state => state.user.userInfo);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
   const leavePage = () => router.replace("/choose-mode?for=game");
   const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(true);
@@ -206,6 +207,12 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
       };
     }
   }, [game.isOver]);
+
+  useEffect(() => {
+    if (online && !playerInfo) {
+      router.replace("/choose-mode?for=sign-in");
+    }
+  });
 
   return (
     <Page id="play" title="play">
