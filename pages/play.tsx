@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import io from "socket.io-client";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
@@ -29,13 +30,15 @@ export interface Props {
   versusApi?: string;
   playerOApi?: string;
   playerXApi?: string;
+  online: boolean;
 }
 
-const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, playersCount, playerOApi, playerXApi, versusApi }) => {
+const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, playersCount, playerOApi, playerXApi, versusApi, online }) => {
   const router = useRouter();
   const gameRule = gameRuleFromSize[size];
   const gamePlayer = gamePlayerFromSize[size];
   const forceUpdate = useForceUpdate();
+  const socketClient = useRef(() => online && io()).current();
   const game = useRef<Game>(new Game(2, gameRule)).current;
   const gameRoundWinners = useRef([] as number[]).current;
   const roundWinsOfO = gameRoundWinners.filter(winner => winner === 0).length;
@@ -116,7 +119,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
 
   const handleGameGridClick = ({ x, y }: CoordinateObject) => {
     if (playersCount === 2) {
-      return;
+      return !online;
     }
 
     if (playersCount === 0 || game.getNowPlayer() === player) {
@@ -124,7 +127,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
     }
   };
 
-  const handleGameAfterGridClick = () => {
+  const handleGameAfterGridClick = ({ x, y }: CoordinateObject) => {
     if (playersCount === 0 || playersCount === 2 || game.getNowPlayer() !== player) {
       return;
     }
@@ -184,22 +187,6 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
   });
 
   useEffect(() => {
-    if (playersCount !== 0 || !playerOApi || !playerXApi) {
-      return;
-    }
-
-    if (game.isOver) {
-      const controllerFromPlayerOApiRequest = getRequestCancellerFromDoPlacementByApiUrl(playerOApi);
-      const controllerFromPlayerXApiRequest = getRequestCancellerFromDoPlacementByApiUrl(playerXApi);
-
-      return () => {
-        controllerFromPlayerOApiRequest.cancel();
-        controllerFromPlayerXApiRequest.cancel();
-      };
-    }
-  }, [game.isOver]);
-
-  useEffect(() => {
     if (game.isOver) {
       gameRoundWinners.push(game.winner);
 
@@ -207,6 +194,18 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
         game.restart();
         setGameRound(gameRound + 1);
       }
+
+      if (playersCount !== 0 || !playerOApi || !playerXApi) {
+        return;
+      }
+
+      const controllerFromPlayerOApiRequest = getRequestCancellerFromDoPlacementByApiUrl(playerOApi);
+      const controllerFromPlayerXApiRequest = getRequestCancellerFromDoPlacementByApiUrl(playerXApi);
+
+      return () => {
+        controllerFromPlayerOApiRequest.cancel();
+        controllerFromPlayerXApiRequest.cancel();
+      };
     }
   }, [game.isOver]);
 
@@ -245,6 +244,7 @@ Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, r
     playerOApi: playerO as string,
     playerXApi: playerX as string,
     rounds: rounds === "Infinity" ? Infinity : parseInt(rounds as string) || 1,
+    online: "online" in query,
   };
 };
 

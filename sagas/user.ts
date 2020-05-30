@@ -16,9 +16,11 @@ function* signUserIn({ value: type }: AnyAction) {
             break;
     }
 
-    yield call(async () =>
-        await firebase.auth().signInWithPopup(provider)
-    );
+    try {
+        yield call(async () =>
+            await firebase.auth().signInWithPopup(provider)
+        );
+    } catch { }
 
     const { currentUser: player } = firebase.auth();
 
