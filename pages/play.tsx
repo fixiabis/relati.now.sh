@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import io from "socket.io-client";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
@@ -38,7 +37,6 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
   const gameRule = gameRuleFromSize[size];
   const gamePlayer = gamePlayerFromSize[size];
   const forceUpdate = useForceUpdate();
-  const socketClient = useRef(() => online && io()).current();
   const game = useRef<Game>(new Game(2, gameRule)).current;
   const gameRoundWinners = useRef([] as number[]).current;
   const roundWinsOfO = gameRoundWinners.filter(winner => winner === 0).length;
