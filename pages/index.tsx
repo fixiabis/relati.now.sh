@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { State, disableMainPageAnimation, setEffectSettingDrawLineDuration, setTutorialSettingSceneDuration, resetAllSetting, setEffectSettingPlacementEffect, setEffectSettingLastPieceEmphasized } from "../container/store";
-import { Box, Page, Button, Range, IconButton, Switch } from "../components";
+import { Page, Button, IconButton } from "../components";
 import { SettingBox } from "../page-components/index";
 
 const Main = () => {

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRuleX9, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
-import { Page, Button, IconButton, RelatiGame, useForceUpdate, CoordinateObject } from "../components";
+import { Page, Button, IconButton, RelatiGame, useForceUpdate } from "../components";
 import { downloadRecordSVGByRelatiGame } from "../utilities/client-side";
 import { delay } from "../utilities";
 import { useSelector } from "react-redux";
