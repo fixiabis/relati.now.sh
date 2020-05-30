@@ -38,7 +38,7 @@ function* signUserIn({ value: type }: AnyAction) {
     };
 
     yield call(async () =>
-        await firebase.firestore().collection("players").doc(player.uid).update(playerInfo)
+        await firebase.firestore().collection("players").doc(player.uid).set(playerInfo)
     );
 
     yield put(setUserInfo(playerInfo));
