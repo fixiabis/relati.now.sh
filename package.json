@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node .",
+    "start": "node index.js",
     "next-start": "next start -p $PORT",
     "export": "next export"
   },
@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase": "^7.14.5",
+    "firebase-admin": "^8.12.1",
     "gridboard": "^4.1.2",
     "next": "9.3.4",
     "next-pwa": "^2.4.1",
