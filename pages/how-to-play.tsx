@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9, RelatiSymbols } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiPiece, RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9 } from "../components";
 import { State, SettingState } from "../container/store";
+import { LeaveMessageBox, FinishMessageBox } from "../page-components/how-to-play";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
@@ -48,64 +49,11 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
     }
   };
 
-  const tutorialLeaveMessageIconStyle = { backgroundImage: "url(/icons/help.svg)" };
-
-  const tutorialLeaveMessageBox =
-    isTutorialLeaveMessageBoxShow
-      ? (
-        <MessageBox onCancel={closeTutorialLeaveMessageBox}>
-          <div className="message-container">
-            <div className="message-icon" style={tutorialLeaveMessageIconStyle} />
-            教學尚未結束, 確定離開?
-          </div>
-          <Button.Group>
-            <IconButton type="accept" color="crimson" onClick={leavePage} />
-            <IconButton type="reject" color="royalblue" onClick={closeTutorialLeaveMessageBox} />
-          </Button.Group>
-        </MessageBox>
-      )
-      : undefined;
-
-  const tutorialFinishMessageIcon =
-    game.isOver
-      ? (
-        <div className="message-icon-container">
-          <svg width="5" height="5" className="message-icon">
-            <RelatiPiece x={0} y={0} symbol={RelatiSymbols[game.winner] || "N"} primary />
-          </svg>
-        </div>
-      )
-      : undefined;
-
-  const tutorialFinishMessageText =
-    game.isOver
-      ? (
-        game.winner !== -1
-          ? `${game.winner ? "藍" : "紅"}方玩家獲勝!`
-          : "平手!"
-      ) + " 恭喜你完成教學!"
-      : undefined;
-
-  const tutorialFinishMessageBox =
-    isTutorialFinish && isTutorialFinishBoxShow
-      ? (
-        <MessageBox onCancel={closeTutorialFinishMessageBox}>
-          <div className="message-container">
-            {tutorialFinishMessageIcon}
-            {tutorialFinishMessageText}
-          </div>
-          <Button.Group>
-            <IconButton type="verify" color="seagreen" onClick={leavePage} />
-          </Button.Group>
-        </MessageBox>
-      )
-      : undefined;
-
   return (
     <Page id="how-to-play" title="how to play">
       <RelatiTutorial
-        scene={scene}
         game={game}
+        scene={scene}
         onFinish={finishTutorial}
         {...effectSetting}
         {...tutorialSetting} />
@@ -114,8 +62,17 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
         <IconButton type="leave" color="#888" title="離開" onClick={leaveTutorial} />
       </Button.Group>
 
-      {tutorialLeaveMessageBox}
-      {tutorialFinishMessageBox}
+      <LeaveMessageBox
+        show={isTutorialLeaveMessageBoxShow}
+        onCancel={closeTutorialLeaveMessageBox}
+        onAccept={leavePage}
+        onReject={closeTutorialLeaveMessageBox} />
+
+      <FinishMessageBox
+        game={game}
+        show={isTutorialFinish && isTutorialFinishBoxShow}
+        onCancel={closeTutorialFinishMessageBox}
+        onVerify={leavePage} />
     </Page>
   );
 };
