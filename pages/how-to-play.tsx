@@ -58,10 +58,6 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
         {...effectSetting}
         {...tutorialSetting} />
 
-      <Button.Group>
-        <IconButton type="leave" color="#888" title="離開" onClick={leaveTutorial} />
-      </Button.Group>
-
       <LeaveMessageBox
         show={isTutorialLeaveMessageBoxShow}
         onCancel={closeTutorialLeaveMessageBox}
@@ -73,6 +69,10 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
         show={isTutorialFinish && isTutorialFinishBoxShow}
         onCancel={closeTutorialFinishMessageBox}
         onVerify={leavePage} />
+
+      <Button.Group>
+        <IconButton type="leave" color="#888" title="離開" onClick={leaveTutorial} />
+      </Button.Group>
     </Page>
   );
 };
