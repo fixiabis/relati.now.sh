@@ -79,8 +79,8 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
 
 HowToPlay.getInitialProps = async ({ query: { scene, on: size } }) => {
   return {
-    size: parseInt((size as string)?.replace("x", "") || "5"),
-    scene: scene as string,
+    size: parseInt((size as string | undefined)?.replace("x", "") || "5"),
+    scene: scene as string | undefined,
   };
 };
 
