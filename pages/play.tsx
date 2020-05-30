@@ -3,10 +3,12 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import firebase from "../container/firebase";
 import Game, { RelatiGameRuleX9, RelatiSymbols, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7 } from "../libraries/RelatiGame";
 import { Page, Button, IconButton, MessageBox, RelatiGame, RelatiPiece, useForceUpdate, CoordinateObject } from "../components";
-import { downloadRecordSVGByRelatiGame, delay } from "../utilities";
+import { downloadRecordSVGByRelatiGame, delay, randomCode } from "../utilities";
 import { State, SettingState, UserState } from "../reducers";
+import { GameRoundInfo } from "../types";
 
 const gameRuleFromSize: Record<number, RelatiGameRule> = {
   5: RelatiGameRuleX5,
@@ -42,8 +44,16 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
   const roundWinsOfO = gameRoundWinners.filter(winner => winner === 0).length;
   const roundWinsOfX = gameRoundWinners.filter(winner => winner === 1).length;
   const [gameRound, setGameRound] = useState(0);
+
+  const [
+    { onlineGameRoundId, onlineGamePlayer },
+    setOnlineGameRoundIdWithOnlineGamePlayer
+  ] = useState({ onlineGameRoundId: "", onlineGamePlayer: -1 });
+
+  const [onlineGameThinkCountdown, setOnlineGameThinkCountdown] = useState(0);
   const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
   const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
+  const [isGameWaitMatchMessageBoxShow, setIsGameWaitMatchMessageBoxShow] = useState(false);
   const playerInfo = useSelector<State, UserState["userInfo"]>(state => state.user.userInfo);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
   const leavePage = () => router.replace("/choose-mode?for=game");
@@ -126,7 +136,20 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
     }
   };
 
-  const handleGameAfterGridClick = ({ x, y }: CoordinateObject) => {
+  const handleGameAfterGridClick = async ({ x, y }: CoordinateObject) => {
+    if (online && game.getNowPlayer() === onlineGamePlayer) {
+      const gameRoundInfoRef = firebase.firestore().collection("rounds").doc(onlineGameRoundId);
+      const gameRoundInfo = (await gameRoundInfoRef.get()).data() as GameRoundInfo;
+
+      gameRoundInfo.records.push({
+        action: "placement",
+        params: [x, y]
+      });
+
+      await gameRoundInfoRef.update(gameRoundInfo);
+      return;
+    }
+
     if (playersCount === 0 || playersCount === 2 || game.getNowPlayer() !== player) {
       return;
     }
@@ -209,9 +232,70 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
   }, [game.isOver]);
 
   useEffect(() => {
-    if (online && !playerInfo) {
+    if (online && playerInfo) {
+      firebase.firestore().collection("rounds")
+        .where("playerX", "==", null)
+        .where("type", "==", `x${size}`)
+        .get()
+        .then(async result => {
+          if (result.docs.length === 0) {
+            const gameRoundInfoRef = firebase.firestore().collection("rounds").doc();
+
+            const gameRoundInfo = {
+              type: `x${size}`,
+              isOver: false,
+              winner: -1,
+              records: [],
+              playerO: firebase.auth().currentUser?.uid,
+              playerX: null,
+              time: Date.now(),
+            };
+
+            await gameRoundInfoRef.set(gameRoundInfo);
+
+            setOnlineGameRoundIdWithOnlineGamePlayer({
+              onlineGameRoundId: gameRoundInfoRef.id,
+              onlineGamePlayer: 0,
+            });
+          }
+          else {
+            const gameRoundInfoRef = result.docs[0].ref;
+            const gameRoundInfo = (await gameRoundInfoRef.get()).data();
+
+            Object.assign(gameRoundInfo, {
+              playerX: firebase.auth().currentUser?.uid,
+            });
+
+            await gameRoundInfoRef.update(gameRoundInfo as firebase.firestore.DocumentData);
+
+            setOnlineGameRoundIdWithOnlineGamePlayer({
+              onlineGameRoundId: gameRoundInfoRef.id,
+              onlineGamePlayer: 1,
+            });
+          }
+        });
+    }
+    else {
       router.replace("/choose-mode?for=sign-in");
     }
+  }, []);
+
+  useEffect(() => {
+    if (!online || !playerInfo || !onlineGameRoundId) {
+      return;
+    }
+
+    return firebase.firestore().collection("rounds").doc(onlineGameRoundId).onSnapshot(snapshot => {
+      const gameRoundInfo = snapshot.data() as GameRoundInfo;
+
+      if (gameRoundInfo?.records[gameRoundInfo.records.length - 1]) {
+        const [x, y] = gameRoundInfo.records[gameRoundInfo.records.length - 1].params;
+        game.doPlacementByCoordinate(x, y);
+        game.reenableAllPieces();
+        game.checkIsOverAndFindWinner();
+        forceUpdate();
+      }
+    });
   });
 
   return (

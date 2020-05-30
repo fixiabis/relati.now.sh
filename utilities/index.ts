@@ -3,6 +3,16 @@ import { RelatiSymbolRoute, RelatiSymbolColor } from "../components/Relati/Relat
 
 export const delay = (ms: number) => new Promise(done => setTimeout(done, ms));
 
+export const randomCode = (length: number) => {
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+        result += Math.floor(Math.random() * 36).toString(36);
+    }
+
+    return result;
+};
+
 export const createBoardSVGTextByRelatiGame = (game: RelatiGame) => {
     const placementRecordsJSONText = JSON.stringify(game.placementRecords);
     const viewWidth = game.board.width * 5;
