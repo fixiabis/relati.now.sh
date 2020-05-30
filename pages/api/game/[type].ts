@@ -25,7 +25,7 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
         return respondByCodeAndErrorMessage(404, `不存在的類型: ${clientRequest.query["type"]}`);
     }
 
-    if (!clientRequest.query["playerId"]) {
+    if (!clientRequest.body["playerId"]) {
         return respondByCodeAndErrorMessage(400, "遺失欄位: playerId");
     }
 
@@ -35,7 +35,7 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
 const Game = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
     await runMiddlewares(clientRequest, serverResponse, [cors, validateFields]);
     const type = clientRequest.query["type"] as string;
-    const playerId = clientRequest.query["playerId"] as string;
+    const playerId = clientRequest.body["playerId"] as string;
 
     switch (type) {
         case "join":
@@ -43,7 +43,7 @@ const Game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
 
             if (!playerInfo) {
                 serverResponse.status(404);
-                serverResponse.json({ message: `不存在的玩家 ${clientRequest.query["playerId"]}` });
+                serverResponse.json({ message: `不存在的玩家: ${clientRequest.body["playerId"]}` });
             }
 
             break;
