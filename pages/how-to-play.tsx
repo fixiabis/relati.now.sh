@@ -29,15 +29,15 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
   const gameRule = gameRuleFromSize[size];
   const game = useRef<Game>(new Game(2, gameRule)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
-  const [isTutorialFinishBoxShow, setIsTutorialFinishBoxShow] = useState(true);
-  const [isTutorialLeaveMessageBoxShow, setIsTutorialLeaveMessageBoxShow] = useState(false);
+  const [isTutorialFinishBoxOpen, setIsTutorialFinishBoxOpen] = useState(true);
+  const [isTutorialLeaveMessageBoxOpen, setIsTutorialLeaveMessageBoxOpen] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
   const tutorialSetting = useSelector<State, SettingState["tutorial"]>(state => state.setting.tutorial);
   const leavePage = () => router.replace("/choose-mode?for=tutorial");
   const finishTutorial = () => setIsTutorialFinish(true);
-  const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(true);
-  const closeTutorialFinishMessageBox = () => setIsTutorialFinishBoxShow(false);
-  const closeTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxShow(false);
+  const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxOpen(true);
+  const closeTutorialFinishMessageBox = () => setIsTutorialFinishBoxOpen(false);
+  const closeTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxOpen(false);
   const RelatiTutorial = RelatiTutorialFromSize[size];
 
   const leaveTutorial = () => {
@@ -59,14 +59,14 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
         {...tutorialSetting} />
 
       <TutorialLeaveMessageBox
-        show={isTutorialLeaveMessageBoxShow}
+        show={isTutorialLeaveMessageBoxOpen}
         onCancel={closeTutorialLeaveMessageBox}
         onAccept={leavePage}
         onReject={closeTutorialLeaveMessageBox} />
 
       <TutorialFinishMessageBox
         game={game}
-        show={isTutorialFinish && isTutorialFinishBoxShow}
+        show={isTutorialFinish && isTutorialFinishBoxOpen}
         onCancel={closeTutorialFinishMessageBox}
         onVerify={leavePage} />
 

@@ -43,13 +43,13 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
   const roundWinsOfO = gameRoundWinners.filter(winner => winner === 0).length;
   const roundWinsOfX = gameRoundWinners.filter(winner => winner === 1).length;
   const [gameRound, setGameRound] = useState(0);
-  const [isGameOverMessageBoxShow, setIsGameOverMessageBoxShow] = useState(true);
-  const [isGameLeaveMessageBoxShow, setIsGameLeaveMessageBoxShow] = useState(false);
+  const [isGameOverMessageBoxOpen, setIsGameOverMessageBoxOpen] = useState(true);
+  const [isGameLeaveMessageBoxOpen, setIsGameLeaveMessageBoxOpen] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
   const leavePage = () => router.replace("/choose-mode?for=game");
-  const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(true);
-  const closeGameOverMessageBox = () => setIsGameOverMessageBoxShow(false);
-  const closeGameLeaveMessageBox = () => setIsGameLeaveMessageBoxShow(false);
+  const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxOpen(true);
+  const closeGameOverMessageBox = () => setIsGameOverMessageBoxOpen(false);
+  const closeGameLeaveMessageBox = () => setIsGameLeaveMessageBoxOpen(false);
   playerOApi = playerOApi || (player === 0 ? "/api/next-step" : versusApi);
   playerXApi = playerXApi || (player === 1 ? "/api/next-step" : versusApi);
 
@@ -181,7 +181,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
         onOver={forceUpdate} />
 
       <GameLeaveMessageBox
-        show={isGameLeaveMessageBoxShow}
+        show={isGameLeaveMessageBoxOpen}
         onCancel={closeGameLeaveMessageBox}
         onAccept={leavePage}
         onReject={closeGameLeaveMessageBox}
@@ -189,7 +189,7 @@ const Play: NextPage<Props> = ({ size, level, withPlayer: player, rounds, player
 
       <GameOverMessageBox
         game={game}
-        show={isGameOverMessageBoxShow && game.isOver}
+        show={isGameOverMessageBoxOpen && game.isOver}
         onCancel={closeGameOverMessageBox}
         onRetry={restartGame}
         onLeave={leaveGame}
