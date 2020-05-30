@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node index.js",
+    "start": "NODE_ENV=production node index.js",
     "next-start": "next start -p $PORT",
     "export": "next export"
   },
@@ -14,6 +14,7 @@
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "firebase": "^7.14.5",
     "firebase-admin": "^8.12.1",
