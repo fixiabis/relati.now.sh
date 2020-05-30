@@ -34,7 +34,7 @@ const ChooseMode: NextPage<Props> = ({ type }) => {
         <Page id="choose-mode" title="choose game mode">
           <div className="choose-mode-control">
             <div className="main-icon" style={{ backgroundImage: `url(/icons/play.svg)` }} />
-          請選擇大小
+          請選擇棋盤大小
           <Button.Group>
               <IconButton type="x5" color="royalblue" onClick={setSizeX5} title="5x5" />
               <IconButton type="x7" color="seagreen" onClick={setSizeX7} title="7x7" />
@@ -75,7 +75,7 @@ const ChooseMode: NextPage<Props> = ({ type }) => {
       <Page id="choose-mode" title="choose tutorial mode">
         <div className="choose-mode-control">
           <div className="main-icon" style={{ backgroundImage: `url(/icons/help.svg)` }} />
-          請選擇大小
+          請選擇棋盤大小
           <Button.Group>
             <IconButton type="x5" color="royalblue" onClick={toHowToPlayPageOnX5} title="5x5" />
             <IconButton type="x7" color="seagreen" onClick={toHowToPlayPageOnX7} title="7x7" />

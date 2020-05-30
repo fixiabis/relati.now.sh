@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import firebase from "../container/firebase";
 import { State } from "../reducers";
 import { Box, Page, Button, Range, IconButton, Switch } from "../components";
 import { disableMainPageAnimation, setEffectSettingDrawLineDuration, setTutorialSettingSceneDuration, resetAllSetting, setEffectSettingPlacementEffect, setEffectSettingLastPieceEmphasized } from "../actions";
@@ -44,30 +43,6 @@ const Main = () => {
       dispatch(disableMainPageAnimation());
     }
   }, [mainPageAnimation]);
-
-  useEffect(() => {
-    return; // disabled
-
-    firebase.auth().onAuthStateChanged(player => {
-      if (!player) {
-        return;
-      }
-
-      const firebaseFacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-      firebase.auth().signInWithPopup(firebaseFacebookAuthProvider).then(() => {
-        const { currentUser: player } = firebase.auth();
-
-        if (!player) {
-          return;
-        }
-
-        firebase.firestore().collection("players").doc(player.uid).update({
-          name: player.displayName,
-          avatarURL: player.photoURL,
-        });
-      });
-    });
-  });
 
   const settingBox =
     isSettingOpen

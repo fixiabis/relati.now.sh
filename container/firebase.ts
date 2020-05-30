@@ -15,7 +15,6 @@ const firebaseConfig = {
 
 if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
-    Object.assign(globalThis, { firebase });
 }
 
 export default firebase;
