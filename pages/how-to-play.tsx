@@ -3,30 +3,30 @@ import { useSelector } from "react-redux";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9 } from "../libraries/RelatiGame";
-import { Page, Button, IconButton, RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9 } from "../components";
+import { Page, Button, IconButton, RelatiTutorialX5, RelatiTutorialX7, RelatiTutorialX9, RelatiTutorialComponent } from "../components";
 import { State, SettingState } from "../container/store";
 import { TutorialLeaveMessageBox, TutorialFinishMessageBox } from "../page-components/how-to-play";
 
-const gameRuleFromSize: Record<number, RelatiGameRule> = {
-  5: RelatiGameRuleX5,
-  7: RelatiGameRuleX7,
-  9: RelatiGameRuleX9,
+const gameRuleFromSize: Record<string, RelatiGameRule> = {
+  "x5": RelatiGameRuleX5,
+  "x7": RelatiGameRuleX7,
+  "x9": RelatiGameRuleX9,
 };
 
-const RelatiTutorialFromSize: Record<number, (typeof RelatiTutorialX5 | typeof RelatiTutorialX7)> = {
-  5: RelatiTutorialX5,
-  7: RelatiTutorialX7,
-  9: RelatiTutorialX9,
+const RelatiTutorialFromSize: Record<string, RelatiTutorialComponent> = {
+  "x5": RelatiTutorialX5,
+  "x7": RelatiTutorialX7,
+  "x9": RelatiTutorialX9,
 };
 
 export interface Props {
-  size: number;
+  size?: string;
   scene?: string;
 }
 
-const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
+const HowToPlay: NextPage<Props> = ({ size = "x5", scene = "1" }) => {
   const router = useRouter();
-  const gameRule = gameRuleFromSize[size];
+  const gameRule = gameRuleFromSize[size] || RelatiGameRuleX5;
   const game = useRef<Game>(new Game(2, gameRule)).current;
   const [isTutorialFinish, setIsTutorialFinish] = useState(false);
   const [isTutorialFinishBoxOpen, setIsTutorialFinishBoxOpen] = useState(true);
@@ -38,7 +38,7 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
   const openTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxOpen(true);
   const closeTutorialFinishMessageBox = () => setIsTutorialFinishBoxOpen(false);
   const closeTutorialLeaveMessageBox = () => setIsTutorialLeaveMessageBoxOpen(false);
-  const RelatiTutorial = RelatiTutorialFromSize[size];
+  const RelatiTutorial = RelatiTutorialFromSize[size] || RelatiTutorialX5;
 
   const leaveTutorial = () => {
     if (game.turn && !isTutorialFinish) {
@@ -79,7 +79,7 @@ const HowToPlay: NextPage<Props> = ({ size, scene = "1" }) => {
 
 HowToPlay.getInitialProps = async ({ query: { scene, on: size } }) => {
   return {
-    size: parseInt((size as string | undefined)?.replace("x", "") || "5"),
+    size: size as string | undefined,
     scene: scene as string | undefined,
   };
 };

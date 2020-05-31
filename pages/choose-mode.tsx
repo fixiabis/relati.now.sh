@@ -13,10 +13,10 @@ export interface Props {
   type?: string;
 }
 
-const ChooseMode: NextPage<Props> = ({ type }) => {
+const ChooseMode: NextPage<Props> = ({ type = "game" }) => {
   const router = useRouter();
   const leavePage = () => router.replace("/");
-  const ChooseModePage = ChooseModePageFromType[type || "game"];
+  const ChooseModePage = ChooseModePageFromType[type] || ChooseModeForGame;
   return <ChooseModePage router={router} leavePage={leavePage} />
 };
 

@@ -1,22 +1,9 @@
 import React, { useState, useEffect } from "react";
 import RelatiScenes from "./scenes";
-import { Props as RelatiBoardProps } from "../RelatiBoard";
 import RelatiGame, { RelatiGameRuleX9 } from "../../../libraries/RelatiGame";
+import { RelatiTutorialComponent } from "../types";
 
-type OmittedRelatiBoardPropKeys =
-  | "game"
-  | "lastPieceCoordinate"
-  | "symbolOfPreviousPlayer"
-  | "symbolOfCurrentPlayer";
-
-export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
-  game?: RelatiGame;
-  scene?: string;
-  sceneDuration: number;
-  onFinish?: () => void;
-};
-
-const RelatiTutorialX9 = ({ game: externalGame, scene: externalStep = "0", onFinish, ...props }: Props) => {
+const RelatiTutorialX9: RelatiTutorialComponent = ({ game: externalGame, scene: externalStep = "0", onFinish, ...props }) => {
   const [game] = useState(externalGame || new RelatiGame(2, RelatiGameRuleX9));
   const [sceneName, setSceneName] = useState(externalStep);
   const [scale, setScale] = useState(0.95);

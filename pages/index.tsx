@@ -38,11 +38,6 @@ const Main = () => {
           <IconButton type="help" color="royalblue" title="如何遊玩" onClick={toChooseTutorialModePage} />
         </Button.Group>
       </div>
-      <Button.Group className={bottomButtonGroupClassName}>
-        <IconButton type="knowledge" title="相關知識" color="seagreen" />
-        <IconButton type="badge" title="成就" color="darkorange" />
-        <IconButton type="gear" title="設定" color="#888" onClick={openSetting} />
-      </Button.Group>
 
       <SettingBox
         show={isSettingBoxOpen}
@@ -53,6 +48,12 @@ const Main = () => {
         setTutorialSceneDuration={setTutorialSceneDuration}
         onReset={resetSetting}
         onClose={closeSetting} />
+
+      <Button.Group className={bottomButtonGroupClassName}>
+        <IconButton type="knowledge" title="相關知識" color="seagreen" />
+        <IconButton type="badge" title="成就" color="darkorange" />
+        <IconButton type="gear" title="設定" color="#888" onClick={openSetting} />
+      </Button.Group>
     </Page>
   );
 };
