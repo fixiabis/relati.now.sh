@@ -1,6 +1,6 @@
-import { Page, Button, IconButton } from "../../../components";
+import { Page, Button, IconButton } from "../../components";
 import { useState } from "react";
-import { ChooseModePageComponent } from "../types";
+import { ChooseModePageComponent } from "./types";
 
 const ChooseModeForGame: ChooseModePageComponent = ({ router, leavePage }) => {
   const [size, setSize] = useState("");

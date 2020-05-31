@@ -1,7 +1,7 @@
-import { Page, Button, IconButton } from "../../../components";
+import { Page, Button, IconButton } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { State, UserState, signUserIn } from "../../../container/store";
-import { ChooseModePageComponent } from "../types";
+import { State, UserState, signUserIn } from "../../container/store";
+import { ChooseModePageComponent } from "./types";
 
 const ChooseModeForSignIn: ChooseModePageComponent = ({ router, leavePage }) => {
   const dispatch = useDispatch();

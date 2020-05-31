@@ -1,11 +1,12 @@
-import { MessageBox, Button, IconButton, MessageBoxProps } from "../../../components";
+import { MessageBox, Button, IconButton, MessageBoxProps } from "../../components";
 
 export interface Props extends MessageBoxProps {
   onAccept?: () => void;
   onReject?: () => void;
+  onDownload?: () => void;
 }
 
-const LeaveMessageBox = ({ show: isShow, onCancel: handleCancel, onAccept: handleAccept, onReject: handleReject }: Props) => {
+const GameLeaveMessageBox = ({ show: isShow, onCancel: handleCancel, onAccept: handleAccept, onReject: handleReject, onDownload: handleDownload }: Props) => {
   const messageIconStyle = { backgroundImage: "url(/icons/help.svg)" };
 
   if (!isShow) {
@@ -16,14 +17,15 @@ const LeaveMessageBox = ({ show: isShow, onCancel: handleCancel, onAccept: handl
     <MessageBox onCancel={handleCancel}>
       <div className="message-container">
         <div className="message-icon" style={messageIconStyle} />
-            教學尚未結束, 確定離開?
-          </div>
+        勝負未分, 確定離開?
+      </div>
       <Button.Group>
         <IconButton type="accept" color="crimson" onClick={handleAccept} />
+        <IconButton type="download" color="#888" onClick={handleDownload} />
         <IconButton type="reject" color="royalblue" onClick={handleReject} />
       </Button.Group>
     </MessageBox>
   );
 };
 
-export default LeaveMessageBox;
+export default GameLeaveMessageBox;

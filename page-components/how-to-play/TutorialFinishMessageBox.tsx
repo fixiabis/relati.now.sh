@@ -1,5 +1,5 @@
-import { MessageBox, Button, IconButton, MessageBoxProps, RelatiPiece } from "../../../components";
-import { RelatiGame, RelatiSymbols } from "../../../libraries";
+import { MessageBox, Button, IconButton, MessageBoxProps, RelatiPiece } from "../../components";
+import { RelatiGame, RelatiSymbols } from "../../libraries";
 
 export interface Props extends MessageBoxProps {
   game: RelatiGame;

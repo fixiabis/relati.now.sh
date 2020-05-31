@@ -1,5 +1,5 @@
-import { Box, Switch, Button, IconButton, Range, BoxProps } from "../../../components";
-import { SettingState } from "../../../container/store";
+import { Box, Switch, Button, IconButton, Range, BoxProps } from "../../components";
+import { SettingState } from "../../container/store";
 
 export interface Props extends BoxProps {
   setting: SettingState;

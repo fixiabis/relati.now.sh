@@ -1,5 +1,5 @@
-import { Page, Button, IconButton } from "../../../components";
-import { ChooseModePageComponent } from "../types";
+import { Page, Button, IconButton } from "../../components";
+import { ChooseModePageComponent } from "./types";
 
 const ChooseModeForTutorial: ChooseModePageComponent = ({ router, leavePage }) => {
   const toHowToPlayPageOnX5 = () => router.replace("/how-to-play?on=x5");
