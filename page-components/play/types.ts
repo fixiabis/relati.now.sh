@@ -1,17 +1,18 @@
-import { NextRouter } from "next/router";
-import { PageProps } from "../../components";
+import { RelatiGameProps } from "../../components";
 import { RelatiGame } from "../../libraries";
 
-type OmittedPagePropKeys =
-    | "title";
+type OmittedGamePropKeys = "";
 
-export interface PlayGamePageProps extends Omit<PageProps, OmittedPagePropKeys> {
-    router: NextRouter;
+export interface PlayGameProps extends Omit<RelatiGameProps, OmittedGamePropKeys> {
     size: string;
     game: RelatiGame;
-    leaveGame: () => void;
+    level: number;
+    rounds: number;
+    playerOApi?: string;
+    playerXApi?: string;
+    opponentOfPlayer: number;
 }
 
-export type PlayGamePageComponent<Super = React.FunctionComponent<PlayGamePageProps>> = Super & {
+export type PlayGameComponent<Super = React.FunctionComponent<PlayGameProps>> = Super & {
 
 };

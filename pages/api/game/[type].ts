@@ -32,7 +32,7 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
     next();
 };
 
-const Game = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
+const game = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
     await runMiddlewares(clientRequest, serverResponse, [cors, validateFields]);
     const type = clientRequest.query["type"] as string;
     const playerId = clientRequest.body["playerId"] as string;
@@ -50,4 +50,4 @@ const Game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
     }
 };
 
-export default Game;
+export default game;

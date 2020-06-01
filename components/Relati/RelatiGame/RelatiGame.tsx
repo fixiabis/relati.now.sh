@@ -15,7 +15,7 @@ export interface Props extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys
   onGridClick?: ({ x, y }: CoordinateObject) => boolean | void;
 };
 
-const RelatiGame = ({ game: externalGame, lastPieceEmphasized: isLastPieceEmphasized, onGridClick: externalHandleGridClick, onOver, ...props }: Props) => {
+const RelatiGame = ({ game: externalGame, lastPieceEmphasized: isLastPieceEmphasized, onGridClick: externalHandleGridClick, onOver: handleOver, ...props }: Props) => {
   const forceUpdate = useForceUpdate();
   const game = useRef<Game>(externalGame || new Game(2, RelatiGameRuleX9)).current;
 
@@ -36,7 +36,7 @@ const RelatiGame = ({ game: externalGame, lastPieceEmphasized: isLastPieceEmphas
 
     if (game.isOver) {
       const winnerSymbol = RelatiSymbols[game.winner] || "N";
-      onOver?.(winnerSymbol);
+      handleOver?.(winnerSymbol);
     }
 
     forceUpdate();
