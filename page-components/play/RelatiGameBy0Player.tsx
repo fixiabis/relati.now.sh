@@ -61,18 +61,10 @@ const RelatiGameBy0Player: PlayGameComponent = ({ size, opponentOfPlayer, player
   });
 
   return (
-    <>
-      <div className="versus-header">
-        <div className="player-o"></div>
-        <div className="versus" />
-        <div className="player-x"></div>
-      </div>
-
-      <RelatiGame
-        {...props}
-        game={game}
-        onGridClick={handleGridClick} />
-    </>
+    <RelatiGame
+      {...props}
+      game={game}
+      onGridClick={handleGridClick} />
   );
 };
 

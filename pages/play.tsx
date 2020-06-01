@@ -81,6 +81,12 @@ const Play: NextPage<Props> = ({ size = "x9", level, withPlayer: opponentOfPlaye
 
   return (
     <Page id="play" title={`play${rounds > 1 ? ` (${roundWinsOfO}:${roundWinsOfX})` : ""}`}>
+      <div className="versus-header">
+        <div className="player-o"></div>
+        <div className="versus" />
+        <div className="player-x"></div>
+      </div>
+
       <Game
         {...effectSetting}
         size={size}
