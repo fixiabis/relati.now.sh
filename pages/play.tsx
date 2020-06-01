@@ -14,28 +14,28 @@ const gameRuleFromSize: Record<string, RelatiGameRule> = {
   "x9": RelatiGameRuleX9,
 };
 
-const GameFromPlayersCount: Record<number, PlayGameComponent> = {
-  0: RelatiGameBy0Player,
-  1: RelatiGameBy1Player,
-  2: RelatiGameBy2Player,
+const GameFromMode: Record<string, PlayGameComponent> = {
+  "0p": RelatiGameBy0Player,
+  "1p": RelatiGameBy1Player,
+  "2p": RelatiGameBy2Player,
 };
 
 export interface Props {
   size?: string;
+  mode: string;
   level: number;
   rounds: number;
   withPlayer: number;
-  playersCount: number;
   versusApi?: string;
   playerOApi?: string;
   playerXApi?: string;
 }
 
-const Play: NextPage<Props> = ({ size = "x9", level, withPlayer: opponentOfPlayer, rounds, playersCount, playerOApi, playerXApi, versusApi }) => {
+const Play: NextPage<Props> = ({ size = "x9", level, withPlayer: opponentOfPlayer, rounds, mode, playerOApi, playerXApi, versusApi }) => {
   const router = useRouter();
   const gameRule = gameRuleFromSize[size];
   const forceUpdate = useForceUpdate();
-  const Game = GameFromPlayersCount[playersCount];
+  const Game = GameFromMode[mode];
   const game = useRef<RelatiGame>(new RelatiGame(2, gameRule)).current;
   const [gameRound, setGameRound] = useState(0);
   const gameRoundWinners = useRef([] as number[]).current;
@@ -120,7 +120,12 @@ Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, r
     size: size as string | undefined,
     withPlayer: ((symbol as string)?.toUpperCase()) === "O" ? 0 : 1,
     versusApi: versus as string,
-    playersCount: "1p" in query ? 1 : "0p" in query ? 0 : 2,
+    mode:
+      "1p" in query
+        ? "1p"
+        : "0p" in query
+          ? "0p"
+          : "2p",
     playerOApi: playerO as string,
     playerXApi: playerX as string,
     rounds: rounds === "Infinity" ? Infinity : parseInt(rounds as string) || 1,
