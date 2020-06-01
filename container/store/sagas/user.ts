@@ -16,9 +16,9 @@ function* signUserIn({ value: type }: AnyAction) {
             break;
     }
 
-    yield call(async () => 
-        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-    );
+    // yield call(async () => 
+    //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    // );
 
     try {
         yield call(async () =>
