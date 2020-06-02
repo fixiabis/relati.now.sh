@@ -74,7 +74,7 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
             const roundDocuments = (
                 await roundsCollection
                     .where("playerX", "==", null)
-                    .orderBy("time", "desc")
+                    // .orderBy("time", "desc")
                     .get()
             ).docs;
 
