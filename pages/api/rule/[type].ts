@@ -27,25 +27,25 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
         return respondByCodeAndErrorMessage(405, `不允許的方法: ${clientRequest.method}`)
     }
 
-    if (!allowedTypes.includes(clientRequest.query["type"] as string)) {
-        return respondByCodeAndErrorMessage(404, `不存在的類型: ${clientRequest.query["type"]}`);
+    if (!allowedTypes.includes(clientRequest.query?.type as string)) {
+        return respondByCodeAndErrorMessage(404, `不存在的類型: ${clientRequest.query?.type}`);
     }
 
-    if (!clientRequest.query["turn"]) {
+    if (!clientRequest.query?.turn) {
         return respondByCodeAndErrorMessage(400, "遺失欄位: turn");
     }
 
-    if (!clientRequest.query["board"] && !clientRequest.query["pieces"]) {
+    if (!clientRequest.query?.board && !clientRequest.query?.pieces) {
         return respondByCodeAndErrorMessage(400, "遺失欄位: board 或 pieces");
     }
 
-    if (clientRequest.query["type"] === "is-valid-placement" && !clientRequest.query["at"]) {
+    if (clientRequest.query?.type === "is-valid-placement" && !clientRequest.query?.at) {
         return respondByCodeAndErrorMessage(400, "遺失欄位: at");
     }
 
-    const turn = parseInt(clientRequest.query["turn"] as string);
-    const pieceCodesFieldName = clientRequest.query["board"] ? "board" : "pieces";
-    const pieceCodes = (clientRequest.query["board"] || clientRequest.query["pieces"]) as string;
+    const turn = parseInt(clientRequest.query?.turn as string);
+    const pieceCodesFieldName = clientRequest.query?.board ? "board" : "pieces";
+    const pieceCodes = (clientRequest.query?.board || clientRequest.query?.pieces) as string;
 
     if (!allowedSizes.includes(pieceCodes.length)) {
         return respondByCodeAndErrorMessage(422, `欄位長度不符: ${pieceCodesFieldName}`);
@@ -55,8 +55,8 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
         return respondByCodeAndErrorMessage(422, "欄位範圍不符: turn");
     }
 
-    if (clientRequest.query["type"] === "is-valid-placement") {
-        const gridIndex = parseInt(clientRequest.query["at"] as string);
+    if (clientRequest.query.type === "is-valid-placement") {
+        const gridIndex = parseInt(clientRequest.query.at as string);
 
         if (gridIndex < 0 || gridIndex >= pieceCodes.length) {
             return respondByCodeAndErrorMessage(422, "欄位範圍不符: at");
@@ -68,9 +68,9 @@ const validateFields: Middleware = (clientRequest, serverResponse, next) => {
 
 const rule = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
     await runMiddlewares(clientRequest, serverResponse, [cors, validateFields]);
-    const type = clientRequest.query["type"] as string;
-    const turn = parseInt(clientRequest.query["turn"] as string);
-    const pieceCodes = clientRequest.query["board"] || clientRequest.query["pieces"] as string;
+    const type = clientRequest.query.type as string;
+    const turn = parseInt(clientRequest.query.turn as string);
+    const pieceCodes = clientRequest.query.board || clientRequest.query.pieces as string;
     const gameRule = gameRuleFromSize[pieceCodes.length];
 
     const game = new RelatiGame(2, gameRule);
@@ -95,26 +95,29 @@ const rule = async (clientRequest: NextApiRequest & Express.Request, serverRespo
     const player = game.getNowPlayer();
 
     switch (type) {
-        case "is-valid-placement":
-            const gridIndex = parseInt(clientRequest.query["at"] as string);
+        case "is-valid-placement": {
+            const gridIndex = parseInt(clientRequest.query.at as string);
             const grid = game.board.grids[gridIndex];
 
             return serverResponse.json(
                 game.validateIsPlayerCanDoPlacement(grid, player)
             );
+        }
 
-        case "placeable-steps":
+        case "placeable-steps": {
             return serverResponse.json(game.board.grids.filter(grid =>
                 game.validateIsPlayerCanDoPlacement(grid, player)
             ).map(grid => grid.i));
+        }
 
-        case "winner":
+        case "winner": {
             if (!game.isOver) {
                 serverResponse.status(404);
                 return serverResponse.json(-2);
             }
 
             return serverResponse.json(game.winner);
+        }
     }
 };
 
