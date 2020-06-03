@@ -16,7 +16,7 @@ const RelatiBoardPieces = ({ game, placementEffect: isPlacementEffectOn, drawLin
   const { board: externalBoard } = game;
   const previousPlayer = game.getPlayerByTurn(game.turn - 1);
   const previousPlayerSymbool = RelatiSymbols[previousPlayer];
-  const [gameLastPlacementRecordX, gameLastPlacementRecordY] = game.placementRecords[game.placementRecords.length - 1] || [];
+  const [gameLastPlacementRecordX, gameLastPlacementRecordY] = game.records[game.records.length - 1] || [];
   const isHasTransition = drawLineDuration && externalBoard.grids.filter(({ piece }) => piece).length > 1;
 
   if (!isHasTransition) {

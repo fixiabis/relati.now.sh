@@ -10,7 +10,7 @@ export const downloadRecordSVGByRelatiGame = (game: RelatiGame) => {
 };
 
 export const downloadRecordJSONByRelatiGame = (game: RelatiGame) => {
-    const placementRecordsJSONText = JSON.stringify(game.placementRecords);
+    const placementRecordsJSONText = JSON.stringify(game.records);
     const fileType = "text/json";
     const nowTime = Date.now();
     const fileName = `relati-x${game.board.width}-record-at-${nowTime}.json`;

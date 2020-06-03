@@ -3,11 +3,18 @@ import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
 import { runMiddlewares, Middleware } from "../../utilities/server-side";
 import firebaseAdmin from "../../container/firebaseAdmin";
-import { GameRoundInfo } from "../../types";
+import { GameRoundInfo, GameRoundAction } from "../../types";
+import { RelatiGame, RelatiGameRuleX5, RelatiGameRule, RelatiGameRuleX7, RelatiGameRuleX9, convertBoardToPieceCodes } from "../../libraries";
 
 const roundsCollection = firebaseAdmin.firestore().collection("rounds");
 const playersCollection = firebaseAdmin.firestore().collection("players");
-const allowedMethods = ["POST", "DELETE"];
+const allowedMethods = ["POST"];
+
+const gameRuleFromType: Record<string, RelatiGameRule> = {
+    "x5": RelatiGameRuleX5,
+    "x7": RelatiGameRuleX7,
+    "x9": RelatiGameRuleX9,
+};
 
 const cors = Cors({
     methods: allowedMethods,
@@ -23,44 +30,19 @@ const validateFields: Middleware = async (clientRequest, serverResponse, next) =
         return respondByCodeAndErrorMessage(405, `不允許的方法: ${clientRequest.method}`);
     }
 
-    switch (clientRequest.method) {
-        case "POST": {
-            if (!clientRequest.body?.type) {
-                return respondByCodeAndErrorMessage(400, "遺失欄位: type");
-            }
+    if (!clientRequest.body?.type) {
+        return respondByCodeAndErrorMessage(400, "遺失欄位: type");
+    }
 
-            if (!clientRequest.body?.playerId) {
-                return respondByCodeAndErrorMessage(400, "遺失欄位: playerId");
-            }
+    if (!clientRequest.body?.playerId) {
+        return respondByCodeAndErrorMessage(400, "遺失欄位: playerId");
+    }
 
-            const playerId = clientRequest.body.playerId;
-            const playerInfo = (await playersCollection.doc(playerId).get()).data();
+    const playerId = clientRequest.body.playerId;
+    const playerInfo = (await playersCollection.doc(playerId).get()).data();
 
-            if (!playerInfo) {
-                return respondByCodeAndErrorMessage(404, `不存在的玩家: ${playerId}`);
-            }
-
-            break;
-        }
-
-        case "DELETE": {
-            if (!clientRequest.query?.roundId) {
-                return respondByCodeAndErrorMessage(400, "遺失條件: roundId");
-            }
-
-            if (!clientRequest.query?.playerId) {
-                return respondByCodeAndErrorMessage(400, "遺失條件: playerId");
-            }
-
-            const playerId = clientRequest.query.playerId as string;
-            const playerInfo = (await playersCollection.doc(playerId).get()).data();
-
-            if (!playerInfo) {
-                return respondByCodeAndErrorMessage(404, `不存在的玩家: ${playerId}`);
-            }
-
-            break;
-        }
+    if (!playerInfo) {
+        return respondByCodeAndErrorMessage(404, `不存在的玩家: ${playerId}`);
     }
 
     next();
@@ -68,63 +50,42 @@ const validateFields: Middleware = async (clientRequest, serverResponse, next) =
 
 const game = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
     await runMiddlewares(clientRequest, serverResponse, [cors, validateFields]);
+    const type = clientRequest.body.type as string;
 
-    switch (clientRequest.method) {
-        case "POST": {
-            const roundDocuments = (
-                await roundsCollection
-                    .where("playerX", "==", null)
-                    // .orderBy("time", "desc")
-                    .get()
-            ).docs;
+    const roundDocuments = (
+        await roundsCollection
+            .where("type", "==", type)
+            .where("playerX", "==", null)
+            .get()
+    ).docs;
 
-            if (roundDocuments.length > 0) {
-                const [roundDocument] = roundDocuments;
-                const roundId = roundDocument.id;
-                const roundInfo = roundDocument.data() as GameRoundInfo;
-                const { playerO } = roundInfo;
-                const playerX = clientRequest.body.playerId as string;
-                const roundLessInfo = { roundId, playerO, playerX };
-                await roundDocument.ref.update({ playerX });
-                serverResponse.json(roundLessInfo);
-            }
-            else {
-                const roundDocumentReference = roundsCollection.doc();
-                const roundId = roundDocumentReference.id;
-                const type = clientRequest.body.type as string;
-                const playerO = clientRequest.body.playerId as string;
-                const playerX = null;
-                const isOver = false;
-                const winner = -1;
-                const time = Date.now();
-                const roundInfo = { type, isOver, winner, playerO, playerX, time };
-                const roundLessInfo = { roundId, playerO, playerX };
-                await roundDocumentReference.create(roundInfo);
-                serverResponse.json(roundLessInfo);
-            }
-        }
-
-        case "DELETE": {
-            const roundId = clientRequest.query.roundId as string;
-            const playerId = clientRequest.query.playerId as string;
-            const roundDocumentReference = roundsCollection.doc(roundId);
-            const roundInfo = (await roundDocumentReference.get()).data() as GameRoundInfo;
-
-            if (!roundInfo.isOver) {
-                const isOver = true;
-
-                if (roundInfo.playerO === playerId) {
-                    const winner = 1;
-                    await roundDocumentReference.update({ isOver, winner });
-                }
-                else {
-                    const winner = 0;
-                    await roundDocumentReference.update({ isOver, winner });
-                }
-            }
-
-            serverResponse.json(true);
-        }
+    if (roundDocuments.length > 0) {
+        const [roundDocument] = roundDocuments;
+        const roundId = roundDocument.id;
+        const roundInfo = roundDocument.data() as GameRoundInfo;
+        const { playerO } = roundInfo;
+        const playerX = clientRequest.body.playerId as string;
+        const roundLessInfo = { roundId, playerO, playerX };
+        await roundDocument.ref.update({ playerX });
+        serverResponse.json(roundLessInfo);
+    }
+    else {
+        const roundDocumentReference = roundsCollection.doc();
+        const roundId = roundDocumentReference.id;
+        const gameRule = gameRuleFromType[type];
+        const game = new RelatiGame(2, gameRule);
+        const { turn } = game;
+        const pieces = convertBoardToPieceCodes(game.board);
+        const playerO = clientRequest.body.playerId as string;
+        const playerX = null;
+        const isOver = false;
+        const winner = -1;
+        const actions = [] as GameRoundAction[];
+        const time = Date.now();
+        const roundInfo: GameRoundInfo = { type, turn, pieces, actions, isOver, winner, playerO, playerX, time };
+        const roundLessInfo = { roundId, playerO, playerX };
+        await roundDocumentReference.create(roundInfo);
+        serverResponse.json(roundLessInfo);
     }
 };
 

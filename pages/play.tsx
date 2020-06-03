@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { State, SettingState } from "../container/store";
 import { GameLeaveMessageBox, GameOverMessageBox, PlayGameComponent, RelatiGameBy1Player, RelatiGameBy2Player, RelatiGameBy0Player } from "../page-components/play";
 
-const gameRuleFromSize: Record<string, RelatiGameRule> = {
+const gameRuleFromType: Record<string, RelatiGameRule> = {
   "x5": RelatiGameRuleX5,
   "x7": RelatiGameRuleX7,
   "x9": RelatiGameRuleX9,
@@ -21,7 +21,7 @@ const GameFromMode: Record<string, PlayGameComponent> = {
 };
 
 export interface Props {
-  size?: string;
+  type?: string;
   mode: string;
   level: number;
   rounds: number;
@@ -31,9 +31,9 @@ export interface Props {
   playerXApi?: string;
 }
 
-const Play: NextPage<Props> = ({ size = "x9", level, withPlayer: opponentOfPlayer, rounds, mode, playerOApi, playerXApi, versusApi }) => {
+const Play: NextPage<Props> = ({ type = "x9", level, withPlayer: opponentOfPlayer, rounds, mode, playerOApi, playerXApi, versusApi }) => {
   const router = useRouter();
-  const gameRule = gameRuleFromSize[size];
+  const gameRule = gameRuleFromType[type];
   const forceUpdate = useForceUpdate();
   const Game = GameFromMode[mode];
   const game = useRef<RelatiGame>(new RelatiGame(2, gameRule)).current;
@@ -89,7 +89,7 @@ const Play: NextPage<Props> = ({ size = "x9", level, withPlayer: opponentOfPlaye
 
       <Game
         {...effectSetting}
-        size={size}
+        size={type}
         level={level}
         rounds={rounds}
         playerOApi={playerOApi}
@@ -120,10 +120,10 @@ const Play: NextPage<Props> = ({ size = "x9", level, withPlayer: opponentOfPlaye
   );
 };
 
-Play.getInitialProps = async ({ query, query: { level, on: size, with: symbol, rounds, versus, playerO, playerX } }) => {
+Play.getInitialProps = async ({ query, query: { level, on: type, with: symbol, rounds, versus, playerO, playerX } }) => {
   return {
     level: parseInt(level as string || "1"),
-    size: size as string | undefined,
+    type: type as string | undefined,
     withPlayer: ((symbol as string)?.toUpperCase()) === "O" ? 0 : 1,
     versusApi: versus as string,
     mode:

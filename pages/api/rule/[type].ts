@@ -70,28 +70,11 @@ const rule = async (clientRequest: NextApiRequest & Express.Request, serverRespo
     await runMiddlewares(clientRequest, serverResponse, [cors, validateFields]);
     const type = clientRequest.query.type as string;
     const turn = parseInt(clientRequest.query.turn as string);
-    const pieceCodes = clientRequest.query.board || clientRequest.query.pieces as string;
+    const pieceCodes = (clientRequest.query.board || clientRequest.query.pieces) as string;
     const gameRule = gameRuleFromSize[pieceCodes.length];
 
     const game = new RelatiGame(2, gameRule);
-    game.turn = turn;
-
-    for (let grid of game.board.grids) {
-        const pieceCode = pieceCodes[grid.i];
-        grid.piece = createPieceByCode(pieceCode);
-
-        if (grid.piece?.primary) {
-            if (grid.piece.symbol === "O") {
-                game.playerSourceGrids[0] = grid;
-            }
-            else {
-                game.playerSourceGrids[1] = grid;
-            }
-        }
-    }
-
-    game.reenableAllPieces();
-    game.checkIsOverAndFindWinner();
+    game.restoreByTurnAndPieceCodes(turn, pieceCodes);
     const player = game.getNowPlayer();
 
     switch (type) {

@@ -1,7 +1,7 @@
 import { GridBoard, Coordinate } from "gridboard";
 import RelatiGameBasicRule from "./RelatiGameBasicRule";
 import { RelatiBoard, RelatiPiece, RelatiGrid, RelatiGameRule } from "./types";
-import { RelatiSymbols, TurnBasedGame } from "./utilities";
+import { RelatiSymbols, TurnBasedGame, createPieceByCode } from "./utilities";
 
 class RelatiGame extends TurnBasedGame {
     public winner: number;
@@ -9,7 +9,7 @@ class RelatiGame extends TurnBasedGame {
     public readonly board: RelatiBoard;
     public readonly rule: RelatiGameRule;
     public readonly playerSourceGrids: RelatiGrid[];
-    public readonly placementRecords: Coordinate[];
+    public readonly records: Coordinate[];
 
     constructor(playersCount: number, rule: RelatiGameRule) {
         super(playersCount);
@@ -18,7 +18,7 @@ class RelatiGame extends TurnBasedGame {
         this.winner = -1;
         this.isOver = false;
         this.playerSourceGrids = [];
-        this.placementRecords = [];
+        this.records = [];
     }
 
     public restart() {
@@ -31,7 +31,7 @@ class RelatiGame extends TurnBasedGame {
     }
 
     public undo() {
-        const [x, y] = this.placementRecords.pop();
+        const [x, y] = this.records.pop();
         const grid = this.board.getGridAt(x, y);
 
         if (grid?.piece) {
@@ -83,7 +83,7 @@ class RelatiGame extends TurnBasedGame {
         }
 
         this.turn++;
-        this.placementRecords.push([x, y]);
+        this.records.push([x, y]);
     }
 
     public reenableAllPieces() {
@@ -129,6 +129,27 @@ class RelatiGame extends TurnBasedGame {
 
     public getIsNotAllPlayerSourcePlaced() {
         return this.turn < this.playersCount;
+    }
+
+    public restoreByTurnAndPieceCodes(turn: number, pieceCodes: string) {
+        this.turn = turn;
+
+        for (let grid of this.board.grids) {
+            const pieceCode = pieceCodes[grid.i];
+            grid.piece = createPieceByCode(pieceCode);
+
+            if (grid.piece?.primary) {
+                if (grid.piece.symbol === "O") {
+                    this.playerSourceGrids[0] = grid;
+                }
+                else {
+                    this.playerSourceGrids[1] = grid;
+                }
+            }
+        }
+
+        this.reenableAllPieces();
+        this.checkIsOverAndFindWinner();
     }
 }
 

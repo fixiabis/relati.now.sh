@@ -14,7 +14,7 @@ export const randomCode = (length: number) => {
 };
 
 export const createBoardSVGTextByRelatiGame = (game: RelatiGame) => {
-    const placementRecordsJSONText = JSON.stringify(game.placementRecords);
+    const placementRecordsJSONText = JSON.stringify(game.records);
     const viewWidth = game.board.width * 5;
     const viewHeight = game.board.height * 5;
     const gridLineXMLTexts = [];
