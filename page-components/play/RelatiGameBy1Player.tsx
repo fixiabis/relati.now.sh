@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "Axios";
 import { PlayGameComponent } from "./types";
 import { RelatiGame, useForceUpdate } from "../../components";
 import { RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiSymbols } from "../../libraries";
@@ -25,7 +25,7 @@ const RelatiGameBy1Player: PlayGameComponent = ({ size, opponentOfPlayer, player
     const nowPlayer = game.getNowPlayer();
     const apiUrlWithQuery = `/api/next-step?turn=${game.turn}&pieces=${pieceCodes}&level=${level}`;
 
-    await axios.get(apiUrlWithQuery)
+    await Axios.get(apiUrlWithQuery)
       .then(async ({ data: gridIndex }) => {
         const grid = game.board.grids[gridIndex];
 

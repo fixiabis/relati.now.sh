@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import Axios from "Axios";
 import { PlayGameComponent } from "./types";
 import { RelatiGame, useForceUpdate } from "../../components";
 import { RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiSymbols } from "../../libraries";
@@ -26,7 +26,7 @@ const RelatiGameBy0Player: PlayGameComponent = ({ size, opponentOfPlayer, player
     const apiUrl = nowPlayer === 0 ? playerOApi : playerXApi;
     const apiUrlWithQuery = `${apiUrl}${apiUrl.includes("?") ? "&" : "?"}turn=${game.turn}&pieces=${pieceCodes}&level=${level}`;
 
-    axios.get(apiUrlWithQuery)
+    Axios.get(apiUrlWithQuery)
       .then(async ({ data: gridIndex }) => {
         const grid = game.board.grids[gridIndex];
 
@@ -51,8 +51,8 @@ const RelatiGameBy0Player: PlayGameComponent = ({ size, opponentOfPlayer, player
           const pieceCodes = convertBoardToPieceCodes(game.board);
           const playerOApiWithQuery = `${playerOApi}${playerOApi.includes("?") ? "&" : "?"}turn=${game.turn}&pieces=${pieceCodes}&level=${level}`;
           const playerXApiWithQuery = `${playerXApi}${playerXApi.includes("?") ? "&" : "?"}turn=${game.turn}&pieces=${pieceCodes}&level=${level}`;
-          axios.get(playerOApiWithQuery);
-          axios.get(playerXApiWithQuery);
+          Axios.get(playerOApiWithQuery);
+          Axios.get(playerXApiWithQuery);
         }
         else {
           forceUpdate();

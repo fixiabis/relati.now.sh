@@ -33,6 +33,7 @@ function* signUserIn({ value: type }: AnyAction) {
     }
 
     const playerInfo = {
+        playerId: player.uid,
         name: player.displayName,
         avatarURL: player.photoURL,
     };

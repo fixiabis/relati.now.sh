@@ -1,4 +1,5 @@
 export interface UserInfo {
+    playerId: string;
     name: string | null;
     avatarURL: string | null;
 }

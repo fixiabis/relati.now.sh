@@ -11,7 +11,7 @@ const ChooseModeForGame: ChooseModePageComponent = ({ router, leavePage }) => {
   const toPlayPage1pWithPlayerO = () => toPlayPageWithPlayer("o");
   const toPlayPage1pWithPlayerX = () => toPlayPageWithPlayer("x");
   const toPlayPageWithPlayer = (player: string) => router.replace(`/play?1p&on=${size}&with=${player}`);
-  const toPlayPage2p = () => router.replace(`/play?2p&on=${size}${!navigator.onLine ? "" : "&online"}`);
+  const toPlayPage2p = () => router.replace(`/play?2p${!navigator.onLine ? "" : "-online"}&on=${size}`);
 
   if (!size) {
     return (

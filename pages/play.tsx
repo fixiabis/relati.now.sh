@@ -6,7 +6,7 @@ import { Page, Button, IconButton, useForceUpdate } from "../components";
 import { downloadRecordSVGByRelatiGame } from "../utilities/client-side";
 import { useSelector } from "react-redux";
 import { State, SettingState } from "../container/store";
-import { GameLeaveMessageBox, GameOverMessageBox, PlayGameComponent, RelatiGameBy1Player, RelatiGameBy2Player, RelatiGameBy0Player } from "../page-components/play";
+import { GameLeaveMessageBox, GameOverMessageBox, PlayGameComponent, RelatiGameBy1Player, RelatiGameBy2Player, RelatiGameBy0Player, RelatiGameBy2PlayerOnline } from "../page-components/play";
 
 const gameRuleFromType: Record<string, RelatiGameRule> = {
   "x5": RelatiGameRuleX5,
@@ -18,6 +18,7 @@ const GameFromMode: Record<string, PlayGameComponent> = {
   "0p": RelatiGameBy0Player,
   "1p": RelatiGameBy1Player,
   "2p": RelatiGameBy2Player,
+  "2p-online": RelatiGameBy2PlayerOnline,
 };
 
 export interface Props {
@@ -131,7 +132,9 @@ Play.getInitialProps = async ({ query, query: { level, on: type, with: symbol, r
         ? "1p"
         : "0p" in query
           ? "0p"
-          : "2p",
+          : "2p-online" in query
+            ? "2p-online"
+            : "2p",
     playerOApi: playerO as string,
     playerXApi: playerX as string,
     rounds: rounds === "Infinity" ? Infinity : parseInt(rounds as string) || 1,
