@@ -10,6 +10,7 @@ import firebase from "../../container/firebase";
 import GameWaitMatchMessageBox from "./GameWaitMatchMessageBox";
 import { GameRoundInfo } from "../../types";
 import { RelatiSymbols } from "../../libraries";
+import { Coordinate } from "gridboard";
 
 const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, playerOApi, playerXApi, rounds, level, game, onOver: handleOver, ...props }) => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, 
   const [roundId, setRoundId] = useState("");
   const playerInfo = useSelector<State, UserState["userInfo"]>(state => state.user.userInfo);
   const playerId = playerInfo?.playerId;
+
   const handleGridClick = ({ x, y }: CoordinateObject) => {
     const body = QueryString.stringify({
       turn: game.turn,
@@ -40,12 +42,22 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, 
     }
 
     if (roundId) {
-      firebase.firestore().collection("rounds").doc(roundId).onSnapshot(roundSnapshot => {
-        const { turn, pieces, isOver } = roundSnapshot.data() as GameRoundInfo;
+      return firebase.firestore().collection("rounds").doc(roundId).onSnapshot(roundSnapshot => {
+        const { turn, pieces, isOver, winner, actions } = roundSnapshot.data() as GameRoundInfo;
         game.restoreByTurnAndPieceCodes(turn, pieces);
 
-        if (isOver) {
+        game.records.splice(
+          0,
+          game.records.length,
+          ...actions.map(action => action.params.split(",").map(Number) as Coordinate)
+        );
+
+        if (game.isOver) {
           const winnerSymbol = RelatiSymbols[game.winner] || "N";
+          handleOver?.(winnerSymbol);
+        }
+        else if (isOver) {
+          const winnerSymbol = RelatiSymbols[winner] || "N";
           handleOver?.(winnerSymbol);
         }
         else {

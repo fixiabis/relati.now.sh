@@ -67,7 +67,7 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
         const playerX = clientRequest.body.playerId as string;
         const roundLessInfo = { roundId, playerO, playerX };
         await roundDocument.ref.update({ playerX });
-        serverResponse.json(roundLessInfo);
+        return serverResponse.json(roundLessInfo);
     }
     else {
         const roundDocumentReference = roundsCollection.doc();
@@ -85,7 +85,7 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
         const roundInfo: GameRoundInfo = { type, turn, pieces, actions, isOver, winner, playerO, playerX, time };
         const roundLessInfo = { roundId, playerO, playerX };
         await roundDocumentReference.create(roundInfo);
-        serverResponse.json(roundLessInfo);
+        return serverResponse.json(roundLessInfo);
     }
 };
 

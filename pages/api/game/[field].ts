@@ -123,15 +123,15 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
                 game.doPlacementByCoordinateAndPlayer(x, y, player);
 
                 if (game.turn !== turn) {
-                    const { turn } = game;
+                    const { turn, isOver } = game;
                     const pieces = convertBoardToPieceCodes(game.board);
                     actions.push(action);
-                    await roundDocumentReference.update({ turn, actions, pieces });
-                    serverResponse.json(true);
+                    await roundDocumentReference.update({ turn, actions, pieces, isOver });
+                    return serverResponse.json(true);
                 }
             }
 
-            serverResponse.json(false);
+            return serverResponse.json(false);
 
         case "isOver":
             if (!roundInfo.isOver) {
@@ -147,7 +147,7 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
                 }
             }
 
-            serverResponse.json(true);
+            return serverResponse.json(true);
     }
 };
 
