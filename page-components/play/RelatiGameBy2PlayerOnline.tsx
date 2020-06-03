@@ -15,7 +15,10 @@ import { Coordinate } from "gridboard";
 const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, playerOApi, playerXApi, rounds, level, game, onOver: handleOver, ...props }) => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
-  const [roundId, setRoundId] = useState("");
+  const [{ roundId, isRoundReady }, setRoundState] = useState({ roundId: "", isRoundReady: false });
+  const setRoundId = (roundId: string) => setRoundState({ roundId, isRoundReady });
+  const setIsRoundReady = (isRoundReady: boolean) => setRoundState({ roundId, isRoundReady });
+  const leavePage = () => router.replace("/choose-mode?for=game");
   const playerInfo = useSelector<State, UserState["userInfo"]>(state => state.user.userInfo);
   const playerId = playerInfo?.playerId;
 
@@ -43,7 +46,12 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, 
 
     if (roundId) {
       return firebase.firestore().collection("rounds").doc(roundId).onSnapshot(roundSnapshot => {
-        const { turn, pieces, isOver, winner, actions } = roundSnapshot.data() as GameRoundInfo;
+        const { turn, pieces, isOver, winner, actions, playerX } = roundSnapshot.data() as GameRoundInfo;
+
+        if (playerX && !isRoundReady) {
+          setIsRoundReady(true);
+        }
+
         game.restoreByTurnAndPieceCodes(turn, pieces);
 
         game.records.splice(
@@ -67,8 +75,14 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, 
     }
     else {
       Axios.post("/api/game", { type: size, playerId }).then(response => {
-        const { roundId } = response.data;
-        setRoundId(roundId);
+        const { roundId, playerX } = response.data;
+
+        if (playerX) {
+          setRoundState({ isRoundReady: true, roundId });
+        }
+        else {
+          setRoundId(roundId);
+        }
       });
     }
   });
@@ -81,7 +95,7 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, 
         onGridClick={handleGridClick}
         onOver={handleOver} />
 
-      <GameWaitMatchMessageBox show={roundId === ""} />
+      <GameWaitMatchMessageBox show={!isRoundReady} onReject={leavePage} />
     </>
   );
 };
