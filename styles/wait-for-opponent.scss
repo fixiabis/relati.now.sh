@@ -1,0 +1,15 @@
+#wait-for-opponent {
+    .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: calc(100% - 70px);
+
+        .main-icon {
+            width: 50px;
+            height: 50px;
+            background-size: 50px;
+        }
+    }
+}

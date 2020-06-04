@@ -5,26 +5,28 @@ import { setUserInfo } from '../actions';
 import { AnyAction } from 'redux';
 
 function* signUserIn({ value: type }: AnyAction) {
-    let provider: firebase.auth.AuthProvider;
+    if (!firebase.auth().currentUser) {
+        let provider: firebase.auth.AuthProvider;
 
-    switch (type) {
-        case "google":
-            provider = new firebase.auth.GoogleAuthProvider();
-            break;
-        case "facebook":
-            provider = new firebase.auth.FacebookAuthProvider();
-            break;
+        switch (type) {
+            case "google":
+                provider = new firebase.auth.GoogleAuthProvider();
+                break;
+            case "facebook":
+                provider = new firebase.auth.FacebookAuthProvider();
+                break;
+        }
+
+        // yield call(async () => 
+        //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        // );
+
+        try {
+            yield call(async () =>
+                await firebase.auth().signInWithPopup(provider)
+            );
+        } catch { }
     }
-
-    // yield call(async () => 
-    //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    // );
-
-    try {
-        yield call(async () =>
-            await firebase.auth().signInWithPopup(provider)
-        );
-    } catch { }
 
     const { currentUser: player } = firebase.auth();
 

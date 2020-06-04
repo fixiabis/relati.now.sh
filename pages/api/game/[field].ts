@@ -137,7 +137,11 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
             if (!roundInfo.isOver) {
                 const isOver = true;
 
-                if (roundInfo.playerO === playerId) {
+                if (roundInfo.playerX === null) {
+                    const winner = -2;
+                    await roundDocumentReference.update({ isOver, winner });
+                }
+                else if (roundInfo.playerO === playerId) {
                     const winner = 1;
                     await roundDocumentReference.update({ isOver, winner });
                 }

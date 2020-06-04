@@ -4,7 +4,7 @@ import { RelatiGame } from "../../libraries";
 type OmittedGamePropKeys = "";
 
 export interface PlayGameProps extends Omit<RelatiGameProps, OmittedGamePropKeys> {
-    size: string;
+    type: string;
     game: RelatiGame;
     level: number;
     rounds: number;

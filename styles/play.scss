@@ -89,28 +89,10 @@
                     transform: scale(10);
                 }
             }
-
-            .message-icon.rotate {
-                animation: rotate 0.5s infinite linear;
-            }
         }
 
         .button-group {
             width: 250px;
-        }
-    }
-
-    @keyframes rotate {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        50% {
-            transform: rotate(180deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
         }
     }
 }

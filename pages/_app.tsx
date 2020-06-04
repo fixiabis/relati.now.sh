@@ -7,6 +7,7 @@ import "../styles/index.scss";
 import "../styles/play.scss";
 import "../styles/how-to-play.scss";
 import "../styles/choose-mode.scss";
+import "../styles/wait-for-opponent.scss";
 
 class RelatiApp extends App<ReduxWrapperAppProps<State>> {
   public static async getInitialProps({ Component, ctx }: AppContext) {

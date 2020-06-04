@@ -55,6 +55,7 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
     const roundDocuments = (
         await roundsCollection
             .where("type", "==", type)
+            .where("isOver", "==", false)
             .where("playerX", "==", null)
             .get()
     ).docs;

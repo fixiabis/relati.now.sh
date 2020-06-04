@@ -90,7 +90,7 @@ const Play: NextPage<Props> = ({ type = "x9", level, withPlayer: opponentOfPlaye
 
       <Game
         {...effectSetting}
-        size={type}
+        type={type}
         level={level}
         rounds={rounds}
         playerOApi={playerOApi}

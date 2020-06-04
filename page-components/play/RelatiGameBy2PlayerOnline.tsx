@@ -12,7 +12,7 @@ import { GameRoundInfo } from "../../types";
 import { RelatiSymbols } from "../../libraries";
 import { Coordinate } from "gridboard";
 
-const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, playerOApi, playerXApi, rounds, level, game, onOver: handleOver, ...props }) => {
+const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ type: size, opponentOfPlayer, playerOApi, playerXApi, rounds, level, game, onOver: handleOver, ...props }) => {
   const router = useRouter();
   const forceUpdate = useForceUpdate();
   const [{ roundId, isRoundReady }, setRoundState] = useState({ roundId: "", isRoundReady: false });
@@ -45,7 +45,7 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, 
     }
 
     if (roundId) {
-      return firebase.firestore().collection("rounds").doc(roundId).onSnapshot(roundSnapshot => {
+      const finishHandleSnapshot = firebase.firestore().collection("rounds").doc(roundId).onSnapshot(roundSnapshot => {
         const { turn, pieces, isOver, winner, actions, playerX } = roundSnapshot.data() as GameRoundInfo;
 
         if (playerX && !isRoundReady) {
@@ -72,6 +72,8 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ size, opponentOfPlayer, 
           forceUpdate();
         }
       });
+
+      return finishHandleSnapshot;
     }
     else {
       Axios.post("/api/game", { type: size, playerId }).then(response => {
