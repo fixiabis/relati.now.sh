@@ -1,7 +1,9 @@
 import { Page, Button, IconButton } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { State, UserState, signUserIn } from "../../container/store";
+import { State, UserState, signUserIn, setUserInfo } from "../../container/store";
 import { ChooseModePageComponent } from "./types";
+import { useEffect } from "react";
+import firebase from "../../container/firebase";
 
 const ChooseModeForSignIn: ChooseModePageComponent = ({ router, leavePage }) => {
   const dispatch = useDispatch();
@@ -13,6 +15,20 @@ const ChooseModeForSignIn: ChooseModePageComponent = ({ router, leavePage }) => 
 
   const signInWithFacebook = () => dispatch(signUserIn("facebook"));
   const signInWithGoogle = () => dispatch(signUserIn("google"));
+
+  useEffect(() => firebase.auth().onAuthStateChanged(player => {
+    if (!player) {
+      return;
+    }
+
+    const playerInfo = {
+      playerId: player.uid,
+      name: player.displayName,
+      avatarURL: player.photoURL,
+    };
+
+    dispatch(setUserInfo(playerInfo));
+  }));
 
   return (
     <Page id="choose-mode" title="choose sign in mode">

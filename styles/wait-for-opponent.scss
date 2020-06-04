@@ -12,4 +12,28 @@
             background-size: 50px;
         }
     }
+
+    .message-box {
+        .message-container {
+            text-align: center;
+
+            .message-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                height: 50px;
+                margin: 0 auto;
+                background-size: 50px;
+
+                svg {
+                    transform: scale(10);
+                }
+            }
+        }
+
+        .button-group {
+            width: 200px;
+        }
+    }
 }
