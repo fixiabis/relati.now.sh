@@ -26,13 +26,14 @@ export interface Props {
   mode: string;
   level: number;
   rounds: number;
+  roundId?: string;
   withPlayer: number;
   versusApi?: string;
   playerOApi?: string;
   playerXApi?: string;
 }
 
-const Play: NextPage<Props> = ({ type = "x9", level, withPlayer: opponentOfPlayer, rounds, mode, playerOApi, playerXApi, versusApi }) => {
+const Play: NextPage<Props> = ({ type = "x9", level, roundId, withPlayer: opponentOfPlayer, rounds, mode, playerOApi, playerXApi, versusApi }) => {
   const router = useRouter();
   const gameRule = gameRuleFromType[type];
   const forceUpdate = useForceUpdate();
@@ -93,6 +94,7 @@ const Play: NextPage<Props> = ({ type = "x9", level, withPlayer: opponentOfPlaye
         type={type}
         level={level}
         rounds={rounds}
+        roundId={roundId}
         playerOApi={playerOApi}
         playerXApi={playerXApi}
         opponentOfPlayer={opponentOfPlayer}
@@ -121,7 +123,7 @@ const Play: NextPage<Props> = ({ type = "x9", level, withPlayer: opponentOfPlaye
   );
 };
 
-Play.getInitialProps = async ({ query, query: { level, on: type, with: symbol, rounds, versus, playerO, playerX } }) => {
+Play.getInitialProps = async ({ query, query: { level, on: type, with: symbol, rounds, versus, playerO, playerX, at: roundId } }) => {
   return {
     level: parseInt(level as string || "1"),
     type: type as string | undefined,
@@ -138,6 +140,7 @@ Play.getInitialProps = async ({ query, query: { level, on: type, with: symbol, r
     playerOApi: playerO as string,
     playerXApi: playerX as string,
     rounds: rounds === "Infinity" ? Infinity : parseInt(rounds as string) || 1,
+    roundId: roundId as string | undefined,
   };
 };
 

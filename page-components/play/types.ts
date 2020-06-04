@@ -5,6 +5,7 @@ type OmittedGamePropKeys = "";
 
 export interface PlayGameProps extends Omit<RelatiGameProps, OmittedGamePropKeys> {
     type: string;
+    roundId?: string;
     game: RelatiGame;
     level: number;
     rounds: number;

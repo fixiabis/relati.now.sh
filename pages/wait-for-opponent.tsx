@@ -39,11 +39,12 @@ const WaitForOpponent: NextPage<Props> = ({ type = "x9" }) => {
     }
 
     if (isRoundReady) {
-      
+      router.replace(`/play?2p-online&on=${type}&at=${roundId}`);
+      return;
     }
 
     if (roundId) {
-      const abortHandleSnapshot = (
+      const abortForSnapshotHandling = (
         roundsCollection.doc(roundId).onSnapshot(roundSnapshot => {
           const { playerX } = roundSnapshot.data() as GameRoundInfo;
 
@@ -53,7 +54,7 @@ const WaitForOpponent: NextPage<Props> = ({ type = "x9" }) => {
         })
       );
 
-      return abortHandleSnapshot;
+      return abortForSnapshotHandling;
     }
     else {
       Axios.post("/api/game", { type, playerId }).then(response => {
