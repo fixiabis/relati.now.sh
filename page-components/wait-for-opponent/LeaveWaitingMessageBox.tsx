@@ -16,7 +16,7 @@ const GameLeaveMessageBox = ({ show: isShow = true, onCancel: handleCancel, onAc
     <MessageBox onCancel={handleCancel}>
       <div className="message-container">
         <div className="message-icon" style={messageIconStyle} />
-        確定離開?
+        尚在等待, 確定離開?
       </div>
       <Button.Group>
         <IconButton type="accept" color="crimson" onClick={handleAccept} />

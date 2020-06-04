@@ -27,7 +27,9 @@ const WaitForOpponent: NextPage<Props> = ({ type = "x9" }) => {
   const closeLeaveWaitingMessageBox = () => setIsLeaveWaitingMessageBoxOpen(false);
 
   const leavePage = () => {
-    router.replace("/choose-mode?for=game");
+    Axios.put(`/api/game/isOver?roundId=${roundId}&playerId=${playerId}`).then(() => {
+      router.replace("/choose-mode?for=game");
+    });
   };
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const WaitForOpponent: NextPage<Props> = ({ type = "x9" }) => {
     }
 
     if (roundId) {
-      const finishHandleSnapshot = (
+      const abortHandleSnapshot = (
         roundsCollection.doc(roundId).onSnapshot(roundSnapshot => {
           const { playerX } = roundSnapshot.data() as GameRoundInfo;
 
@@ -51,7 +53,7 @@ const WaitForOpponent: NextPage<Props> = ({ type = "x9" }) => {
         })
       );
 
-      return finishHandleSnapshot;
+      return abortHandleSnapshot;
     }
     else {
       Axios.post("/api/game", { type, playerId }).then(response => {

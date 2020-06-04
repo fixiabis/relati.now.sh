@@ -1,10 +1,10 @@
 import Cors from "cors";
 import Express from "express";
 import { NextApiRequest, NextApiResponse } from "next";
-import { runMiddlewares, Middleware } from "../../utilities/server-side";
-import firebaseAdmin from "../../container/firebaseAdmin";
-import { GameRoundInfo, GameRoundAction } from "../../types";
-import { RelatiGame, RelatiGameRuleX5, RelatiGameRule, RelatiGameRuleX7, RelatiGameRuleX9, convertBoardToPieceCodes } from "../../libraries";
+import { runMiddlewares, Middleware } from "../../../utilities/server-side";
+import firebaseAdmin from "../../../container/firebaseAdmin";
+import { GameRoundInfo, GameRoundAction } from "../../../types";
+import { RelatiGame, RelatiGameRuleX5, RelatiGameRule, RelatiGameRuleX7, RelatiGameRuleX9, convertBoardToPieceCodes } from "../../../libraries";
 
 const roundsCollection = firebaseAdmin.firestore().collection("rounds");
 const playersCollection = firebaseAdmin.firestore().collection("players");
