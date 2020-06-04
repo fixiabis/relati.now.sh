@@ -8,7 +8,7 @@ export interface Props extends MessageBoxProps {
   onDownload?: () => void;
 }
 
-const GameOverMessageBox = ({ show: isShow, game, onCancel: handleCancel, onRetry: handleRetry, onLeave: handleLeave, onDownload: handleDownload }: Props) => {
+const GameOverMessageBox = ({ show: isShow = true, game, onCancel: handleCancel, onRetry: handleRetry, onLeave: handleLeave, onDownload: handleDownload }: Props) => {
   if (!isShow || !game.isOver) {
     return <></>;
   }

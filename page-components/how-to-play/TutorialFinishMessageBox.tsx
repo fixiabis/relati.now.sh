@@ -6,7 +6,7 @@ export interface Props extends MessageBoxProps {
   onVerify?: () => void;
 }
 
-const TutorialFinishMessageBox = ({ show: isShow, game, onCancel: handleCancel, onVerify: handleVerify }: Props) => {
+const TutorialFinishMessageBox = ({ show: isShow = true, game, onCancel: handleCancel, onVerify: handleVerify }: Props) => {
   if (!isShow || !game.isOver) {
     return <></>;
   }

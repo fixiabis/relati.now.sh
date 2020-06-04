@@ -6,7 +6,7 @@ export interface Props extends MessageBoxProps {
   onDownload?: () => void;
 }
 
-const GameLeaveMessageBox = ({ show: isShow, onCancel: handleCancel, onAccept: handleAccept, onReject: handleReject, onDownload: handleDownload }: Props) => {
+const GameLeaveMessageBox = ({ show: isShow = true, onCancel: handleCancel, onAccept: handleAccept, onReject: handleReject, onDownload: handleDownload }: Props) => {
   const messageIconStyle = { backgroundImage: "url(/icons/help.svg)" };
 
   if (!isShow) {
