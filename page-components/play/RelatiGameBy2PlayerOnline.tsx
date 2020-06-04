@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { State, UserState } from "../../container/store";
 import { useRouter } from "next/router";
-import Axios from "Axios";
+import Axios from "axios";
 import QueryString from "querystring";
 import firebase from "../../container/firebase";
 import GameWaitMatchMessageBox from "./GameWaitMatchMessageBox";

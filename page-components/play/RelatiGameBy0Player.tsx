@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Axios from "Axios";
+import Axios from "axios";
 import { PlayGameComponent } from "./types";
 import { RelatiGame, useForceUpdate } from "../../components";
 import { RelatiGamePlayer, RelatiGamePlayerX5, RelatiGamePlayerX7, RelatiGamePlayerX9, convertBoardToPieceCodes, RelatiSymbols } from "../../libraries";
