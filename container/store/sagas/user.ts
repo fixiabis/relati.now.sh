@@ -17,13 +17,9 @@ function* signUserIn({ value: type }: AnyAction) {
                 break;
         }
 
-        // yield call(async () => 
-        //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        // );
-
         try {
             yield call(async () =>
-                await firebase.auth().signInWithPopup(provider)
+                await firebase.auth().signInWithRedirect(provider)
             );
         } catch { }
     }
