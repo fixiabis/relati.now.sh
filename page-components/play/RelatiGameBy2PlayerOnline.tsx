@@ -28,6 +28,12 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ type: size, opponentOfPl
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
+    }).then(response => {
+      if (response.data) {
+        game.doPlacementByCoordinate(x, y);
+        game.reenableAllPieces();
+        forceUpdate();
+      }
     });
 
     return false;
@@ -46,24 +52,24 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ type: size, opponentOfPl
 
     const abortForSnapshotHandling = firebase.firestore().collection("rounds").doc(roundId).onSnapshot(roundSnapshot => {
       const { turn, pieces, isOver, winner, actions } = roundSnapshot.data() as GameRoundInfo;
-      game.restoreByTurnAndPieceCodes(turn, pieces);
 
-      game.records.splice(
-        0,
-        game.records.length,
-        ...actions.map(action => action.params.split(",").map(Number) as Coordinate)
-      );
+      if (game.turn !== turn) {
+        game.restoreByTurnAndPieceCodes(turn, pieces);
+        game.isOver = isOver;
+        game.winner = winner;
+
+        game.records.splice(
+          0,
+          game.records.length,
+          ...actions.map(action => action.params.split(",").map(Number) as Coordinate)
+        );
+        
+        forceUpdate();
+      }
 
       if (game.isOver) {
         const winnerSymbol = RelatiSymbols[game.winner] || "N";
         handleOver?.(winnerSymbol);
-      }
-      else if (isOver) {
-        const winnerSymbol = RelatiSymbols[winner] || "N";
-        handleOver?.(winnerSymbol);
-      }
-      else {
-        forceUpdate();
       }
     });
 

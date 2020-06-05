@@ -121,12 +121,14 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
             if (action.name === "placement") {
                 const [x, y] = action.params.split(",").map(Number);
                 game.doPlacementByCoordinateAndPlayer(x, y, player);
+                game.reenableAllPieces();
+                game.checkIsOverAndFindWinner();
 
                 if (game.turn !== turn) {
-                    const { turn, isOver } = game;
+                    const { turn, winner, isOver } = game;
                     const pieces = convertBoardToPieceCodes(game.board);
                     actions.push(action);
-                    await roundDocumentReference.update({ turn, actions, pieces, isOver });
+                    await roundDocumentReference.update({ turn, winner, actions, pieces, isOver });
                     return serverResponse.json(true);
                 }
             }
