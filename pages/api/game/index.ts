@@ -51,12 +51,15 @@ const validateFields: Middleware = async (clientRequest, serverResponse, next) =
 const game = async (clientRequest: NextApiRequest & Express.Request, serverResponse: NextApiResponse & Express.Response) => {
     await runMiddlewares(clientRequest, serverResponse, [cors, validateFields]);
     const type = clientRequest.body.type as string;
+    const playerId = clientRequest.body.playerId as string;
 
     const roundDocuments = (
         await roundsCollection
             .where("type", "==", type)
             .where("isOver", "==", false)
             .where("playerX", "==", null)
+            .where("playerO", ">", playerId)
+            .where("playerO", "<", playerId)
             .get()
     ).docs;
 
@@ -65,7 +68,7 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
         const roundId = roundDocument.id;
         const roundInfo = roundDocument.data() as GameRoundInfo;
         const { playerO } = roundInfo;
-        const playerX = clientRequest.body.playerId as string;
+        const playerX = playerId;
         const roundLessInfo = { roundId, playerO, playerX };
         await roundDocument.ref.update({ playerX });
         return serverResponse.json(roundLessInfo);
@@ -77,7 +80,7 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
         const game = new RelatiGame(2, gameRule);
         const { turn } = game;
         const pieces = convertBoardToPieceCodes(game.board);
-        const playerO = clientRequest.body.playerId as string;
+        const playerO = playerId;
         const playerX = null;
         const isOver = false;
         const winner = -1;

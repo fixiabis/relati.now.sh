@@ -26,7 +26,7 @@ export const makeStore: MakeStore = (initialState: State) => {
         const playerInfo = {
             playerId: player.uid,
             name: player.displayName,
-            avatarURL: player.photoURL,
+            avatarUrl: player.photoURL,
         };
 
         setUserInfo(playerInfo);

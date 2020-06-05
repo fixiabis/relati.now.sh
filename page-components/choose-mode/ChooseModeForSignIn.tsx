@@ -26,7 +26,7 @@ const ChooseModeForSignIn: ChooseModePageComponent = ({ router, leavePage }) => 
       const playerInfo = {
         playerId: player.uid,
         name: player.displayName,
-        avatarURL: player.photoURL,
+        avatarUrl: player.photoURL,
       };
 
       dispatch(setUserInfo(playerInfo));
@@ -41,7 +41,7 @@ const ChooseModeForSignIn: ChooseModePageComponent = ({ router, leavePage }) => 
     const playerInfo = {
       playerId: player.uid,
       name: player.displayName,
-      avatarURL: player.photoURL,
+      avatarUrl: player.photoURL,
     };
 
     dispatch(setUserInfo(playerInfo));
