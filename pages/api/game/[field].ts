@@ -107,16 +107,30 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
     const roundDocumentReference = roundsCollection.doc(roundId);
     const roundInfo = (await roundDocumentReference.get()).data() as GameRoundInfo;
 
+    const clientRequestIp = (
+        (clientRequest.headers["x-forwarded-for"] as string | undefined)?.split(",").pop()?.trim() ||
+        clientRequest.connection.remoteAddress ||
+        clientRequest.socket.remoteAddress
+    );
+
     switch (clientRequest.query.field as string) {
         case "actions":
             const name = clientRequest.body.name as string;
             const params = clientRequest.body.params as string;
             const action = { name, params };
-            const { type, actions, turn, pieces } = roundInfo;
+            const { type, actions, turn, pieces, playerOIp, playerXIp } = roundInfo;
             const gameRule = gameRuleFromType[type];
             const game = new RelatiGame(2, gameRule);
             game.restoreByTurnAndPieceCodes(turn, pieces);
             const player = playerId === roundInfo.playerO ? 0 : 1;
+
+            if (player === 0 && playerOIp !== clientRequestIp) {
+                return serverResponse.json(false);
+            }
+
+            if (player === 1 && playerXIp !== clientRequestIp) {
+                return serverResponse.json(false);
+            }
 
             if (action.name === "placement") {
                 const [x, y] = action.params.split(",").map(Number);

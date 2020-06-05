@@ -13,6 +13,8 @@ export interface GameRoundInfo {
     winner: number;
     playerO: string | null;
     playerX: string | null;
+    playerOIp?: string;
+    playerXIp?: string;
     time: number;
 }
 

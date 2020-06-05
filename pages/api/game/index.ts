@@ -53,6 +53,12 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
     const type = clientRequest.body.type as string;
     const playerId = clientRequest.body.playerId as string;
 
+    const clientRequestIp = (
+        (clientRequest.headers["x-forwarded-for"] as string | undefined)?.split(",").pop()?.trim() ||
+        clientRequest.connection.remoteAddress ||
+        clientRequest.socket.remoteAddress
+    );
+
     const roundDocuments = (
         await roundsCollection
             .where("type", "==", type)
@@ -69,8 +75,9 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
         const roundInfo = roundDocument.data() as GameRoundInfo;
         const { playerO } = roundInfo;
         const playerX = playerId;
+        const playerXIp = clientRequestIp;
         const roundLessInfo = { roundId, playerO, playerX };
-        await roundDocument.ref.update({ playerX });
+        await roundDocument.ref.update({ playerX, playerXIp });
         return serverResponse.json(roundLessInfo);
     }
     else {
@@ -81,12 +88,13 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
         const { turn } = game;
         const pieces = convertBoardToPieceCodes(game.board);
         const playerO = playerId;
+        const playerOIp = clientRequestIp;
         const playerX = null;
         const isOver = false;
         const winner = -1;
         const actions = [] as GameRoundAction[];
         const time = Date.now();
-        const roundInfo: GameRoundInfo = { type, turn, pieces, actions, isOver, winner, playerO, playerX, time };
+        const roundInfo: GameRoundInfo = { type, turn, pieces, actions, isOver, winner, playerO, playerX, playerOIp, time };
         const roundLessInfo = { roundId, playerO, playerX };
         await roundDocumentReference.create(roundInfo);
         return serverResponse.json(roundLessInfo);
