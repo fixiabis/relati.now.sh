@@ -64,8 +64,6 @@ const game = async (clientRequest: NextApiRequest & Express.Request, serverRespo
             .where("type", "==", type)
             .where("isOver", "==", false)
             .where("playerX", "==", null)
-            .where("playerO", ">", playerId)
-            .where("playerO", "<", playerId)
             .get()
     ).docs;
 
