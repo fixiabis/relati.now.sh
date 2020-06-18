@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Game, { RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7, RelatiGameRuleX9 } from "../libraries/RelatiGame";
-import { Page, Button, IconButton, RelatiPuzzleX5, RelatiPuzzleComponent } from "../components";
+import { Page, Button, IconButton, RelatiPuzzleX5, RelatiPuzzleComponent, RelatiPuzzleX7, RelatiPuzzleX9 } from "../components";
 import { State, SettingState } from "../container/store";
 import { PuzzleLeaveMessageBox, PuzzleFinishMessageBox } from "../page-components/strategies";
 
@@ -15,6 +15,8 @@ const gameRuleFromSize: Record<string, RelatiGameRule> = {
 
 const RelatiPuzzleFromSize: Record<string, RelatiPuzzleComponent> = {
   "x5": RelatiPuzzleX5,
+  "x7": RelatiPuzzleX7,
+  "x9": RelatiPuzzleX9,
 };
 
 export interface Props {
