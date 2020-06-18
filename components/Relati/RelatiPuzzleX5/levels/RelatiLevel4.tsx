@@ -4,8 +4,8 @@ import { LevelComponent, CoordinateObject } from "./types";
 import { useForceUpdate, useTimeout } from "../../../hooks";
 import { HasPieceRelatiGrid } from "../../../../libraries";
 
-const RelatiLevel2: LevelComponent = ({ toLevel, onFailed: handleFailed, game, ...props }) => {
-  const [description, setDescription] = useState("佔領比對方大的區域!");
+const RelatiLevel4: LevelComponent = ({ toLevel, onFailed: handleFailed, game, ...props }) => {
+  const [description, setDescription] = useState("侵入對方的區域!");
   const forceUpdate = useForceUpdate();
 
   const handleGridClick = ({ x, y }: CoordinateObject) => {
@@ -19,8 +19,8 @@ const RelatiLevel2: LevelComponent = ({ toLevel, onFailed: handleFailed, game, .
     game.reenableAllPieces();
     game.checkIsOverAndFindWinner();
 
-    if (x === 1 && y === 1) {
-      setDescription("做得好! 佔領了比對方大的區域!");
+    if (x === 4 && y === 2) {
+      setDescription("做得好! 侵入了對方的區域!");
     }
     else {
       forceUpdate();
@@ -28,27 +28,27 @@ const RelatiLevel2: LevelComponent = ({ toLevel, onFailed: handleFailed, game, .
   };
 
   useEffect(() => {
-    if (game.turn === 15) {
-      setDescription("佔領比對方大的區域!");
+    if (game.turn === 13) {
+      setDescription("侵入對方的區域!");
     }
   });
 
   useTimeout(() => {
-    if (game.turn < 16) {
+    if (game.turn < 14) {
       return;
     }
 
-    const grid = game.board.getGridAt(1, 1) as HasPieceRelatiGrid;
+    const grid = game.board.getGridAt(4, 2) as HasPieceRelatiGrid;
 
     if (!grid.piece) {
-      game.doPlacementByCoordinateAndPlayer(1, 1, 0);
+      game.doPlacementByCoordinateAndPlayer(4, 2, 0);
       game.reenableAllPieces();
       game.checkIsOverAndFindWinner();
-      setDescription("失敗了! 對方侵入了你的區域!");
-      handleFailed("失敗了! 對方侵入了你的區域!");
+      setDescription("失敗了! 對方佔有了比你大的區域!");
+      handleFailed("失敗了! 對方佔有了比你大的區域!");
     }
     else if (grid.piece.symbol === "X") {
-      toLevel("3");
+      toLevel("5");
     }
   }, 1000);
 
@@ -60,11 +60,11 @@ const RelatiLevel2: LevelComponent = ({ toLevel, onFailed: handleFailed, game, .
   );
 };
 
-RelatiLevel2.initial = (game) => {
-  const turn = 15;
-  const pieceCodes = "0004300243041334430043300";
+RelatiLevel4.initial = (game) => {
+  const turn = 13;
+  const pieceCodes = "0000033100443300424300043";
   game.restart();
   game.restoreByTurnAndPieceCodes(turn, pieceCodes);
 };
 
-export default RelatiLevel2;
+export default RelatiLevel4;

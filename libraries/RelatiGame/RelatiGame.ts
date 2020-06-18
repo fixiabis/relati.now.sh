@@ -25,7 +25,7 @@ class RelatiGame extends TurnBasedGame {
         this.turn = 0;
         this.winner = -1;
         this.isOver = false;
-        this.playerSourceGrids.splice(0, this.turn);
+        this.records.splice(0, this.records.length);
         this.board.grids.forEach(grid => delete grid.piece);
         this.playerSourceGrids.splice(0, this.playersCount);
     }
