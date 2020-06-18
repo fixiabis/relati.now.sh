@@ -1,4 +1,4 @@
-import RelatiGame from "../libraries/RelatiGame";
+import RelatiGame, { convertBoardToPieceCodes } from "../libraries/RelatiGame";
 import { RelatiSymbolRoute, RelatiSymbolColor } from "../components/Relati/RelatiPiece";
 
 export const delay = (ms: number) => new Promise(done => setTimeout(done, ms));
@@ -15,6 +15,7 @@ export const randomCode = (length: number) => {
 
 export const createBoardSVGTextByRelatiGame = (game: RelatiGame) => {
     const placementRecordsJSONText = JSON.stringify(game.records);
+    const pieceCodes = JSON.stringify(convertBoardToPieceCodes(game.board));
     const viewWidth = game.board.width * 5;
     const viewHeight = game.board.height * 5;
     const gridLineXMLTexts = [];
@@ -63,7 +64,9 @@ export const createBoardSVGTextByRelatiGame = (game: RelatiGame) => {
         `<?xml version="1.0"?>` +
         `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">` +
         `<svg width="${viewWidth}" height="${viewHeight}" xmlns="http://www.w3.org/2000/svg">` +
-        `<script>${placementRecordsJSONText}</script>` +
+        `<script>var turn = ${game.turn};</script>` +
+        `<script>var pieceCodes = ${pieceCodes};</script>` +
+        `<script>var placementRecords = ${placementRecordsJSONText};</script>` +
         `<rect width="100%" height="100%" fill="#f2f2f2" /> ` +
         gridLinesGroupXMLText +
         gridPiecesGroupXMLText +

@@ -11,7 +11,7 @@ const gameOpponentOfPlayerFromSize: Record<string, RelatiGamePlayer> = {
   "x9": RelatiGamePlayerX9,
 };
 
-const RelatiGameBy0Player: PlayGameComponent = ({ type: size, opponentOfPlayer, playerOApi, playerXApi, rounds, level, game, onOver: handleOver, ...props }) => {
+const RelatiGameBy0Player: PlayGameComponent = ({ type: size, opponentOfPlayer, playerOApi, playerXApi, rounds, level, game, onOver: handleOver, roundId, ...props }) => {
   const forceUpdate = useForceUpdate();
   const gameOpponentOfPlayer = gameOpponentOfPlayerFromSize[size];
   const handleGridClick = () => false;

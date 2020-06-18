@@ -32,6 +32,7 @@ export interface RelatiTutorialSceneComponent extends React.FunctionComponent<Re
 export interface RelatiPuzzleProps extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
     game?: RelatiGame;
     level?: string;
+    onLeave?: () => void;
     onFinish?: () => void;
 }
 
@@ -42,6 +43,7 @@ export interface RelatiPuzzleComponent extends React.FunctionComponent<RelatiPuz
 export interface RelatiPuzzleLevelProps extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
     game: RelatiGame;
     toLevel: (level: string) => void;
+    onFailed: (message: string) => void;
     onFinish?: () => void;
 }
 

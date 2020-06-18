@@ -7,7 +7,7 @@ export interface Props extends MessageBoxProps {
 }
 
 const PuzzleFinishMessageBox = ({ show: isShow = true, game, onCancel: handleCancel, onVerify: handleVerify }: Props) => {
-  if (!isShow || !game.isOver) {
+  if (!isShow) {
     return <></>;
   }
 

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import RelatiLevels from "./levels";
 import RelatiGame, { RelatiGameRuleX5 } from "../../../libraries/RelatiGame";
 import { RelatiPuzzleComponent } from "../types";
+import { RelatiPuzzleLevelFailedMessageBox } from "../RelatiPuzzleMessageBox";
 
-const RelatiTutorialX5: RelatiPuzzleComponent = ({ game: externalGame, level: externalStep = "0", onFinish, ...props }) => {
+const RelatiPuzzleX5: RelatiPuzzleComponent = ({ game: externalGame, level: externalStep = "0", onLeave: handleLeave, onFinish: handleFinish, ...props }) => {
   const [game] = useState(externalGame || new RelatiGame(2, RelatiGameRuleX5));
   const [levelName, setLevelName] = useState(externalStep);
+  const [levelFailedMessage, setLevelFailedMessage] = useState("");
+  const [isFinish, setIsFinish] = useState(false);
   const [scale, setScale] = useState(0.95);
 
   const toLevel = (levelName: string) => {
@@ -13,8 +16,16 @@ const RelatiTutorialX5: RelatiPuzzleComponent = ({ game: externalGame, level: ex
       setLevelName(levelName);
     }
     else {
-      onFinish?.();
+      setIsFinish(true);
     }
+  };
+
+  const handleLevelFailed = (message: string) => {
+    setLevelFailedMessage(message);
+  };
+
+  const handleLevelFailedRetry = () => {
+    setLevelFailedMessage("");
   };
 
   const Level = RelatiLevels[levelName] || RelatiLevels["1"];
@@ -28,14 +39,25 @@ const RelatiTutorialX5: RelatiPuzzleComponent = ({ game: externalGame, level: ex
     setScale(scale);
   });
 
-  Level.initial(game);
-  game.checkIsOverAndFindWinner();
+  if (isFinish && handleFinish) {
+    handleFinish();
+  }
+  else if (levelFailedMessage === "") {
+    Level.initial(game);
+    game.checkIsOverAndFindWinner();
+  }
 
   return (
-    <div className="relati-tutorial">
-      <Level game={game} toLevel={toLevel} style={levelStyle} {...props} />
+    <div className="relati-puzzle">
+      <Level game={game} toLevel={toLevel} onFailed={handleLevelFailed} style={levelStyle} {...props} />
+
+      <RelatiPuzzleLevelFailedMessageBox
+        show={levelFailedMessage !== ""}
+        message={"再來一次？"}
+        onRetry={handleLevelFailedRetry}
+        onLeave={handleLeave} />
     </div>
   );
 };
 
-export default RelatiTutorialX5;
+export default RelatiPuzzleX5;

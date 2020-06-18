@@ -1,0 +1,68 @@
+#strategies {
+    .relati-puzzle {
+        width: 100vw;
+        height: calc(100% - 70px);
+    }
+
+    .board-container {
+        height: calc(100% - 70px);
+    }
+
+    .description {
+        user-select: none;
+        color: #0d0d0d;
+        height: 70px;
+        text-align: center;
+        line-height: 70px;
+        font-size: 26px;
+        font-weight: bold;
+        white-space: nowrap;
+        animation: show-description 0.18s;
+    }
+
+    @media screen and (max-width: 600px) {
+        .description {
+            font-size: 18px;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .description {
+            font-size: 14px;
+        }
+    }
+
+    @keyframes show-description {
+        from {
+            transform: scale(0.2);
+            opacity: 0;
+        }
+    }
+
+    .message-box {
+        .message-container {
+            text-align: center;
+
+            .message-icon-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 50px;
+
+                .message-icon {
+                    transform: scale(10);
+                }
+            }
+
+            > .message-icon {
+                width: 50px;
+                height: 50px;
+                margin: 0 auto;
+            }
+        }
+
+        .button-group {
+            width: 200px;
+        }
+    }
+}

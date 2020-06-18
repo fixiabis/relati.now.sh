@@ -30,8 +30,7 @@ const Strategies: NextPage<Props> = ({ size = "x5", level = "1" }) => {
   const [isPuzzleFinishBoxOpen, setIsPuzzleFinishBoxOpen] = useState(true);
   const [isPuzzleLeaveMessageBoxOpen, setIsPuzzleLeaveMessageBoxOpen] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
-  const tutorialSetting = useSelector<State, SettingState["tutorial"]>(state => state.setting.tutorial);
-  const leavePage = () => router.replace("/choose-mode?for=tutorial");
+  const leavePage = () => router.replace("/choose-mode?for=puzzle");
   const finishPuzzle = () => setIsPuzzleFinish(true);
   const openPuzzleLeaveMessageBox = () => setIsPuzzleLeaveMessageBoxOpen(true);
   const closePuzzleFinishMessageBox = () => setIsPuzzleFinishBoxOpen(false);
@@ -39,7 +38,7 @@ const Strategies: NextPage<Props> = ({ size = "x5", level = "1" }) => {
   const RelatiPuzzle = RelatiPuzzleFromSize[size] || RelatiPuzzleX5;
 
   const leavePuzzle = () => {
-    if (game.turn && !isPuzzleFinish) {
+    if (!isPuzzleFinish) {
       openPuzzleLeaveMessageBox();
     }
     else {
@@ -52,9 +51,9 @@ const Strategies: NextPage<Props> = ({ size = "x5", level = "1" }) => {
       <RelatiPuzzle
         game={game}
         level={level}
+        onLeave={leavePuzzle}
         onFinish={finishPuzzle}
-        {...effectSetting}
-        {...tutorialSetting} />
+        {...effectSetting} />
 
       <PuzzleLeaveMessageBox
         show={isPuzzleLeaveMessageBoxOpen}
