@@ -15,6 +15,7 @@ const Main = () => {
   const bottomButtonGroupClassName = `to-bottom${buttonGroupClassName && ` ${buttonGroupClassName}`}`;
   const toChooseGameModePage = () => router.replace("/choose-mode?for=game");
   const toChooseTutorialModePage = () => router.replace("/choose-mode?for=tutorial");
+  const toChoosePuzzleModePage = () => router.replace("/choose-mode?for=puzzle");
   const openSetting = () => setIsSettingOpen(true);
   const closeSetting = () => setIsSettingOpen(false);
   const resetSetting = () => dispatch(resetAllSetting());
@@ -50,7 +51,7 @@ const Main = () => {
         onClose={closeSetting} />
 
       <Button.Group className={bottomButtonGroupClassName}>
-        <IconButton type="knowledge" title="相關知識" color="seagreen" />
+        <IconButton type="knowledge" title="策略" color="seagreen" onClick={toChoosePuzzleModePage} />
         <IconButton type="badge" title="成就" color="darkorange" />
         <IconButton type="gear" title="設定" color="#888" onClick={openSetting} />
       </Button.Group>

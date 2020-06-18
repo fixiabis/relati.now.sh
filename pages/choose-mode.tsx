@@ -1,12 +1,13 @@
 import React from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { ChooseModePageComponent, ChooseModeForGame, ChooseModeForTutorial, ChooseModeForSignIn } from "../page-components/choose-mode";
+import { ChooseModePageComponent, ChooseModeForGame, ChooseModeForTutorial, ChooseModeForSignIn, ChooseModeForPuzzle } from "../page-components/choose-mode";
 
 const ChooseModePageFromType: Record<string, ChooseModePageComponent> = {
   "game": ChooseModeForGame,
   "tutorial": ChooseModeForTutorial,
   "sign-in": ChooseModeForSignIn,
+  "puzzle": ChooseModeForPuzzle,
 };
 
 export interface Props {

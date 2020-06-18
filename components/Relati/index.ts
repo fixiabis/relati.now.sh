@@ -7,4 +7,5 @@ export type { Props as RelatiPieceProps } from "./RelatiPiece";
 export { default as RelatiTutorialX5 } from "./RelatiTutorialX5";
 export { default as RelatiTutorialX7 } from "./RelatiTutorialX7";
 export { default as RelatiTutorialX9 } from "./RelatiTutorialX9";
+export { default as RelatiPuzzleX5 } from "./RelatiPuzzleX5";
 export * from "./types";

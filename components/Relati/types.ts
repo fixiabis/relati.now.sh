@@ -15,16 +15,36 @@ export interface RelatiTutorialProps extends Omit<RelatiBoardProps, OmittedRelat
     onFinish?: () => void;
 }
 
-export type RelatiTutorialComponent<Super = React.FunctionComponent<RelatiTutorialProps>> = Super & {
+export interface RelatiTutorialComponent extends React.FunctionComponent<RelatiTutorialProps> {
 
-};
+}
 
-export interface SceneProps extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
+export interface RelatiTutorialSceneProps extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
     game: RelatiGame;
     sceneDuration: number;
     toScene: (scene: string) => void;
 }
 
-export type SceneComponent<Super = React.FunctionComponent<SceneProps>> = Super & {
+export interface RelatiTutorialSceneComponent extends React.FunctionComponent<RelatiTutorialSceneProps> {
     initial(game: RelatiGame): void;
-};
+}
+
+export interface RelatiPuzzleProps extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
+    game?: RelatiGame;
+    level?: string;
+    onFinish?: () => void;
+}
+
+export interface RelatiPuzzleComponent extends React.FunctionComponent<RelatiPuzzleProps> {
+
+}
+
+export interface RelatiPuzzleLevelProps extends Omit<RelatiBoardProps, OmittedRelatiBoardPropKeys> {
+    game: RelatiGame;
+    toLevel: (level: string) => void;
+    onFinish?: () => void;
+}
+
+export interface RelatiPuzzleLevelComponent extends React.FunctionComponent<RelatiPuzzleLevelProps> {
+    initial(game: RelatiGame): void;
+}

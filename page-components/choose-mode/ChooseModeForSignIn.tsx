@@ -9,6 +9,7 @@ const ChooseModeForSignIn: ChooseModePageComponent = ({ router, leavePage }) => 
   const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(true);
   const playerInfo = useSelector<State, UserState["userInfo"]>(state => state.user.userInfo);
+  const toMainPage = () => router.replace("/");
 
   if (playerInfo) {
     leavePage();
@@ -62,7 +63,7 @@ const ChooseModeForSignIn: ChooseModePageComponent = ({ router, leavePage }) => 
         </Button.Group>
       </div>
       <Button.Group>
-        <IconButton type="leave" color="#888" title="離開" onClick={leavePage} />
+        <IconButton type="leave" color="#888" title="離開" onClick={toMainPage} />
       </Button.Group>
     </Page>
   );
