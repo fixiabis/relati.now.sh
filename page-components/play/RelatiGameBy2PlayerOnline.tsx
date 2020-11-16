@@ -2,38 +2,42 @@ import { PlayGameComponent } from "./types";
 import { RelatiGame, CoordinateObject, useForceUpdate } from "../../components";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { State, UserState } from "../../container/store";
+import { PageState, State, UserState } from "../../container/store";
 import { useRouter } from "next/router";
-import Axios from "axios";
-import QueryString from "querystring";
-import firebase from "../../container/firebase";
-import { GameRoundInfo } from "../../types";
 import { RelatiSymbols } from "../../libraries";
-import { Coordinate } from "gridboard";
+import ArenaSocketClient from "../../libraries/ArenaSocketClient";
 
 const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ type: size, opponentOfPlayer, playerOApi, playerXApi, rounds, level, game, onOver: handleOver, roundId, ...props }) => {
   const router = useRouter();
+  const onlineInfo = useSelector<State, PageState["play"]["online"]>(state => state.page.play.online);
   const forceUpdate = useForceUpdate();
   const playerInfo = useSelector<State, UserState["userInfo"]>(state => state.user.userInfo);
-  const playerId = playerInfo?.playerId;
 
   const handleGridClick = ({ x, y }: CoordinateObject) => {
-    const body = QueryString.stringify({
-      turn: game.turn,
-      name: "placement",
-      params: `${x},${y}`
-    });
+    if (!onlineInfo.opponent) {
+      return false;
+    }
 
-    Axios.post(`/api/game/actions?roundId=${roundId}&playerId=${playerId}`, body, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    }).then(response => {
-      if (response.data) {
-        game.doPlacementByCoordinate(x, y);
-        game.reenableAllPieces();
-        forceUpdate();
-      }
+    const player = game.getNowPlayer();
+
+    if (onlineInfo.ownedSymbol !== RelatiSymbols[player]) {
+      return false;
+    }
+
+    game.doPlacementByCoordinate(x, y);
+    game.reenableAllPieces();
+    game.checkIsOverAndFindWinner();
+
+    if (game.isOver) {
+      const winnerSymbol = RelatiSymbols[game.winner] || "N";
+      handleOver?.(winnerSymbol);
+    }
+
+    forceUpdate();
+    
+    ArenaSocketClient.emit("symbol.set", {
+      id: onlineInfo.opponent.playerId,
+      crd: {x, y}
     });
 
     return false;
@@ -41,40 +45,40 @@ const RelatiGameBy2PlayerOnline: PlayGameComponent = ({ type: size, opponentOfPl
 
   useEffect(() => {
     if (!playerInfo) {
-      router.replace(`/choose-mode?for=sign-in&then=/play?2p-online%26on=${size}%26at=${roundId}`);
+      router.replace(`/choose-mode?for=sign-in&then=/play?2p-online%26on=${size}`);
       return;
     }
 
-    if (!roundId) {
+    if (!onlineInfo.opponent) {
       router.replace(`/wait-for-opponent?on=${size}`);
       return;
     }
 
-    const abortForSnapshotHandling = firebase.firestore().collection("rounds").doc(roundId).onSnapshot(roundSnapshot => {
-      const { turn, pieces, isOver, winner, actions } = roundSnapshot.data() as GameRoundInfo;
-
-      if (game.turn !== turn) {
-        game.restoreByTurnAndPieceCodes(turn, pieces);
-        game.isOver = isOver;
-        game.winner = winner;
-
-        game.records.splice(
-          0,
-          game.records.length,
-          ...actions.map(action => action.params.split(",").map(Number) as Coordinate)
-        );
-        
-        forceUpdate();
-      }
-
+    ArenaSocketClient.on('symbol.set', ({ x, y }: { x: number, y: number }) => {
+      console.log(x, y);
+      game.doPlacementByCoordinate(x, y);
+      game.reenableAllPieces();
+      game.checkIsOverAndFindWinner();
+  
       if (game.isOver) {
         const winnerSymbol = RelatiSymbols[game.winner] || "N";
         handleOver?.(winnerSymbol);
       }
+      forceUpdate();
     });
 
-    return abortForSnapshotHandling;
-  });
+    ArenaSocketClient.on('user.leave', () => {
+      console.log('leaved');
+      game.isOver = true;
+      game.winner = RelatiSymbols.indexOf(onlineInfo.ownedSymbol as "O" | "X");
+      handleOver?.(onlineInfo.ownedSymbol || "N");
+    });
+
+    return () => {
+      ArenaSocketClient.off('symbol.set');
+      ArenaSocketClient.off('user.leave');
+    };
+  }, []);
 
   return (
     <RelatiGame

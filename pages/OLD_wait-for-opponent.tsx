@@ -2,10 +2,14 @@ import { NextPage } from "next";
 import { Page, Button, IconButton } from "../components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { PageState, providePlayPageOnlineOpponent, State, UserState } from "../container/store";
+import Axios from "axios";
+import firebase from "../container/firebase";
+import { useSelector } from "react-redux";
+import { State, UserState } from "../container/store";
+import { GameRoundInfo } from "../types";
 import { LeaveWaitingMessageBox } from "../page-components/wait-for-opponent";
-import ArenaSocketClient from "../libraries/ArenaSocketClient";
+
+const roundsCollection = firebase.firestore().collection("rounds");
 
 export interface Props {
   type?: string;
@@ -13,20 +17,19 @@ export interface Props {
 
 const WaitForOpponent: NextPage<Props> = ({ type = "x9" }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const playerInfo = useSelector<State, UserState["userInfo"]>(state => state.user.userInfo);
-  const onlineInfo = useSelector<State, PageState["play"]["online"]>(state => state.page.play.online);
-  const isRoundReady = onlineInfo.opponent !== null;
+  const playerId = playerInfo?.playerId;
   const [isLeaveWaitingMessageBoxOpen, setIsLeaveWaitingMessageBoxOpen] = useState(false);
+  const [{ roundId, isRoundReady }, setRoundState] = useState({ roundId: "", isRoundReady: false });
+  const setRoundId = (roundId: string) => setRoundState({ roundId, isRoundReady });
+  const setIsRoundReady = (isRoundReady: boolean) => setRoundState({ roundId, isRoundReady });
   const openLeaveWaitingMessageBox = () => setIsLeaveWaitingMessageBoxOpen(true);
   const closeLeaveWaitingMessageBox = () => setIsLeaveWaitingMessageBoxOpen(false);
 
   const leavePage = () => {
-    if (!ArenaSocketClient.disconnected) {
-      ArenaSocketClient.disconnect();
-    }
-
-    router.replace("/choose-mode?for=game");
+    Axios.put(`/api/game/isOver?roundId=${roundId}&playerId=${playerId}`).then(() => {
+      router.replace("/choose-mode?for=game");
+    });
   };
 
   useEffect(() => {
@@ -36,28 +39,35 @@ const WaitForOpponent: NextPage<Props> = ({ type = "x9" }) => {
     }
 
     if (isRoundReady) {
-      router.replace(`/play?2p-online&on=${type}`);
+      router.replace(`/play?2p-online&on=${type}&at=${roundId}`);
       return;
     }
 
-    ArenaSocketClient.disconnect();
-    ArenaSocketClient.connect();
+    if (roundId) {
+      const abortForSnapshotHandling = (
+        roundsCollection.doc(roundId).onSnapshot(roundSnapshot => {
+          const { playerX } = roundSnapshot.data() as GameRoundInfo;
 
-    ArenaSocketClient.on("matched", function (matchData: { id: string, sym: 'O' | 'X', picUrl: string}) {
-        dispatch(providePlayPageOnlineOpponent(matchData.sym, { 
-            name: 'unknown',
-            playerId: matchData.id,
-            avatarUrl: matchData.picUrl
-        }));
+          if (playerX && !isRoundReady) {
+            setIsRoundReady(true);
+          }
+        })
+      );
 
-        ArenaSocketClient.off("matched");
-    });
+      return abortForSnapshotHandling;
+    }
+    else {
+      Axios.post("/api/game", { type, playerId }).then(response => {
+        const { roundId, playerX } = response.data;
 
-    ArenaSocketClient.emit("join", {
-        name: playerInfo.name,
-        picUrl: playerInfo.avatarUrl,
-        gameName: "relati-" + type
-    });
+        if (playerX) {
+          setRoundState({ isRoundReady: true, roundId });
+        }
+        else {
+          setRoundId(roundId);
+        }
+      });
+    }
   });
 
   return (

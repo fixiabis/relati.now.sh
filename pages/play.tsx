@@ -4,9 +4,10 @@ import { useRouter } from "next/router";
 import { RelatiGame, RelatiGameRuleX9, RelatiGameRule, RelatiGameRuleX5, RelatiGameRuleX7 } from "../libraries";
 import { Page, Button, IconButton, useForceUpdate } from "../components";
 import { downloadRecordSVGByRelatiGame } from "../utilities/client-side";
-import { useSelector } from "react-redux";
-import { State, SettingState } from "../container/store";
+import { useDispatch, useSelector } from "react-redux";
+import { State, SettingState, providePlayPageOnlineOpponent } from "../container/store";
 import { GameLeaveMessageBox, GameOverMessageBox, PlayGameComponent, RelatiGameBy1Player, RelatiGameBy2Player, RelatiGameBy0Player, RelatiGameBy2PlayerOnline } from "../page-components/play";
+import ArenaSocketClient from "../libraries/ArenaSocketClient";
 
 const gameRuleFromType: Record<string, RelatiGameRule> = {
   "x5": RelatiGameRuleX5,
@@ -35,6 +36,8 @@ export interface Props {
 
 const Play: NextPage<Props> = ({ type = "x9", level, roundId, withPlayer: opponentOfPlayer, rounds, mode, playerOApi, playerXApi, versusApi }) => {
   const router = useRouter();
+  const globalState = useSelector<State, State>(state => state);
+  const dispatch = useDispatch();
   const gameRule = gameRuleFromType[type];
   const forceUpdate = useForceUpdate();
   const Game = GameFromMode[mode];
@@ -46,7 +49,16 @@ const Play: NextPage<Props> = ({ type = "x9", level, roundId, withPlayer: oppone
   const [isGameOverMessageBoxOpen, setIsGameOverMessageBoxOpen] = useState(true);
   const [isGameLeaveMessageBoxOpen, setIsGameLeaveMessageBoxOpen] = useState(false);
   const effectSetting = useSelector<State, SettingState["effect"]>(state => state.setting.effect);
-  const leavePage = () => router.replace("/choose-mode?for=game");
+  
+  const leavePage = () => {
+    if (!ArenaSocketClient.disconnected){
+      ArenaSocketClient.disconnect();
+      dispatch(providePlayPageOnlineOpponent('', null));
+    }
+
+    router.replace("/choose-mode?for=game");
+  };
+
   const openGameLeaveMessageBox = () => setIsGameLeaveMessageBoxOpen(true);
   const closeGameOverMessageBox = () => setIsGameOverMessageBoxOpen(false);
   const closeGameLeaveMessageBox = () => setIsGameLeaveMessageBoxOpen(false);
@@ -54,6 +66,16 @@ const Play: NextPage<Props> = ({ type = "x9", level, roundId, withPlayer: oppone
   playerXApi = playerXApi || (opponentOfPlayer === 1 ? "/api/next-step" : versusApi);
 
   const restartGame = () => {
+    if (mode === "2p-online") {
+      if (!ArenaSocketClient.disconnected){
+        ArenaSocketClient.disconnect();
+        dispatch(providePlayPageOnlineOpponent('', null));
+      }
+
+      router.replace(`/wait-for-opponent?on=${type}`);
+      return;
+    }
+
     game.restart();
     forceUpdate();
   };
@@ -84,9 +106,25 @@ const Play: NextPage<Props> = ({ type = "x9", level, roundId, withPlayer: oppone
   return (
     <Page id="play" title={`play${rounds > 1 ? ` (${roundWinsOfO}:${roundWinsOfX})` : ""}`}>
       <div className="versus-header">
-        <div className="player-o"></div>
+        <div className="player-o" style={{
+          backgroundImage: mode === "2p-online"
+            ? globalState.page.play.online.ownedSymbol === "O"
+              ? ('url(' + (globalState.user.userInfo?.avatarUrl || '') + ')')
+              : ('url(' + (globalState.page.play.online.opponent?.avatarUrl || '') + ')')
+            : opponentOfPlayer === 0
+              ? ''
+              : ('url(' + (globalState.user.userInfo?.avatarUrl || '') + ')')
+        }}></div>
         <div className="versus" />
-        <div className="player-x"></div>
+        <div className="player-x" style={{
+          backgroundImage: mode === "2p-online"
+            ? globalState.page.play.online.ownedSymbol === "X"
+              ? ('url(' + (globalState.user.userInfo?.avatarUrl || '') + ')')
+              : ('url(' + (globalState.page.play.online.opponent?.avatarUrl || '') + ')')
+            : opponentOfPlayer === 1
+              ? ''
+              : ('url(' + (globalState.user.userInfo?.avatarUrl || '') + ')')
+        }}></div>
       </div>
 
       <Game

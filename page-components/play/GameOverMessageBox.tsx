@@ -15,7 +15,7 @@ const GameOverMessageBox = ({ show: isShow = true, game, onCancel: handleCancel,
 
   const messageText =
     game.winner !== -1
-      ? `${game.turn % 2 ? "藍" : "紅"}方玩家獲勝!`
+      ? `${game.winner ? "藍" : "紅"}方玩家獲勝!`
       : "平手!";
 
   return (
