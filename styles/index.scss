@@ -85,4 +85,31 @@
             }
         }
     }
+
+    .message-box {
+        .message-container {
+            text-align: center;
+
+            .message-icon-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 50px;
+
+                .message-icon {
+                    transform: scale(10);
+                }
+            }
+
+            > .message-icon {
+                width: 50px;
+                height: 50px;
+                margin: 0 auto;
+            }
+        }
+
+        .button-group {
+            width: 200px;
+        }
+    }
 }

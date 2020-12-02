@@ -4,11 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { State, disableMainPageAnimation, setEffectSettingDrawLineDuration, setTutorialSettingSceneDuration, resetAllSetting, setEffectSettingPlacementEffect, setEffectSettingLastPieceEmphasized } from "../container/store";
 import { Page, Button, IconButton } from "../components";
 import { SettingBox } from "../page-components/index";
+import ComingSoonMessageBox from "../page-components/index/ComingSoonMessageBox";
 
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isSettingBoxOpen, setIsSettingOpen] = useState(false);
+  const [isComingSoonBoxOpen, setIsComingSoonBoxOpen] = useState(false);
   const setting = useSelector<State, State["setting"]>(state => state.setting);
   const mainPageAnimation = useSelector<State, boolean>(state => state.page.main.animation);
   const buttonGroupClassName = !mainPageAnimation ? "no-animation" : "";
@@ -19,6 +21,8 @@ const Main = () => {
   const openSetting = () => setIsSettingOpen(true);
   const closeSetting = () => setIsSettingOpen(false);
   const resetSetting = () => dispatch(resetAllSetting());
+  const openComingSoonBox = () => setIsComingSoonBoxOpen(true);
+  const closeComingSoonBox = () => setIsComingSoonBoxOpen(false);
   const setPlacementEffect = (isOn: boolean) => dispatch(setEffectSettingPlacementEffect(isOn));
   const setLastPieceEmphasized = (isOn: boolean) => dispatch(setEffectSettingLastPieceEmphasized(isOn));
   const setDrawLineEffectDuration = (duration: number) => dispatch(setEffectSettingDrawLineDuration(Math.round(duration / 10) * 10));
@@ -49,10 +53,12 @@ const Main = () => {
         setTutorialSceneDuration={setTutorialSceneDuration}
         onReset={resetSetting}
         onClose={closeSetting} />
+      
+      <ComingSoonMessageBox show={isComingSoonBoxOpen} onVerify={closeComingSoonBox} />
 
       <Button.Group className={bottomButtonGroupClassName}>
         <IconButton type="knowledge" title="策略" color="seagreen" onClick={toChoosePuzzleModePage} />
-        <IconButton type="badge" title="成就" color="darkorange" />
+        <IconButton type="badge" title="成就" color="darkorange" onClick={openComingSoonBox} />
         <IconButton type="gear" title="設定" color="#888" onClick={openSetting} />
       </Button.Group>
     </Page>
