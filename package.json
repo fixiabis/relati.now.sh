@@ -19,7 +19,7 @@
     "firebase": "^7.14.5",
     "firebase-admin": "^8.12.1",
     "gridboard": "^4.1.2",
-    "next": "9.3.4",
+    "next": "11.1.0",
     "next-pwa": "^2.4.1",
     "next-redux-wrapper": "^5.0.0",
     "node-sass": "^4.14.1",
